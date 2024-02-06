@@ -38,10 +38,16 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'guests',
+        ],
+    
+        'api' => [
+            'driver' => 'sanctum',
+            'provider' => 'guests',
+            'hash' => false,
         ],
     ],
-
+    
     /*
     |--------------------------------------------------------------------------
     | User Providers
@@ -60,9 +66,9 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'guests' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => App\Models\Guest::class,
         ],
 
         // 'users' => [
