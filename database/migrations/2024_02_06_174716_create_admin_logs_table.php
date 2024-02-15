@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('room_types', function (Blueprint $table) {
+        Schema::create('admin_logs', function (Blueprint $table) {
             $table->id();
-            $table->string('name',50);
+            $table->text('activity')->nullable();
+            $table->integer('admin_id', false, true)->nullable();        // references('id', 'guest');
+            $table->string('admin_role')->nullable();
+            $table->text('ip_address')->nullable();
             $table->boolean('is_active')->default(1);
-            $table->boolean('is_delete')->default(0);
+            $table->boolean('is_delete')->default(1);
             $table->timestamp('created_at');
         });
     }
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('room_types');
+        Schema::dropIfExists('admin_logs');
     }
 };

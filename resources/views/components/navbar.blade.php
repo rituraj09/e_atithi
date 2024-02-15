@@ -12,7 +12,7 @@
             </div>
         </form>
         <ul class="navbar-nav">
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown d-none">
                 <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="flag-icon flag-icon-us mt-1" title="us"></i> <span class="ms-1 me-1 d-none d-md-inline-block">English</span>
                 </a>
@@ -202,8 +202,8 @@
                             <img class="wd-80 ht-80 rounded-circle" src="https://via.placeholder.com/80x80" alt="">
                         </div>
                         <div class="text-center">
-                            <p class="tx-16 fw-bolder">Amiah Burton</p>
-                            <p class="tx-12 text-muted">amiahburton@gmail.com</p>
+                            <p class="tx-16 fw-bolder">{{ auth()->user()->name}}</p>
+                            <p class="tx-12 text-muted">{{ auth()->user()->email}}</p>
                         </div>
                     </div>
                     <ul class="list-unstyled p-1">
@@ -219,7 +219,7 @@
                         <span>Edit Profile</span>
                         </a>
                     </li>
-                    <li class="dropdown-item py-2">
+                    <li class="d-none dropdown-item py-2">
                         <a href="javascript:;" class="text-body ms-0">
                         <i class="me-2 icon-md" data-feather="repeat"></i>
                         <span>Switch User</span>

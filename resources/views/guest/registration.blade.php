@@ -80,7 +80,7 @@
                       <div class="row mb-2">
                         <label for="phone" class="form-label col-md-4 m-auto">Phone no.</label>
                         <div class="col-md-8">
-                          <input type="number" class="form-control" id="phone" name="phone" placeholder="+91">
+                          <input type="text" class="form-control" id="phone" name="phone" placeholder="+91" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                         </div>
                         
                       </div>

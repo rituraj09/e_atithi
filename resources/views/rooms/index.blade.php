@@ -24,7 +24,7 @@
             <div class="page-content">
                 <div class="row w-100 mx-0">
                     <div class="col-md-12 col-xl-12 mx-auto">
-                        <form action="" method="post" class="" id="searchForm">
+                        <form action="{{ route('guest-house-search') }}" method="post" id="searchForm">
                             @csrf
                             <div class="auth-side-wrapper rounded-top">
                                 <!--- Profile Pic --->
@@ -89,7 +89,7 @@
                                             </select>
                                         </div>
                                     </div>                                    
-                                    <div class="row mb-3">
+                                    <div class="row mb-3" id="dashboardDate">
                                         <label class="form-label col-md-4 m-auto fs-5">Check-in date:</label>
                                         <div class="col-md-8">
                                             <input class="form-control" type="date" id="daterange" name="check-in" >
@@ -102,7 +102,7 @@
                                         </div>
                                     </div>
                                     <div class="d-flex my-4 justify-content-end">
-                                        <button class="btn btn-primary rounded-3 px-4" id="searchGuestHouse">
+                                        <button class="btn btn-primary rounded-3 px-4" type="submit" id="searchGuestHouse">
                                             Search
                                         </button>
                                     </div>
@@ -175,44 +175,44 @@
 
         const mainPath = "{{ route('guest-house-search') }}";
 
-        $("#searchGuestHouse").on("click", (e) => {
-            e.preventDefault();
+        // $("#searchGuestHouse").on("click", (e) => {
+        //     e.preventDefault();
 
-            var formData = $("#searchForm").serialize();
-            console.log(formData);
+        //     var formData = $("#searchForm").serialize();
+        //     console.log(formData);
 
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+        //     $.ajaxSetup({
+        //         headers: {
+        //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //         }
+        //     });
 
-            $.ajax({
-                url: mainPath,
-                type: "POST",
-                data: formData,  // Pass the serialized form data directly
-                success: function (res) {
-                    console.log(res);
-                    if (res.guestHouseId) {
-                        // Construct the redirect URL with query parameters
-                        var redirectUrl = '/rooms/' + res.guestHouseId +
-                            '?guestType=' + encodeURIComponent(res.guestType) +
-                            '&roomType=' + encodeURIComponent(res.roomType) +
-                            '&guestHouseType=' + encodeURIComponent(res.guestHouseType);
+        //     $.ajax({
+        //         url: mainPath,
+        //         type: "POST",
+        //         data: formData,  // Pass the serialized form data directly
+        //         success: function (res) {
+        //             console.log(res);
+        //             // if (res.guestHouseId) {
+        //             //     // Construct the redirect URL with query parameters
+        //             //     var redirectUrl = '/rooms/' + res.guestHouseId +
+        //             //         '?guestType=' + encodeURIComponent(res.guestType) +
+        //             //         '&roomType=' + encodeURIComponent(res.roomType) +
+        //             //         '&guestHouseType=' + encodeURIComponent(res.guestHouseType);
 
-                        // Redirect to another page with the constructed URL
-                        window.location.href = redirectUrl;
-                    } else {
-                        console.log(res.message);
+        //             //     // Redirect to another page with the constructed URL
+        //             //     window.location.href = redirectUrl;
+        //             // } else {
+        //             //     console.log(res.message);
                         
-                        // Handle case where guest house is not found (display a message, etc.)
-                    }
-                },
-                error: function (err) {
-                    console.log(err.responseText);
-                }
-            });
-        });
+        //             //     // Handle case where guest house is not found (display a message, etc.)
+        //             // }
+        //         },
+        //         error: function (err) {
+        //             console.log(err.responseText);
+        //         }
+        //     });
+        // });
 
       });
     </script>
