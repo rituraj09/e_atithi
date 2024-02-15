@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class GuestHouseController extends Controller
 {
-    //
+    // public
     public function getGuestHouses (Request $request) {
         $res = Guesthouse::select("name", "id")
                 ->where('name', 'LIKE', '%' . $request->get('search') . '%')
@@ -39,6 +39,11 @@ class GuestHouseController extends Controller
             $rooms = Rooms::select("name", "room_type", "capacity")
                 ->where('guest_house_id', $guestHouseId)
                 ->get();
+            // return $rooms[0]->room_type;
+
+            // $roomType = RoomType::select("name")
+            //     ->where('id', $rooms->room_type)
+            //     ->get();
 
                 session([
                     'guestHouseId' => $guestHouseId,
@@ -48,10 +53,25 @@ class GuestHouseController extends Controller
                     'guestHouseType' => $request->post('guest_house_type'),
                 ]);
 
-            return response()->json(['guestHouseId' => $roomId, 'rooms' => $rooms]);
+            return redirect()->route('available'); 
+
+            // return response()->json(['guestHouseId' => $roomId, 'rooms' => $rooms]);
         } else {
             return response()->json(['message' => 'Guest house not found.']);
         }
 
+    }
+
+    // admin
+    public function guestHouseDashboard () {
+        return view('guestHouse.index');
+    }
+
+    public function allGuestHouses () {
+        return view('guestHouse.GuestHouse.index');
+    }
+
+    public function addGuestHouses () {
+        return view('guestHouse.GuestHouse.add');
     }
 }

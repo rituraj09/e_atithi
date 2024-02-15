@@ -28,63 +28,46 @@ class AuthController extends Controller
             'password' => bcrypt($request->input('password')),
         ]);
 
-        $data = [
-            'ip_address' => $request->ip(),
-            'activity' => 'new registration',
-            'guest_id' => $user->id,
-        ];
-
-        $logs = GuestsLogs::create($data);
-
+        $logs = $this->guestLog($request->ip(), "New registration", $user->id);
         
         Auth::login($user);
 
-        return redirect()->route('guest-profile');
+        return redirect()->route('guest-profile')->with('message', 'You have logged in successfully');
     }
 
     public function login(Request $request)
     {
-        $incomingFields = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
-        $guest = Guest::where('email', $request->email)->first();
-
-        if ($guest && Hash::check($incomingFields['password'], $guest->password)) {
-            Auth::login($guest);
-
-            // Access user ID after logging in
-            $userId = auth()->id(); 
-
-            $data = [
-                'ip_address' => $request->ip(),
-                'activity' => 'logged in',
-                'guest_id' => $userId,
-            ];
-    
-            $logs = GuestsLogs::create($data);
-
-            $token = $guest->createToken('eAtithi')->plainTextToken;
-            
-            return redirect()->route('guest-profile')->with('message', 'logged in');
-        } else {
-            throw ValidationException::withMessages([
-                'email' => ['Invalid email or password'],
+        try {
+            $incomingFields = $request->validate([
+                'email' => 'required|email',
+                'password' => 'required',
             ]);
+    
+            $guest = Guest::where('email', $incomingFields['email'])->first();
+    
+            if ($guest && Hash::check($incomingFields['password'], $guest->password)) {
+                Auth::login($guest);
+    
+                $logs = $this->guestLog($request->ip(), "Logged in", auth()->id());
+    
+                // $token = $guest->createToken('eAtithi')->plainTextToken;
+                
+                return redirect()->route('guest-profile')->with('message', 'logged in');
+            } else {
+                throw ValidationException::withMessages([
+                    'email' => ['Invalid email or password'],
+                ]);
+            }
+
+        } catch (e) {
+            return 'e';
         }
     }
 
     public function logout(Request $request)
     {
         if (Auth::check()){
-            $data = [
-                'ip_address' => $request->ip(),
-                'activity' => 'logged out',
-                'guest_id' => auth()->id(),
-            ];
-    
-            $logs = GuestsLogs::create($data);
+            $logs = $this->guestLog($request->ip(), "Logged out", auth()->id());
         }
 
         Auth::user()->tokens()->delete();
@@ -92,6 +75,20 @@ class AuthController extends Controller
         Auth::logout();
 
         return redirect()->route('guest-login');
+    }
+
+    public function guestLog($ip = null, $activity = null, $guestId = null){
+        // auto ip, auto time
+        // custom activity, variable user id
+        $data = [
+            'ip_address' => $ip,
+            'activity' => $activity,
+            'guest_id' => $guestId,
+        ];
+
+        $logs = GuestsLogs::create($data);
+
+        return $logs;
     }
 }
 

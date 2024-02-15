@@ -12,11 +12,10 @@ class Rooms extends Model
     protected $table = "rooms";
 
     protected $fillable = [
-        'name',
+        'room_number',
         'guest_house_id',
         'room_type',
         'no_of_beds',
-        'floor_details',
         'capacity',
         'toilet_attached',
         'width',

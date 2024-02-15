@@ -18,6 +18,12 @@
                 <x-sidebar/>
               </nav>
             <x-navbar/>
+        
+            @php
+                // $rooms = $_SESSION['rooms'];
+                $rooms = session('rooms');
+
+            @endphp
 
             <div class="page-content">
                 <div class="row w-100 mx-0">
@@ -30,19 +36,21 @@
                                 style="height: 200px; width: 100%; object-fit: cover;">
                             </div>
                             <div class="row">
-                                <h5 class="text-muted fw-normal px-4 py-3">Available Guest House</h5>
+                                <h5 class="text-muted fw-normal px-4 py-3">Available Rooms</h5>
                                 <div class="auth-form-wrapper col-md-10 mx-auto py-3">
                                     <div class="row m-0">
+                                        @foreach ( $rooms as $room )
                                         <div class="col-md-6 col-lg-4 p-2">
                                             <div class="card p-3 rounded-3 shadow">
                                                 <div class="d-flex flex-column">
                                                     <img src="" alt="" class="w-100" height="100">
                                                     <div class="d-flex pt-3">
-                                                        2 rooms availabel
+                                                        {{ $room->name }}
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        @endforeach
                                     </div>
                                     <div class="d-flex my-4 justify-content-end">
                                         <button class="btn btn-primary rounded-3 px-4">
