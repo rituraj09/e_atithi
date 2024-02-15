@@ -45,13 +45,17 @@ Route::prefix('guest-house')->group( function () {
         Route::controller(GuestHouseController::class)->group( function () {
             Route::get('all', 'allGuestHouses')->name('all-guest-house');
             Route::get('add', 'addGuestHouses')->name('add-guest-house');
-        });
+            
+        }); 
     });
 
+    Route::get('/', function () {
+        return view('guestHouse.index');
+    })->name('guest-house-admin-dashboard');
 
 
     // Route::middleware([OfficialAdminMiddleware::class])->group( function () {       
-    Route::middleware(['auth','roles:admin'])->prefix('/admin')->group( function () { 
+    Route::middleware(['auth','roles:super admin'])->prefix('/admin')->group( function () { 
         
         Route::controller(RoomController::class)->group( function () {
             Route::get('/rooms', 'roomView')->name('guest-house-admin-rooms');
@@ -62,7 +66,14 @@ Route::prefix('guest-house')->group( function () {
             Route::get('/room-category', 'roomCategories')->name('guest-house-admin-room-category');
             Route::post('/room-category/add', 'addRoomCategory')->name('guest-house-admin-add-room-category');
 
-        });        
+        });
+
+        Route::get('/', function () {
+            return view('guestHouse.index');
+        })->name('guest-house-admin-dashboard');
+
+        
+        
 
         
         // ajax

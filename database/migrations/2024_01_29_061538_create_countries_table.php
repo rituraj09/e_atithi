@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('countries', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('country_code',10);
+            $table->string('country_code',10)->nullable();
             $table->boolean('is_active')->default(1);
             $table->boolean('is_delete')->default(0);
         });

@@ -60,25 +60,24 @@ class OfficialAuthController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:6',
         ]);
-
         // $admin = Admin::where('email', $request->email)->first();
         $admin = Admin::with('roles')->where('email', $request->email)->first();
 
-        // dd($admin->role);
 
+        // dd($admin->role);
+     
         if (!$admin || !Hash::check($fields['password'], $admin->password)) {
             return response()->json([
                 'message' => 'Wrong credentials'
             ], 401);
         }
-
         // dd($admin->roles->name);
         // Authenticate user
-        Auth::login($admin);
+        Auth::login($admin); 
 
         // dd(auth()->check(), $admin->roles->name);
 
-        // Redirect to dashboard
+        // Redirect to dashboard 
         return redirect()->route('guest-house-admin-dashboard')->with('roles', $admin->role);
     }
 
