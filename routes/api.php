@@ -11,3 +11,9 @@ Route::middleware('auth:sanctum')->get('/guest', function (Request $request) {
 Route::post('/login', 'AuthController@login');
 
 Route::post('/logout', 'AuthController@logout')->middleware('auth');
+
+Route::prefix('/ajax')->group( function () {
+    //something like ajax =>
+    Route::get('/all-room-categories', [RoomCategoryController::class, 'getAllRoomCategories'])->name('get-all-room-categories');
+
+});

@@ -6,23 +6,7 @@
 <body>
     <div class="main-wrapper">
         <div class="page-wrapper">
-
-            @if(session('message'))
-                <script>
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                    });
-                    
-                    Toast.fire({
-                        icon: 'success',
-                        title: 'Signed in successfully'
-                    })
-                </script>
-            @endif
+            <x-alerts/>
             <nav class="sidebar">
                 <div class="sidebar-header">
                   <a href="#" class="sidebar-brand">
@@ -64,7 +48,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Phone:</label>
-                                            <input class="form-control" type="number" name="phone" id="" value="{{ $guest->phone }}">
+                                            <input class="form-control" type="text" name="phone" id="" value="{{ $guest->phone }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Date of Birth:</label>

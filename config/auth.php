@@ -46,6 +46,16 @@ return [
             'provider' => 'guests',
             'hash' => false,
         ],
+
+        'guest' => [
+            'driver' => 'sanctum',
+            'provider' => 'guests',
+        ],
+        
+        'guest_house_admin' => [
+            'driver' => 'sanctum',
+            'provider' => 'guest_house_admins',
+        ],
     ],
     
     /*
@@ -69,6 +79,10 @@ return [
         'guests' => [
             'driver' => 'eloquent',
             'model' => App\Models\Guest::class,
+        ],
+        'guest_house_admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\GuestHouseAdmin::class,
         ],
 
         // 'users' => [

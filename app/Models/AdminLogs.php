@@ -5,17 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RoomType extends Model
+class AdminLogs extends Model
 {
     use HasFactory;
 
-    protected $table = "room_types";
-
-    protected $fillable = [
-        'name',
-        'is_active',
-        'is_delete',
-    ];
 
     public $timestamps = false;
 }
