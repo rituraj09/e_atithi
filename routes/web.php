@@ -36,6 +36,10 @@ Route::prefix('guest-house')->group( function () {
     });
 
 
+    Route::get('/', function () {
+        return view('guestHouse.index');
+    })->name('guest-house-admin-dashboard')->middleware('auth');
+
 
     Route::middleware(['auth', 'roles:super admin'])->group( function () {
         Route::controller(GuestHouseController::class)->group( function () {
@@ -58,14 +62,7 @@ Route::prefix('guest-house')->group( function () {
             Route::get('/room-category', 'roomCategories')->name('guest-house-admin-room-category');
             Route::post('/room-category/add', 'addRoomCategory')->name('guest-house-admin-add-room-category');
 
-        });
-
-        Route::get('/', function () {
-            return view('guestHouse.index');
-        })->name('guest-house-admin-dashboard');
-
-        
-        
+        });        
 
         
         // ajax

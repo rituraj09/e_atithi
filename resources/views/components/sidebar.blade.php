@@ -21,7 +21,10 @@
       </li>
       <li class="nav-item nav-category">web apps</li>
 
-      @if (Auth::user()->can('add.room'))
+      {{-- @if (Auth::user()->can('add.room')) --}}
+      @can('add.house')
+        <b>A</b>
+      @endcan
       <li class="nav-item">
         <a class="nav-link" data-bs-toggle="collapse" href="#guestHouse" role="button" aria-expanded="false" aria-controls="emails">
           <i class="link-icon" data-feather="home"></i>
@@ -42,7 +45,7 @@
           </ul>
         </div>
       </li>
-      @endif
+      {{-- @endif --}}
 
 
       <li class="nav-item">
@@ -113,12 +116,12 @@
       </li>
       <li class="nav-item nav-category">Components</li>
       <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="collapse" href="#guestHouse" role="button" aria-expanded="false" aria-controls="emails">
+        <a class="nav-link" data-bs-toggle="collapse" href="#subUsers" role="button" aria-expanded="false" aria-controls="emails">
           <i class="link-icon" data-feather="user"></i>
           <span class="link-title">Sub Users</span>
           <i class="link-arrow" data-feather="chevron-down"></i>
         </a>
-        <div class="collapse" id="guestHouse">
+        <div class="collapse" id="subUsers">
           <ul class="nav sub-menu">
             <li class="nav-item">
               <a href="Super admin, db room categories" class="nav-link">All Guest Houses</a>
@@ -136,12 +139,12 @@
       
       <li class="nav-item nav-category">Pages</li>
       <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="collapse" href="#guestHouse" role="button" aria-expanded="false" aria-controls="emails">
+        <a class="nav-link" data-bs-toggle="collapse" href="#settings" role="button" aria-expanded="false" aria-controls="emails">
           <i class="link-icon" data-feather="sliders"></i>
           <span class="link-title">Settings</span>
           <i class="link-arrow" data-feather="chevron-down"></i>
         </a>
-        <div class="collapse" id="guestHouse">
+        <div class="collapse" id="settings">
           <ul class="nav sub-menu">
             <li class="nav-item">
               <a href="Super admin, db room categories" class="nav-link">All Guest Houses</a>

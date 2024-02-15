@@ -57,10 +57,10 @@
                                                         </button>
                                                     </div>
                                                     <div class="px-1">
-                                                        <button class="btn btn-primary btn-sm">
-                                                            {{-- <i data-feather="edit"></i> --}}
-                                                            Edit
                                                         </button>
+                                                        <a href="" class="btn btn-sm btn-outline-primary">
+                                                            Edit
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </td>
