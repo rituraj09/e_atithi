@@ -33,7 +33,7 @@
                   <div class="auth-form-wrapper px-4 py-5">
                     <a href="#" class="noble-ui-logo logo-light d-block mb-2"><span>e</span>Atithi</a>
                     <h5 class="text-muted fw-normal mb-4">Welcome back! Log in to your account.</h5>
-                    <form class="form-sample" action="{{ route('guest-house-admin-login')}}" method="post">
+                    <form class="form-sample" action="{{ route('admin-login')}}" method="post">
                         @csrf 
                       <div class="mb-3">
                         <label for="userEmail" class="form-label">Email address</label>

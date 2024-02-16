@@ -25,8 +25,8 @@ Route::get('/', function () {
 Route::prefix('guest-house')->group( function () {
 
     Route::controller(OfficialAuthController::class)->group( function () {
-        Route::post('/login', 'login')->name('guest-house-admin-login');
-        Route::post('/registration', 'registration')->name('guest-house-admin-registration');
+        Route::post('/login', 'login')->name('admin-login');
+        Route::post('/registration', 'registration')->name('admin-registration');
     });
 
     Route::controller(GuestHouseAdminController::class)->group( function () {
@@ -38,7 +38,7 @@ Route::prefix('guest-house')->group( function () {
 
     Route::get('/', function () {
         return view('guestHouse.index');
-    })->name('guest-house-admin-dashboard')->middleware('auth');
+    })->name('guest-house-admin-dashboard'); //->middleware('auth');
 
 
     Route::middleware(['auth', 'roles:super admin'])->group( function () {
@@ -48,10 +48,6 @@ Route::prefix('guest-house')->group( function () {
             
         }); 
     });
-
-    Route::get('/', function () {
-        return view('guestHouse.index');
-    })->name('guest-house-admin-dashboard');
 
 
     // Route::middleware([OfficialAdminMiddleware::class])->group( function () {       
@@ -67,11 +63,6 @@ Route::prefix('guest-house')->group( function () {
             Route::post('/room-category/add', 'addRoomCategory')->name('guest-house-admin-add-room-category');
 
         });
-
-        Route::get('/', function () {
-            return view('guestHouse.index');
-        })->name('guest-house-admin-dashboard');
-
         
         
 
@@ -100,12 +91,12 @@ Route::prefix('/guest')->group( function () {
     Route::get('/register', function () {
         return view('guest.registration');
     })->name('guest-registration');
-    Route::post('/register', [AuthController::class, 'registration'])->name('guest-registration');
+    // Route::post('/register', [AuthController::class, 'registration'])->name('guest-registration');
 
     Route::get('/login', function () {
         return view('guest.login');
     })->name('guest-login');
-    Route::post('/login', [AuthController::class, 'login'])->name('guest-login');
+    // Route::post('/login', [AuthController::class, 'login'])->name('guest-login');
 
     Route::middleware([GuestMiddleware::class])->group( function () {
         Route::get('/profile', [ProfileController::class, 'getProfile'])->name('guest-profile');

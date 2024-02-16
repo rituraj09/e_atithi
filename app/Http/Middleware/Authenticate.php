@@ -12,6 +12,7 @@ class Authenticate extends Middleware
      */
     protected function redirectTo(Request $request): ?string
     {
+        // dd(auth()->user());
         if (!auth()->user()) {
             return route('guest-house-admin-login'); // Customize the redirect URL as needed
         }

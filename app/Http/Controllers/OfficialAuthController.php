@@ -47,15 +47,7 @@ class OfficialAuthController extends Controller
 
     public function login(Request $request)
     {
-        // if (auth()->check()) {
-        //     // User is already logged in, handle accordingly
-        //     Auth::user()->tokens()->delete();
 
-        //     Auth::logout();
-        //     return redirect()->route('guest-house-admin-dashboard');
-            
-        //     return response()->json(['message' => 'User is already logged in'], 400);
-        // }
         $fields = $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:6',
@@ -76,6 +68,7 @@ class OfficialAuthController extends Controller
         Auth::login($admin); 
 
         // dd(auth()->check(), $admin->roles->name);
+        // dd(auth()->user()->email);
 
         // Redirect to dashboard 
         return redirect()->route('guest-house-admin-dashboard')->with('roles', $admin->role);

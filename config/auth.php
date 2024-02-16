@@ -15,7 +15,7 @@ return [
 
     'defaults' => [
         'guard' => 'web',
-        'passwords' => 'users',
+        'passwords' => 'admins',  // 'users',
     ],
 
     /*
@@ -38,7 +38,7 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'guests',
+            'provider' => 'admins',
         ],
     
         'api' => [
@@ -52,9 +52,9 @@ return [
             'provider' => 'guests',
         ],
         
-        'guest_house_admin' => [
-            'driver' => 'sanctum',
-            'provider' => 'guest_house_admins',
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
         ],
     ],
     
@@ -80,7 +80,7 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Guest::class,
         ],
-        'guest_house_admins' => [
+        'admins' => [
             'driver' => 'eloquent',
             'model' => App\Models\GuestHouseAdmin::class,
         ],
@@ -111,8 +111,14 @@ return [
     */
 
     'passwords' => [
+        'admins' => [
+            'provider' => 'admins',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
         'users' => [
-            'provider' => 'users',
+            'provider' => 'admins',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,

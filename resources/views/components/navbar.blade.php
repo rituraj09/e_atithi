@@ -1,3 +1,5 @@
+{{-- {{ $admin =  }} --}}
+{{-- {{ dd(auth()->guard('web')->user()->id); }} --}}
 <nav class="navbar">
     <a href="#" class="sidebar-toggler">
         <i data-feather="menu"></i>
@@ -202,8 +204,8 @@
                             <img class="wd-80 ht-80 rounded-circle" src="https://via.placeholder.com/80x80" alt="">
                         </div>
                         <div class="text-center">
-                            <p class="tx-16 fw-bolder">{{ auth()->user()->name}}</p>
-                            <p class="tx-12 text-muted">{{ auth()->user()->email}}</p>
+                            <p class="tx-16 fw-bolder"></p>
+                            <p class="tx-12 text-muted"></p>
                         </div>
                     </div>
                     <ul class="list-unstyled p-1">
