@@ -28,7 +28,7 @@
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
                                     <h6 class="card-title my-auto">Guest Houses</h6>
-                                    <a href="{{ route('guest-house-admin-add-room') }}" class="btn btn-primary shadow">
+                                    <a href="{{ route('add-guest-house') }}" class="btn btn-primary shadow">
                                         <i data-feather="plus"></i>
                                         add guest house
                                     </a>
@@ -39,11 +39,22 @@
                                             <tr>
                                             <th>Name</th>
                                             <th>Address</th>
-                                            <th>Admin</th>
+                                            <th>Official Email</th>
                                             <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @foreach ($guestHouses as $guestHouse)
+                                                <tr>
+                                                    <td>{{ $guestHouse['name'] }}</td>
+                                                    <td>
+                                                        {{ $guestHouse['address'] }},
+                                                        {{ $guestHouse['district'] }}
+                                                        {{ $guestHouse['state'] }}
+                                                    </td>
+                                                    <td>{{ $guestHouse['official_email'] }}</td>
+                                                </tr>
+                                            @endforeach
                                             <tr>
                                             <td>R 101</td>
                                             <td>VIP</td>

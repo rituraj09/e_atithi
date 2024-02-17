@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\Admin;
+use App\Models\Permissions;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -33,11 +35,31 @@ class OfficialAuthController extends Controller
             'password' => $fields['password'],
         ]);
 
+        // Retrieve the role
+        $role = Role::find($fields['role']);
+
+        // Retrieve permissions for the role
+        $permissions = DB::table('role_has_permissions')
+                        ->select('permission_id')
+                        ->where('role_id', $fields['role'])
+                        ->get();
+        // $permissions = $role->permissions()->pluck('id')->toArray();
+
+        // Sync permissions with the admin
+        $admin->assignRole($role);
+        // $admin->syncPermissions($permissions);
+        // $role = Role::find('id', $fields['role']);
+        // $permissions = DB::select('permission_id')
+        //                 ->where('role_id', $role)
+        //                 ->get();
+        // $admin->syncPermissions($permission);
+
         // dd($admin);
 
         if ($admin) {
         // Authenticate user
-            Auth::login($admin);
+            Auth::login($admin); 
+            // Auth::guard('admin')->login($admin);
 
             return redirect()->route('guest-house-admin-dashboard')->with(['message' => 'Logged in successfully']);
         }
@@ -52,11 +74,23 @@ class OfficialAuthController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:6',
         ]);
-        // $admin = Admin::where('email', $request->email)->first();
-        $admin = Admin::with('roles')->where('email', $request->email)->first();
+        $admin = Admin::where('email', $request->email)->first();
+        // $admin = Admin::with('roles')->where('email', $request->email)->first();
 
 
         // dd($admin->role);
+
+        // $credentials = $request->only('email', 'password');
+        // if (Hash::check($fields['password'], $admin->password)) {
+        //     $request->session()->regenerate();
+        //     Auth::login($admin);
+            
+        //     return redirect()->route('guest-house-admin-dashboard');
+        // } else {
+        //     return response()->json([
+        //         'message' => 'Wrong credentials'
+        //     ], 401);
+        // }
      
         if (!$admin || !Hash::check($fields['password'], $admin->password)) {
             return response()->json([
@@ -65,15 +99,30 @@ class OfficialAuthController extends Controller
         }
         // dd($admin->roles->name);
         // Authenticate user
-        Auth::login($admin); 
+        
+        Auth::guard('web')->login($admin); 
+        // dd(auth()->check());
+        // Auth::guard('admin')->login($admin); 
 
         // dd(auth()->check(), $admin->roles->name);
-        // dd(auth()->user()->email);
+        // dd(auth()->user()->email);         ->with('roles', $admin->role)
 
         // Redirect to dashboard 
-        return redirect()->route('guest-house-admin-dashboard')->with('roles', $admin->role);
+        return redirect()->route('guest-house-admin-dashboard');
     }
 
+    public function logout(Request $request)
+    {
+        if (Auth::check()){
+            $logs = $this->guestLog($request->ip(), "Logged out", auth()->id());
+        }
+
+        Auth::user()->tokens()->delete();
+
+        Auth::logout();
+
+        return redirect()->route('guest-house-admin-login');
+    }
     
 }
 

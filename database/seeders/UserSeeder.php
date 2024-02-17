@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Admin;
+use Spatie\Permission\Models\Role;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class UserSeeder extends Seeder
 {
@@ -13,8 +13,37 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('admins')->insert(array(
-            array('admin_name'=>'Super User', 'email' => 'admin@admin.com', 'phone'=> '7002274743', 'password' => bcrypt('admin123'), 'role' => 1,'created_at'=>'2024-02-15' )
-        ));
+        // default super admin
+        $adminUser = new Admin;
+        $adminUser->admin_name = 'Super User';
+        $adminUser->email = 'admin@admin.com';
+        $adminUser->phone = '7002274743';
+        $adminUser->password = bcrypt('admin123');
+        $adminUser->role = 1;
+        $adminUser->created_at = '2024-02-15';
+        $adminUser->save();
+
+        $role = Role::findById($adminUser->role, 'web');  // Assuming 'web' is the intended guard
+        $adminUser->assignRole($role);
+        $permissions = $role->permissions;
+        // $permissions = DB::select('select * from role_has_permissions where role_id = ?', [1]);
+        $adminUser->givePermissionTo($permissions);
+
+
+        // default admin
+        $adminUser2 = new Admin;
+        $adminUser2->admin_name = 'Admin User';
+        $adminUser2->email = 'new@admin';
+        $adminUser2->phone = '7002274943';
+        $adminUser2->password = bcrypt('admin123');
+        $adminUser2->role = 2;
+        $adminUser2->created_at = '2024-02-15';
+        $adminUser2->save();
+
+        // $roleAdmin2 = Role::where('name', 'admin')->first();
+        $adminUser2->assignRole(2);
+        $permissions = $role->permissions;
+        // $permissions = DB::select('select * from role_has_permissions where role_id = ?', [1]);
+        $adminUser2->givePermissionTo($permissions);
     }
 }

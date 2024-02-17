@@ -15,6 +15,7 @@ use App\Http\Controllers\OfficialAuthController;
 use App\Http\Controllers\RoomCategoryController;
 use App\Http\Middleware\OfficialAdminMiddleware;
 use App\Http\Controllers\GuestHouseAdminController;
+use App\Http\Controllers\AddressController;
 
 
 Route::get('/', function () {
@@ -27,6 +28,8 @@ Route::prefix('guest-house')->group( function () {
     Route::controller(OfficialAuthController::class)->group( function () {
         Route::post('/login', 'login')->name('admin-login');
         Route::post('/registration', 'registration')->name('admin-registration');
+        Route::post('/logout', 'logout')->name('logout');
+
     });
 
     Route::controller(GuestHouseAdminController::class)->group( function () {
@@ -41,17 +44,19 @@ Route::prefix('guest-house')->group( function () {
     })->name('guest-house-admin-dashboard'); //->middleware('auth');
 
 
-    Route::middleware(['auth', 'roles:super admin'])->group( function () {
+    Route::group(['middleware' => ['role:super admin']], function () {
+    // Route::middleware(['auth', 'roles:super admin'])->group( function () {
         Route::controller(GuestHouseController::class)->group( function () {
             Route::get('all', 'allGuestHouses')->name('all-guest-house');
             Route::get('add', 'addGuestHouses')->name('add-guest-house');
+            Route::post('new', 'addNewGuestHouses')->name('add-new-guest-house');
             
         }); 
     });
 
 
-    // Route::middleware([OfficialAdminMiddleware::class])->group( function () {       
-    Route::middleware(['auth','roles:super admin'])->prefix('/admin')->group( function () { 
+    Route::group(['middleware' => ['role:admin']], function () {       
+    // Route::middleware(['auth','roles:super admin'])->prefix('/admin')->group( function () { 
         
         Route::controller(RoomController::class)->group( function () {
             Route::get('/rooms', 'roomView')->name('guest-house-admin-rooms');
@@ -72,6 +77,14 @@ Route::prefix('guest-house')->group( function () {
 
         
     });
+});
+
+Route::prefix('/ajax')->group( function () {
+    //something like ajax =>
+    // Route::get('/all-room-categories', [RoomCategoryController::class, 'getAllRoomCategories'])->name('get-all-room-categories');
+    Route::get('/states/{cid}', [AddressController::class, 'getStates'])->name('get-states');
+    Route::get('/districts/{sid}', [AddressController::class, 'getDistricts'])->name('get-districts');
+
 });
 
 // Route::get('/get-roles', [RoleController::class, 'getAllRoles'])->name('get-roles');
@@ -115,7 +128,7 @@ Route::prefix('/guest')->group( function () {
 
         Route::get('/get-guest-houses', [GuestHouseController::class, 'getGuestHouses'])->name('get-guest-houses');
 
-        Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+        // Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     });
 });

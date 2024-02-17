@@ -2,6 +2,8 @@
 
 return [
 
+    'default_guard_name' => 'web',
+    
     'models' => [
 
         /*

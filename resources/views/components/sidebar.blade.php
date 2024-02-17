@@ -21,10 +21,10 @@
       </li>
       <li class="nav-item nav-category">web apps</li>
 
-      {{-- @if (Auth::user()->can('add.room')) --}}
-      {{-- @can('add.house')
-        <b>A</b>
-      @endcan --}}
+      @if (Auth::guard('web')->user()->hasPermissionTo('add.room'))
+        the user is allowed with the permission
+      @endif
+      @if( auth()->guard('web')->user()->hasRole('super admin') )
       <li class="nav-item">
         <a class="nav-link" data-bs-toggle="collapse" href="#guestHouse" role="button" aria-expanded="false" aria-controls="emails">
           <i class="link-icon" data-feather="home"></i>
@@ -45,7 +45,7 @@
           </ul>
         </div>
       </li>
-      {{-- @endif --}}
+      @endif
 
 
       <li class="nav-item">

@@ -47,15 +47,15 @@ return [
             'hash' => false,
         ],
 
-        'guest' => [
-            'driver' => 'sanctum',
-            'provider' => 'guests',
-        ],
+        // 'guest' => [
+        //     'driver' => 'sanctum',
+        //     'provider' => 'guests',
+        // ],
         
-        'admin' => [
-            'driver' => 'session',
-            'provider' => 'admins',
-        ],
+        // 'admin' => [
+        //     'driver' => 'session',
+        //     'provider' => 'admins',
+        // ],
     ],
     
     /*
@@ -82,7 +82,7 @@ return [
         ],
         'admins' => [
             'driver' => 'eloquent',
-            'model' => App\Models\GuestHouseAdmin::class,
+            'model' => App\Models\Admin::class,
         ],
 
         // 'users' => [

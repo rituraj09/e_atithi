@@ -14,6 +14,7 @@ Route::post('/logout', 'AuthController@logout')->middleware('auth');
 
 Route::prefix('/ajax')->group( function () {
     //something like ajax =>
-    Route::get('/all-room-categories', [RoomCategoryController::class, 'getAllRoomCategories'])->name('get-all-room-categories');
+    // Route::get('/all-room-categories', [RoomCategoryController::class, 'getAllRoomCategories'])->name('get-all-room-categories');
+    // Route::get('/states/{cid}', [AddressController::class, 'getStates'])->name('get-states');
 
 });
