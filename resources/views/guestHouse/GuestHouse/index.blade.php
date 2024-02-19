@@ -39,43 +39,49 @@
                                             <tr>
                                             <th>Name</th>
                                             <th>Address</th>
-                                            <th>Official Email</th>
+                                            <th>Official Contacts</th>
+                                            <th>Admin</th>
                                             <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @if (!$guestHouses)
+                                                <tr>
+                                                    <td colspan="4">No Data</td>
+                                                </tr>
+                                            @endif
                                             @foreach ($guestHouses as $guestHouse)
+                                            {{-- {{ dd($guestHouse->country_name->name) }} --}}
                                                 <tr>
                                                     <td>{{ $guestHouse['name'] }}</td>
                                                     <td>
-                                                        {{ $guestHouse['address'] }},
-                                                        {{ $guestHouse['district'] }}
-                                                        {{ $guestHouse['state'] }}
+                                                        @if ($guestHouse['address'])
+                                                            {{ $guestHouse['address'] }},
+                                                        @endif
+                                                        {{ $guestHouse['district_name']->name }},
+                                                        {{ $guestHouse['state_name']->name }},
+                                                        {{ $guestHouse['country_name']->name }}
                                                     </td>
-                                                    <td>{{ $guestHouse['official_email'] }}</td>
+                                                    <td>{{ $guestHouse['official_email'] }}</br>{{ $guestHouse['contact_no'] }}</td>
+                                                    <td>{{ $guestHouse['admins'][0]->admin_name }}</td>
+                                                    <td>
+                                                        <div class="d-flex py-0">
+                                                            <div class="px-1">
+                                                                <button class="btn btn-danger btn-sm">
+                                                                    {{-- <i data-feather="trash"></i> --}}
+                                                                    Delete
+                                                                </button>
+                                                            </div>
+                                                            <div class="px-1">
+                                                                </button>
+                                                                <a href="{{ route('edit-guest-house', ['id' => $guestHouse->id ]) }}" class="btn btn-sm btn-outline-primary">
+                                                                    Edit
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             @endforeach
-                                            <tr>
-                                            <td>R 101</td>
-                                            <td>VIP</td>
-                                            <td>200.00/-</td>
-                                            <td>
-                                                <div class="d-flex py-0">
-                                                    <div class="px-1">
-                                                        <button class="btn btn-danger btn-sm">
-                                                            {{-- <i data-feather="trash"></i> --}}
-                                                            Delete
-                                                        </button>
-                                                    </div>
-                                                    <div class="px-1">
-                                                        </button>
-                                                        <a href="" class="btn btn-sm btn-outline-primary">
-                                                            Edit
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>

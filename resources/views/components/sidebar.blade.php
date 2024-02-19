@@ -1,4 +1,7 @@
 <div class="sidebar-body">
+    <div class="nav-item p-2 m-auto">
+      {{ auth()->user()->roles[0]->name }}
+  </div>
     <ul class="nav">
       <li class="nav-item nav-category">Main</li>
       <li class="nav-item">
@@ -7,26 +10,14 @@
           <span class="link-title">Dashboard</span>
         </a>
       </li>
-      <li class="nav-item">
-        <a href="{{ route('guest-house-admin-rooms') }}" class="nav-link">
-          <i class="link-icon" data-feather="home"></i>
-          <span class="link-title">Rooms</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="{{ route('guest-house-admin-room-category') }}" class="nav-link">
-          <i class="link-icon" data-feather="box"></i>
-          <span class="link-title">Room Categories</span>
-        </a>
-      </li>
       <li class="nav-item nav-category">web apps</li>
 
       @if (Auth::guard('web')->user()->hasPermissionTo('add.room'))
-        the user is allowed with the permission
+        
       @endif
       @if( auth()->guard('web')->user()->hasRole('super admin') )
       <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="collapse" href="#guestHouse" role="button" aria-expanded="false" aria-controls="emails">
+        <a class="nav-link" data-bs-toggle="collapse" href="#guestHouse" role="button" aria-expanded="false" aria-controls="houses">
           <i class="link-icon" data-feather="home"></i>
           <span class="link-title">Guest House</span>
           <i class="link-arrow" data-feather="chevron-down"></i>
@@ -39,9 +30,6 @@
             <li class="nav-item">
               <a href="{{ route('add-guest-house') }}" class="nav-link">Add Guest Houses</a>
             </li>
-            <li class="nav-item">
-              <a href="extra page for add room category" class="nav-link">Add Room Categories</a>
-            </li>
           </ul>
         </div>
       </li>
@@ -49,7 +37,7 @@
 
 
       <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="collapse" href="#roomCategories" role="button" aria-expanded="false" aria-controls="emails">
+        <a class="nav-link" data-bs-toggle="collapse" href="#roomCategories" role="button" aria-expanded="false" aria-controls="category">
           <i class="link-icon" data-feather="home"></i>
           <span class="link-title">Room Category</span>
           <i class="link-arrow" data-feather="chevron-down"></i>
@@ -57,7 +45,7 @@
         <div class="collapse" id="roomCategories">
           <ul class="nav sub-menu">
             <li class="nav-item">
-              <a href="Super admin, db room categories" class="nav-link">All Room Categories</a>
+              <a href="{{ route('guest-house-admin-add-room-category') }}" class="nav-link">All Room Categories</a>
             </li>
             <li class="nav-item">
               <a href="guest house admin's categories only" class="nav-link">Our Room Categories</a>
@@ -69,7 +57,7 @@
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="collapse" href="#rooms" role="button" aria-expanded="false" aria-controls="emails">
+        <a class="nav-link" data-bs-toggle="collapse" href="#rooms" role="button" aria-expanded="false" aria-controls="rooms">
           <i class="link-icon" data-feather="home"></i>
           <span class="link-title">Rooms</span>
           <i class="link-arrow" data-feather="chevron-down"></i>
@@ -116,7 +104,7 @@
       </li>
       <li class="nav-item nav-category">Components</li>
       <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="collapse" href="#subUsers" role="button" aria-expanded="false" aria-controls="emails">
+        <a class="nav-link" data-bs-toggle="collapse" href="#subUsers" role="button" aria-expanded="false" aria-controls="users">
           <i class="link-icon" data-feather="user"></i>
           <span class="link-title">Sub Users</span>
           <i class="link-arrow" data-feather="chevron-down"></i>
@@ -124,10 +112,10 @@
         <div class="collapse" id="subUsers">
           <ul class="nav sub-menu">
             <li class="nav-item">
-              <a href="Super admin, db room categories" class="nav-link">All Guest Houses</a>
+              <a href="{{ route('all-sub-users') }}" class="nav-link">All Sub Users</a>
             </li>
             <li class="nav-item">
-              <a href="guest house admin's categories only" class="nav-link">Add Guest Houses</a>
+              <a href="{{ route('add-sub-users') }}" class="nav-link">Add Sub User</a>
             </li>
             <li class="nav-item">
               <a href="extra page for add room category" class="nav-link">Add Room Categories</a>
@@ -139,7 +127,7 @@
       
       <li class="nav-item nav-category">Pages</li>
       <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="collapse" href="#settings" role="button" aria-expanded="false" aria-controls="emails">
+        <a class="nav-link" data-bs-toggle="collapse" href="#settings" role="button" aria-expanded="false" aria-controls="settings">
           <i class="link-icon" data-feather="sliders"></i>
           <span class="link-title">Settings</span>
           <i class="link-arrow" data-feather="chevron-down"></i>

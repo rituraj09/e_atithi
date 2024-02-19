@@ -19,5 +19,10 @@ class Districts extends Model
         'is_delete',
     ];
 
+    public function GuestHouse()
+    {
+        return $this->hasMany(Guesthouse::class);
+    }
+
     public $timestamps = false;
 }

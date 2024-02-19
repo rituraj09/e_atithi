@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Admin;
+use App\Models\States;
+use App\Models\Countries;
+use App\Models\Districts;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Guesthouse extends Model
 {
@@ -25,6 +29,26 @@ class Guesthouse extends Model
         'is_delete',
     ];
 
+
+    public function country_name()
+    {
+        return $this->belongsTo(Countries::class, 'country');
+    }
+
+    public function state_name()
+    {
+        return $this->belongsTo(States::class, 'state');
+    }
+
+    public function district_name()
+    {
+        return $this->belongsTo(Districts::class, 'district');
+    }
+
+    public function admins()
+    {
+        return $this->belongsToMany(Admin::class, 'guest_house_has_employees', 'guest_house_id', 'employee_id');
+    }
 
     public $timestamps = false;
 }

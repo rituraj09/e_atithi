@@ -27,8 +27,8 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
-                                    <h6 class="card-title my-auto">Rooms</h6>
-                                    <a href="{{ route('guest-house-admin-add-room') }}" class="btn btn-primary shadow">
+                                    <h6 class="card-title my-auto">Sub Users</h6>
+                                    <a href="{{ route('add-sub-users') }}" class="btn btn-primary shadow">
                                         <i data-feather="plus"></i>
                                         add user
                                     </a>
@@ -39,7 +39,8 @@
                                             <tr>
                                             <th>Name</th>
                                             <th>Role Type</th>
-                                            <th>Email</th>
+                                            <th>Contacts</th>
+                                            <th>Guest House</th>
                                             <th>Action</th>
                                             </tr>
                                         </thead>

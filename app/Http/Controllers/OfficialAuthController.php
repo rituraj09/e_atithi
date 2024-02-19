@@ -25,8 +25,6 @@ class OfficialAuthController extends Controller
 
         $fields['password'] = bcrypt($fields['password']);
 
-        // dd($fields);
-
         $admin = Admin::create([
             'admin_name' => $fields['fullname'],
             'phone' => $fields['phone'],
@@ -113,9 +111,9 @@ class OfficialAuthController extends Controller
 
     public function logout(Request $request)
     {
-        if (Auth::check()){
-            $logs = $this->guestLog($request->ip(), "Logged out", auth()->id());
-        }
+        // if (Auth::check()){
+        //     $logs = $this->guestLog($request->ip(), "Logged out", auth()->id());
+        // }
 
         Auth::user()->tokens()->delete();
 

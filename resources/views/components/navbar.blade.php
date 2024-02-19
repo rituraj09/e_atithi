@@ -13,6 +13,9 @@
                 <input type="text" class="form-control" id="navbarForm" placeholder="Search here...">
             </div>
         </form>
+        <div class="p-2 m-auto">
+            {{ auth()->user()->roles[0]->name }}
+        </div>
         <ul class="navbar-nav">
             <li class="nav-item dropdown d-none">
                 <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -204,19 +207,19 @@
                             <img class="wd-80 ht-80 rounded-circle" src="https://via.placeholder.com/80x80" alt="">
                         </div>
                         <div class="text-center">
-                            <p class="tx-16 fw-bolder"></p>
-                            <p class="tx-12 text-muted"></p>
+                            <p class="tx-16 fw-bolder">{{ auth()->user()->admin_name }}</p>
+                            <p class="tx-12 text-muted">{{ auth()->user()->email }}</p>
                         </div>
                     </div>
                     <ul class="list-unstyled p-1">
                     <li class="dropdown-item py-2">
-                        <a href="pages/general/profile.html" class="text-body ms-0">
+                        <a href="{{ route('guest-house-admin-profile') }}" class="text-body ms-0">
                         <i class="me-2 icon-md" data-feather="user"></i>
                         <span>Profile</span>
                         </a>
                     </li>
                     <li class="dropdown-item py-2">
-                        <a href="javascript:;" class="text-body ms-0">
+                        <a href="{{ route('guest-house-admin-profile') }}" class="text-body ms-0">
                         <i class="me-2 icon-md" data-feather="edit"></i>
                         <span>Edit Profile</span>
                         </a>

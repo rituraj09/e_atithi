@@ -8,6 +8,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RoomController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\GuestMiddleware;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\CaptchaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GuestHouseController;
@@ -15,15 +17,24 @@ use App\Http\Controllers\OfficialAuthController;
 use App\Http\Controllers\RoomCategoryController;
 use App\Http\Middleware\OfficialAdminMiddleware;
 use App\Http\Controllers\GuestHouseAdminController;
-use App\Http\Controllers\AddressController;
 
 
 Route::get('/', function () {
     return view('welcome');
-})->name('welcome');
+})->name('welcome')->middleware(['auth']);
+
+Route::controller(GuestHouseAdminController::class)->group( function () {
+    Route::get('/registration', 'registration')->name('guest-house-admin-registration');
+    Route::get('/login', 'login')->name('guest-house-admin-login');
+    Route::get('/profile', 'profile')->name('guest-house-admin-profile')->middleware(['auth']);
+});
 
 
 Route::prefix('guest-house')->group( function () {
+
+    Route::get('/', function () {
+        return view('guestHouse.index');
+    })->name('guest-house-admin-dashboard')->middleware(['auth']);
 
     Route::controller(OfficialAuthController::class)->group( function () {
         Route::post('/login', 'login')->name('admin-login');
@@ -32,30 +43,24 @@ Route::prefix('guest-house')->group( function () {
 
     });
 
-    Route::controller(GuestHouseAdminController::class)->group( function () {
-        Route::get('/registration', 'registration')->name('guest-house-admin-registration');
-        Route::get('/login', 'login')->name('guest-house-admin-login');
-        Route::get('/profile', 'profile')->name('guest-house-admin-profile')->middleware(['auth', 'roles:admin']);
-    });
-
-
-    Route::get('/', function () {
-        return view('guestHouse.index');
-    })->name('guest-house-admin-dashboard'); //->middleware('auth');
-
-
-    Route::group(['middleware' => ['role:super admin']], function () {
+    Route::group(['middleware' => ['auth','role:super admin']], function () {
     // Route::middleware(['auth', 'roles:super admin'])->group( function () {
         Route::controller(GuestHouseController::class)->group( function () {
-            Route::get('all', 'allGuestHouses')->name('all-guest-house');
-            Route::get('add', 'addGuestHouses')->name('add-guest-house');
+            Route::get('/', 'allGuestHouses')->name('all-guest-house');
+            Route::get('add', 'addGuestHouse')->name('add-guest-house');
+            Route::get('edit/{id}', 'editGuestHouse')->name('edit-guest-house');
             Route::post('new', 'addNewGuestHouses')->name('add-new-guest-house');
             
         }); 
+
+        Route::controller(UsersController::class)->group( function () {
+            Route::get('/users', 'allSubUsers')->name('all-sub-users');
+            Route::get('/users/add', 'addSubUsers')->name('add-sub-users');
+        });
     });
 
 
-    Route::group(['middleware' => ['role:admin']], function () {       
+    Route::group(['middleware' => ['auth','role:admin']], function () {       
     // Route::middleware(['auth','roles:super admin'])->prefix('/admin')->group( function () { 
         
         Route::controller(RoomController::class)->group( function () {

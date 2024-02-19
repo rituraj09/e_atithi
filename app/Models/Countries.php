@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+// use App\Models\Guesthouse;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class countries extends Model
 {
@@ -17,6 +19,11 @@ class countries extends Model
         'is_active',
         'is_delete',
     ];
+
+    public function GuestHouse(): HasMany
+    {
+        return $this->hasMany(Guesthouse::class);
+    }
 
     public $timestamps = false;
 }

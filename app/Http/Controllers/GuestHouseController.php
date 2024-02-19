@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\Rooms;
+use App\Models\States;
 use App\Models\Countries;
+use App\Models\Districts;
 use App\Models\Guesthouse;
 use Illuminate\Http\Request;
 use App\Models\GuestHouseType;
+use Spatie\Permission\Models\Role;
+use App\Models\GuestHouseHasEmployee;
 
 class GuestHouseController extends Controller
 {
@@ -36,16 +41,9 @@ class GuestHouseController extends Controller
         if ($guestHouse) {
             $guestHouseId = $guestHouse->id;
 
-            // Fetch room details based on guest house ID
-            // if ($request->post('room_type'))
             $rooms = Rooms::select("name", "room_type", "capacity")
                 ->where('guest_house_id', $guestHouseId)
                 ->get();
-            // return $rooms[0]->room_type;
-
-            // $roomType = RoomType::select("name")
-            //     ->where('id', $rooms->room_type)
-            //     ->get();
 
                 session([
                     'guestHouseId' => $guestHouseId,
@@ -56,8 +54,6 @@ class GuestHouseController extends Controller
                 ]);
 
             return redirect()->route('available'); 
-
-            // return response()->json(['guestHouseId' => $roomId, 'rooms' => $rooms]);
         } else {
             return response()->json(['message' => 'Guest house not found.']);
         }
@@ -70,14 +66,37 @@ class GuestHouseController extends Controller
     }
 
     public function allGuestHouses () {
+        $guestHouses = Guesthouse::with(['country_name', 'state_name', 'district_name', 'admins'])->get();
+        // dd($guestHouses[0]->admins[1]->admin_name);
+        // $admins = 0;
+        return view('guestHouse.GuestHouse.index', compact('guestHouses'));
+
+
         $guestHouses = Guesthouse::all();
+        $countries = Countries::find($guestHouses->pluck('country')->toArray());
+        dd($countries->pluck('name')->toArray());
         return view('guestHouse.GuestHouse.index', compact('guestHouses'));
     }
 
-    public function addGuestHouses () {
+    public function addGuestHouse () {
         $guestHouseTypes = GuestHouseType::all();
         $countries = Countries::all();
         return view('guestHouse.GuestHouse.add', compact('guestHouseTypes', 'countries'));
+    }
+
+    public function editGuestHouse ($id) {
+        $guestHouseTypes = GuestHouseType::all();
+        $countries = Countries::all();
+        $states = States::all();
+        $districts = Districts::all();
+        $roles = Role::where('name', '!=', 'super admin')->get();
+        // fetch guest house data
+        $guestHouse = Guesthouse::find($id);
+        // select all employee id of the guest house
+        $employeeId = GuestHouseHasEmployee::where('guest_house_id',$id)->pluck('employee_id');
+        // select all employee of the guest house
+        $employees = Admin::find([$employeeId]);
+        return view('guestHouse.GuestHouse.edit', compact('guestHouse', 'roles', 'employees', 'guestHouseTypes', 'countries', 'states', 'districts'));
     }
 
     public function addNewGuestHouses (Request $request) {
@@ -91,6 +110,23 @@ class GuestHouseController extends Controller
             'state' => 'required',
             'district' => 'required',
             'pin' => 'required',
+        
+            // admin part
+            'admin_name' => 'required|min:3',
+            'admin_email' => 'required|email|unique:admins,email',
+            'admin_phone' => 'required|min:10',
+        ]);
+
+        $fields['admin_password'] = bcrypt($this->passwordGenerator());
+        $fields['admin_role'] = 2;  // admin role id
+
+
+        $admin = Admin::create([
+            'admin_name' => $fields['admin_name'],
+            'phone' => $fields['admin_phone'],
+            'email' => $fields['admin_email'],
+            'role' => $fields['admin_role'],
+            'password' => $fields['admin_password'],
         ]);
 
         $guestHouse = Guesthouse::create([
@@ -105,11 +141,38 @@ class GuestHouseController extends Controller
             'guest_house_type' => $fields['guestHouseType'],
         ]);
 
+        $guestHouseEmployee = GuestHouseHasEmployee::create([
+            'guest_house_id' => $guestHouse->id,
+            'employee_id' => $admin->id,
+        ]);
 
-        if (!$guestHouse) {
+
+        // dd($guestHouseEmployee, $guestHouse->id, $admin->id);
+
+        if (!$guestHouse || !$admin || !$guestHouseEmployee) {
+            // return $guestHouseEmployee;
             return response()->with('error');
         }
 
         return redirect()->route('all-guest-house');
+    }
+
+    public function passwordGenerator () {
+
+        return "admin123";
+
+        $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        $password = '';
+    
+        $charLength = strlen($chars);
+    
+        // Generate a random password of length 6
+        for ($i = 0; $i < 6; $i++) {
+            $randomIndex = mt_rand(0, $charLength - 1);
+            $password .= $chars[$randomIndex];
+        }
+    
+        // Return the generated password
+        return $password;
     }
 }

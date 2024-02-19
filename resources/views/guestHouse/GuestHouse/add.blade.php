@@ -99,10 +99,6 @@
                                                 <label for="state" class="form-label">State</label>
                                                 <select class="form-control" name="state" id="state">
                                                     <option value="" selected disabled>--select--</option>
-
-                                                    {{-- @foreach ( $guestHouseTypes as $guestHouseType )
-                                                        <option value="{{ $guestHouseType->id }}">{{ $guestHouseType->name }}</option>
-                                                    @endforeach --}}
                                                 </select>
                                             </div>
                                         </div>
@@ -123,37 +119,43 @@
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-between p-3">
-                                        <h5 class="text-secondary">Users <small class="fst-italic text-danger">( optional )</small></h5>
-                                        {{-- <button> --}}
-                                        <i id="viewSaasForm" style="cursor: pointer;" data-feather="chevron-down"></i>
-                                        <i id="hideSaasForm" style="cursor: pointer;" data-feather="chevron-up"></i>
+                                        <h5 class="text-secondary">Admin</h5>
                                     </div>
-                                    <div class="d-flex row px-4 py-2 bg-light bg-opacity-25 rounded" id="saasForm">
-                                        <div class="p-2">
-                                            Name/Role
-                                        </div>
-                                        @for ( $a = 0; $a < 10; $a++ )
-                                        <div class="mb-2">
-                                            <div class="d-flex bg-white shadow rounded-3 p-3">
-                                                <div class="col">
-                                                    Name
+                                    <div class="d-flex row px-4 py-2 pt-3 bg-light bg-opacity-25 rounded" id="saasForm">
+                                        <div class="row m-0">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="admin_name" class="form-label">Admin Name</label>
+                                                    <input type="text" class="form-control" name="admin_name" placeholder="Admin name">
                                                 </div>
-                                                <div class="col">
-                                                    Admin
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="admin_role" class="form-label">Role</label>
+                                                    <select name="admin_role" id="admin_role" class="form-control" disabled>
+                                                        <option value="2" selected disabled>admin</option>
+                                                    </select>
                                                 </div>
-                                                <div class="col">
-                                                    Email@
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="admin_email" class="form-label">Email Id</label>
+                                                    <input type="email" class="form-control" name="admin_email" placeholder="Email address">
                                                 </div>
-                                                <div class="col">
-                                                    897643
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="admin_phone" class="form-label">Phone Number</label>
+                                                    <input type="text" class="form-control" name="admin_phone" placeholder="Phone number" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                                 </div>
-                                                <div class="d-flex col m-auto">
-                                                    <a href="" class="btn btn-sm btn-danger p-1 mx-1">delete</a>
-                                                    <a href="" class="btn btn-sm btn-success p-1 px-2 mx-1">view</a>
+                                            </div>
+                                            <div class="d-none col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="admin_password" class="form-label">Password</label>
+                                                    <input type="password" class="form-control" name="admin_password" placeholder="">
                                                 </div>
                                             </div>
                                         </div>
-                                        @endfor
                                     </div>
                                     <div class="d-flex justify-content-end py-3">
                                         <button id="formSubmit" type="submit" class="btn btn-success">Submit</button>
@@ -191,6 +193,7 @@
         $("#country").on('change', function () {
             const c_id = $("#country").val();
             console.log(c_id);
+            $("#district").html(`<option selected disabled>--select--</option>`);
 
             const stateurl = "{{ route('get-states', ['cid' => ':cid']) }}".replace(':cid', c_id);
             $.ajax({
@@ -225,7 +228,7 @@
 
 
 
-        $("#saasForm").removeClass('d-flex').addClass('d-none');
+        // $("#saasForm").removeClass('d-flex').addClass('d-none');
         $("#viewSaasForm").show();
         $("#hideSaasForm").hide();
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 
 class GuestHouseAdminController extends Controller
@@ -19,6 +20,11 @@ class GuestHouseAdminController extends Controller
     }
 
     public function profile () {
-        return view('guestHouse.GuestHouseProfile.index');
+        $adminId = auth()->user()->id;
+        $admin = Admin::with('roles')
+                ->where('id', $adminId)
+                ->first();
+        // dd($admin);
+        return view('guestHouse.GuestHouseProfile.index', compact('admin'));
     }
 }
