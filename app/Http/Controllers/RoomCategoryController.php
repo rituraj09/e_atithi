@@ -4,20 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\RoomCategory;
 use Illuminate\Http\Request;
+use App\Models\GuestHouseHasEmployee;
 
 class RoomCategoryController extends Controller
 {
     //
     public function roomCategories () {
-        $guest_house_id = 1;
+        // $guest_house_id = 1;
+        $employeeId = auth()->user()->id;
+        $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
+        // dd($guest_house_id);
         $roomCategories = RoomCategory::where('guest_house_id', $guest_house_id)->get();
 
-        return view('guestHouse.RoomCategory.index', compact(roomCategories));
+        return view('guestHouse.RoomCategory.index', compact('roomCategories'));
     }
 
 
     public function getAllRoomCategories () {
-        $guest_house_id = 1; //testing value
+        // $guest_house_id = 1; //testing value
+        $employeeId = auth()->user()->id;
+        $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
         $roomCategories = RoomCategory::where('guest_house_id', $guest_house_id)->get();
 
         return response()->json(['data' => $roomCategories]);
@@ -26,7 +32,9 @@ class RoomCategoryController extends Controller
     public function addRoomCategory (Request $request) {
 
         // testing value
-        $guest_house_id = 1;
+        // $guest_house_id = 1;
+        $employeeId = auth()->user()->id;
+        $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
 
         $request->validate([
             'category' => 'required|min:3',
@@ -56,7 +64,20 @@ class RoomCategoryController extends Controller
         return response()->json(['message'=>'Room category added successfully']);
     }
 
+    public function editRoomCategory ($id) {
+        $employeeId = auth()->user()->id;
+        $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
+        $roomCategory = RoomCategory::find($id)
+                        ->where('guest_house_id', $guest_house_id)
+                        ->first();
+        // return $roomCategory;
+        return response()->json($roomCategory, 200);
+    }
+
     public function deleteRoomCategory (Request $request) {
-        
+        // return $request->id;
+        $roomCategory = RoomCategory::where($request->id)
+                                    ->update(['is_delete'=>1, 'is_active'=>0]);
+        return 'done';
     }
 }

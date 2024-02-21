@@ -125,7 +125,7 @@
                                         </button>
                                     </div>
                                     <div class="px-1">
-                                        <input type="button" class="btn btn-primary btn-sm py-1 editCategory" value="edit">
+                                        <a href="{{ route('edit-room-category') }}" class="btn btn-primary btn-sm py-1 editCategory" >edit</a>
                                         <input type="hidden" value="${data.id }" id="categoryId">
                                     </div>
                                 </div>
@@ -147,7 +147,7 @@
         $("#addCategory").click( (e) => {
             e.preventDefault();
             var category = $("#categoryName");
-            const path = "{{ route('guest-house-admin-add-room-category') }}";
+            const path = "{{ route('new-room-category') }}";
 
             $.ajaxSetup({
                 headers: {

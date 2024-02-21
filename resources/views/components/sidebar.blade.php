@@ -1,7 +1,4 @@
 <div class="sidebar-body">
-    <div class="nav-item p-2 m-auto">
-      {{ auth()->user()->roles[0]->name }}
-  </div>
     <ul class="nav">
       <li class="nav-item nav-category">Main</li>
       <li class="nav-item">
@@ -45,7 +42,7 @@
         <div class="collapse" id="roomCategories">
           <ul class="nav sub-menu">
             <li class="nav-item">
-              <a href="{{ route('guest-house-admin-add-room-category') }}" class="nav-link">All Room Categories</a>
+              <a href="{{ route('room-category') }}" class="nav-link">All Room Categories</a>
             </li>
             <li class="nav-item">
               <a href="guest house admin's categories only" class="nav-link">Our Room Categories</a>
@@ -63,6 +60,27 @@
           <i class="link-arrow" data-feather="chevron-down"></i>
         </a>
         <div class="collapse" id="rooms">
+          <ul class="nav sub-menu">
+            <li class="nav-item">
+              <a href="{{ route('guest-house-admin-rooms') }}" class="nav-link">All Rooms</a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ route('guest-house-admin-add-room') }}" class="nav-link">Add Rooms</a>
+            </li>
+            <li class="nav-item">
+              <a href="simultaneous room features" class="nav-link">Room Config</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      {{-- reservations --}}
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="collapse" href="#reservations" role="button" aria-expanded="false" aria-controls="reservations">
+          <i class="link-icon" data-feather="home"></i>
+          <span class="link-title">Reservations</span>
+          <i class="link-arrow" data-feather="chevron-down"></i>
+        </a>
+        <div class="collapse" id="reservations">
           <ul class="nav sub-menu">
             <li class="nav-item">
               <a href="{{ route('guest-house-admin-rooms') }}" class="nav-link">All Rooms</a>
@@ -117,13 +135,9 @@
             <li class="nav-item">
               <a href="{{ route('add-sub-users') }}" class="nav-link">Add Sub User</a>
             </li>
-            <li class="nav-item">
-              <a href="extra page for add room category" class="nav-link">Add Room Categories</a>
-            </li>
           </ul>
         </div>
       </li>
-      
       
       <li class="nav-item nav-category">Pages</li>
       <li class="nav-item">

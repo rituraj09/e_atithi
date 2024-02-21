@@ -106,7 +106,7 @@ class OfficialAuthController extends Controller
         // dd(auth()->user()->email);         ->with('roles', $admin->role)
 
         // Redirect to dashboard 
-        return redirect()->route('guest-house-admin-dashboard');
+        return redirect()->route('dashboard');
     }
 
     public function logout(Request $request)

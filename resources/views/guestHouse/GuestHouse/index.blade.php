@@ -1,6 +1,4 @@
-<!-- resources/views/profile.blade.php -->
-
-{{-- {{ dd($guest); }} --}}
+<!-- resources/views/guestHouse/GuestHouse/index.blade.php -->
 
 <x-header/>
 <body>
@@ -67,7 +65,7 @@
                                                     <td>
                                                         <div class="d-flex py-0">
                                                             <div class="px-1">
-                                                                <button class="btn btn-danger btn-sm">
+                                                                <button class="btn btn-danger btn-sm ask-delete" data-id="{{$guestHouse->id}}">
                                                                     {{-- <i data-feather="trash"></i> --}}
                                                                     Delete
                                                                 </button>
@@ -97,16 +95,52 @@
     <script src="../../../assets/vendors/core/core.js"></script>
     <!-- endinject -->
 
-    <!-- Plugin js for this page -->
-    <!-- End plugin js for this page -->
-
     <!-- inject:js -->
     <script src="../../../assets/vendors/feather-icons/feather.min.js"></script>
     <script src="../../../assets/js/template.js"></script>
     <!-- endinject -->
 
     <!-- Custom js for this page -->
-    <!-- End custom js for this page -->
+    <script>
+    $(document).ready( function () {
+        // common csrf header
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        const deleteUrl = "{{ route('delete-room-category')}}";
+        $(".ask-delete").on('click', function (e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert !" + id,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: deleteUrl,
+                        type: "POST",
+                        data: {id:id},
+                        success: function(res) {
+                            console.log(res)
+                        }
+                    })
+                    Swal.fire({
+                    title: "Deleted!",
+                    text: "id" + id,
+                    icon: "success"
+                    });
+                }
+            });
+        });
+    })
+    </script>
 
 </body>
 

@@ -15,7 +15,14 @@ class UsersController extends Controller
     }
 
     public function addSubUsers() {
-        $roles = Role::where('name', '!=', 'super admin')->get();
+        if (auth()->user()->roles[0]->name  === 'admin') {
+            $roles = Role::where('name', '!=', 'super admin' )
+                        ->where('name', '!=', 'admin')
+                        ->get();
+        } else {
+            // dd(auth()->user()->roles());
+            $roles = Role::where('name', '!=', 'super admin')->get();
+        }
         $guestHouses = Guesthouse::with(['country_name', 'state_name', 'district_name'])->get();
         return view('guestHouse.Users.add', compact(['roles','guestHouses']));
     }

@@ -118,6 +118,17 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6 stretch-card">
+                                            <div class="card fs-6">
+                                                <div class="card-body">
+                                                    <h6 class="card-title">Guest House Image</h6>
+                                                    {{-- <p class="text-muted mb-3">Read the <a href="https://github.com/JeremyFagis/dropify" target="_blank"> Official Dropify Documentation </a>for a full list of instructions and other options.</p> --}}
+                                                    <input type="file" id="myDropify"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="d-flex justify-content-between p-3">
                                         <h5 class="text-secondary">Admin</h5>
                                     </div>
@@ -175,15 +186,20 @@
     <!-- endinject -->
 
     <!-- Plugin js for this page -->
+    <script src="../../../assets/vendors/dropify/dist/dropify.min.js"></script>
+    <script src="../../../assets/js/dropify.js"></script>
     <!-- End plugin js for this page -->
 
     <!-- inject:js -->
+
+	<script src="../../../assets/vendors/jquery-validation/jquery.validate.min.js"></script>
     <script src="../../../assets/vendors/feather-icons/feather.min.js"></script>
     <script src="../../../assets/js/template.js"></script>
     <!-- endinject -->
 
     <script>
     $(document).ready(function() {
+        $('.dropify-message p').css('font-size', '16px'); 
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
