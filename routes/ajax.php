@@ -15,7 +15,7 @@ Route::prefix('/ajax')->group( function () {
 
     Route::controller(RoomCategoryController::class)->group( function () {
         Route::get('/all-room-categories', 'getAllRoomCategories')->name('get-all-room-categories');
-        Route::post('/delete-room-category', 'deleteRoomCategory')->name('delete-room-category');
+        // Route::post('/delete-room-category', 'deleteRoomCategory')->name('delete-room-category');
     });
 
 });

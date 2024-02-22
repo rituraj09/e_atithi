@@ -28,7 +28,7 @@
                             {{-- <div class="ps-md-0"> --}}
                                 <div class="card-body p-5">
                                   <h5 class="card-title mb-4">Create a sub-user.</h5>
-                                  <form class="forms-sample" action="" method="post">
+                                  <form class="forms-sample" action="{{ route('new-sub-user') }}" method="post">
                                     @csrf
                                     <div class="row mb-3">
                                       <label for="fullname" class="form-label col-md-4 m-auto">Full name</label>
@@ -75,13 +75,12 @@
                                           <img class="rounded-3" src="{{ route('captcha') }}" alt="Captcha Image">
                                           <button class="ms-3 btn btn-sm btn-outline-primary"><i class="me-2 icon-md" data-feather="repeat"></i>reload</button>
                                       </div>
-                                      {{-- <input type="email" class="form-control" id="userEmail" placeholder="Email"> --}}
                                     </div>
                                     <div class="row mb-3">
                                       <div class="col-md-4"></div>
                                       <div class="col-md-8">
                                         <div class="input-group">
-                                          <input type="text" name="" id="" class="form-control" placeholder="Type captcha here" required>
+                                          <input type="text" name="captcha" id="" class="form-control" placeholder="Type captcha here" required>
                                           <button class="btn btn-success">verify</button>
                                         </div>
                                       </div>
@@ -97,6 +96,7 @@
                                           </select>
                                       </div>
                                     </div>
+                                    @if (auth()->user()->roles[0]->name === 'super admin')
                                     <div class="row mb-3">
                                       <label for="role" class="form-label col-md-4 m-auto">Guest House</label>
                                       <div class="col-md-8">
@@ -110,6 +110,7 @@
                                           </select>
                                       </div>
                                     </div>
+                                    @endif
                                     <div class="row mb-3">
                                       <label for="userPassword" class="form-label col-md-4 m-auto">Password</label>
                                       <div class="col-md-8">
@@ -123,7 +124,6 @@
                                       <input type="hidden" value="subUser" />
                                       <button type="submit" class="btn btn-primary text-white me-2 mb-2 mb-md-0">Register</button>
                                     </div>
-                                    {{-- <a href="{{ route('guest-house-admin-login')}}" class="d-block mt-3 text-muted">Already a user? Sign in</a> --}}
                                   </form>
                                 </div>
                               {{-- </div> --}}
@@ -151,47 +151,4 @@
 
 </body>
 
-</html>
-
-
-<x-header/>
-
-<body>
-	<div class="main-wrapper">
-		<div class="page-wrapper full-page">
-			<div class="page-content d-flex align-items-center justify-content-center">
-
-				<div class="row w-100 mx-0 auth-page">
-					<div class="col-md-10 col-xl-9 mx-auto">
-						<div class="card">
-							<div class="row">
-                <div class="col-md-2 pe-md-0">
-                  <div class="auth-side-wrapper">
-
-                  </div>
-                </div>
-                
-              </div>
-						</div>
-					</div>
-				</div>
-
-			</div>
-		</div>
-	</div>
-
-	<!-- core:js -->
-	<script src="../../../assets/vendors/core/core.js"></script>
-	<!-- endinject -->
-
-	<!-- inject:js -->
-	<script src="../../../assets/vendors/feather-icons/feather.min.js"></script>
-	<script src="../../../assets/js/template.js"></script>
-	<!-- endinject -->
-
-	<!-- Custom js for this page -->
-  <script type="text/javascript" src="{{ asset('js/maxLength.js')}}"></script>
-	<!-- End custom js for this page -->
-
-</body>
 </html>

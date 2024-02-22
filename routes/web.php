@@ -4,7 +4,7 @@ use App\Models\Guest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
+// use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RoomController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\GuestMiddleware;
@@ -63,6 +63,7 @@ Route::prefix('guest-house')->group( function () {
         Route::controller(UsersController::class)->group( function () {
             Route::get('/users/all-users', 'allSubUsers')->name('all-sub-users');
             Route::get('/users/add-user', 'addSubUsers')->name('add-sub-users');
+            Route::post('/users/add', 'storeSubUser')->name('new-sub-user');
         });
         
         Route::controller(RoomController::class)->group( function () {
@@ -72,9 +73,11 @@ Route::prefix('guest-house')->group( function () {
 
         Route::controller(RoomCategoryController::class)->group( function () {
             Route::get('/all-room-category', 'roomCategories')->name('room-category');
-            Route::get('/add-room-category', 'addRoomCategory')->name('add-room-category');
-            Route::get('/edit-room-category/{id}')->name('edit-room-category');
-            Route::post('/room-category/add', 'addRoomCategory')->name('new-room-category');
+            // Route::get('/add-room-category', 'addRoomCategory')->name('add-room-category');
+            Route::get('/edit-room-category/{id}', 'editRoomCategory')->name('edit-room-category');
+            Route::post('/room-category/update', 'storeRoomCategory')->name('update-room-category');
+            Route::post('/room-category/add', 'storeRoomCategory')->name('new-room-category');
+            Route::post('/room-category/delete', 'deleteRoomCateory')->name('delete-room-category');
 
         });
         
@@ -102,14 +105,14 @@ Route::prefix('guest-house')->group( function () {
 //     // Route::post('/student/login', 'login');
 // });
 Route::prefix('/guest')->group( function () {
-    Route::get('/register', function () {
-        return view('guest.registration');
-    })->name('guest-registration');
+    // Route::get('/register', function () {
+    //     return view('guest.registration');
+    // })->name('guest-registration');
     // Route::post('/register', [AuthController::class, 'registration'])->name('guest-registration');
 
-    Route::get('/login', function () {
-        return view('guest.login');
-    })->name('guest-login');
+    // Route::get('/login', function () {
+    //     return view('guest.login');
+    // })->name('guest-login');
     // Route::post('/login', [AuthController::class, 'login'])->name('guest-login');
 
     Route::middleware([GuestMiddleware::class])->group( function () {

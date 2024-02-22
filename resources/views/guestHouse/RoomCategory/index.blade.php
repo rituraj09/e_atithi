@@ -27,14 +27,27 @@
                     <div class="col-md-4 grid-margin stretch-card">
 						<div class="card">
 							<div class="card-body">
-								<h4 class="card-title">New Room Category</h4>
+								<h4 class="card-title">
+                                    @if ($roomCategory)
+                                    Update Room Category
+                                    @else 
+                                    New Room Category
+                                    @endif 
+                                </h4>
 								<form id="newRoomForm">
                                     <div class="mb-3">
                                         <label for="categoryName" class="form-label">Room Category</label>
-                                        <input id="categoryName" class="form-control" name="categoryName" type="text" placeholder="Room category">
+                                        <input id="categoryName" class="form-control" name="categoryName" type="text" 
+                                            value="{{ $roomCategory ? $roomCategory->name : null }}" placeholder="Room category">
                                     </div>
                                     <div class="d-flex justify-content-end pt-2">
-                                        <button id="addCategory" class="btn btn-success">Submit</button>
+                                        <input type="hidden" id="categoryId" value="{{ $roomCategory ? $roomCategory->id : null  }}" name="id">
+                                        @if ($roomCategory)
+                                            <a href="{{ route('room-category') }}" class="btn btn-outline-primary me-2">New</a>
+                                            <button id="updateCategory" class="btn btn-success" disabled>Save changes</button>
+                                        @else
+                                            <button id="addCategory" class="btn btn-success">Submit</button>
+                                        @endif
                                     </div>
                                 </form>
                             </div>
@@ -55,21 +68,7 @@
                                             </tr>
                                         </thead>
                                         <tbody id="categoryList">
-                                            {{-- <tr>
-                                                <td>VIP</td>
-                                                <td>200/-</td>
-                                                <td></td>
-                                                <td>
-                                                    <div class="d-flex py-0">
-                                                        <div class="px-1">
-                                                            <button class="btn btn-danger btn-sm">Delete</button>
-                                                        </div>
-                                                        <div class="px-1">
-                                                            <button class="btn btn-primary btn-sm">Edit</button>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr> --}}
+                                            
                                         </tbody>
                                     </table>
                                 </div>
@@ -95,8 +94,10 @@
 
     <!-- Custom js for this page -->
     <!-- End custom js for this page -->
+    {{-- <!-- .join({{ route('edit-room-category', ['id' => `${roomCategory.name}` ]) }}) --> --}}
     <script>
     $(document).ready(function() {
+
         function loadCategory () {
             var getCategoryPath = "{{ route('get-all-room-categories') }}";
             var categoryList = $("#categoryList");
@@ -111,6 +112,9 @@
                 type: 'GET',
                 success: function (res) {
                     console.log(res)
+                    // const editRoute =  "a";
+                    // console.log(editRoute);
+
                     const html = res.data.map(data => `
                         <tr>
                             <td>${data.name}</td>
@@ -119,14 +123,14 @@
                             <td>
                                 <div class="d-flex py-0">
                                     <div class="px-1">
-                                        <button class="btn btn-danger btn-sm py-1">
-                                            <i data-feather="trash"></i>
-                                            Delete
+                                        <button class="btn btn-danger btn-sm py-1 delete-btn" data-id="${data.id}">
+                                            delete
                                         </button>
                                     </div>
                                     <div class="px-1">
-                                        <a href="{{ route('edit-room-category') }}" class="btn btn-primary btn-sm py-1 editCategory" >edit</a>
-                                        <input type="hidden" value="${data.id }" id="categoryId">
+                                        <button data-id="${data.id}" class="btn btn-primary btn-sm py-1 edit-btn">
+                                            edit
+                                        </button>
                                     </div>
                                 </div>
                             </td>
@@ -137,12 +141,6 @@
         }
 
         loadCategory();
-
-        $(".editCategory").on('click', function(e) {
-            e.preventDefault();
-            var cid = $(this).siblings("#categoryId").val();
-            console.log(cid);
-        });
 
         $("#addCategory").click( (e) => {
             e.preventDefault();
@@ -190,7 +188,97 @@
                 }
             });
         })
+
+        $("#categoryName").on('changeinput change', function() {
+            $("#updateCategory").attr('disabled', false);
+        })
+
+        $("#updateCategory").click( (e) => {
+            e.preventDefault();
+            var category = $("#categoryName");
+            var categoryId = $("#categoryId");
+            const path = "{{ route('update-room-category') }}";
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                url: path,
+                type: 'POST',
+                data: { category: category.val(), id: categoryId.val() },
+                success: function (res) {
+                    console.log(res);
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                    });
+
+                    Toast.fire({
+                        icon: res.icon,
+                        title: res.message,
+                    })
+
+                    if (res.icon === 'success') {
+                        category.val('');
+                    } 
+                    loadCategory();
+                }
+            });
+        })
+        
     });
+
+
+    var deleteUrl = ""
+    $(document).on('click', '.delete-btn', function() {
+        const id = $(this).data('id');
+        // Confirm deletion and send AJAX request to delete route
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert !",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: deleteUrl,
+                    type: "POST",
+                    data: {id:id},
+                    success: function(res) {
+                        console.log(res)
+                    }
+                })
+                Swal.fire({
+                title: "Deleted!",
+                text: "id" + id,
+                icon: "success"
+                });
+            }
+        });
+    });
+
+    // Handle edit button click
+    $(document).on('click', '.edit-btn', function() {
+        const id = $(this).data('id');
+        // Check if ID is valid before redirecting
+        if (isNaN(id) || id <= 0) {
+            console.error('Invalid category ID:', id);
+            return;
+        }
+        // Redirect to the edit route with the ID
+        const editRoute = "{{ route('edit-room-category', ':id') }}"; // Replace with your actual route
+        window.location.href = editRoute.replace(':id', id);
+    });
+
     </script>
 
 </body>

@@ -23,7 +23,34 @@ class UsersController extends Controller
             // dd(auth()->user()->roles());
             $roles = Role::where('name', '!=', 'super admin')->get();
         }
-        $guestHouses = Guesthouse::with(['country_name', 'state_name', 'district_name'])->get();
-        return view('guestHouse.Users.add', compact(['roles','guestHouses']));
+
+        // for super admin
+        if (auth()->user()->roles[0]->name === 'super admin') {
+            $guestHouses = Guesthouse::with(['country_name', 'state_name', 'district_name'])->get();
+            return view('guestHouse.Users.add', compact(['roles','guestHouses']));
+        }
+
+        // for admin
+        return view('guestHouse.Users.add', compact('roles'));
+    }
+
+    public function storeSubUser (Request $request) {
+        // common validation
+        $fields = $request->validate([
+            'fullname' => 'required',
+            'phone' => 'required',
+            'email' => 'required|email',
+            'role' => 'required',
+            'password' => 'required',
+        ]);
+
+        // for super admin
+        if($request->guestHouse) {
+            $fields = $request->validate(['guestHouse' => 'required']);
+        }
+
+        return $request;
+
+        return response()->json(['message' => 'hello']);
     }
 }
