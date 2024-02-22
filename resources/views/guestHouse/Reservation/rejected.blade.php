@@ -26,25 +26,21 @@
 					<div class="col-md-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <div class="d-flex justify-content-between">
-                                    <h6 class="card-title my-auto">Sub Users</h6>
-                                    <a href="{{ route('add-sub-users') }}" class="btn btn-primary shadow">
-                                        <i data-feather="plus"></i>
-                                        add user
-                                    </a>
+                                <div class="d-flex justify-content-between py-2 mb-2">
+                                    <h6 class="card-title my-auto">Rejected Reservations</h6>
                                 </div>
                                 <div class="table-responsive">
                                     <table id="dataTableExample" class="table">
                                         <thead>
                                             <tr>
-                                            <th>Name</th>
-                                            <th>Role Type</th>
-                                            <th>Contacts</th>
-                                            <th>Guest House</th>
+                                            <th>Reserved By</th>
+                                            <th>Room Type</th>
+                                            <th>Dates</th>
+                                            <th>Rooms</th>
                                             <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="userList">
+                                        <tbody id="List">
                                             
                                         </tbody>
                                     </table>
@@ -70,6 +66,7 @@
     <!-- endinject -->
 
     <!-- Custom js for this page -->
+    <script src="../../../assets/js/data-table.js"></script>
     <!-- End custom js for this page -->
     <script>
     $(document).ready( function () {
@@ -89,20 +86,15 @@
                             <td>
                                 <div class="d-flex py-0">
                                     <div class="px-1">
-                                        <button class="btn btn-danger btn-sm py-1 delete-btn" data-id="${data.id}">
-                                            Delete
-                                        </button>
-                                    </div>
-                                    <div class="px-1">
-                                        <button class="btn btn-primary btn-sm py-1 edit-btn" data-id="${data.id}">
-                                            Edit
+                                        <button class="btn btn-info btn-sm py-1 view-btn" data-id="${data.id}">
+                                            view
                                         </button>
                                     </div>
                                 </div>
                             </td>
                         </tr>    
                     `).join('');
-                    $("#userList").html(html);
+                    $("#List").html(html);
                 }
             })
         }

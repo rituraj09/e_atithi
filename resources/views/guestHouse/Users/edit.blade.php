@@ -1,0 +1,169 @@
+<!-- resources/views/guestHouse/Users/add.blade.php -->
+
+<x-header/>
+<body>
+    <div class="main-wrapper">
+        <div class="page-wrapper">
+            <nav class="sidebar">
+                <div class="sidebar-header">
+                  <a href="#" class="sidebar-brand">
+                    <span>e</span>Atithi
+                  </a>
+                  <div class="sidebar-toggler not-active">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </div>
+                <x-sidebar/>
+              </nav>
+            <x-navbar/>
+
+            <div class="page-content">
+                <div class="row">
+					          <div class="col-md-10 m-auto grid-margin stretch-card">
+                        <div class="card">
+                            {{-- <div class="ps-md-0"> --}}
+                                <div class="card-body p-5">
+                                  <h5 class="card-title mb-4">Update User Data</h5>
+                                  <form class="forms-sample" action="{{ route('new-sub-user') }}" method="post">
+                                    @csrf
+                                    <div class="row mb-3">
+                                      <label for="fullname" class="form-label col-md-4 m-auto">Full name</label>
+                                      <div class="col-md-8">
+                                        <input type="text" class="form-control" id="fullname" autocomplete="Username" value="{{ $subUser->admin_name }}"
+                                        name="fullname" placeholder="full name" required>
+                                      </div>
+                                      
+                                    </div>
+                                    <div class="row mb-2">
+                                      <label for="phone" class="form-label col-md-4 m-auto">Phone no.</label>
+                                      <div class="col-md-8">
+                                        <input type="text" class="form-control" id="phone" name="phone" value="{{ $subUser->phone }}"
+                                        placeholder="+91" onkeypress="return event.charCode >= 48 && event.charCode <= 57" required>
+                                      </div>
+                                      
+                                    </div>
+                                    <div class="row mb-3">
+                                      <label for="phone-otp" class="form-label col-md-4 m-auto">OTP for phone</label>
+                                      <div class="col-md-8">
+                                        <div class="input-group">
+                                          <input type="text" id="phone-otp" class="form-control" placeholder="OTP sent to phone number">
+                                          <button class="btn btn-success">verify</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                      <label for="email" class="form-label col-md-4 m-auto">Email address</label>
+                                      <div class="col-md-8">
+                                        <input type="email" class="form-control" id="email" name="email" value="{{ $subUser->email }}"
+                                        placeholder="Email address" required>
+                                      </div>
+                                      
+                                    </div>
+                                    <div class="row mb-3">
+                                      <label for="email-otp" class="form-label col-md-4 m-auto">OTP for email</label>
+                                      <div class="col-md-8">
+                                        <div class="input-group">
+                                          <input type="text" id="email-otp" class="form-control" placeholder="OTP sent to email address"/>
+                                          <button type="button" class="btn btn-success">verify</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                      <label for="captcha" class="form-label col-md-4 m-auto">Captcha</label>
+                                      <div class="col-md-8">
+                                          <img class="rounded-3" src="{{ route('captcha') }}" alt="Captcha Image">
+                                          <button class="ms-3 btn btn-sm btn-outline-primary"><i class="me-2 icon-md" data-feather="repeat"></i>reload</button>
+                                      </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                      <div class="col-md-4"></div>
+                                      <div class="col-md-8">
+                                        <div class="input-group">
+                                          <input type="text" name="captcha" id="" class="form-control" placeholder="Type captcha here" required>
+                                          <button class="btn btn-success">verify</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                      <label for="role" class="form-label col-md-4 m-auto">User/Employee type</label>
+                                      <div class="col-md-8">
+                                          <select name="role" id="role" class="form-control" required>
+                                              <option value="" disabled>--select--</option>
+                                              @foreach ($roles as $role)
+                                                <option value="{{ $role->id }}"
+                                                  @if ( $role->id === $subUser->role )
+                                                    selected="true"
+                                                  @endif
+                                                  >{{ $role->name}}</option>
+                                              @endforeach
+                                          </select>
+                                      </div>
+                                    </div>
+                                    @if (auth()->user()->roles[0]->name === 'super admin')
+                                    <div class="row mb-3">
+                                      <label for="role" class="form-label col-md-4 m-auto">Guest House</label>
+                                      <div class="col-md-8">
+                                          <select name="guestHouse" id="guestHouse" class="form-control" required>
+                                              <option value="" disabled>--select--</option>
+                                              @foreach ($guestHouses as $guestHouse)
+                                                <option value="{{ $guestHouse->id }}"
+                                                  @if ( $guestHouse->id === 1)
+                                                    selected="true"
+                                                  @endif
+                                                  >
+                                                  {{ $guestHouse->name}} || {{ $guestHouse->district_name->name }}, {{ $guestHouse->state_name->name }}, {{ $guestHouse->country_name->name }}
+                                              </option>
+                                              @endforeach
+                                          </select>
+                                      </div>
+                                    </div>
+                                    @endif
+                                    <div class="row mb-3">
+                                      <label for="userPassword" class="form-label col-md-4 m-auto">Password</label>
+                                      <div class="col-md-8">
+                                          <div class="input-group">
+                                              <input type="password" class="form-control" id="userPassword" name="password" value="{{ $subUser->password }}"
+                                              autocomplete="current-password" placeholder="Password" required>
+                                              <button class="btn btn-success" id="passwordGenerate">generate</button>
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                      <button type="submit" class="btn btn-primary text-white me-2 mb-2 mb-md-0">Save changes</button>
+                                    </div>
+                                  </form>
+                                </div>
+                              {{-- </div> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- core:js -->
+    <script src="../../../assets/vendors/core/core.js"></script>
+    <!-- endinject -->
+
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+
+    <!-- inject:js -->
+    <script src="../../../assets/vendors/feather-icons/feather.min.js"></script>
+    <script src="../../../assets/js/template.js"></script>
+    <!-- endinject -->
+
+    <!-- Custom js for this page -->
+    <!-- End custom js for this page -->
+    <script>
+      $(document).on('click', '#passwordGenerate', function (e) {
+        e.preventDefault();
+        console.log('a')
+      });
+    </script>
+
+</body>
+
+</html>

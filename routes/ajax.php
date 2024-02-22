@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\RoomCategoryController;
 
@@ -16,6 +17,10 @@ Route::prefix('/ajax')->group( function () {
     Route::controller(RoomCategoryController::class)->group( function () {
         Route::get('/all-room-categories', 'getAllRoomCategories')->name('get-all-room-categories');
         // Route::post('/delete-room-category', 'deleteRoomCategory')->name('delete-room-category');
+    });
+
+    Route::controller(UsersController::class)->group( function () {
+        Route::get('/all-sub-users', 'getAllSubUsers')->name('get-all-sub-users');
     });
 
 });

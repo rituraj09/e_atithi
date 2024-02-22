@@ -26,8 +26,8 @@
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
                                     <h6 class="card-title my-auto">Guest Houses</h6>
-                                    <a href="{{ route('add-guest-house') }}" class="btn btn-primary shadow">
-                                        <i data-feather="plus"></i>
+                                    <a href="{{ route('add-guest-house') }}" class="btn btn-primary btn-icon-text shadow">
+                                        <i class="btn-icon-prepend" data-feather="plus"></i>
                                         add guest house
                                     </a>
                                 </div>

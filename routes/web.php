@@ -13,6 +13,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\CaptchaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GuestHouseController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\OfficialAuthController;
 use App\Http\Controllers\RoomCategoryController;
 use App\Http\Middleware\OfficialAdminMiddleware;
@@ -63,6 +64,7 @@ Route::prefix('guest-house')->group( function () {
         Route::controller(UsersController::class)->group( function () {
             Route::get('/users/all-users', 'allSubUsers')->name('all-sub-users');
             Route::get('/users/add-user', 'addSubUsers')->name('add-sub-users');
+            Route::get('/users/edit-user/{id}', 'editSubUser')->name('edit-sub-user');
             Route::post('/users/add', 'storeSubUser')->name('new-sub-user');
         });
         
@@ -79,6 +81,14 @@ Route::prefix('guest-house')->group( function () {
             Route::post('/room-category/add', 'storeRoomCategory')->name('new-room-category');
             Route::post('/room-category/delete', 'deleteRoomCateory')->name('delete-room-category');
 
+        });
+
+        Route::controller(ReservationController::class)->group( function () {
+            Route::get('/reservations', 'allReservations')->name('all-reservations');
+            Route::get('/reservations/approved', 'approvedReservations')->name('approved-reservations');
+            Route::get('/reservations/pending', 'pendingreservations')->name('pending-reservations');
+            Route::get('/reservations/rejected', 'rejectedReservations')->name('rejected-reservations');
+            Route::get('/reservations/view/{id}', 'reservationDetails')->name('reservation-details');
         });
         
         

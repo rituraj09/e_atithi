@@ -148,6 +148,12 @@ class GuestHouseController extends Controller
 
 
         // dd($guestHouseEmployee, $guestHouse->id, $admin->id);
+        $role = Role::findById($admin->role, 'web');
+        
+        $admin->assignRole($admin->role);
+        $permissions = $role->permissions;
+        // assigning permissions to the sub users
+        $admin->givePermissionTo($permissions);
 
         if (!$guestHouse || !$admin || !$guestHouseEmployee) {
             // return $guestHouseEmployee;

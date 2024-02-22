@@ -41,12 +41,7 @@
 					<div class="col-md-10 m-auto grid-margin stretch-card">
 						<div class="card">
 							<div class="card-body">
-								<h4 class="card-title mb-3">Guest House Details</h4>
-                                <div class="mb-3 stretch-card">
-                                    <div class="w-100">
-                                        <input type="file" id="myDropify"/>
-                                    </div>
-                                </div>
+								<h4 class="card-title mb-4">Guest House Details</h4>
 								<form id="newRoomForm" action="{{ route('add-new-guest-house') }}" method="POST">
                                     @csrf
                                     <div class="row m-0 p-0">
@@ -161,10 +156,9 @@
                                     </div>
                                     <div class="d-flex row px-4 py-2 bg-light bg-opacity-25 rounded" id="saasForm">
                                         @foreach ($employees as $employee)
-                                        <div class="row m-0 mb-3 border-top bg-white shadow rounded p-4 mt-2">
-                                            <div class="col-md-1 col-0 mt-2 d-sm-none d-md-block text-end">
-                                                {{-- <small><i class="link-icon" data-feather="user"></i></small> --}}
-                                                <span class="mdi mdi-account-circle fs-2"></span>
+                                        <div class="row m-0 mb-3 border-top bg-white shadow rounded py-3 mt-2">
+                                            <div class="col-md-1 col-0 mt-2 d-sm-none d-md-block">
+                                                <small><i class="link-icon" data-feather="user"></i></small>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="mb-3">
@@ -211,7 +205,7 @@
                                             </div>
                                             <div class="col-md-1 col-0"></div>
                                             <div class="col-md-6">
-                                                <div class="mb-3 ">
+                                                <div class="mb-3">
                                                     <label for="admin_password" class="form-label">Password</label>
                                                     <input type="password" class="form-control" name="admin_password" placeholder="">
                                                 </div>
@@ -243,8 +237,6 @@
     <!-- endinject -->
 
     <!-- Plugin js for this page -->
-    <script src="../../../assets/vendors/dropify/dist/dropify.min.js"></script>
-    <script src="../../../assets/js/dropify.js"></script>
     <!-- End plugin js for this page -->
 
     <!-- inject:js -->
@@ -254,7 +246,6 @@
 
     <script>
     $(document).ready(function() {
-        $('.dropify-message p').css('font-size', '16px'); 
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

@@ -8,6 +8,10 @@
   url('../fonts/feather.svg?t=1525787366991#feather') format('svg'); /* iOS 4.1- */
 }
 
+.fs-7 {
+  font-size: 0.6rem !important;
+}
+
 .feather {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'feather' !important;

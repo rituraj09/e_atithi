@@ -8009,6 +8009,10 @@ div.tox .btn-group-vertical > .btn-group:not(:first-child) > .tox-button,
   font-size: 0.875rem !important;
 }
 
+.fs-7 {
+  font-size: 0.6rem !important;
+}
+
 .fst-italic {
   font-style: italic !important;
 }
