@@ -24,9 +24,9 @@
 					<div class="col-md-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <div class="d-flex justify-content-between">
+                                <div class="d-flex justify-content-between mb-3">
                                     <h6 class="card-title my-auto">Manage Guest Houses</h6>
-                                    <a href="{{ route('add-guest-house') }}" class="btn btn-primary btn-icon-text shadow">
+                                    <a href="{{ route('add-guest-house') }}" class="d-none btn btn-primary btn-icon-text shadow">
                                         <i class="btn-icon-prepend" data-feather="plus"></i>
                                         add guest house
                                     </a>
@@ -34,7 +34,7 @@
                                 <div class="d-flex flex-column border">
                                     <div class="d-flex col">
                                         <div>
-                                            <a href="{{ route('all-guest-house') }}" class="btn ">
+                                            <a href="{{ route('all-guest-house') }}" class="btn rounded">
                                                 view
                                             </a>
                                         </div>
@@ -43,9 +43,7 @@
                                                 add
                                             </a>
                                         </div>
-                                        <div class="col border">
-
-                                        </div>
+                                        <div class="col border"></div>
                                     </div>
                                     <div class="table-responsive">
                                         <table id="dataTableExample" class="table">
@@ -56,6 +54,7 @@
                                                 <th>Official Contacts</th>
                                                 <th>Admin</th>
                                                 <th>Action</th>
+                                                <th>Status</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -81,17 +80,21 @@
                                                         <td>
                                                             <div class="d-flex py-0">
                                                                 <div class="px-1">
-                                                                    <button class="btn btn-danger btn-sm ask-delete" data-id="{{$guestHouse->id}}">
+                                                                    <button class="btn btn-info btn-sm" data-id="{{$guestHouse->id}}">
                                                                         {{-- <i data-feather="trash"></i> --}}
-                                                                        Delete
+                                                                        View
                                                                     </button>
                                                                 </div>
                                                                 <div class="px-1">
-                                                                    </button>
                                                                     <a href="{{ route('edit-guest-house', ['id' => $guestHouse->id ]) }}" class="btn btn-sm btn-outline-primary">
                                                                         Edit
                                                                     </a>
                                                                 </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-check form-switch px-auto me-0">
+                                                                <input type="checkbox" class="form-check-input" id="formSwitch1">
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -107,15 +110,6 @@
             </div>
         </div>
     </div>
-
-    <!-- core:js -->
-    <script src="../../../assets/vendors/core/core.js"></script>
-    <!-- endinject -->
-
-    <!-- inject:js -->
-    <script src="../../../assets/vendors/feather-icons/feather.min.js"></script>
-    <script src="../../../assets/js/template.js"></script>
-    <!-- endinject -->
 
     <!-- Custom js for this page -->
     <script>
@@ -159,6 +153,4 @@
     })
     </script>
 
-</body>
-
-</html>
+<x-main-footer/>

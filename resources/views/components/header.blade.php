@@ -44,6 +44,6 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-	<link rel="stylesheet" href="../../../assets/vendors/dropify/dist/dropify.min.css">
+	<link rel="stylesheet" href="{{ asset('assets/vendors/dropify/dist/dropify.min.css') }}">
   <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png')}}" />
 </head>

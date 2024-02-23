@@ -281,6 +281,4 @@
 
     </script>
 
-</body>
-
-</html>
+<x-main-footer/>
