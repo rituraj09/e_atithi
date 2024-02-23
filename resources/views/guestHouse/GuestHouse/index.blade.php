@@ -25,63 +25,80 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
-                                    <h6 class="card-title my-auto">Guest Houses</h6>
+                                    <h6 class="card-title my-auto">Manage Guest Houses</h6>
                                     <a href="{{ route('add-guest-house') }}" class="btn btn-primary btn-icon-text shadow">
                                         <i class="btn-icon-prepend" data-feather="plus"></i>
                                         add guest house
                                     </a>
                                 </div>
-                                <div class="table-responsive">
-                                    <table id="dataTableExample" class="table">
-                                        <thead>
-                                            <tr>
-                                            <th>Name</th>
-                                            <th>Address</th>
-                                            <th>Official Contacts</th>
-                                            <th>Admin</th>
-                                            <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @if (!$guestHouses)
+                                <div class="d-flex flex-column border">
+                                    <div class="d-flex col">
+                                        <div>
+                                            <a href="{{ route('all-guest-house') }}" class="btn ">
+                                                view
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <a href="{{ route('add-guest-house') }}" class="btn bg-light rounded-0">
+                                                add
+                                            </a>
+                                        </div>
+                                        <div class="col border">
+
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table id="dataTableExample" class="table">
+                                            <thead>
                                                 <tr>
-                                                    <td colspan="4">No Data</td>
+                                                <th>Name</th>
+                                                <th>Address</th>
+                                                <th>Official Contacts</th>
+                                                <th>Admin</th>
+                                                <th>Action</th>
                                                 </tr>
-                                            @endif
-                                            @foreach ($guestHouses as $guestHouse)
-                                            {{-- {{ dd($guestHouse->country_name->name) }} --}}
-                                                <tr>
-                                                    <td>{{ $guestHouse['name'] }}</td>
-                                                    <td>
-                                                        @if ($guestHouse['address'])
-                                                            {{ $guestHouse['address'] }},
-                                                        @endif
-                                                        {{ $guestHouse['district_name']->name }},
-                                                        {{ $guestHouse['state_name']->name }},
-                                                        {{ $guestHouse['country_name']->name }}
-                                                    </td>
-                                                    <td>{{ $guestHouse['official_email'] }}</br>{{ $guestHouse['contact_no'] }}</td>
-                                                    <td>{{ $guestHouse['admins'][0]->admin_name }}</td>
-                                                    <td>
-                                                        <div class="d-flex py-0">
-                                                            <div class="px-1">
-                                                                <button class="btn btn-danger btn-sm ask-delete" data-id="{{$guestHouse->id}}">
-                                                                    {{-- <i data-feather="trash"></i> --}}
-                                                                    Delete
-                                                                </button>
+                                            </thead>
+                                            <tbody>
+                                                @if (!$guestHouses)
+                                                    <tr>
+                                                        <td colspan="4">No Data</td>
+                                                    </tr>
+                                                @endif
+                                                @foreach ($guestHouses as $guestHouse)
+                                                {{-- {{ dd($guestHouse->country_name->name) }} --}}
+                                                    <tr>
+                                                        <td>{{ $guestHouse['name'] }}</td>
+                                                        <td>
+                                                            @if ($guestHouse['address'])
+                                                                {{ $guestHouse['address'] }},
+                                                            @endif
+                                                            {{ $guestHouse['district_name']->name }},
+                                                            {{ $guestHouse['state_name']->name }},
+                                                            {{ $guestHouse['country_name']->name }}
+                                                        </td>
+                                                        <td>{{ $guestHouse['official_email'] }}</br>{{ $guestHouse['contact_no'] }}</td>
+                                                        <td>{{ $guestHouse['admins'][0]->admin_name }}</td>
+                                                        <td>
+                                                            <div class="d-flex py-0">
+                                                                <div class="px-1">
+                                                                    <button class="btn btn-danger btn-sm ask-delete" data-id="{{$guestHouse->id}}">
+                                                                        {{-- <i data-feather="trash"></i> --}}
+                                                                        Delete
+                                                                    </button>
+                                                                </div>
+                                                                <div class="px-1">
+                                                                    </button>
+                                                                    <a href="{{ route('edit-guest-house', ['id' => $guestHouse->id ]) }}" class="btn btn-sm btn-outline-primary">
+                                                                        Edit
+                                                                    </a>
+                                                                </div>
                                                             </div>
-                                                            <div class="px-1">
-                                                                </button>
-                                                                <a href="{{ route('edit-guest-house', ['id' => $guestHouse->id ]) }}" class="btn btn-sm btn-outline-primary">
-                                                                    Edit
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -4,17 +4,19 @@
     <a href="#" class="sidebar-toggler">
         <i data-feather="menu"></i>
     </a>
-    <div class="navbar-content">
-        <form class="search-form">
-            <div class="input-group">
-                <div class="input-group-text">
-                    <i data-feather="search"></i>
-                </div>
-                <input type="text" class="form-control" id="navbarForm" placeholder="Search here...">
-            </div>
-        </form>
-        <div class="p-2 m-auto">
-            {{ auth()->user()->roles[0]->name }}
+    <div class="navbar-content px-2 px-lg-4">
+        <div class="my-auto col text-truncate">
+            @if(auth()->user()->roles[0] !== 'super admin')
+              <span class="fs-4 fw-bolder" style="color: #000865">
+                Circuit House
+              </span>
+              <small class="text-primary fw-bold fs-6">Golaghat</small>
+            @endif
+        </div>
+        <div class="my-auto d-none d-md-block">
+            <span class="p-2 badge text-bg-info" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Logged in as admin">
+                {{ auth()->user()->roles[0]->name }}
+            </span>
         </div>
         <ul class="navbar-nav">
             <li class="nav-item dropdown d-none">
