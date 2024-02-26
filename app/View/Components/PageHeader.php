@@ -12,10 +12,12 @@ class PageHeader extends Component
      * Create a new component instance.
      */
     public $title;
+    public $prev;
 
-    public function __construct($title)
+    public function __construct($title, $prev)
     {
         $this->title = $title;
+        $this->prev = $prev;
     }
     /**
      * Get the view / contents that represent the component.

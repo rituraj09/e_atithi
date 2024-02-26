@@ -14,35 +14,37 @@
                         <div class="card">
                             <div class="card-body">
                                 <x-page-header :title="'Manage Reservations'"/>
-                                <div class="d-flex flex-column border">
-                                    <div class="d-flex col">
+                                
+                                <div class="d-flex flex-column border border-dark">
+                                    <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
                                         <div>
-                                            <a href="{{ route('all-reservations') }}" class="btn rounded">
+                                            <a href="{{ route('all-reservations') }}" class="nav-link active px-4 fw-bold">
                                                 view
                                             </a>
                                         </div>
                                         <div>
-                                            <a href="{{ route('add-sub-users') }}" class="btn bg-light rounded-0">
+                                            <a href="{{ route('add-guest-house') }}" class="nav-link">
                                                 add
                                             </a>
                                         </div>
-                                        <div class="col border"></div>
                                     </div>
-                                    <div class="table-responsive">
-                                        <table id="dataTableExample" class="table">
-                                            <thead>
-                                                <tr>
-                                                <th>Reserved By</th>
-                                                <th>Room Type</th>
-                                                <th>Dates</th>
-                                                <th>Rooms</th>
-                                                <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="List">
-                                                
-                                            </tbody>
-                                        </table>
+                                    <div class="pt-3">
+                                        <div class="table-responsive">
+                                            <table id="dataTableExample" class="table">
+                                                <thead>
+                                                    <tr>
+                                                    <th>Reserved By</th>
+                                                    <th>Room Type</th>
+                                                    <th>Dates</th>
+                                                    <th>Rooms</th>
+                                                    <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="List">
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -53,17 +55,7 @@
         </div>
     </div>
 
-    <!-- core:js -->
-    <script src="../../../assets/vendors/core/core.js"></script>
-    <!-- endinject -->
 
-    <!-- Plugin js for this page -->
-    <!-- End plugin js for this page -->
-
-    <!-- inject:js -->
-    <script src="../../../assets/vendors/feather-icons/feather.min.js"></script>
-    <script src="../../../assets/js/template.js"></script>
-    <!-- endinject -->
 
     <!-- Custom js for this page -->
     <script src="../../../assets/js/data-table.js"></script>
@@ -157,6 +149,4 @@
     });
     </script>
 
-</body>
-
-</html>
+<x-main-footer/>

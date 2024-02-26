@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RateController;
 use App\Http\Controllers\RoomController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\GuestMiddleware;
@@ -82,6 +83,13 @@ Route::prefix('guest-house')->group( function () {
             Route::post('/room-category/add', 'storeRoomCategory')->name('new-room-category');
             Route::post('/room-category/delete', 'deleteRoomCateory')->name('delete-room-category');
 
+        });
+
+        Route::controller(RateController::class)->group( function () {
+            Route::get('/room-rates', 'allRoomRates')->name('room-rates');
+            Route::get('/edit-room-rate/{id}', 'editRoomRate')->name('edit-room-rate');
+            Route::get('/add-room-rate', 'addRoomRate')->name('add-room-rate');
+            Route::post('/new-room-rate', 'newRoomRate')->name('new-room-rate');
         });
 
         Route::controller(ReservationController::class)->group( function () {

@@ -124,7 +124,7 @@ class RoomCategoryController extends Controller
                         ->where('guest_house_id', $guest_house_id)
                         ->first();
         // return $roomCategory;
-        return view('guestHouse.RoomCategory.index', compact('roomCategory'));
+        return view('guestHouse.RoomCategory.edit', compact('roomCategory'));
     }
 
     // delete

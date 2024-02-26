@@ -16,7 +16,7 @@
                                 <div class="d-flex justify-content-between mb-3">
                                     <h6 class="card-title my-auto">Sub Users</h6>
                                 </div>
-                                <div class="d-flex flex-column border">
+                                <div class="d-flex flex-column border border-dark">
                                     <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
                                       <div>
                                           <a href="{{ route('all-sub-users') }}" class="nav-link">
@@ -38,7 +38,7 @@
                                               <div class="mx-auto">
                                                   {{-- <p class="text-muted mb-3">Read the <a href="https://github.com/JeremyFagis/dropify" target="_blank"> Official Dropify Documentation </a>for a full list of instructions and other options.</p> --}}
                                                   <input type="file" id="myDropify"/>
-                                                  <h6 class="card-title pt-3">Profile Picture</h6>
+                                                  <h6 class="form-label pt-3">Profile Picture</h6>
                                               </div>
                                           </div>
                                         </div>

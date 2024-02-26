@@ -12,80 +12,37 @@
       @if (Auth::guard('web')->user()->hasPermissionTo('add.room'))
         
       @endif
+      {{-- guest house --}}
       @if( auth()->guard('web')->user()->hasRole('super admin') )
       <li class="nav-item">
         <a href="{{ route('all-guest-house') }}" class="nav-link">
           <i class="link-icon" data-feather="map-pin"></i>
           <span class="link-title">Manage Guest House</span>
         </a>
-        {{-- <a class="nav-link" data-bs-toggle="collapse" href="#guestHouse" role="button" aria-expanded="false" aria-controls="houses">
-          <i class="link-icon" data-feather="map-pin"></i>
-          <span class="link-title">Manage Guest House</span>
-          <i class="link-arrow" data-feather="chevron-down"></i>
-        </a>
-        <div class="collapse" id="guestHouse">
-          <ul class="nav sub-menu">
-            <li class="nav-item">
-              <a href="{{ route('all-guest-house') }}" class="nav-link">All Guest Houses</a>
-            </li>
-            <li class="nav-item">
-              <a href="{{ route('add-guest-house') }}" class="nav-link">Add Guest Houses</a>
-            </li>
-          </ul>
-        </div> --}}
       </li>
       @endif
 
-
+      {{-- room category --}}
       @if( auth()->guard('web')->user()->hasRole('admin') )
       <li class="nav-item">
         <a href="{{ route('room-category') }}" class="nav-link">
           <i class="link-icon" data-feather="hexagon"></i>
           <span class="link-title">Manage Room Category</span>
         </a>
-        {{-- <a class="nav-link" data-bs-toggle="collapse" href="{{}}" role="button" aria-expanded="false" aria-controls="category">
-          
-          
-          <i class="link-arrow" data-feather="chevron-down"></i>
-        </a> --}}
-        {{-- <div class="collapse" id="roomCategories">
-          <ul class="nav sub-menu">
-            <li class="nav-item">
-              <a href="{{ route('room-category') }}" class="nav-link">All Room Categories</a>
-            </li>
-            <li class="nav-item">
-              <a href="guest house admin's categories only" class="nav-link">Our Room Categories</a>
-            </li>
-            <li class="nav-item">
-              <a href="extra page for add room category" class="nav-link">Add Room Categories</a>
-            </li>
-          </ul>
-        </div> --}}
       </li>
-      @endif
+      {{-- rooms --}}
       <li class="nav-item">
         <a href="{{ route('guest-house-admin-rooms') }}" class="nav-link">
           <i class="link-icon" data-feather="home"></i>
           <span class="link-title">Manage Rooms</span>
         </a>
-        {{-- <a class="nav-link" data-bs-toggle="collapse" href="#rooms" role="button" aria-expanded="false" aria-controls="rooms">
-          <i class="link-icon" data-feather="home"></i>
-          <span class="link-title">Rooms</span>
-          <i class="link-arrow" data-feather="chevron-down"></i>
-        </a> --}}
-        {{-- <div class="collapse" id="rooms">
-          <ul class="nav sub-menu">
-            <li class="nav-item">
-              <a href="{{ route('guest-house-admin-rooms') }}" class="nav-link">All Rooms</a>
-            </li>
-            <li class="nav-item">
-              <a href="{{ route('guest-house-admin-add-room') }}" class="nav-link">Add Rooms</a>
-            </li>
-            <li class="nav-item">
-              <a href="simultaneous room features" class="nav-link">Room Config</a>
-            </li>
-          </ul>
-        </div> --}}
+      </li>
+      {{-- room rate --}}
+      <li class="nav-item">
+        <a href="{{ route('room-rates') }}" class="nav-link">
+          <i class="link-icon" data-feather="dollar-sign"></i>
+          <span class="link-title">Manage Room Rates</span>
+        </a>
       </li>
       {{-- reservations --}}
       <li class="nav-item">
@@ -93,28 +50,9 @@
           <i class="link-icon" data-feather="briefcase"></i>
           <span class="link-title">Manage Reservations</span>
         </a>
-        {{-- <a class="nav-link" data-bs-toggle="collapse" href="#reservations" role="button" aria-expanded="false" aria-controls="reservations">
-          <i class="link-icon" data-feather="briefcase"></i>
-          <span class="link-title">Reservations</span>
-          <i class="link-arrow" data-feather="chevron-down"></i>
-        </a>
-        <div class="collapse" id="reservations">
-          <ul class="nav sub-menu">
-            <li class="nav-item">
-              <a href="{{ route('all-reservations') }}" class="nav-link">All Reservations</a>
-            </li>
-            <li class="nav-item">
-              <a href="{{ route('approved-reservations') }}" class="nav-link">Approved Reservations</a>
-            </li>
-            <li class="nav-item">
-              <a href="{{ route('pending-reservations') }}" class="nav-link">Pending Reservations</a>
-            </li>
-            <li class="nav-item">
-              <a href="{{ route('rejected-reservations') }}" class="nav-link">Rejected Reservations</a>
-            </li>
-          </ul>
-        </div> --}}
       </li>
+      @endif
+      {{-- email --}}
       <li class="nav-item">
         <a class="nav-link" data-bs-toggle="collapse" href="#emails" role="button" aria-expanded="false" aria-controls="emails">
           <i class="link-icon" data-feather="mail"></i>

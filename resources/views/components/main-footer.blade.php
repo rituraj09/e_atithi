@@ -18,5 +18,142 @@
 <script src="{{ asset('assets/js/dashboard-dark.js') }}"></script>
 <!-- End custom js for this page -->
 
+<script>
+    $(document).ready(function() {
+        $('.dropify-message p').css('font-size', '16px');
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        // country
+        $("#country").on('change', function () {
+            const c_id = $("#country").val();
+            console.log(c_id);
+
+            const stateurl = "{{ route('get-states', ['cid' => ':cid']) }}".replace(':cid', c_id);
+            $.ajax({
+                url: stateurl,
+                type: 'GET',
+                success: function (res) {
+                    let html = '<option value="" selected disabled>--select--</option>'; // Default option
+                    html += res.map(state => `<option value="${state.id}" >${state.name}</option>`).join('');
+                    $("#state").html(html);
+                }
+            })
+        });
+
+        // district
+        $("#state").on('change', function () {
+            const s_id = $("#state").val();
+            console.log(s_id);
+
+            const districturl = "{{ route('get-districts', ['sid' => ':sid']) }}".replace(':sid', s_id);
+            $.ajax({
+                url: districturl,
+                type: 'GET',
+                success: function (res) {
+                    let html = '<option value="" selected disabled>--select--</option>'; // Default option
+                    html += res.map(state => `<option value="${state.id}" >${state.name}</option>`).join('');
+                    $("#district").html(html);
+                }
+            })
+        });
+
+        $("#price").on("input", function() {
+            // Regular expression to allow only numbers, optional decimal point, and up to 2 decimal places
+            const regex = /^\d+(\.\d{0,2})?$/;
+
+            // Check if the entered value matches the regular expression
+            const isValid = regex.test($(this).val());
+
+            // Set error message and style based on validity
+            if (isValid) {
+                $(this).removeClass("error");
+                $(this).siblings(".error-message").remove(); // Remove existing error message if present
+            } else {
+                $(this).addClass("error");
+                $(this).siblings(".error-message").remove();
+                // Add error message next to the input field
+                $(this).after("<span class='error-message text-danger'><small>Please enter a valid price. Format: 0.00<small/></span>");
+            }
+        });
+
+        $("#email").on("input", function() {
+            // Regular expression to allow only numbers, optional decimal point, and up to 2 decimal places
+            const regex = /^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/;
+
+            // Check if the entered value matches the regular expression
+            const isValid = regex.test($(this).val());
+
+            // Set error message and style based on validity
+            if (isValid) {
+                $(this).removeClass("error");
+                $(this).siblings(".error-message").remove(); // Remove existing error message if present
+            } else {
+                $(this).addClass("error");
+                $(this).siblings(".error-message").remove();
+                // Add error message next to the input field
+                $(this).after("<span class='error-message text-danger'><small>Please enter a valid email address.<small/></span>");
+            }
+        });
+
+        $("#admin_email").on("input", function() {
+            // Regular expression to allow only numbers, optional decimal point, and up to 2 decimal places
+            const regex = /^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/;
+
+            // Check if the entered value matches the regular expression
+            const isValid = regex.test($(this).val());
+
+            // Set error message and style based on validity
+            if (isValid) {
+                $(this).removeClass("error");
+                $(this).siblings(".error-message").remove(); // Remove existing error message if present
+            } else {
+                $(this).addClass("error");
+                $(this).siblings(".error-message").remove();
+                // Add error message next to the input field
+                $(this).after("<span class='error-message text-danger'><small>Please enter a valid email address.<small/></span>");
+            }
+        });
+
+        $("#phone").on("input", function() {
+            // Regular expression for phone number validation (adjust for your country's format if needed)
+            const regex = /^\d{10}$/;
+
+            // Check if the entered value matches the regular expression
+            const isValid = regex.test($(this).val());
+
+            if (isValid) {
+                $(this).removeClass("error");
+                $(this).siblings(".error-message").remove(); // Remove existing error message if present
+            } else {
+                $(this).addClass("error");
+                $(this).siblings(".error-message").remove();
+                // Add error message next to the input field
+                $(this).after("<span class='error-message text-danger'><small>Please enter a valid phone number.<small/></span>");
+            }
+        });
+        $("#admin_phone").on("input", function() {
+            // Regular expression for phone number validation (adjust for your country's format if needed)
+            const regex = /^\d{10}$/;
+
+            // Check if the entered value matches the regular expression
+            const isValid = regex.test($(this).val());
+
+            if (isValid) {
+                $(this).removeClass("error");
+                $(this).siblings(".error-message").remove(); // Remove existing error message if present
+            } else {
+                $(this).addClass("error");
+                $(this).siblings(".error-message").remove();
+                // Add error message next to the input field
+                $(this).after("<span class='error-message text-danger'><small>Please enter a valid phone number.<small/></span>");
+            }
+        });
+    });
+</script>
+
 </body>
 </html>    

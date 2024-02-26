@@ -31,19 +31,18 @@
                         <div class="card">
                             <div class="card-body">
                                 <x-page-header :title="'Manage Rooms'"/>
-                                <div class="d-flex flex-column border">
-                                    <div class="d-flex col">
+                                <div class="d-flex flex-column border border-dark">
+                                    <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
                                         <div>
-                                            <a href="{{ route('guest-house-admin-rooms') }}" class="btn btn-light rounded-0">
+                                            <a href="{{ route('guest-house-admin-rooms') }}" class="nav-link">
                                                 view
                                             </a>
                                         </div>
                                         <div>
-                                            <a href="{{ route('guest-house-admin-add-room') }}" class="btn rounded-0">
+                                            <a href="{{ route('guest-house-admin-add-room') }}" class="nav-link active px-4 fw-bold">
                                                 add
                                             </a>
                                         </div>
-                                        <div class="col border"></div>
                                     </div>
                                     <div class="pt-3">
                                         <form id="newRoomForm mx-2 mx-md-3">

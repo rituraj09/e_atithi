@@ -137,13 +137,13 @@
                                                     <div class="col-md-6">
                                                         <div class="mb-3">
                                                             <label for="admin_email" class="form-label">Email Id</label>
-                                                            <input type="email" class="form-control" name="admin_email" placeholder="Email address">
+                                                            <input id="admin_email" type="email" class="form-control" name="admin_email" placeholder="Email address">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="mb-3">
                                                             <label for="admin_phone" class="form-label">Phone Number</label>
-                                                            <input type="text" class="form-control" name="admin_phone" placeholder="Phone number" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                                                            <input id="admin_phone" type="text" class="form-control" name="admin_phone" placeholder="Phone number" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                                         </div>
                                                     </div>
                                                     <div class="d-none col-md-6">
@@ -167,15 +167,6 @@
             </div>
         </div>
     </div>
-
-    <!-- core:js -->
-    <script src="../../../assets/vendors/core/core.js"></script>
-    <!-- endinject -->
-
-    <!-- inject:js -->
-    <script src="../../../assets/vendors/feather-icons/feather.min.js"></script>
-    <script src="../../../assets/js/template.js"></script>
-    <!-- endinject -->
 
     <!-- Custom js for this page -->
     <script>

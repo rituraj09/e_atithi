@@ -6,90 +6,78 @@
 <body>
     <div class="main-wrapper">
         <div class="page-wrapper">
-            <x-alerts/>
-            <nav class="sidebar">
-                <div class="sidebar-header">
-                  <a href="#" class="sidebar-brand">
-                    <span>e</span>Atithi
-                  </a>
-                  <div class="sidebar-toggler not-active">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </div>
-                <x-sidebar/>
-              </nav>
             <x-navbar/>
 
             <div class="page-content">
-                <div class="row">
-					<div class="col-md-12 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between mb-3">
-                                    <h6 class="card-title my-auto">Manage Room Categories</h6>
-                                </div>
-                                <div class="d-flex flex-column border">
-                                    <div class="d-flex col">
-                                        <div>
-                                            <button class="btn btn-light rounded-0" id="view">
-                                                view
-                                            </button>
-                                        </div>
-                                        <div>
-                                            <button class="btn btn-light rounded-0" id="add">  
-                                                {{-- href="{{ route('guest-house-admin-add-room') }}"  --}}
-                                                add
-                                            </button>
-                                        </div>
-                                        @if ($roomCategory)
-                                        <div>
-                                            <button class="btn" id="edit">
-                                                edit
-                                            </button>
-                                        </div>
-                                        @endif
-                                    </div>
-                                    <div class="table-responsive">
-                                        <div class="card-body d-none" id="categoryForm">
-                                            <form id="newRoomForm">
-                                                <div class="mb-3">
-                                                    <label for="categoryName" class="form-label">Room Category Name</label>
-                                                    <input id="categoryName" class="form-control" name="categoryName" type="text" 
-                                                        value="{{ $roomCategory ? $roomCategory->name : null }}" placeholder="Room category">
-                                                </div>
-                                                <div class="d-flex pt-2">
-                                                    <input type="hidden" id="categoryId" value="{{ $roomCategory ? $roomCategory->id : null  }}" name="id">
-                                                    @if ($roomCategory)
-                                                        <a href="{{ route('room-category') }}" class="btn btn-sm btn-outline-primary me-2">New</a>
-                                                        <button id="updateCategory" class="btn btn-sm btn-success" disabled>Save changes</button>
-                                                    @else
-                                                        <button id="addCategory" class="btn btn-sm btn-success">Submit</button>
-                                                    @endif
-                                                </div>
-                                            </form>
-                                        </div>
-
-                                        <table id="dataTableExample" class="table" id="category">
-                                            <thead>
-                                                <tr>
-                                                    <th>Room Category</th>
-                                                    <th>Rate</th>
-                                                    <th>Remarks</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="categoryList">
-                                                
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+                {{-- <div class="d-flex justify-content-between mb-3">
+                    <h6 class="card-title my-auto">Manage Room Categories</h6>
+                </div> --}}
+                <x-page-header :title="'Manage Room Categories'" />
+                <div class="d-flex flex-column border border-dark card">
+                    <div class="nav nav-tabs bg-primary bg-opacity-25 pt-2 px-2">
+                        <div>
+                            <button class="nav-link active px-4 fw-bold" id="view">
+                                view
+                            </button>
                         </div>
+                        <div>
+                            <button class="nav-link" id="add">  
+                                {{-- href="{{ route('guest-house-admin-add-room') }}"  --}}
+                                add
+                            </button>
+                        </div>
+                        @if ($roomCategory)
+                        <div>
+                            <button class="nav-link active px-4 fw-bold" id="edit">
+                                edit
+                            </button>
+                        </div>
+                        @endif
+                    </div>
+                    <div class="table-responsive">
+                        <div class="card-body" id="categoryForm">
+                            <form id="newRoomForm">
+                                <div class="mb-3">
+                                    <label for="categoryName" class="form-label">Room Category Name</label>
+                                    <input id="categoryName" class="form-control" name="categoryName" type="text" 
+                                        value="{{ $roomCategory ? $roomCategory->name : null }}" placeholder="Room category">
+                                </div>
+                                <div class="d-flex pt-2">
+                                    <input type="hidden" id="categoryId" value="{{ $roomCategory ? $roomCategory->id : null  }}" name="id">
+                                    @if ($roomCategory)
+                                        <a href="{{ route('room-category') }}" class="btn btn-sm btn-outline-primary me-2">New</a>
+                                        <button id="updateCategory" class="btn btn-sm btn-success" disabled>Save changes</button>
+                                    @else
+                                        <button id="addCategory" class="btn btn-sm btn-success">Submit</button>
+                                    @endif
+                                </div>
+                            </form>
+                        </div>
+
+                        <table class="table" id="category">
+                            <thead>
+                                <tr>
+                                    <th>Room Category</th>
+                                    <th>Rate</th>
+                                    <th>Remarks</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="categoryList">
+                                
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+                {{-- <div class="row"> --}}
+					{{-- <div class="col-md-12 grid-margin stretch-card"> --}}
+                        {{-- <div class="card"> --}}
+                            {{-- <div class="card-body"> --}}
+                                
+                            {{-- </div> --}}
+                        {{-- </div> --}}
+                    {{-- </div> --}}
+                {{-- </div> --}}
             </div>
         </div>
     </div>
@@ -232,6 +220,37 @@
         })
         
     });
+
+    $(document).ready( function () {
+        $("#categoryForm").hide();
+        $("#category").show();
+
+        $("#view").on('click', function() {
+            // console.log('show');
+            $("#add").removeClass('active px-4 fw-bold');
+            $("#view").addClass('active px-4 fw-bold');
+            $("#categoryForm").hide();
+            $("#category").show();
+        });
+
+        $("#add").on('click', function() {
+            // console.log('hide');
+            $("#add").addClass('active px-4 fw-bold');
+            $("#view").removeClass('active px-4 fw-bold');
+            $("#categoryForm").show();
+            $("#category").hide();
+        });
+
+        $(".edit-btn").on('click', function() {
+            // console.log('hide');
+            $("#add").removeClass('active px-4 fw-bold');
+            $("#view").removeClass('active px-4 fw-bold');
+            $("#categoryForm").hide();
+            $("#category").hide();
+        });
+
+        $("")
+    })
 
 
     var deleteUrl = ""
