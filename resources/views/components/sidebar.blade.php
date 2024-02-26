@@ -37,6 +37,7 @@
       @endif
 
 
+      @if( auth()->guard('web')->user()->hasRole('admin') )
       <li class="nav-item">
         <a href="{{ route('room-category') }}" class="nav-link">
           <i class="link-icon" data-feather="hexagon"></i>
@@ -61,6 +62,7 @@
           </ul>
         </div> --}}
       </li>
+      @endif
       <li class="nav-item">
         <a href="{{ route('guest-house-admin-rooms') }}" class="nav-link">
           <i class="link-icon" data-feather="home"></i>
@@ -87,7 +89,11 @@
       </li>
       {{-- reservations --}}
       <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="collapse" href="#reservations" role="button" aria-expanded="false" aria-controls="reservations">
+        <a href="{{ route('all-reservations') }}" class="nav-link">
+          <i class="link-icon" data-feather="briefcase"></i>
+          <span class="link-title">Manage Reservations</span>
+        </a>
+        {{-- <a class="nav-link" data-bs-toggle="collapse" href="#reservations" role="button" aria-expanded="false" aria-controls="reservations">
           <i class="link-icon" data-feather="briefcase"></i>
           <span class="link-title">Reservations</span>
           <i class="link-arrow" data-feather="chevron-down"></i>
@@ -107,7 +113,7 @@
               <a href="{{ route('rejected-reservations') }}" class="nav-link">Rejected Reservations</a>
             </li>
           </ul>
-        </div>
+        </div> --}}
       </li>
       <li class="nav-item">
         <a class="nav-link" data-bs-toggle="collapse" href="#emails" role="button" aria-expanded="false" aria-controls="emails">
@@ -139,16 +145,16 @@
       <li class="nav-item">
         <a class="nav-link" data-bs-toggle="collapse" href="#subUsers" role="button" aria-expanded="false" aria-controls="users">
           <i class="link-icon" data-feather="user"></i>
-          <span class="link-title">Sub Users</span>
+          <span class="link-title">Manage User</span>
           <i class="link-arrow" data-feather="chevron-down"></i>
         </a>
         <div class="collapse" id="subUsers">
           <ul class="nav sub-menu">
             <li class="nav-item">
-              <a href="{{ route('all-sub-users') }}" class="nav-link">All Sub Users</a>
+              <a href="{{ route('all-sub-users') }}" class="nav-link">All Users</a>
             </li>
             <li class="nav-item">
-              <a href="{{ route('add-sub-users') }}" class="nav-link">Add Sub User</a>
+              <a href="#" class="nav-link">User Logs</a>
             </li>
           </ul>
         </div>

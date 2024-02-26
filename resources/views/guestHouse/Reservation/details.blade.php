@@ -4,6 +4,7 @@
 <body>
     <div class="main-wrapper">
         <div class="page-wrapper">
+            <x-navbar/>
 
             @if(session('message'))
                 <script>
@@ -21,20 +22,6 @@
                     })
                 </script>
             @endif
-            <nav class="sidebar">
-                <div class="sidebar-header">
-                  <a href="#" class="sidebar-brand">
-                    <span>e</span>Atithi <span>admin</span>
-                  </a>
-                  <div class="sidebar-toggler not-active">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </div>
-                <x-sidebar/>
-              </nav>
-            <x-navbar/>
 
             <div class="page-content">
                 <div class="row">
@@ -316,6 +303,4 @@
 
     </script>
 
-</body>
-
-</html>
+<x-main-footer/>

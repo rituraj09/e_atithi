@@ -1,27 +1,8 @@
 <x-header/>
 <body>
-	<div class="main-wrapper">
-		<!-- partial:partials/_sidebar.html -->
-		<nav class="sidebar">
-      <div class="sidebar-header">
-        <a href="#" class="sidebar-brand">
-          <span>e</span>Atithi
-        </a>
-        <div class="sidebar-toggler not-active">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </div>
-      <x-sidebar/>
-    </nav>
-		<!-- partial -->
-	
-		<div class="page-wrapper">
-					
-			<!-- partial:partials/_navbar.html -->
-			<x-navbar/>
-			<!-- partial -->
+  <div class="main-wrapper">
+    <div class="page-wrapper">
+      <x-navbar/>
 
 			<div class="page-content">
         <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">

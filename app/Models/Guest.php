@@ -23,7 +23,6 @@ class Guest extends Authenticatables
         'otp',
         'dob',
         'is_active',
-        'is_delete',
         'created_at',
     ];
 

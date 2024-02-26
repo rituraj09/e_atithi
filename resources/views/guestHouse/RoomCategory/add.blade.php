@@ -1,90 +1,62 @@
 <!-- resources/views/profile.blade.php -->
 
-{{-- {{ dd($roomCategories); }} --}}
+{{-- {{ dd($guest); }} --}}
 
 <x-header/>
 <body>
     <div class="main-wrapper">
         <div class="page-wrapper">
-            <x-alerts/>
-            <nav class="sidebar">
-                <div class="sidebar-header">
-                  <a href="#" class="sidebar-brand">
-                    <span>e</span>Atithi
-                  </a>
-                  <div class="sidebar-toggler not-active">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </div>
-                <x-sidebar/>
-              </nav>
             <x-navbar/>
 
             <div class="page-content">
                 <div class="row">
-					<div class="col-md-12 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between mb-3">
-                                    <h6 class="card-title my-auto">Manage Room Categories</h6>
-                                </div>
-                                <div class="d-flex flex-column border">
-                                    <div class="d-flex col">
-                                        <div>
-                                            <button class="btn btn-light rounded-0" id="view">
-                                                view
-                                            </button>
-                                        </div>
-                                        <div>
-                                            <button class="btn btn-light rounded-0" id="add">  
-                                                {{-- href="{{ route('guest-house-admin-add-room') }}"  --}}
-                                                add
-                                            </button>
-                                        </div>
+                    <div class="col-md-4 grid-margin stretch-card">
+						<div class="card">
+							<div class="card-body">
+								<h4 class="card-title">
+                                    @if ($roomCategory)
+                                    Update Room Category
+                                    @else 
+                                    New Room Category
+                                    @endif 
+                                </h4>
+								<form id="newRoomForm">
+                                    <div class="mb-3">
+                                        <label for="categoryName" class="form-label">Room Category</label>
+                                        <input id="categoryName" class="form-control" name="categoryName" type="text" 
+                                            value="{{ $roomCategory ? $roomCategory->name : null }}" placeholder="Room category">
+                                    </div>
+                                    <div class="d-flex justify-content-end pt-2">
+                                        <input type="hidden" id="categoryId" value="{{ $roomCategory ? $roomCategory->id : null  }}" name="id">
                                         @if ($roomCategory)
-                                        <div>
-                                            <button class="btn" id="edit">
-                                                edit
-                                            </button>
-                                        </div>
+                                            <a href="{{ route('room-category') }}" class="btn btn-outline-primary me-2">New</a>
+                                            <button id="updateCategory" class="btn btn-success" disabled>Save changes</button>
+                                        @else
+                                            <button id="addCategory" class="btn btn-success">Submit</button>
                                         @endif
                                     </div>
-                                    <div class="table-responsive">
-                                        <div class="card-body d-none" id="categoryForm">
-                                            <form id="newRoomForm">
-                                                <div class="mb-3">
-                                                    <label for="categoryName" class="form-label">Room Category Name</label>
-                                                    <input id="categoryName" class="form-control" name="categoryName" type="text" 
-                                                        value="{{ $roomCategory ? $roomCategory->name : null }}" placeholder="Room category">
-                                                </div>
-                                                <div class="d-flex pt-2">
-                                                    <input type="hidden" id="categoryId" value="{{ $roomCategory ? $roomCategory->id : null  }}" name="id">
-                                                    @if ($roomCategory)
-                                                        <a href="{{ route('room-category') }}" class="btn btn-sm btn-outline-primary me-2">New</a>
-                                                        <button id="updateCategory" class="btn btn-sm btn-success" disabled>Save changes</button>
-                                                    @else
-                                                        <button id="addCategory" class="btn btn-sm btn-success">Submit</button>
-                                                    @endif
-                                                </div>
-                                            </form>
-                                        </div>
-
-                                        <table id="dataTableExample" class="table" id="category">
-                                            <thead>
-                                                <tr>
-                                                    <th>Room Category</th>
-                                                    <th>Rate</th>
-                                                    <th>Remarks</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="categoryList">
-                                                
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+					<div class="col-md-8 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title my-auto">Room Categories</h6>
+                                <div class="table-responsive">
+                                    <table id="dataTableExample" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Room Category</th>
+                                                <th>Rate</th>
+                                                <th>Remarks</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="categoryList">
+                                            
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -94,10 +66,23 @@
         </div>
     </div>
 
+    <!-- core:js -->
+    <script src="../../../assets/vendors/core/core.js"></script>
+    <!-- endinject -->
+
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+
+    <!-- inject:js -->
+    <script src="../../../assets/vendors/feather-icons/feather.min.js"></script>
+    <script src="../../../assets/js/template.js"></script>
+    <!-- endinject -->
+
+    <!-- Custom js for this page -->
+    <!-- End custom js for this page -->
     {{-- <!-- .join({{ route('edit-room-category', ['id' => `${roomCategory.name}` ]) }}) --> --}}
     <script>
     $(document).ready(function() {
-        $('#view').removeClass('btn-light');
 
         function loadCategory () {
             var getCategoryPath = "{{ route('get-all-room-categories') }}";
@@ -113,6 +98,8 @@
                 type: 'GET',
                 success: function (res) {
                     console.log(res)
+                    // const editRoute =  "a";
+                    // console.log(editRoute);
 
                     const html = res.data.map(data => `
                         <tr>
@@ -276,22 +263,6 @@
         // Redirect to the edit route with the ID
         const editRoute = "{{ route('edit-room-category', ':id') }}"; // Replace with your actual route
         window.location.href = editRoute.replace(':id', id);
-    });
-
-    $(document).on('click', '#add', function(e) {
-        e.preventDefault();
-        $('#add').removeClass('btn-light');
-        $('#view').addClass('btn-light');
-        $("#categoryFrom").removeClass('d-none');
-        $("#category").addClass('d-none');
-    });
-
-    $(document).on('click', '#view', function(e) {
-        e.preventDefault();
-        $('#view').removeClass('btn-light');
-        $('#add').addClass('btn-light');
-        $("#categoryFrom").addClass('d-none');
-        $("#category").removeClass('d-none');
     });
 
     </script>

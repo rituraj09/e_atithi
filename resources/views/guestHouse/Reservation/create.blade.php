@@ -4,26 +4,13 @@
 
 <x-header/>
 <body>
-    <div class="main-wrapper">
-        <div class="page-wrapper">
-            <nav class="sidebar">
-                <div class="sidebar-header">
-                  <a href="#" class="sidebar-brand">
-                    <span>e</span>Atithi
-                  </a>
-                  <div class="sidebar-toggler not-active">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </div>
-                <x-sidebar/>
-              </nav>
-            <x-navbar/>
+  <div class="main-wrapper">
+    <div class="page-wrapper">
+        <x-navbar/>
 
             <div class="page-content">
                 <div class="row">
-					<div class="col-md-10 m-auto grid-margin stretch-card">
+					          <div class="col-md-10 m-auto grid-margin stretch-card">
                         <div class="card">
                             {{-- <div class="ps-md-0"> --}}
                                 <div class="card-body p-5">
@@ -133,21 +120,4 @@
         </div>
     </div>
 
-    <!-- core:js -->
-    <script src="../../../assets/vendors/core/core.js"></script>
-    <!-- endinject -->
-
-    <!-- Plugin js for this page -->
-    <!-- End plugin js for this page -->
-
-    <!-- inject:js -->
-    <script src="../../../assets/vendors/feather-icons/feather.min.js"></script>
-    <script src="../../../assets/js/template.js"></script>
-    <!-- endinject -->
-
-    <!-- Custom js for this page -->
-    <!-- End custom js for this page -->
-
-</body>
-
-</html>
+<x-main-footer/>

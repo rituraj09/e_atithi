@@ -6,19 +6,6 @@
 <body>
     <div class="main-wrapper">
         <div class="page-wrapper">
-            <nav class="sidebar">
-                <div class="sidebar-header">
-                  <a href="#" class="sidebar-brand">
-                    <span>e</span>Atithi
-                  </a>
-                  <div class="sidebar-toggler not-active">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </div>
-                <x-sidebar/>
-              </nav>
             <x-navbar/>
 
             <div class="page-content">
@@ -26,28 +13,36 @@
 					<div class="col-md-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <div class="d-flex justify-content-between">
-                                    <h6 class="card-title my-auto">Sub Users</h6>
-                                    <a href="{{ route('add-sub-users') }}" class="btn btn-primary shadow">
-                                        <i data-feather="plus"></i>
-                                        add user
-                                    </a>
-                                </div>
-                                <div class="table-responsive">
-                                    <table id="dataTableExample" class="table">
-                                        <thead>
-                                            <tr>
-                                            <th>Name</th>
-                                            <th>Role Type</th>
-                                            <th>Contacts</th>
-                                            <th>Guest House</th>
-                                            <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="userList">
-                                            
-                                        </tbody>
-                                    </table>
+                                <x-page-header :title="'Manage Users'"/>
+                                <div class="d-flex flex-column border border-dark">
+                                    <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
+                                        <div>
+                                            <a href="{{ route('all-sub-users') }}" class="nav-link active px-4 fw-bold">
+                                                view
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <a href="{{ route('add-sub-users') }}" class="nav-link">
+                                                add
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table id="dataTableExample" class="table">
+                                            <thead>
+                                                <tr>
+                                                <th>Name</th>
+                                                <th>Role Type</th>
+                                                <th>Contacts</th>
+                                                <th>Guest House</th>
+                                                <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="userList">
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -57,17 +52,6 @@
         </div>
     </div>
 
-    <!-- core:js -->
-    <script src="../../../assets/vendors/core/core.js"></script>
-    <!-- endinject -->
-
-    <!-- Plugin js for this page -->
-    <!-- End plugin js for this page -->
-
-    <!-- inject:js -->
-    <script src="../../../assets/vendors/feather-icons/feather.min.js"></script>
-    <script src="../../../assets/js/template.js"></script>
-    <!-- endinject -->
 
     <!-- Custom js for this page -->
     <!-- End custom js for this page -->
@@ -155,6 +139,4 @@
     });
     </script>
 
-</body>
-
-</html>
+<x-main-footer/>

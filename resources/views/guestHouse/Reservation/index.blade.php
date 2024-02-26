@@ -6,19 +6,6 @@
 <body>
     <div class="main-wrapper">
         <div class="page-wrapper">
-            <nav class="sidebar">
-                <div class="sidebar-header">
-                  <a href="#" class="sidebar-brand">
-                    <span>e</span>Atithi
-                  </a>
-                  <div class="sidebar-toggler not-active">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </div>
-                <x-sidebar/>
-              </nav>
             <x-navbar/>
 
             <div class="page-content">
@@ -26,28 +13,37 @@
 					<div class="col-md-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <div class="d-flex justify-content-between">
-                                    <h6 class="card-title my-auto">Reservations</h6>
-                                    <a href="{{ route('add-sub-users') }}" class="btn btn-primary btn-icon-text shadow">
-                                        <i class="btn-icon-prepend" data-feather="plus"></i>
-                                        add reservation
-                                    </a>
-                                </div>
-                                <div class="table-responsive">
-                                    <table id="dataTableExample" class="table">
-                                        <thead>
-                                            <tr>
-                                            <th>Reserved By</th>
-                                            <th>Room Type</th>
-                                            <th>Dates</th>
-                                            <th>Rooms</th>
-                                            <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="List">
-                                            
-                                        </tbody>
-                                    </table>
+                                <x-page-header :title="'Manage Reservations'"/>
+                                <div class="d-flex flex-column border">
+                                    <div class="d-flex col">
+                                        <div>
+                                            <a href="{{ route('all-reservations') }}" class="btn rounded">
+                                                view
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <a href="{{ route('add-sub-users') }}" class="btn bg-light rounded-0">
+                                                add
+                                            </a>
+                                        </div>
+                                        <div class="col border"></div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table id="dataTableExample" class="table">
+                                            <thead>
+                                                <tr>
+                                                <th>Reserved By</th>
+                                                <th>Room Type</th>
+                                                <th>Dates</th>
+                                                <th>Rooms</th>
+                                                <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="List">
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>

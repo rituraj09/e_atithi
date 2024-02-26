@@ -5,6 +5,8 @@
 <!-- Plugin js for this page -->
 <script src="{{ asset('assets/vendors/flatpickr/flatpickr.min.js') }}"></script>
 <script src="{{ asset('assets/vendors/apexcharts/apexcharts.min.js') }}"></script>
+<script src="{{ asset('assets/vendors/dropify/dist/dropify.min.js') }}"></script>
+<script src="{{ asset('assets/js/dropify.js') }}"></script>
 <!-- End plugin js for this page -->
 
 <!-- inject:js -->

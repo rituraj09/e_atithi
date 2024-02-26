@@ -99,6 +99,21 @@ class GuestHouseController extends Controller
         return view('guestHouse.GuestHouse.edit', compact('guestHouse', 'roles', 'employees', 'guestHouseTypes', 'countries', 'states', 'districts'));
     }
 
+    public function viewGuestHouse ($id) {
+        $guestHouseTypes = GuestHouseType::all();
+        $countries = Countries::all();
+        $states = States::all();
+        $districts = Districts::all();
+        $roles = Role::where('name', '!=', 'super admin')->get();
+        // fetch guest house data
+        $guestHouse = Guesthouse::find($id);
+        // select all employee id of the guest house
+        $employeeId = GuestHouseHasEmployee::where('guest_house_id',$id)->pluck('employee_id');
+        // select all employee of the guest house
+        $employees = Admin::find([$employeeId]);
+        return view('guestHouse.GuestHouse.view', compact('guestHouse', 'roles', 'employees', 'guestHouseTypes', 'countries', 'states', 'districts'));
+    }
+
     public function addNewGuestHouses (Request $request) {
         // return "hello";
         $fields = $request->validate([

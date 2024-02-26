@@ -54,6 +54,7 @@ Route::prefix('guest-house')->group( function () {
             Route::get('all-guest-houses', 'allGuestHouses')->name('all-guest-house');
             Route::get('add-guest-house', 'addGuestHouse')->name('add-guest-house');
             Route::get('edit-guest-house/{id}', 'editGuestHouse')->name('edit-guest-house');
+            Route::get('view-guest-house/{id}', 'viewGuestHouse')->name('view-guest-house');
             Route::post('new', 'addNewGuestHouses')->name('add-new-guest-house');           
         }); 
     });
