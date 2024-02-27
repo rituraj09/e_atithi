@@ -7,6 +7,7 @@
 <script src="{{ asset('assets/vendors/apexcharts/apexcharts.min.js') }}"></script>
 <script src="{{ asset('assets/vendors/dropify/dist/dropify.min.js') }}"></script>
 <script src="{{ asset('assets/js/dropify.js') }}"></script>
+<script src="{{ asset('js/jquery-ui.js') }}"></script>
 <!-- End plugin js for this page -->
 
 <!-- inject:js -->
@@ -62,6 +63,25 @@
         });
 
         $("#price").on("input", function() {
+            // Regular expression to allow only numbers, optional decimal point, and up to 2 decimal places
+            const regex = /^\d+(\.\d{0,2})?$/;
+
+            // Check if the entered value matches the regular expression
+            const isValid = regex.test($(this).val());
+
+            // Set error message and style based on validity
+            if (isValid) {
+                $(this).removeClass("error");
+                $(this).siblings(".error-message").remove(); // Remove existing error message if present
+            } else {
+                $(this).addClass("error");
+                $(this).siblings(".error-message").remove();
+                // Add error message next to the input field
+                $(this).after("<span class='error-message text-danger'><small>Please enter a valid price. Format: 0.00<small/></span>");
+            }
+        });
+
+        $(".price").on("input", function() {
             // Regular expression to allow only numbers, optional decimal point, and up to 2 decimal places
             const regex = /^\d+(\.\d{0,2})?$/;
 

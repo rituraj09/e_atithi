@@ -5,20 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RateList extends Model
+class RoomFeatures extends Model
 {
     use HasFactory;
 
-    protected $table = "rate_lists";
+    protected $table = "room_features";
 
     protected $fillable = [
+        'room_id',
         'name',
-        'guest_house_id',
-        'room_category',
+        'description',
         'price',
+        'remarks',
+        'created_by',
         'is_active',
-        'deleted_at',
         'created_at',
+        'deleted_at',
     ];
 
     public $timestamps = false;

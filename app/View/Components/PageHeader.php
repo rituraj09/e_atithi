@@ -14,7 +14,7 @@ class PageHeader extends Component
     public $title;
     public $prev;
 
-    public function __construct($title, $prev)
+    public function __construct($title, $prev = NULL)
     {
         $this->title = $title;
         $this->prev = $prev;

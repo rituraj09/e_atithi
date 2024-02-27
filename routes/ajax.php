@@ -23,4 +23,8 @@ Route::prefix('/ajax')->group( function () {
         Route::get('/all-sub-users', 'getAllSubUsers')->name('get-all-sub-users');
     });
 
+    Route::controller(FeaturesController::class)->group( function () {
+        Route::get('/get-features')->name('get-features');
+    })
+
 });

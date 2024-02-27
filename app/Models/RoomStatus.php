@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class RoomStatus extends Model
 {
     use HasFactory;
+
+    protected $table = "room_statuses";
+
+    protected $fillable = [
+        'name',
+    ];
+
+    public $timestamps = false;
 }

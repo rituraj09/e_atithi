@@ -19,7 +19,7 @@ class GuestHouseAdmin extends Model
         'phone',
         'role',
         'is_active',
-        'is_delete',
+        'deleted_at',
     ];
 
     public $timestamps = false;

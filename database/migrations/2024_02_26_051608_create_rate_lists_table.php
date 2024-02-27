@@ -18,8 +18,8 @@ return new class extends Migration
             $table->integer('room_category', false, true)->nullable();
             $table->decimal('price',10,2)->nullable();
             $table->boolean('is_active')->default(1);
-            $table->softDelete();
-            $table->timestamp('created_at');
+            $table->softDeletes();
+            $table->timestamp('created_at')->nullable();
         });
     }
 

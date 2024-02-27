@@ -5,14 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ReservationStatus extends Model
+class RoomOnDates extends Model
 {
     use HasFactory;
 
-    protected $table = "reservation_statuses";
+    protected $table = "room_on_dates";
 
     protected $fillable = [
-        'name',
+        'room_id',
+        'date',
+        'status',
     ];
 
     public $timestamps = false;

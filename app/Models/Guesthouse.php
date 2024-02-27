@@ -26,7 +26,7 @@ class Guesthouse extends Model
         'pin',
         'guest_house_type',
         'is_active',
-        'is_delete',
+        'deleted_at',
     ];
 
 
