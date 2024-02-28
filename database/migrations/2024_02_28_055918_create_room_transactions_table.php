@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bills', function (Blueprint $table) {
+        Schema::create('room_transactions', function (Blueprint $table) {
             $table->id();
-            $table->string('bill_id');
-            $table->integer('reservation_id', false, true)->nullable();
-            $table->
+            $table->string('transaction_id')->nullable();
+            $table->integer('room_category', false, true)->nullable();
+            $table->integer('room_book')->nullable();
+            $table->date('date')->nullable();
             $table->timestamp('created_at');
+            $table->softDeletes();
         });
     }
 
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bills');
+        Schema::dropIfExists('room_transactions');
     }
 };

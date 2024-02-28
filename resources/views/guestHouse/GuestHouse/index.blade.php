@@ -7,83 +7,75 @@
             <x-navbar/>
 
             <div class="page-content">
-                <div class="row">
-					<div class="col-md-12 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <x-page-header :title="'Manage Guest Houses'"/>
-                                <div class="d-flex flex-column border border-dark">
-                                    <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
-                                        <div>
-                                            <a href="{{ route('all-guest-house') }}" class="nav-link active px-4 fw-bold">
-                                                view
-                                            </a>
-                                        </div>
-                                        <div>
-                                            <a href="{{ route('add-guest-house') }}" class="nav-link">
-                                                add
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="table-responsive">
-                                        <table id="dataTableExample" class="table">
-                                            <thead>
-                                                <tr>
-                                                <th>Name</th>
-                                                <th>Address</th>
-                                                <th>Official Contacts</th>
-                                                <th>Admin</th>
-                                                <th>Action</th>
-                                                <th>Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @if (!$guestHouses)
-                                                    <tr>
-                                                        <td colspan="4">No Data</td>
-                                                    </tr>
-                                                @endif
-                                                @foreach ($guestHouses as $guestHouse)
-                                                {{-- {{ dd($guestHouse->country_name->name) }} --}}
-                                                    <tr>
-                                                        <td>{{ $guestHouse['name'] }}</td>
-                                                        <td>
-                                                            @if ($guestHouse['address'])
-                                                                {{ $guestHouse['address'] }},
-                                                            @endif
-                                                            {{ $guestHouse['district_name']->name }},
-                                                            {{ $guestHouse['state_name']->name }},
-                                                            {{ $guestHouse['country_name']->name }}
-                                                        </td>
-                                                        <td>{{ $guestHouse['official_email'] }}</br>{{ $guestHouse['contact_no'] }}</td>
-                                                        <td>{{ $guestHouse['admins'][0]->admin_name }}</td>
-                                                        <td>
-                                                            <div class="d-flex py-0">
-                                                                <div class="px-1">
-                                                                    <a href="{{ route('view-guest-house', ['id' => $guestHouse->id ]) }}" class="btn btn-sm btn-info">
-                                                                        View
-                                                                    </a>
-                                                                </div>
-                                                                <div class="px-1">
-                                                                    <a href="{{ route('edit-guest-house', ['id' => $guestHouse->id ]) }}" class="btn btn-sm btn-outline-primary">
-                                                                        Edit
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="form-check form-switch px-auto me-0">
-                                                                <input type="checkbox" class="form-check-input" id="formSwitch1">
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+                <x-page-header :title="'Manage Guest Houses'"/>
+                <div class="d-flex flex-column border border-dark">
+                    <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
+                        <div>
+                            <a href="{{ route('all-guest-house') }}" class="nav-link active px-4 fw-bold">
+                                view
+                            </a>
                         </div>
+                        <div>
+                            <a href="{{ route('add-guest-house') }}" class="nav-link">
+                                add
+                            </a>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="dataTableExample" class="table">
+                            <thead>
+                                <tr>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>Official Contacts</th>
+                                <th>Admin</th>
+                                <th>Action</th>
+                                <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (!$guestHouses)
+                                    <tr>
+                                        <td colspan="4">No Data</td>
+                                    </tr>
+                                @endif
+                                @foreach ($guestHouses as $guestHouse)
+                                {{-- {{ dd($guestHouse->country_name->name) }} --}}
+                                    <tr>
+                                        <td>{{ $guestHouse['name'] }}</td>
+                                        <td>
+                                            @if ($guestHouse['address'])
+                                                {{ $guestHouse['address'] }},
+                                            @endif
+                                            {{ $guestHouse['district_name']->name }},
+                                            {{ $guestHouse['state_name']->name }},
+                                            {{ $guestHouse['country_name']->name }}
+                                        </td>
+                                        <td>{{ $guestHouse['official_email'] }}</br>{{ $guestHouse['contact_no'] }}</td>
+                                        <td>{{ $guestHouse['admins'][0]->admin_name }}</td>
+                                        <td>
+                                            <div class="d-flex py-0">
+                                                <div class="px-1">
+                                                    <a href="{{ route('view-guest-house', ['id' => $guestHouse->id ]) }}" class="btn btn-sm btn-info">
+                                                        View
+                                                    </a>
+                                                </div>
+                                                <div class="px-1">
+                                                    <a href="{{ route('edit-guest-house', ['id' => $guestHouse->id ]) }}" class="btn btn-sm btn-outline-primary">
+                                                        Edit
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check form-switch px-auto me-0">
+                                                <input type="checkbox" class="form-check-input" id="formSwitch1">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

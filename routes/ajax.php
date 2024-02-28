@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RateController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\RoomCategoryController;
@@ -24,7 +25,11 @@ Route::prefix('/ajax')->group( function () {
     });
 
     Route::controller(FeaturesController::class)->group( function () {
-        Route::get('/get-features')->name('get-features');
-    })
+        // Route::get('/get-features')->name('get-features');
+    });
+
+    Route::controller(RateController::class)->group(function () {
+        Route::post('/get-category-of-price', 'getCategoryPrice')->name('get-category-of-price');
+    });
 
 });

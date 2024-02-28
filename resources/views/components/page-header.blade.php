@@ -3,7 +3,7 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
           @if ( $prev )
-            <li class="breadcrumb-item"><a href="#">{{ $prev }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ URL::previous() }}">{{ $prev }}</a></li>
           @endif
           <li class="breadcrumb-item active" aria-current="page">{{ $title }}</li>
         </ol>

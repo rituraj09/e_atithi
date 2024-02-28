@@ -7,79 +7,52 @@
             <x-navbar/>
 
             <div class="page-content">
-                <div class="row">
-					<div class="col-md-12 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <x-page-header :title="'Manage Room Rates'"/>
-                                <div class="d-flex flex-column border border-dark">
-                                    <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
-                                        <div>
-                                            <a href="{{ route('room-rates') }}" class="nav-link">
-                                                view
-                                            </a>
-                                        </div>
-                                        <div>
-                                            <a href="{{ route('add-room-rate') }}" class="nav-link active px-4 fw-bold">
-                                                add
-                                            </a>
-                                        </div>
+                <x-page-header :prev="'Manage Room Rates'" title="Add"/>
+                <div class="d-flex flex-column border border-dark">
+                    <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
+                        <div>
+                            <a href="{{ route('room-rates') }}" class="nav-link">
+                                view
+                            </a>
+                        </div>
+                        <div>
+                            <a href="{{ route('add-room-rate') }}" class="nav-link active px-4 fw-bold">
+                                add
+                            </a>
+                        </div>
+                    </div>
+                    <div class="pt-3 card">
+                        <form class="mx-2 mx-md-3 form" action="{{ route('new-room-rate') }}" method="POST">
+                            @csrf
+                            <div class="row m-0 p-0">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Name</label>
+                                        <input id="name" class="form-control" name="name" type="text" placeholder="Name">
                                     </div>
-                                    <div class="pt-3">
-                                        <form class="mx-2 mx-md-3 form" id="newRoomForm" action="{{ route('new-room-rate') }}" method="POST">
-                                            @csrf
-                                            <div class="row m-0 p-0">
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <label for="name" class="form-label">Room Number</label>
-                                                        <input id="name" class="form-control" name="name" type="text" placeholder="Guest house name">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <label for="roomCategory" class="form-label">Room Category</label>
-                                                        <select class="form-control" name="roomCategory" id="roomCategory">
-                                                            <option value="" selected disabled>--select--</option>
-                                                            @foreach ( $roomCategories as $roomCategory )
-                                                                <option value="{{ $roomCategory->id }}">{{ $roomCategory->name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <label for="email" class="form-label">Official Email</label>
-                                                        <input id="email" class="form-control" name="email" type="text" placeholder="Official email id">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <label for="price" class="form-label">Rate</label>
-                                                        <input id="price" class="form-control" name="rate" type="text" placeholder="Rate per night">
-                                                    </div>
-                                                </div>
-                                                {{-- address --}}
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <label for="address" class="form-label">Address</label>
-                                                        <input id="address" class="form-control" name="address" type="text" placeholder="optional">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <label for="pin" class="form-label">PIN</label>
-                                                        <input id="phone" class="form-control" name="pin" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" placeholder="Pin no">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex justify-content-end py-3">
-                                                <button id="formSubmit" type="submit" class="btn btn-success">Submit</button>
-                                            </div>
-                                        </form>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="roomCategory" class="form-label">Room Category</label>
+                                        <select class="form-control" name="roomCategory" id="roomCategory">
+                                            <option value="" selected disabled>--select--</option>
+                                            @foreach ( $roomCategories as $roomCategory )
+                                                <option value="{{ $roomCategory->id }}">{{ $roomCategory->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="price" class="form-label">Rate</label>
+                                        <input id="price" class="form-control" name="rate" type="text" placeholder="Rate">
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                            <div class="d-flex justify-content-end py-3">
+                                <button id="formSubmit" type="submit" class="btn btn-success">Submit</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

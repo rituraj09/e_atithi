@@ -21,7 +21,7 @@ class Rooms extends Model
         'width',
         'length',
         'is_active',
-        'is_delete',
+        'deleted_at',
     ];
 
     public $timestamps = false;

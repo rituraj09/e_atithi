@@ -34,8 +34,8 @@
                         </div>
                         @endif
                     </div>
-                    <div class="table-responsive">
-                        <div class="card-body" id="categoryForm">
+                    <div class="table-responsive m-2 mx-md-3">
+                        <div class="card-body categoryForm">
                             <form id="newRoomForm">
                                 <div class="mb-3">
                                     <label for="categoryName" class="form-label">Room Category Name</label>
@@ -54,7 +54,7 @@
                             </form>
                         </div>
 
-                        <table class="table" id="category">
+                        <table class="table category" id="dataTableExample">
                             <thead>
                                 <tr>
                                     <th>Room Category</th>
@@ -123,6 +123,9 @@
                             </td>
                         </tr>`).join('');
                     categoryList.html(html);
+                    categoryList.append(html);
+                    categoryList.append(html);
+                    categoryList.append(html);
                 }
             });
         }
@@ -222,31 +225,31 @@
     });
 
     $(document).ready( function () {
-        $("#categoryForm").hide();
-        $("#category").show();
+        $(".categoryForm").hide();
+        $(".category").show();
 
         $("#view").on('click', function() {
             // console.log('show');
             $("#add").removeClass('active px-4 fw-bold');
             $("#view").addClass('active px-4 fw-bold');
-            $("#categoryForm").hide();
-            $("#category").show();
+            $(".categoryForm").hide();
+            $(".category").show();
         });
 
         $("#add").on('click', function() {
             // console.log('hide');
             $("#add").addClass('active px-4 fw-bold');
             $("#view").removeClass('active px-4 fw-bold');
-            $("#categoryForm").show();
-            $("#category").hide();
+            $(".categoryForm").show();
+            $(".category").hide();
         });
 
         $(".edit-btn").on('click', function() {
             // console.log('hide');
             $("#add").removeClass('active px-4 fw-bold');
             $("#view").removeClass('active px-4 fw-bold');
-            $("#categoryForm").hide();
-            $("#category").hide();
+            $(".categoryForm").hide();
+            $(".category").hide();
         });
 
         $("")

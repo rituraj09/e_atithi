@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::table('rooms', function (Blueprint $table) {
             //
             $table->softDeletes();
+            $table->dropColumn('is_delete');
         });
     }
 

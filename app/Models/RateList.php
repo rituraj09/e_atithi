@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\RoomCategory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class RateList extends Model
 {
@@ -20,6 +22,11 @@ class RateList extends Model
         'deleted_at',
         'created_at',
     ];
+
+    public function roomCategory(): BelongsTo 
+    {
+        return $this->belongsTo(RoomCategory::class, 'room_category');
+    }
 
     public $timestamps = false;
 }

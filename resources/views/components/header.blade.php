@@ -24,6 +24,7 @@
 
 	<!-- Plugin css for this page -->
 	<link rel="stylesheet" href="{{ asset('assets/vendors/flatpickr/flatpickr.min.css')}}">
+	<link rel="stylesheet" href="{{ asset('assets/vendors/datatables.net-bs5/dataTables.bootstrap5.css') }}">
 	<!-- End plugin css for this page -->
 
 	<!-- inject:css -->

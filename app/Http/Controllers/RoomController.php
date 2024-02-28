@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RateList;
 use App\Models\RoomCategory;
 use Illuminate\Http\Request;
 use App\Models\GuestHouseHasEmployee;
@@ -25,7 +26,10 @@ class RoomController extends Controller
             return response()->json('no');
         }
         $roomCategories = RoomCategory::where('guest_house_id', $guest_house_id)->get();
-            
+       
+        $roomRates = RateList::with('roomCategory')
+                            ->where('guest_house_id', $guest_house_id)
+                            ->get();
 
 
         if (!$roomCategories) {
@@ -34,7 +38,7 @@ class RoomController extends Controller
 
         // echo $roomCategories;
 
-        return view('guestHouse.Rooms.addRoom', ['roomCategories' => $roomCategories]);
+        return view('guestHouse.Rooms.addRoom', compact(['roomCategories', 'roomRates']));
     }
 
     public function getAllRooms () {

@@ -7,70 +7,57 @@
             <x-navbar/>
 
             <div class="page-content">
-                <div class="row">
-					<div class="col-md-12 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <x-page-header :title="'Manage Room Rates'"/>
-                                <div class="d-flex flex-column border border-dark">
-                                    <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
-                                        <div>
-                                            <a href="{{ route('room-rates') }}" class="nav-link active px-4 fw-bold">
-                                                view
-                                            </a>
-                                        </div>
-                                        <div>
-                                            <a href="{{ route('add-room-rate') }}" class="nav-link">
-                                                add
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="table-responsive">
-                                        <table id="dataTableExample" class="table">
-                                            <thead>
-                                                <tr>
-                                                <th>Name</th>
-                                                <th>Room Type</th>
-                                                <th>Price</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {{-- @if (!$guestHouses)
-                                                    <tr>
-                                                        <td colspan="4">No Data</td>
-                                                    </tr>
-                                                @endif
-                                                @foreach ($guestHouses as $guestHouse)
-                                                    <tr>
-                                                        
-                                                            <div class="d-flex py-0">
-                                                                <div class="px-1">
-                                                                    <a href="{{ route('view-guest-house', ['id' => $guestHouse->id ]) }}" class="btn btn-sm btn-info">
-                                                                        View
-                                                                    </a>
-                                                                </div>
-                                                                <div class="px-1">
-                                                                    <a href="{{ route('edit-guest-house', ['id' => $guestHouse->id ]) }}" class="btn btn-sm btn-outline-primary">
-                                                                        Edit
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="form-check form-switch px-auto me-0">
-                                                                <input type="checkbox" class="form-check-input" id="formSwitch1">
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach --}}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+                <x-page-header :title="'Manage Room Rates'" />
+                <div class="d-flex flex-column border border-dark card">
+                    <div class="nav nav-tabs bg-primary bg-opacity-25 pt-2 px-2">
+                        <div>
+                            <a href="{{ route('room-rates') }}" class="nav-link active px-4 fw-bold">
+                                view
+                            </a>
                         </div>
+                        <div>
+                            <a href="{{ route('add-room-rate') }}" class="nav-link">
+                                add
+                            </a>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="dataTableExample" class="table">
+                            <thead>
+                                <tr>
+                                <th>Name</th>
+                                <th>Room Type</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($roomRates as $roomRate)
+                                    <tr>
+                                        <td>{{ $roomRate['name'] }}</td>
+                                        <td>{{ $roomRate['roomCategory']->name }}</td>
+                                        <td>{{ $roomRate['price'] }}</td>
+                                        <td>
+                                            <div class="form-check form-switch px-auto me-0">
+                                                <input type="checkbox" class="form-check-input" id="formSwitch1"
+                                                @if ( $roomRate['is_active'])
+                                                    checked
+                                                @endif>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex">
+                                                <a href="" class="btn btn-sm btn-info me-2">view</a>
+                                                <a href="{{ route('edit-room-rate', ['id' => $roomRate->id]) }}" class="btn btn-sm btn-primary me-2">edit</a>
+                                                <a href="" class="btn btn-sm btn-danger me-2">delete</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                                
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
