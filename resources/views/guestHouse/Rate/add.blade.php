@@ -8,7 +8,7 @@
 
             <div class="page-content">
                 <x-page-header :prev="'Manage Room Rates'" title="Add"/>
-                <div class="d-flex flex-column border border-dark">
+                <div class="d-flex flex-column border card">
                     <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
                         <div>
                             <a href="{{ route('room-rates') }}" class="nav-link">
@@ -21,7 +21,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="pt-3 card">
+                    <div class="pt-3">
                         <form class="mx-2 mx-md-3 form" action="{{ route('new-room-rate') }}" method="POST">
                             @csrf
                             <div class="row m-0 p-0">

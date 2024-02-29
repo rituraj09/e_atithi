@@ -1,6 +1,10 @@
 {{-- {{ $admin =  }} --}}
 {{-- {{ dd(auth()->guard('web')->user()->id); }} --}}
 <x-nav-brand/>
+
+{{-- sweetalert --}}
+<x-alerts/>
+
 <nav class="navbar">
     <a href="#" class="sidebar-toggler">
         <i data-feather="menu"></i>

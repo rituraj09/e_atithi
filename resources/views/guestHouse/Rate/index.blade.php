@@ -8,7 +8,7 @@
 
             <div class="page-content">
                 <x-page-header :title="'Manage Room Rates'" />
-                <div class="d-flex flex-column border border-dark card">
+                <div class="d-flex flex-column border card">
                     <div class="nav nav-tabs bg-primary bg-opacity-25 pt-2 px-2">
                         <div>
                             <a href="{{ route('room-rates') }}" class="nav-link active px-4 fw-bold">

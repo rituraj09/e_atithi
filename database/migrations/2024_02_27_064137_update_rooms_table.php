@@ -14,8 +14,10 @@ return new class extends Migration
         //
         Schema::table('rooms', function (Blueprint $table) {
             //
+            $table->integer('room_rate', false, true)->nullable();
             $table->softDeletes();
             $table->dropColumn('is_delete');
+            $table->dropColumn('room_type');
         });
     }
 
@@ -27,7 +29,8 @@ return new class extends Migration
         //
         Schema::table('rooms', function (Blueprint $table) {
             //
-            $table->dropColumn('is_delete');
+            $table->dropColumn('room_rate');
+            $table->integer('room_type', false, true)->nullable();
         });
     }
 };

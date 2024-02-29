@@ -178,8 +178,5 @@
     });
 </script>
 
-
-<x-alerts/>
-
 </body>
 </html>    

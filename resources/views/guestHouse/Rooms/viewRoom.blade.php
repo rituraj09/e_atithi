@@ -1,6 +1,4 @@
-<!-- resources/views/profile.blade.php -->
-
-{{-- {{ dd($roomCategories ); }} --}}
+<!-- resources/views/guestHouse/GuestHouse/add.blade.php -->
 
 <x-header/>
 <body>
@@ -9,26 +7,22 @@
             <x-navbar/>
 
             <div class="page-content">
-                <x-page-header :prev="'Manage Rooms'" :title="'Edit'"/>
+                <x-page-header :prev="'Manage Rooms'" :title="'view'"/>
                 <div class="d-flex flex-column border card">
                     <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
                         <div>
-                            <a href="{{ route('guest-house-admin-rooms') }}" class="nav-link">
-                                view
-                            </a>
-                        </div>
-                        <div>
-                            <a href="{{ route('guest-house-admin-add-room') }}" class="nav-link">
-                                add
-                            </a>
-                        </div>
-                        <div>
-                            <button class="nav-link active px-4 fw-bold">
-                                edit
+                            <button id="roomButton" class="nav-link active px-4 fw-bold">
+                                details
                             </button>
                         </div>
+                        <div>
+                            <button id="featureButton" class="nav-link">
+                                features
+                            </button>
+                        </div>
+                        <div class="col border-bottom border-left bg-light"></div>
                     </div>
-                    <div class="pt-3">
+                    <div class="pt-3" id="roomView">
                         <form id="newRoomForm" class="mx-2 mx-md-3" action="{{ route('guest-house-new-room') }}" method="POST">
                             @csrf
                             <div class="row m-0 p-0">
@@ -120,33 +114,125 @@
                             </div>
                         </form>
                     </div>
+                    <div class="pt-3" id="featureView">
+                        <div class="table-responsive p-3">
+                            <table id="dataTableExample" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Remarks</th>
+                                        <th>Action</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($features as $feature)
+                                    {{-- {{ dd($guestHouse->country_name->name) }} --}}
+                                        <tr>
+                                            <td>{{ $feature->name }}</td>
+                                            <td>{{ $feature->description }}</td>
+                                            <td>{{ $feature->remarks }}</td>
+                                            <td>
+                                                <div class="d-flex py-0">
+                                                    <a href="{{ route('edit-sub-user', ['id' => $feature->id]) }}" class="btn btn-sm btn-outline-primary">edit</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-check form-switch px-auto me-0">
+                                                    <input type="checkbox" class="form-check-input" id="formSwitch1">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-none mx-2 mx-md-3">
+                            <div class="d-flex justify-content-between p-3">
+                                <h5 class="text-secondary">Employees</h5>
+                            </div>
+                            <div class="d-flex justify-content-end py-3">
+                                <a href="{{ route('add-sub-users') }}" class="btn btn-sm btn-outline-primary">
+                                    Add employee
+                                </a>
+                                {{-- <button id="formSubmit" disabled type="submit" class="btn btn-success">Save changes</button> --}}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <x-footer/>
         </div>
     </div>
 
 
     <script>
-    
-    var i = 0;
-
-
-    $(document).on('change', '#price', function () {
-        const rateId = $(this).val();
-        console.log(rateId);
-        const rateRoute = "{{ route('get-category-of-price') }}";
-
-        $.ajax({
-            url: rateRoute,
-            type: 'POST',
-            data: {rateId:rateId},
-            success: function(res) {
-                // console.log(res);
-                const option = `<option value="${res['id']}" selected>${res['name']}</option>`;
-                $("#roomCategory").html(option);
+    $(document).ready(function() {
+        $('.dropify-message p').css('font-size', '16px'); 
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
-        })
-    })
+        });
+        // country
+        $("#country").on('change', function () {
+            const c_id = $("#country").val();
+            console.log(c_id);
+
+            const stateurl = "{{ route('get-states', ['cid' => ':cid']) }}".replace(':cid', c_id);
+            $.ajax({
+                url: stateurl,
+                type: 'GET',
+                success: function (res) {
+                    let html = '<option value="" selected disabled>--select--</option>'; // Default option
+                    html += res.map(state => `<option value="${state.id}" >${state.name}</option>`).join('');
+                    $("#state").html(html);
+                }
+            })
+        });
+
+        // district
+        $("#state").on('change', function () {
+            const s_id = $("#state").val();
+            console.log(s_id);
+
+            const districturl = "{{ route('get-districts', ['sid' => ':sid']) }}".replace(':sid', s_id);
+            $.ajax({
+                url: districturl,
+                type: 'GET',
+                success: function (res) {
+                    let html = '<option value="" selected disabled>--select--</option>'; // Default option
+                    html += res.map(state => `<option value="${state.id}" >${state.name}</option>`).join('');
+                    $("#district").html(html);
+                }
+            })
+        });
+
+
+
+
+        // $("#saasForm").removeClass('d-flex').addClass('d-none');
+        $("#featureView").hide();
+        $("#roomView").show();
+
+        $("#roomButton").on('click', function() {
+            // console.log('show');
+            $("#featureButton").removeClass('active px-4 fw-bold');
+            $("#roomButton").addClass('active px-4 fw-bold');
+            $("#featureView").hide();
+            $("#roomView").show();
+        });
+
+        $("#featureButton").on('click', function() {
+            // console.log('hide');
+            $("#featureButton").addClass('active px-4 fw-bold');
+            $("#roomButton").removeClass('active px-4 fw-bold');
+            $("#featureView").show();
+            $("#roomView").hide();
+        });
+    
+    });
 
     </script>
 

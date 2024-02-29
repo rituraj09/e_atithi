@@ -10,7 +10,7 @@
 
             <div class="page-content">
                 <x-page-header :title="'Add'" :prev="'Manage Guest House'"/>
-                <div class="d-flex flex-column border border-dark">
+                <div class="d-flex flex-column border card">
                     <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
                         <div>
                             <a href="{{ route('all-guest-house') }}" class="nav-link">
@@ -157,6 +157,7 @@
                     </div>
                 </div>
             </div>
+            <x-footer/>
         </div>
     </div>
 

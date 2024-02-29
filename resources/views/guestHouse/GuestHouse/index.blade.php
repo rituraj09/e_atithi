@@ -8,7 +8,7 @@
 
             <div class="page-content">
                 <x-page-header :title="'Manage Guest Houses'"/>
-                <div class="d-flex flex-column border border-dark">
+                <div class="d-flex flex-column border card">
                     <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
                         <div>
                             <a href="{{ route('all-guest-house') }}" class="nav-link active px-4 fw-bold">
@@ -21,7 +21,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="table-responsive">
+                    <div class="table-responsive p-3">
                         <table id="dataTableExample" class="table">
                             <thead>
                                 <tr>
@@ -79,6 +79,7 @@
                     </div>
                 </div>
             </div>
+            <x-footer/>
         </div>
     </div>
 

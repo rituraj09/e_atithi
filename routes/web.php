@@ -71,8 +71,11 @@ Route::prefix('guest-house')->group( function () {
         });
         
         Route::controller(RoomController::class)->group( function () {
-            Route::get('/all-rooms', 'roomView')->name('guest-house-admin-rooms');
+            Route::get('/all-rooms', 'getRoom')->name('guest-house-admin-rooms');
             Route::get('/add-room', 'addRoomView')->name('guest-house-admin-add-room');
+            Route::post('/new-room', 'addRoom')->name('guest-house-new-room');
+            Route::get('/edit-room/{id}', 'editRoom')->name('guest-house-edit-room');
+            Route::get('/room-details/{id}', 'viewRoom')->name('room-details');
         });
 
         Route::controller(RoomCategoryController::class)->group( function () {
@@ -82,7 +85,6 @@ Route::prefix('guest-house')->group( function () {
             Route::post('/room-category/update', 'storeRoomCategory')->name('update-room-category');
             Route::post('/room-category/add', 'storeRoomCategory')->name('new-room-category');
             Route::post('/room-category/delete', 'deleteRoomCateory')->name('delete-room-category');
-
         });
 
         Route::controller(RateController::class)->group( function () {

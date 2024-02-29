@@ -9,43 +9,35 @@
             <x-navbar/>
 
             <div class="page-content">
-                <div class="row">
-					<div class="col-md-12 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <x-page-header :title="'Manage Users'"/>
-                                <div class="d-flex flex-column border border-dark">
-                                    <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
-                                        <div>
-                                            <a href="{{ route('all-sub-users') }}" class="nav-link active px-4 fw-bold">
-                                                view
-                                            </a>
-                                        </div>
-                                        <div>
-                                            <a href="{{ route('add-sub-users') }}" class="nav-link">
-                                                add
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="table-responsive">
-                                        <table id="dataTableExample" class="table">
-                                            <thead>
-                                                <tr>
-                                                <th>Name</th>
-                                                <th>Role Type</th>
-                                                <th>Contacts</th>
-                                                <th>Guest House</th>
-                                                <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="userList">
-                                                
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+                <x-page-header :title="'Manage Users'"/>
+                <div class="d-flex flex-column border card">
+                    <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
+                        <div>
+                            <a href="{{ route('all-sub-users') }}" class="nav-link active px-4 fw-bold">
+                                view
+                            </a>
                         </div>
+                        <div>
+                            <a href="{{ route('add-sub-users') }}" class="nav-link">
+                                add
+                            </a>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="dataTableExample" class="table">
+                            <thead>
+                                <tr>
+                                <th>Name</th>
+                                <th>Role Type</th>
+                                <th>Contacts</th>
+                                <th>Guest House</th>
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userList">
+                                
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

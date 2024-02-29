@@ -6,26 +6,9 @@
         <div class="page-wrapper">
             <x-navbar/>
 
-            @if(session('message'))
-                <script>
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                    });
-                    
-                    Toast.fire({
-                        icon: 'success',
-                        title: 'Signed in successfully'
-                    })
-                </script>
-            @endif
-
             <div class="page-content">
-                <x-page-header :title="'Manage Guest Houses'"/>
-                <div class="d-flex flex-column border border-dark">
+                <x-page-header :prev="'Manage Guest Houses'" :title="'Edit'"/>
+                <div class="d-flex flex-column border card">
                     <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
                         <div>
                             <a href="{{ route('all-guest-house') }}" class="nav-link">
@@ -162,6 +145,7 @@
                     </div>
                 </div>
             </div>
+            <x-footer/>
         </div>
     </div>
 
