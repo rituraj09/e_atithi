@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class GuestHouseAdmin extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = "guest_house_admins";
 
@@ -33,4 +33,6 @@ class GuestHouseAdmin extends Model
     {
         return $this->roles()->where('name', $role)->exists();
     }
+
+    protected $dates = ['deleted_at'];
 }

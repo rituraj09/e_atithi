@@ -4,7 +4,6 @@ use App\Models\Guest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-// use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RateController;
 use App\Http\Controllers\RoomController;
 use App\Http\Middleware\AdminMiddleware;
@@ -12,6 +11,7 @@ use App\Http\Middleware\GuestMiddleware;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\CaptchaController;
+use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GuestHouseController;
 use App\Http\Controllers\ReservationController;
@@ -92,6 +92,13 @@ Route::prefix('guest-house')->group( function () {
             Route::get('/edit-room-rate/{id}', 'editRoomRate')->name('edit-room-rate');
             Route::get('/add-room-rate', 'addRoomRate')->name('add-room-rate');
             Route::post('/new-room-rate', 'newRoomRate')->name('new-room-rate');
+            Route::post('/update-rate', 'updateRoomRate')->name('update-room-rate');
+            Route::post('/delete-rate', 'deleteRoomRate')->name('delete-room-rate');
+        });
+
+        Route::controller(FeatureController::class)->group( function () {
+            Route::get('/room-features', 'allFeatures')->name('guest-house-room-features');
+            Route::get('/add-features', 'addFeature')->name('add-guest-house-room-features');
         });
 
         Route::controller(ReservationController::class)->group( function () {

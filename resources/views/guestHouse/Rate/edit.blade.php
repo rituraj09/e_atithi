@@ -27,7 +27,7 @@
                         </div>
                     </div>
                     <div class="pt-3">
-                        <form class="mx-2 mx-md-3 form" action="{{ route('new-room-rate') }}" method="POST">
+                        <form class="mx-2 mx-md-3 form" action="{{ route('update-room-rate') }}" method="POST">
                             @csrf
                             <div class="row m-0 p-0">
                                 <div class="col-md-6">
@@ -39,7 +39,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="roomCategory" class="form-label">Room Category</label>
-                                        <select class="form-control" name="roomCategory" id="roomCategory">
+                                        <select class="form-control" name="room_category" id="roomCategory">
                                             @foreach ( $roomCategories as $roomCategory )
                                                 <option value="{{ $roomCategory->id }}"
                                                     @if ($roomCategory->id === $roomRate->room_category)
@@ -53,8 +53,11 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="price" class="form-label">Rate</label>
-                                        <input id="price" class="form-control" name="rate" type="text" value="{{ $roomRate['price'] }}" placeholder="Rate">
+                                        <input id="price" class="form-control" name="price" type="text" value="{{ $roomRate['price'] }}" placeholder="Rate">
                                     </div>
+                                </div>
+                                <div>
+                                    <input type="hidden" name="id" value="{{ $roomRate->id }}">
                                 </div>
                             </div>
                             <div class="d-flex justify-content-end py-3">

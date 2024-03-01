@@ -42,6 +42,25 @@ class RateController extends Controller
         return view('guestHouse.Rate.edit', compact(['roomRate', 'roomCategories']));
     }
 
+    public function updateRoomRate (Request $request) {
+        $fields = $request->validate([
+            'name' => 'required',
+            'room_category' => 'required',
+            'price' => 'required',
+            'id' => 'required',
+        ]);
+
+        $employeeId = auth()->user()->id;
+        $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
+
+        $roomRate = RateList::find($request->id)->first();
+
+        $roomRate->update($request->all());
+        return redirect()->route('room-rates')
+          ->with(['icon'=> 'success', 'message' => 'Rate is successfully updated.']);
+
+    }
+
     public function addRoomRate () {
         $roomCategories = RoomCategory::all();
         return view('guestHouse.Rate.add', compact('roomCategories'));
@@ -70,5 +89,12 @@ class RateController extends Controller
             return redirect()->route('room-rates')->with(['message' => 'Something went wrong', 'icon' => 'error']);
         }
         return redirect()->route('room-rates')->with(['message' => 'New room rate added successfully', 'icon' => 'success']);
+    }
+
+    public function deleteRoomRate (Request $request) {
+        $rate = RateList::find($request->id);
+        $rate->delete();
+
+        return redirect()->route('room-rates')->with(['icon'=>'success', 'message'=>'Rate is deleted successfully']);
     }
 }

@@ -115,7 +115,10 @@
                         </form>
                     </div>
                     <div class="pt-3" id="featureView">
-                        <div class="table-responsive p-3">
+                        <div class="table-responsive px-3">
+                            <div class="p-2 text-end">
+                                <button class="btn btn-sm btn-info">Add feature</button>
+                            </div>
                             <table id="dataTableExample" class="table">
                                 <thead>
                                     <tr>

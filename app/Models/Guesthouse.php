@@ -7,11 +7,12 @@ use App\Models\States;
 use App\Models\Countries;
 use App\Models\Districts;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Guesthouse extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'guesthouses';
 
@@ -51,4 +52,6 @@ class Guesthouse extends Model
     }
 
     public $timestamps = false;
+
+    protected $dates = ['deleted_at'];
 }

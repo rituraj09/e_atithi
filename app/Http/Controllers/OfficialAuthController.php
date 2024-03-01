@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\Admin;
+use App\Models\Guesthouse;
 use App\Models\Permissions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\GuestHouseHasEmployee;
 
 class OfficialAuthController extends Controller
 {
@@ -57,9 +59,12 @@ class OfficialAuthController extends Controller
         if ($admin) {
         // Authenticate user
             Auth::login($admin); 
+            if ($role->name != 'super admin') {
+                $this->getGuestHouseName();
+            }
             // Auth::guard('admin')->login($admin);
 
-            return redirect()->route('guest-house-admin-dashboard')->with(['message' => 'Logged in successfully']);
+            return redirect()->route('guest-house-admin-dashboard')->with(['message' => 'Logged in successfully', 'icon'=>'success']);
         }
 
         return redirect()->route('guest-house-admin-registration');
@@ -97,13 +102,20 @@ class OfficialAuthController extends Controller
         }
         // dd($admin->roles->name);
         // Authenticate user
+
+        // dd($admin->hasRole('super admin'));
         
         Auth::guard('web')->login($admin); 
+
+        if (!$admin->hasRole('super admin')) {
+            $this->getGuestHouseName();
+        }
+
         // dd(auth()->check());
         // Auth::guard('admin')->login($admin); 
 
         // dd(auth()->check(), $admin->roles->name);
-        // dd(auth()->user()->email);         ->with('roles', $admin->role)
+        // dd(auth()->user()->email);         ->with('roles', $admin->role) session(['variableName' => $value]);
 
         // Redirect to dashboard 
         return redirect()->route('dashboard');
@@ -120,6 +132,14 @@ class OfficialAuthController extends Controller
         Auth::logout();
 
         return redirect()->route('guest-house-admin-login');
+    }
+
+    public function getGuestHouseName () {
+        $employeeId = auth()->user()->id;
+        $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
+        $guestHouse = Guesthouse::find($guest_house_id)->first();
+        // dd($guestHouse->name);
+        session(['guestHouseName' => $guestHouse->name]);
     }
     
 }

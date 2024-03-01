@@ -17,18 +17,13 @@ class RoomController extends Controller
         $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
         
         $rooms = Rooms::with('roomRate')
-                        -> where('guest_house_id', $guest_house_id)
+                        ->where('guest_house_id', $guest_house_id)
                         ->get();
 
         return view('guestHouse.Rooms.index', compact('rooms'));
     }
 
     public function addRoomView() {
-        // $guest_house_id = 1; //testing value
-        // $roomCategories = RoomCategory::select("id", "name")
-        //     ->where('guest_house_id', $guest_house_id)
-        //     ->get();
-
         $employeeId = auth()->user()->id;
         $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
         if(!$guest_house_id) {

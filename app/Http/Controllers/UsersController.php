@@ -105,7 +105,8 @@ class UsersController extends Controller
     }
 
     public function editSubUser($id) {
-        $subUser = Admin::where('id', $id)->first();
+        $subUser = Admin::with('guestHouses')
+                        ->where('id', $id)->first();
 
         // return $subUser;
 

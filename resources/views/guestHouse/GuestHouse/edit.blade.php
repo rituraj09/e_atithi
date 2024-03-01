@@ -11,17 +11,17 @@
                 <div class="d-flex flex-column border card">
                     <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
                         <div>
-                            <a href="{{ route('all-guest-house') }}" class="nav-link">
+                            <a href="{{ route('all-guest-house') }}" class="text-capitalize nav-link">
                                 view
                             </a>
                         </div>
                         <div>
-                            <a href="{{ route('add-guest-house') }}" class="nav-link">
+                            <a href="{{ route('add-guest-house') }}" class="text-capitalize nav-link">
                                 add
                             </a>
                         </div>
                         <div>
-                            <button class="nav-link active px-4 fw-bold">
+                            <button class="text-capitalize nav-link active px-4 fw-bold">
                                 edit
                             </button>
                         </div>

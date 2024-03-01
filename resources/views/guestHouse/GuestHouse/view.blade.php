@@ -28,16 +28,15 @@
                 <div class="d-flex flex-column border card">
                     <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
                         <div>
-                            <button id="guestHouseButton" class="nav-link active px-4 fw-bold">
+                            <button id="guestHouseButton" class="text-capitalize nav-link active px-4 fw-bold">
                                 details
                             </button>
                         </div>
                         <div>
-                            <button id="employeeButton" class="nav-link">
+                            <button id="employeeButton" class="text-capitalize nav-link">
                                 employees
                             </button>
                         </div>
-                        <div class="col border-bottom border-left bg-light"></div>
                     </div>
                     <div class="pt-3" id="guestHouseView">
                         <form class="mx-2 mx-md-3"  action="{{ route('add-new-guest-house') }}" method="POST">

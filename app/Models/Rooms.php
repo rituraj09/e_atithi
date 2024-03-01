@@ -4,12 +4,13 @@ namespace App\Models;
 
 use App\Models\RateList;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Rooms extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = "rooms";
 
@@ -29,8 +30,10 @@ class Rooms extends Model
 
     public function roomRate(): BelongsTo
     {
-        return $this->belongsTo(RateList::class, 'room_rate');
+        return $this->belongsTo(RateList::class, 'room_rate')->withTrashed();
     }
 
     public $timestamps = false;
+
+    protected $dates = ['deleted_at'];
 }

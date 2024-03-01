@@ -44,6 +44,13 @@
           <span class="link-title">Manage Room Rates</span>
         </a>
       </li>
+      {{-- features --}}
+      <li class="nav-item">
+        <a href="{{ route('guest-house-room-features') }}" class="nav-link">
+          <i class="link-icon" data-feather="gift"></i>
+          <span class="link-title">Manage Room Features</span>
+        </a>
+      </li>
       {{-- reservations --}}
       <li class="nav-item">
         <a href="{{ route('all-reservations') }}" class="nav-link">

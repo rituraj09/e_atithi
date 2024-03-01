@@ -11,9 +11,9 @@
     </a>
     <div class="navbar-content px-2 px-lg-4">
         <div class="my-auto col text-truncate">
-            @if(auth()->user()->roles[0] !== 'super admin')
-              <span class="fs-4 fw-bolder" style="color: #000865">
-                Circuit House
+            @if(!auth()->user()->hasRole('super admin'))
+              <span class="fs-4 fw-bolder text-capitalize" style="color: #000865">
+                {{ Session::get('guestHouseName'); }}
               </span>
               <small class="text-primary fw-bold fs-6">Golaghat</small>
             @endif

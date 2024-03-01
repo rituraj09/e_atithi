@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class RoomCategory extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = "room_categories";
 
@@ -16,8 +17,10 @@ class RoomCategory extends Model
         'guest_house_id',
         'created_by',
         'is_active',
-        'is_delete',
+        'deleted_at',
     ];
 
     public $timestamps = false;
+
+    protected $dates = ['deleted_at'];
 }
