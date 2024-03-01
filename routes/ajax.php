@@ -32,7 +32,7 @@ Route::prefix('/ajax')->group( function () {
 
     Route::controller(RateController::class)->group(function () {
         Route::post('/get-category-of-price', 'getCategoryPrice')->name('get-category-of-price');
-        Route::post('/rate-status')
+        // Route::post('/rate-status')
     });
 
 });
