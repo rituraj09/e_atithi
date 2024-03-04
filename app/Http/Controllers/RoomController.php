@@ -58,14 +58,7 @@ class RoomController extends Controller
     public function addRoom (Request $request) {
         // dd($request);
 
-        $request->validate([
-            'roomNumber' => 'required|unique:rooms,room_number',
-            'price' => 'required',
-            'numberOfBeds' => 'required',
-            'capacity' => 'required',
-            'roomCategory' => 'required',
-        ]);
-
+        $this->validateForm($request);
         // dd($request);
 
         $employeeId = auth()->user()->id;
@@ -111,6 +104,30 @@ class RoomController extends Controller
         return view('guestHouse.Rooms.editRoom', compact(['room','roomRates', 'roomCategories']));
     }
 
+    public function updateRoom (Request $request) {
+        $room = Rooms::find($request->id)->first();
+        $this->validateForm($request);
+
+        $fields = [
+            'room_number' => $request->roomNumber,
+            'room_rate' => $request->roomCategory,
+            'no_of_beds' => $request->numberOfBeds,
+            'capacity' => $request->capacity,
+            'width' => $request->width || null,
+            'length' => $request->length || null,
+        ];
+
+        $isRoom = $room->update($fields);
+
+        if (!$isRoom) {
+            return redirect()->route('guest-house-edit-room', ['id' => $request->id])
+                        ->with(['icon'=>'error', 'message' => 'Room details not updating']);
+        }
+
+        return redirect()->route('guest-house-admin-rooms')
+                        ->with(['icon'=>'success', 'message'=>'Room details updated successfully']);
+    }
+
     public function viewRoom($id) {
         $room = Rooms::where('id', $id)
                     ->with('roomRate')
@@ -135,5 +152,15 @@ class RoomController extends Controller
             return view('guestHouse.Rooms.viewRoom');
         }   
         return view('guestHouse.Rooms.viewRoom', compact(['room','roomRates', 'roomCategories', 'features']));
+    }
+
+    public function validateForm ($request) {
+        return $request->validate([
+            'roomNumber' => 'required|unique:rooms,room_number',
+            'price' => 'required',
+            'numberOfBeds' => 'required',
+            'capacity' => 'required',
+            'roomCategory' => 'required',
+        ]);
     }
 }

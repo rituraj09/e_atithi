@@ -47,4 +47,6 @@
 
 	<link rel="stylesheet" href="{{ asset('assets/vendors/dropify/dist/dropify.min.css') }}">
   	<link rel="shortcut icon" href="{{ asset('assets/images/favicon.png')}}" />
+
+	<link rel="stylesheet" href="{{ asset('css/my-style.css') }}">
 </head>

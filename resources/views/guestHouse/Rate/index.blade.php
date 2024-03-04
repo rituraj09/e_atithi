@@ -9,14 +9,14 @@
             <div class="page-content">
                 <x-page-header :title="'Manage Room Rates'" />
                 <div class="d-flex flex-column border card">
-                    <div class="nav nav-tabs bg-primary bg-opacity-25 pt-2 px-2">
+                    <div class="nav nav-tabs tab-wrapper">
                         <div>
-                            <a href="{{ route('room-rates') }}" class="nav-link active px-4 fw-bold">
+                            <a href="{{ route('room-rates') }}" class="text-capitalize nav-link active px-4 fw-bold">
                                 view
                             </a>
                         </div>
                         <div>
-                            <a href="{{ route('add-room-rate') }}" class="nav-link">
+                            <a href="{{ route('add-room-rate') }}" class="text-capitalize nav-link">
                                 add
                             </a>
                         </div>
@@ -89,7 +89,7 @@
             }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: "{{}}",
+                    url: "#",
                     type: "POST",
                     data: {id:id},
                     success: function(res) {

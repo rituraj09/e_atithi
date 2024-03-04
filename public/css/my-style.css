@@ -1,0 +1,29 @@
+.table-responsive {
+    padding: 0rem !important;
+}
+
+.profile-pic > .dropify-wrapper {
+    aspect-ratio: 3/4 !important;
+    max-height: 300px !important;
+    width: auto !important;
+    height: 100% !important;
+    margin: 0 auto !important;
+}
+
+.dataTables_wrapper > .row:first-child {
+    padding: 1rem !important;
+}
+
+.dataTables_wrapper > .row:last-child {
+    padding: 1rem !important;
+}
+
+.tab-wrapper {
+    padding: .5rem .5rem 0rem .5rem !important;
+    background-color: rgb(233, 236, 239);
+}
+
+.nav-link:hover {
+    background-color: white;
+    transition: all 100ms ease-out !important;
+}

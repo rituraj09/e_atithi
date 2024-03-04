@@ -24,7 +24,7 @@
                         </div>
                     </div>
                     <div class="pt-3">
-                        <form id="newRoomForm" class="mx-2 mx-md-3" >
+                        <form id="newRoomForm" action="{{ route('new-room-features') }}" method="POST" class="mx-2 mx-md-3" >
                             @csrf
                             <div class="d-flex py-2 bg-light bg-opacity-25 rounded" id="saasForm">
                                 <div class="table-responsive">
@@ -66,7 +66,7 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-end py-3 px-3">
-                                <button id="formSubmit" class="btn btn-success mx-auto">Submit</button>
+                                <button id="formSubmit" type="Submit" class="btn btn-success mx-auto">Submit</button>
                             </div>
                         </form>
                     </div>
@@ -113,16 +113,16 @@
         $("#roomFeatureList").append(`
         <tr>
             <td>
-                <input type="text" name="features['i'][name]" class="form-control name" >
+                <input type="text" name="features[${i}][name]" class="form-control name" >
             </td>
             <td>
-                <textarea class="form-control" name="features['i'][description]" cols="30" rows="1" ></textarea>
+                <textarea class="form-control" name="features[${i}][description]" cols="30" rows="1" ></textarea>
             </td>
             <td>
-                <input type="text" name="features['i'][price]" class="form-control price" >
+                <input type="text" name="features[${i}][price]" class="form-control price" >
             </td>
             <td>
-                <input type="text" name="features['i'][remarks]" class="form-control" >
+                <input type="text" name="features[${i}][remarks]" class="form-control" >
             </td>
             <td>
                 <button type="button" class="btn btn-success btn-sm" id="add-feature">add</button>
@@ -174,12 +174,10 @@
         });
 
 
-        $("#formSubmit").on('click', function(e) {
+        $("#formSubsmit").on('click', function(e) {
             e.preventDefault();
             // var data = $("#newRoomForm").serialize();
             
-            const path = "{{ route('new-features') }}";
-
             const form = $("#newRoomForm");
             var formData = new FormData(form);
 

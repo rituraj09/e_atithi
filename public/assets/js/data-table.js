@@ -17,7 +17,6 @@ $(function() {
     });
     $('#dataTableExample').each(function() {
       var datatable = $(this);
-      $('#dataTableExample_wrapper').addClass('dt-bootstrap5');
       // SEARCH - Add the placeholder for Search and Turn this into in-line form control
       var search_input = datatable.closest('.dataTables_wrapper').find('div[id$=_filter] input');
       search_input.attr('placeholder', 'Search');

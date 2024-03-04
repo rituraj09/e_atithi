@@ -32,10 +32,10 @@
                       {{-- user profile --}}
                       <div class="col-md-4 col-lg-3 px-3">
                         <div class="mb-3">
-                            <div class="mx-auto">
+                            <div class="profile-pic">
                                 {{-- <p class="text-muted mb-3">Read the <a href="https://github.com/JeremyFagis/dropify" target="_blank"> Official Dropify Documentation </a>for a full list of instructions and other options.</p> --}}
                                 <input type="file" id="myDropify"/>
-                                <h6 class="form-label pt-3">Profile Picture</h6>
+                                <h6 class="form-label pt-3 text-center">Profile Picture</h6>
                             </div>
                         </div>
                       </div>

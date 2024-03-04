@@ -13,24 +13,27 @@
                 <div class="d-flex flex-column border card">
                     <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
                         <div>
-                            <a href="{{ route('guest-house-admin-rooms') }}" class="nav-link">
+                            <a href="{{ route('guest-house-admin-rooms') }}" class="text-capitalize nav-link">
                                 view
                             </a>
                         </div>
                         <div>
-                            <a href="{{ route('guest-house-admin-add-room') }}" class="nav-link">
+                            <a href="{{ route('guest-house-admin-add-room') }}" class="text-capitalize nav-link">
                                 add
                             </a>
                         </div>
                         <div>
-                            <button class="nav-link active px-4 fw-bold">
+                            <button class="text-capitalize nav-link active px-4 fw-bold">
                                 edit
                             </button>
                         </div>
                     </div>
                     <div class="pt-3">
-                        <form id="newRoomForm" class="mx-2 mx-md-3" action="{{ route('guest-house-new-room') }}" method="POST">
+                        <form id="newRoomForm" class="mx-2 mx-md-3" action="{{ route('update-room') }}" method="POST">
                             @csrf
+                            <div>
+                                <input type="hidden" name="id" value="{{ $room->id }}">
+                            </div>
                             <div class="row m-0 p-0">
                                 <div class="col-md-6">
                                     <div class="mb-3">

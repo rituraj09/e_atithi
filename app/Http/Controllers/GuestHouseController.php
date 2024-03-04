@@ -99,6 +99,28 @@ class GuestHouseController extends Controller
         return view('guestHouse.GuestHouse.edit', compact('guestHouse', 'roles', 'employees', 'guestHouseTypes', 'countries', 'states', 'districts'));
     }
 
+    public function updateGuestHouse (Request $request) {
+        // dd($request);
+        $fields = $this->validateForm($request);
+
+        // $fields = $request;
+
+        $guestHouse = Guesthouse::find($request->id)->first();
+
+        // dd($guestHouse);
+
+        $isUpdate = $guestHouse->update($fields);
+
+        // dd($isUpdate);
+
+        if (!$isUpdate) {
+            return redirect()->route('edit-guest-house', ['id' => $request->id])
+                            ->with(['icon'=>'error', 'message'=>'Guest house data is not updated']);
+        }
+
+        return redirect()->route('all-guest-house')->with(['icon'=>'success', 'message'=>'Guest house is updated successfully']);
+    }
+
     public function viewGuestHouse ($id) {
         $guestHouseTypes = GuestHouseType::all();
         $countries = Countries::all();
@@ -116,16 +138,9 @@ class GuestHouseController extends Controller
 
     public function addNewGuestHouses (Request $request) {
         // return "hello";
+        $fields = $this->validateForm($request);
+
         $fields = $request->validate([
-            'name' => 'required|min:3',
-            'guestHouseType' => 'required',
-            'email' => 'required|email|unique:guesthouses,official_email',
-            'phone' => 'required|min:10',
-            'country' => 'required',
-            'state' => 'required',
-            'district' => 'required',
-            'pin' => 'required',
-        
             // admin part
             'admin_name' => 'required|min:3',
             'admin_email' => 'required|email|unique:admins,email',
@@ -195,5 +210,18 @@ class GuestHouseController extends Controller
     
         // Return the generated password
         return $password;
+    }
+
+    public function validateForm($request) {
+        return $request->validate([
+            'name' => 'required|min:3',
+            'guestHouseType' => 'required',
+            'email' => 'required|email|unique:guesthouses,official_email,'. $request->id,
+            'phone' => 'required|min:10',
+            'country' => 'required',
+            'state' => 'required',
+            'district' => 'required',
+            'pin' => 'required',
+        ]);
     }
 }

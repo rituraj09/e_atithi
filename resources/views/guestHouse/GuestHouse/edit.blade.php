@@ -27,8 +27,11 @@
                         </div>
                     </div>
                     <div class="pt-3">
-                        <form class="mx-2 mx-md-3" id="newRoomForm" action="{{ route('add-new-guest-house') }}" method="POST">
+                        <form class="mx-2 mx-md-3" id="newRoomForm" action="{{ route('update-guest-house') }}" method="POST">
                             @csrf
+                            <div>
+                                <input type="hidden" name="id" value="{{ $guestHouse->id }}">
+                            </div>
                             <div class="row m-0 p-0">
                                 <div class="mb-3 stretch-card">
                                     <div class="w-100">
@@ -158,39 +161,39 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        // country
-        $("#country").on('change', function () {
-            const c_id = $("#country").val();
-            console.log(c_id);
+        // // country
+        // $("#country").on('change', function () {
+        //     const c_id = $("#country").val();
+        //     console.log(c_id);
 
-            const stateurl = "{{ route('get-states', ['cid' => ':cid']) }}".replace(':cid', c_id);
-            $.ajax({
-                url: stateurl,
-                type: 'GET',
-                success: function (res) {
-                    let html = '<option value="" selected disabled>--select--</option>'; // Default option
-                    html += res.map(state => `<option value="${state.id}" >${state.name}</option>`).join('');
-                    $("#state").html(html);
-                }
-            })
-        });
+        //     const stateurl = "{{ route('get-states', ['cid' => ':cid']) }}".replace(':cid', c_id);
+        //     $.ajax({
+        //         url: stateurl,
+        //         type: 'GET',
+        //         success: function (res) {
+        //             let html = '<option value="" selected disabled>--select--</option>'; // Default option
+        //             html += res.map(state => `<option value="${state.id}" >${state.name}</option>`).join('');
+        //             $("#state").html(html);
+        //         }
+        //     })
+        // });
 
-        // district
-        $("#state").on('change', function () {
-            const s_id = $("#state").val();
-            console.log(s_id);
+        // // district
+        // $("#state").on('change', function () {
+        //     const s_id = $("#state").val();
+        //     console.log(s_id);
 
-            const districturl = "{{ route('get-districts', ['sid' => ':sid']) }}".replace(':sid', s_id);
-            $.ajax({
-                url: districturl,
-                type: 'GET',
-                success: function (res) {
-                    let html = '<option value="" selected disabled>--select--</option>'; // Default option
-                    html += res.map(state => `<option value="${state.id}" >${state.name}</option>`).join('');
-                    $("#district").html(html);
-                }
-            })
-        });
+        //     const districturl = "{{ route('get-districts', ['sid' => ':sid']) }}".replace(':sid', s_id);
+        //     $.ajax({
+        //         url: districturl,
+        //         type: 'GET',
+        //         success: function (res) {
+        //             let html = '<option value="" selected disabled>--select--</option>'; // Default option
+        //             html += res.map(state => `<option value="${state.id}" >${state.name}</option>`).join('');
+        //             $("#district").html(html);
+        //         }
+        //     })
+        // });
 
 
         $(".editable").on('changeinput change', function() {

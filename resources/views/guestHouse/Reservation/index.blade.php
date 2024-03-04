@@ -18,12 +18,12 @@
                                 <div class="d-flex flex-column border border-dark">
                                     <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
                                         <div>
-                                            <a href="{{ route('all-reservations') }}" class="nav-link active px-4 fw-bold">
+                                            <a href="{{ route('all-reservations') }}" class="text-capitalize nav-link active px-4 fw-bold">
                                                 view
                                             </a>
                                         </div>
                                         <div>
-                                            <a href="{{ route('add-guest-house') }}" class="nav-link">
+                                            <a href="{{ route('add-guest-house') }}" class="text-capitalize nav-link">
                                                 add
                                             </a>
                                         </div>

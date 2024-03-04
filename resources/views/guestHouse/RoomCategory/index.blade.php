@@ -14,27 +14,27 @@
                 </div> --}}
                 <x-page-header :title="'Manage Room Categories'" />
                 <div class="d-flex flex-column border card">
-                    <div class="nav nav-tabs bg-primary bg-opacity-25 pt-2 px-2">
+                    <div class="nav nav-tabs bg-light pt-2 px-2">
                         <div>
-                            <button class="nav-link active px-4 fw-bold" id="view">
+                            <button class="text-capitalize nav-link active px-4 fw-bold" id="view">
                                 view
                             </button>
                         </div>
                         <div>
-                            <button class="nav-link" id="add">  
+                            <button class="text-capitalize nav-link" id="add">  
                                 {{-- href="{{ route('guest-house-admin-add-room') }}"  --}}
                                 add
                             </button>
                         </div>
                         @if ($roomCategory)
                         <div>
-                            <button class="nav-link active px-4 fw-bold" id="edit">
+                            <button class="text-capitalize nav-link active px-4 fw-bold" id="edit">
                                 edit
                             </button>
                         </div>
                         @endif
                     </div>
-                    <div class="table-responsive m-2 mx-md-3">
+                    <div>
                         <div class="card-body categoryForm">
                             <form id="newRoomForm">
                                 <div class="mb-3">
@@ -53,20 +53,21 @@
                                 </div>
                             </form>
                         </div>
-
-                        <table class="table category" id="dataTableExample">
-                            <thead>
-                                <tr>
-                                    <th>Room Category</th>
-                                    <th>Rate</th>
-                                    <th>Remarks</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="categoryList">
-                                
-                            </tbody>
-                        </table>
+                        <div class="table-responsive category">
+                            <table class="table" id="dataTableExample">
+                                <thead>
+                                    <tr>
+                                        <th>Room Category</th>
+                                        <th>Rate</th>
+                                        <th>Remarks</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="categoryList">
+                                    
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 {{-- <div class="row"> --}}

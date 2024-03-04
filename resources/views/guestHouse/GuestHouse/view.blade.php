@@ -5,24 +5,6 @@
     <div class="main-wrapper">
         <div class="page-wrapper">
             <x-navbar/>
-
-            @if(session('message'))
-                <script>
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                    });
-                    
-                    Toast.fire({
-                        icon: 'success',
-                        title: 'Signed in successfully'
-                    })
-                </script>
-            @endif
-
             <div class="page-content">
                 <x-page-header :title="'Guest House'"/>
                 <div class="d-flex flex-column border card">

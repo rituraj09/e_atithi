@@ -65,6 +65,7 @@ class UsersController extends Controller
             'password' => 'required',
         ]);
 
+
         $subUser = Admin::create([
             'admin_name' => $fields['fullname'],
             'phone' => $fields['phone'],

@@ -25,36 +25,7 @@ class OfficialAuthController extends Controller
             'confirmPassword' => 'required_with:password|same:password|min:6',
         ]);
 
-        $fields['password'] = bcrypt($fields['password']);
-
-        $admin = Admin::create([
-            'admin_name' => $fields['fullname'],
-            'phone' => $fields['phone'],
-            'email' => $fields['email'],
-            'role' => $fields['role'],
-            'password' => $fields['password'],
-        ]);
-
-        // Retrieve the role
-        $role = Role::find($fields['role']);
-
-        // Retrieve permissions for the role
-        $permissions = DB::table('role_has_permissions')
-                        ->select('permission_id')
-                        ->where('role_id', $fields['role'])
-                        ->get();
-        // $permissions = $role->permissions()->pluck('id')->toArray();
-
-        // Sync permissions with the admin
-        $admin->assignRole($role);
-        // $admin->syncPermissions($permissions);
-        // $role = Role::find('id', $fields['role']);
-        // $permissions = DB::select('permission_id')
-        //                 ->where('role_id', $role)
-        //                 ->get();
-        // $admin->syncPermissions($permission);
-
-        // dd($admin);
+        $admin = $this->adminCreate($fields);
 
         if ($admin) {
         // Authenticate user
@@ -78,32 +49,11 @@ class OfficialAuthController extends Controller
             'password' => 'required|min:6',
         ]);
         $admin = Admin::where('email', $request->email)->first();
-        // $admin = Admin::with('roles')->where('email', $request->email)->first();
-
-
-        // dd($admin->role);
-
-        // $credentials = $request->only('email', 'password');
-        // if (Hash::check($fields['password'], $admin->password)) {
-        //     $request->session()->regenerate();
-        //     Auth::login($admin);
-            
-        //     return redirect()->route('guest-house-admin-dashboard');
-        // } else {
-        //     return response()->json([
-        //         'message' => 'Wrong credentials'
-        //     ], 401);
-        // }
+  
      
         if (!$admin || !Hash::check($fields['password'], $admin->password)) {
-            return response()->json([
-                'message' => 'Wrong credentials'
-            ], 401);
+            return redirect()->route('guest-house-admin-login')->with(['icon'=>'error', 'message'=>'Wrong credentials']);
         }
-        // dd($admin->roles->name);
-        // Authenticate user
-
-        // dd($admin->hasRole('super admin'));
         
         Auth::guard('web')->login($admin); 
 
@@ -111,10 +61,6 @@ class OfficialAuthController extends Controller
             $this->getGuestHouseName();
         }
 
-        // dd(auth()->check());
-        // Auth::guard('admin')->login($admin); 
-
-        // dd(auth()->check(), $admin->roles->name);
         // dd(auth()->user()->email);         ->with('roles', $admin->role) session(['variableName' => $value]);
 
         // Redirect to dashboard 
@@ -123,10 +69,6 @@ class OfficialAuthController extends Controller
 
     public function logout(Request $request)
     {
-        // if (Auth::check()){
-        //     $logs = $this->guestLog($request->ip(), "Logged out", auth()->id());
-        // }
-
         Auth::user()->tokens()->delete();
 
         Auth::logout();
@@ -140,6 +82,32 @@ class OfficialAuthController extends Controller
         $guestHouse = Guesthouse::find($guest_house_id)->first();
         // dd($guestHouse->name);
         session(['guestHouseName' => $guestHouse->name]);
+    }
+
+    public function adminCreate ($fields) {
+        // return $admin;
+        $fields['password'] = bcrypt($fields['password']);
+
+        $admin = Admin::create([
+            'admin_name' => $fields['fullname'],
+            'phone' => $fields['phone'],
+            'email' => $fields['email'],
+            'role' => $fields['role'],
+            'password' => $fields['password'],
+        ]);
+
+        $this->assignRole($admin);
+
+        return $admin;
+    }
+
+    public function assignRole ($admin) {
+        $role = Role::findById($admin->role, 'web'); 
+        $admin->assignRole($role);
+        $permissions = $role->permissions;
+        // $permissions = DB::select('select * from role_has_permissions where role_id = ?', [1]);
+        $admin->givePermissionTo($permissions);
+        return 0;
     }
     
 }
