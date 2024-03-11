@@ -30,4 +30,12 @@ class ReservationController extends Controller
     public function reservationDetails () {
         return view('guestHouse.Reservation.details');
     }
+
+    public function createReservation (Request $request) {
+        return view('guestHouse.Reservation.create');
+    }
+
+    public function checkStatus(){
+        return 0;
+    }
 }

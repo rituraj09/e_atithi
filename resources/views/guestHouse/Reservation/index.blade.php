@@ -6,48 +6,40 @@
 <body>
     <div class="main-wrapper">
         <div class="page-wrapper">
-            <x-navbar/>
+            <x-admin.navbar/>
 
             <div class="page-content">
-                <div class="row">
-					<div class="col-md-12 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <x-page-header :title="'Manage Reservations'"/>
-                                
-                                <div class="d-flex flex-column border border-dark">
-                                    <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
-                                        <div>
-                                            <a href="{{ route('all-reservations') }}" class="text-capitalize nav-link active px-4 fw-bold">
-                                                view
-                                            </a>
-                                        </div>
-                                        <div>
-                                            <a href="{{ route('add-guest-house') }}" class="text-capitalize nav-link">
-                                                add
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="pt-3">
-                                        <div class="table-responsive">
-                                            <table id="dataTableExample" class="table">
-                                                <thead>
-                                                    <tr>
-                                                    <th>Reserved By</th>
-                                                    <th>Room Type</th>
-                                                    <th>Dates</th>
-                                                    <th>Rooms</th>
-                                                    <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="List">
-                                                    
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
+                <x-page-header :title="'Manage Reservations'"/>
+                <div class="d-flex flex-column border card">
+                    <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
+                        <div>
+                            <a href="{{ route('all-reservations') }}" class="text-capitalize nav-link active px-4 fw-bold">
+                                view
+                            </a>
+                        </div>
+                        <div>
+                            <a href="{{ route('create-reservation') }}" class="text-capitalize nav-link">
+                                add
+                            </a>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="table-responsive">
+                            <table id="dataTableExample" class="table">
+                                <thead>
+                                    <tr>
+                                    <th>Reserved By</th>
+                                    <th>Room Type</th>
+                                    <th>Dates</th>
+                                    <th>Rooms</th>
+                                    <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="List">
+                                    
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -55,11 +47,6 @@
         </div>
     </div>
 
-
-
-    <!-- Custom js for this page -->
-    <script src="../../../assets/js/data-table.js"></script>
-    <!-- End custom js for this page -->
     <script>
     $(document).ready( function () {
         function reload () {

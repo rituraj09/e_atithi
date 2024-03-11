@@ -110,6 +110,7 @@ Route::prefix('guest-house')->group( function () {
             Route::get('/reservations/pending', 'pendingreservations')->name('pending-reservations');
             Route::get('/reservations/rejected', 'rejectedReservations')->name('rejected-reservations');
             Route::get('/reservations/view/{id}', 'reservationDetails')->name('reservation-details');
+            Route::get('/reservations/create', 'createReservation')->name('create-reservation');
         });
         
         

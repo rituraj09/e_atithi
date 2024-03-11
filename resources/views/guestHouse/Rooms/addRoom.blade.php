@@ -6,7 +6,7 @@
 <body>
     <div class="main-wrapper">
         <div class="page-wrapper">
-            <x-navbar/>
+            <x-admin.navbar/>
 
             <div class="page-content">
                 <x-page-header :prev="'Manage Rooms'" :title="'Add'"/>
@@ -107,7 +107,7 @@
                                 <i id="viewSaasForm" style="cursor: pointer;" data-feather="chevron-down"></i>
                                 <i id="hideSaasForm" style="cursor: pointer;" data-feather="chevron-up"></i>
                             </div>
-                            <div class="d-flex py-2 bg-light bg-opacity-25 rounded" id="saasForm">
+                            <div class="d-block py-2 bg-light bg-opacity-25 rounded" id="saasForm">
                                 <div class="table-responsive">
                                     <table class="table table-hover">
                                         <thead>
@@ -141,7 +141,7 @@
                                     </table>
                                 </div>
 
-                                <ul class="d-none" id="roomFeatureList">
+                                {{-- <ul class="d-none" id="roomFeatureList">
                                     <li class="card p-3">
                                         <div class="card-title">Feature</div>
                                         <div class="card-body row">
@@ -175,7 +175,7 @@
                                             <button class="btn btn-sm btn-primary" id="add-feature">add</button>
                                         </div>
                                     </li>
-                                </ul>
+                                </ul> --}}
                             </div>
                             <div class="d-flex justify-content-end py-3 px-3">
                                 <button id="formSubmit" class="btn btn-success mx-auto">Submit</button>

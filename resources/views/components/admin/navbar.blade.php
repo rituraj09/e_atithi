@@ -1,6 +1,6 @@
 {{-- {{ $admin =  }} --}}
 {{-- {{ dd(auth()->guard('web')->user()->id); }} --}}
-<x-nav-brand/>
+<x-admin.nav-brand/>
 
 {{-- sweetalert --}}
 <x-alerts/>

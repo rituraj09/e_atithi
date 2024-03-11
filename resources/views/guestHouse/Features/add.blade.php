@@ -6,7 +6,7 @@
 <body>
     <div class="main-wrapper">
         <div class="page-wrapper">
-            <x-navbar/>
+            <x-admin.navbar/>
 
             <div class="page-content">
                 <x-page-header :prev="'Manage Features'" :title="'Add'"/>
@@ -26,7 +26,7 @@
                     <div class="pt-3">
                         <form id="newRoomForm" action="{{ route('new-room-features') }}" method="POST" class="mx-2 mx-md-3" >
                             @csrf
-                            <div class="d-flex py-2 bg-light bg-opacity-25 rounded" id="saasForm">
+                            <div class="d-block py-2 bg-light bg-opacity-25 rounded" id="saasForm">
                                 <div class="table-responsive">
                                     <table class="table table-hover">
                                         <thead>

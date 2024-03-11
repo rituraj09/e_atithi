@@ -14,5 +14,5 @@
         <span></span>
       </div>
     </div>
-    <x-sidebar/>
+    <x-admin.sidebar/>
   </nav>

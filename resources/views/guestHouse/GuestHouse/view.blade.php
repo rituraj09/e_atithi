@@ -4,7 +4,7 @@
 <body>
     <div class="main-wrapper">
         <div class="page-wrapper">
-            <x-navbar/>
+            <x-admin.navbar/>
             <div class="page-content">
                 <x-page-header :title="'Guest House'"/>
                 <div class="d-flex flex-column border card">

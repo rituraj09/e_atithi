@@ -6,7 +6,7 @@
 <body>
     <div class="main-wrapper">
         <div class="page-wrapper">
-            <x-navbar/>
+            <x-admin.navbar/>
 
             <div class="page-content">
                 {{-- <div class="d-flex justify-content-between mb-3">

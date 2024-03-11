@@ -64,16 +64,18 @@ class ProfileController extends Controller
     }
 
     public function getProfile () {
-        if (auth()->check()) {
-            $guest = Guest::find(auth()->id());
+        // if (auth()->check()) {
+        $guest = Guest::find(auth()->id());
+        if ($guest) {
             $guestCategories = GuestCategories::all();
             $genders = Gender::all();
-            return view('guest.profile', [
+            return view('guest.user.profile', [
                 'guest' => $guest, 
                 'guestCategories' => $guestCategories,
                 'genders' => $genders,
             ]);
-        }         
-        return view('guest.login');
+        }
+        // }         
+        return view('guest.user.login');
     }
 }

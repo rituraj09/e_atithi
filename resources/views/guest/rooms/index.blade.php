@@ -1,27 +1,34 @@
 <!-- resources/views/profile.blade.php -->
 
-{{-- {{ dd(); }} --}}
-
 <x-header/>
 <body>
     <div class="main-wrapper">
-        <div class="page-wrapper">
-            <nav class="sidebar">
-                <div class="sidebar-header">
-                  <a href="#" class="sidebar-brand">
-                    <span>e</span>Atithi
-                  </a>
-                  <div class="sidebar-toggler not-active">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </div>
-                <x-sidebar/>
-              </nav>
-            <x-navbar/>
-
+        <x-user-navbar/>
+        <div class="page-wrapper full-page">
             <div class="page-content">
+                <x-page-header :title="'Find Guest Houses'" />
+                <div class="d-flex flex-column card border p-3">
+                    <div class="d-flex align-items-center justify-content-center border border-light rounded-3 px-3">
+                        <span class="mdi mdi-magnify fs-3 text-secondary"></span>
+                            {{-- <i data-feather="search" class="text-secondary"></i> --}}
+                        <input type="text" name="" id="" class="form-control border-0 text-secondary">
+                    </div>
+
+                    <div class="row m-0">
+                        <div class="col-md-4">
+                            location
+                        </div>
+                        <div class="col-md-2">
+                            checkin
+                        </div>
+                        <div class="col-md-2">
+                            checkout
+                        </div>
+                        <div class="col-md-3">
+                            search
+                        </div>
+                    </div>
+                </div>
                 <div class="row w-100 mx-0">
                     <div class="col-md-12 col-xl-12 mx-auto">
                         <form action="{{ route('guest-house-search') }}" method="post" id="searchForm">
@@ -115,26 +122,8 @@
         </div>
     </div>
 
-    <!-- core:js -->
-    <script src="../../../assets/vendors/core/core.js"></script>
-    <!-- endinject -->
-
-    <!-- Plugin js for this page -->
-    <!-- End plugin js for this page -->
-
-    <!-- inject:js -->
-    <script src="../../../assets/vendors/feather-icons/feather.min.js"></script>
-    <script src="../../../assets/js/template.js"></script>
-    <!-- endinject -->
-
-    <!-- Custom js for this page -->
-    
-    <!-- End custom js for this page -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-      $(document).ready( () => {
+    /*  $(document).ready( () => {
 
         const path = "{{ route ('get-guest-houses')}}";
         let resList;
@@ -173,7 +162,7 @@
             }
         });
 
-        const mainPath = "{{ route('guest-house-search') }}";
+        const mainPath = "{{ route('guest-house-search') }}"; */
 
         // $("#searchGuestHouse").on("click", (e) => {
         //     e.preventDefault();
@@ -214,9 +203,7 @@
         //     });
         // });
 
-      });
+    //   }); 
     </script>
 
-</body>
-
-</html>
+<x-main-footer/>

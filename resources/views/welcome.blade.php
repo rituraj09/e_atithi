@@ -2,7 +2,8 @@
 <body>
 	<div class="main-wrapper">
     <div class="page-wrapper">
-        <x-navbar/>
+        <x-admin.navbar/>
+        {{-- <x-guest.guest-sidebar /> --}}
 
 			<div class="page-content">
 
