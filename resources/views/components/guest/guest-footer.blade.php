@@ -10,8 +10,16 @@
 </div>
 </div>
 
-<!-- base js -->
+<x-main-footer />
+
+
+{{-- <!-- base js -->
 <script src="https://www.nobleui.com/laravel/template/demo3-dh/js/app.js"></script>
+<script>
+    // $(document)ready( function () {
+        document.getElementByClassName('buy-now-wrapper').remove;
+    // });
+</script>
 <script src="https://www.nobleui.com/laravel/template/demo3-dh/assets/plugins/feather-icons/feather.min.js"></script>
 <script
 src="https://www.nobleui.com/laravel/template/demo3-dh/assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js">
@@ -30,4 +38,4 @@ src="https://www.nobleui.com/laravel/template/demo3-dh/assets/plugins/perfect-sc
 <script src="https://www.nobleui.com/laravel/template/demo3-dh/assets/js/dashboard.js"></script>
 </body>
 
-</html>
+</html> --}}

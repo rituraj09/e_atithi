@@ -1,23 +1,14 @@
-<nav class="navbar top-navbar">
+<nav class="navbar top-navbar" style="height: 100px !important;">
     <div class="container">
       <div class="navbar-content">
-        <a href="#" class="navbar-brand">
-          <span>e</span>Atithi
-        </a>
+        <div class="d-flex align-item-center">
+          <img src="{{ asset('assets/images/govtLogo.png') }}" class="bg-transparent color-white" alt="img" srcset="" height="40">
+          <a href="#" class="navbar-brand">
+            <span>e</span>Atithi
+          </a>
+        </div>
         
         <ul class="navbar-nav">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <img src="https://www.nobleui.com/laravel/template/demo3-dh/assets/images/flags/us.svg" class="wd-20 me-1" title="us" alt="us"> <span class="ms-1 me-1 d-none d-md-inline-block">English</span>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="languageDropdown">
-              <a href="javascript:;" class="dropdown-item py-2"> <img src="https://www.nobleui.com/laravel/template/demo3-dh/assets/images/flags/us.svg" class="wd-20 me-1" title="us" alt="us"> <span class="ms-1"> English </span></a>
-              <a href="javascript:;" class="dropdown-item py-2"> <img src="https://www.nobleui.com/laravel/template/demo3-dh/assets/images/flags/fr.svg" class="wd-20 me-1" title="fr" alt="fr"> <span class="ms-1"> French </span></a>
-              <a href="javascript:;" class="dropdown-item py-2"> <img src="https://www.nobleui.com/laravel/template/demo3-dh/assets/images/flags/de.svg" class="wd-20 me-1" title="de" alt="de"> <span class="ms-1"> German </span></a>
-              <a href="javascript:;" class="dropdown-item py-2"> <img src="https://www.nobleui.com/laravel/template/demo3-dh/assets/images/flags/pt.svg" class="wd-20 me-1" title="pt" alt="pt"> <span class="ms-1"> Portuguese </span></a>
-              <a href="javascript:;" class="dropdown-item py-2"> <img src="https://www.nobleui.com/laravel/template/demo3-dh/assets/images/flags/es.svg" class="wd-20 me-1" title="es" alt="es"> <span class="ms-1"> Spanish </span></a>
-            </div>
-          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="appsDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i data-feather="grid"></i>
