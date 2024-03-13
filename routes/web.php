@@ -162,7 +162,7 @@ Route::prefix('/guest')->group( function () {
             return view('rooms.available');
         })->name('available');
 
-        Route::get('/get-guest-houses', [GuestHouseController::class, 'getGuestHouses'])->name('get-guest-houses');
+        // Route::get('/get-guest-houses', [GuestHouseController::class, 'getGuestHouses'])->name('get-guest-houses');
 
         // Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 

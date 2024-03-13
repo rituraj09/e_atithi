@@ -11,6 +11,7 @@ use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\GuestMiddleware;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CaptchaController;
 use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\ProfileController;
@@ -49,9 +50,13 @@ Route::prefix('guest')->group( function () {
         Route::get('/profile', 'profile')->name('guest-profile')->middleware(['auth']);
     });
 
-    Route::get('/guest-houses', function () {
-        return view('guest.rooms.index');
-    })->name('show-guest-houses');
+    // Route::get('/guest-houses', function () {
+    //     return view('guest.rooms.index');
+    // })->name('show-guest-houses');
+
+    Route::controller(BookingController::class)->group( function () {
+        Route::get('/book/{$id}', 'index')->name('show-guest-house');
+    });
 
     Route::group(['middleware' => ['auth','role:admin|super admin']], function () {       
     // Route::middleware(['auth','roles:super admin'])->prefix('/admin')->group( function () { 

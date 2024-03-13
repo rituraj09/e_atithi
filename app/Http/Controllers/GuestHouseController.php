@@ -16,10 +16,23 @@ use App\Models\GuestHouseHasEmployee;
 class GuestHouseController extends Controller
 {
     // public
+    public function searchGuestHouse (Request $request) {
+
+        $guestHouses = Guesthouse::where('name', 'like', '%' . $request->guestHouse . '%')
+                        ->with('district_name')
+                        ->get();
+
+        return $guestHouses;
+    }
+
     public function getGuestHouses (Request $request) {
-        $res = Guesthouse::select("name", "id")
-                ->where('name', 'LIKE', '%' . $request->get('search') . '%')
+        // return $request;
+
+        $res = Guesthouse::where('name', $request->guestHouse )
+                ->with(['district_name','state_name'])
                 ->get();
+        
+        return $res;
 
         return response()->json($res);
 

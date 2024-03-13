@@ -5,6 +5,7 @@ use App\Http\Controllers\RateController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\FeatureController;
+use App\Http\Controllers\GuestHouseController;
 use App\Http\Controllers\RoomCategoryController;
 
 Route::prefix('/ajax')->group( function () {
@@ -33,6 +34,11 @@ Route::prefix('/ajax')->group( function () {
     Route::controller(RateController::class)->group(function () {
         Route::post('/get-category-of-price', 'getCategoryPrice')->name('get-category-of-price');
         // Route::post('/rate-status')
+    });
+
+    Route::controller(GuestHouseController::class)->group( function() {
+        Route::post('/search-guest-house', 'searchGuestHouse')->name('search-guest-house');
+        Route::post('/get-guest-houses', 'getGuestHouses')->name('get-guest-houses');
     });
 
 });
