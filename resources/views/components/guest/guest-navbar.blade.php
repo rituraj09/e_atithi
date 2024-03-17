@@ -1,5 +1,5 @@
 {{-- {{ $admin =  }} --}}
-{{-- {{ dd(auth()->guard('web')->user()->id); }} --}}
+{{-- {{ dd(auth()->guard('guest')->user()); }} --}}
 <nav class="sidebar">
     <div class="sidebar-header border-bottom-0 ">
       <a href="#" class="sidebar-brand">
@@ -91,7 +91,7 @@
                     </div>
                 </div>
             </li>
-            @auth()
+            @if (auth()->guard('guest')->user())
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="wd-30 ht-30 rounded-circle" src="https://via.placeholder.com/30x30" alt="profile">
@@ -102,8 +102,8 @@
                             <img class="wd-80 ht-80 rounded-circle" src="https://via.placeholder.com/80x80" alt="">
                         </div>
                         <div class="text-center">
-                            {{-- <p class="tx-16 fw-bolder">{{ auth()->user()->admin_name }}</p>
-                            <p class="tx-12 text-muted">{{ auth()->user()->email }}</p> --}}
+                            <p class="tx-16 fw-bolder">{{ auth()->guard('guest')->user()->name }}</p>
+                            <p class="tx-12 text-muted">{{ auth()->guard('guest')->user()->email }}</p>
                         </div>
                     </div>
                     <ul class="list-unstyled p-1">
@@ -140,13 +140,13 @@
             @else
             <div class="d-flex m-auto">
                 <div class="px-2">
-                    <a href="" class="btn btn-info shadow-sm">Register</a>
+                    <a href="{{ route('guest-registration') }}" class="btn btn-info shadow-sm">Register</a>
                 </div>
                 <div class="px-2">
-                    <a href="" class="btn btn-info shadow-sm">Login</a>
+                    <a href="{{ route('guest-login') }}" class="btn btn-info shadow-sm">Login</a>
                 </div>
             </div>
-            @endauth
+            @endif
             
         </ul>
     </div>

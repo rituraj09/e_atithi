@@ -36,7 +36,7 @@ Route::prefix('guest')->group( function () {
 
     Route::get('/', function () {
         return view('guest.index');
-    });
+    })->name('guest-home');
 
     Route::controller(AuthController::class)->group( function () {
         Route::get('/registration', 'registration')->name('guest-registration');
@@ -44,7 +44,10 @@ Route::prefix('guest')->group( function () {
         Route::get('/login', function () {
             return view('guest.user.login');
         })->name('guest-login');
+        Route::post('/login', 'login')->name('guest-login-entry');
     });
+
+    // Route::get('/profile')
 
     Route::controller(ProfileController::class)->group( function () {
         Route::get('/profile', 'profile')->name('guest-profile')->middleware(['auth']);
@@ -55,7 +58,7 @@ Route::prefix('guest')->group( function () {
     // })->name('show-guest-houses');
 
     Route::controller(BookingController::class)->group( function () {
-        Route::get('/book/{$id}', 'index')->name('show-guest-house');
+        Route::get('/book/{id}', 'index')->name('show-guest-house')->middleware('auth');
     });
 
     Route::group(['middleware' => ['auth','role:admin|super admin']], function () {       

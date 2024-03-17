@@ -8,6 +8,9 @@
 
             <div class="page-content" style="background-color: #f1fcff">
                 <div class="">
+                    <div class="row m-auto hd-100 w-100">
+                        <span class="text-center fs-2 fw-bold text-primary">Wellcome Back {{ auth()->guard('guest')->user()->name }}</span>
+                    </div>
                     <div class="row justify-content-center align-items-center mt-5 mb-3 container-sm mx-auto">
                          <div class="col-md-4 p-0">
                              <div class="mb-2 ">
@@ -178,7 +181,8 @@
 
     $(document).on('click', '.check-guest-house', function () {
         var id = $(this).data('id');
-
+        var bookUrl = "{{ route('show-guest-house', ':id') }}";
+        window.location.href= bookUrl.replace(':id', id);
         console.log(id);
     });
 

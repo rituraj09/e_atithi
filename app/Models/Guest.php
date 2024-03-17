@@ -4,14 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as AuthenticatableUser;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Foundation\Auth\User as Authenticatables;
-use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
 use Laravel\Sanctum\HasApiTokens;
 
-class Guest extends Authenticatables
+class Guest extends AuthenticatableUser implements Authenticatable
 {
-    use HasFactory, AuthenticatableTrait, HasApiTokens;
+    use HasFactory, HasApiTokens;
 
     protected $table = 'guest';
 
@@ -26,7 +25,5 @@ class Guest extends Authenticatables
         'created_at',
     ];
 
-
     public $timestamps = false;
-
 }

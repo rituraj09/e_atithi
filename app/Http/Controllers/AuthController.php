@@ -33,7 +33,11 @@ class AuthController extends Controller
 
         $logs = $this->guestLog($request->ip(), "New registration", $user->id);
         
-        Auth::login($user);
+        Auth::guard('guest')->login($user);
+
+        $message = "You have successfully logged in " . $request->fullname . ".";
+
+        return redirect()->route('/')->with(['icon'=>'success', 'message'=>$message]);
     }
 
     public function login(Request $request) {
@@ -44,14 +48,16 @@ class AuthController extends Controller
 
         $guest = Guest::where('email', $incomingFields['email'])->first();
 
+        // dd(Hash::check($incomingFields['password'], $guest->password));
+
         if ($guest && Hash::check($incomingFields['password'], $guest->password)) {
-            Auth::login($guest);
+            Auth::guard('guest')->login($guest);
 
             $logs = $this->guestLog($request->ip(), "Logged in", auth()->id());
 
             // $token = $guest->createToken('eAtithi')->plainTextToken;
-            
-            return redirect()->route('guest-profile')->with('message', 'logged in');
+            $message = "You have successfully logged in " . $guest->name . ".";
+            return redirect()->route('guest-home')->with(['icon'=>'success', 'message'=>$message]);
         } else {
             throw ValidationException::withMessages([
                 'email' => ['Invalid email or password'],

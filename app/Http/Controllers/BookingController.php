@@ -2,15 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Rooms;
 use App\Models\Guesthouse;
+use App\Models\RoomCategory;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
     //
     public function index($id) {
-        $guestHouse = Guesthouse::find($id)->first();
-        return view('guest.booking.index');
+        $guestHouse = Guesthouse::where('id', $id)->first();
+        $rooms = Rooms::where('guest_house_id', $guestHouse->id)
+                    ->with('roomRate')
+                    ->get();
+        $roomCategories = RoomCategory::where('guest_house_id', $guestHouse->id)->get();
+        // dd($guestHouse, $rooms);
+        return view('guest.booking.index', compact(['guestHouse', 'rooms', 'roomCategories']));
     }
 
     public function newBooking(Request $request) {

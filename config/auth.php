@@ -47,10 +47,10 @@ return [
             'hash' => false,
         ],
 
-        // 'guest' => [
-        //     'driver' => 'sanctum',
-        //     'provider' => 'guests',
-        // ],
+        'guest' => [
+            'driver' => 'session',
+            'provider' => 'guests',
+        ],
         
         // 'admin' => [
         //     'driver' => 'session',

@@ -68,7 +68,7 @@
                   <div class="auth-form-wrapper p-5">
                     <a href="#" class="noble-ui-logo logo-light d-block mb-2"><span>e</span>Atithi</a>
                     <h5 class="text-muted fw-normal mb-4">Create a free account.</h5>
-                    <form class="forms-sample" action="{{ route('guest-registration')}}" method="post">
+                    <form class="forms-sample" action="{{ route('new-guest-registration')}}" method="post">
                         @csrf
                       <div class="row mb-3">
                         <label for="fullname" class="form-label col-md-4 m-auto">Full name</label>
