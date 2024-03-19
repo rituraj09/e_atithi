@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Guest;
+use App\Models\ReservationStatus;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Reservation extends Model
 {
@@ -32,4 +35,19 @@ class Reservation extends Model
     ];
 
     public $timestamps = false;
+
+    public function guest(): BelongsTo
+    {
+        return $this->belongsTo(Guest::class, 'guest_id');
+    }
+
+    public function guestHouse(): BelongsTo
+    {
+        return $this->belongsTo(Guesthouse::class, 'guest_house_id');
+    }
+
+    public function getStatus(): BelongsTo
+    {
+        return $this->belongsTo(ReservationStatus::class, 'status');
+    }
 }

@@ -9,7 +9,14 @@
             <div class="page-content" style="background-color: #f1fcff">
                 <div class="">
                     <div class="row m-auto hd-100 w-100">
-                        <span class="text-center fs-2 fw-bold text-primary">Wellcome Back {{ auth()->guard('guest')->user()->name }}</span>
+                        <span class="text-center fs-2 fw-bold text-primary text-capitalize">
+                            Wellcome Back 
+                            <small class="fs-4 fw-normal text-dark">
+                            @if (auth()->guard('guest')->user())
+                                {{ auth()->guard('guest')->user()->name }}
+                            @endif
+                            </small>
+                        </span>
                     </div>
                     <div class="row justify-content-center align-items-center mt-5 mb-3 container-sm mx-auto">
                          <div class="col-md-4 p-0">
@@ -34,12 +41,12 @@
                                </div>
                          </div>
                          <div class="col-md-3 p-0">
-                             <div class="mb-2 text-md-center">
-                                 <label class="fs-5 fw-bold text-secondary">Checkout Date</label>
-                             </div>
-                             <div class="input-group col-md-8 flatpickr me-2 mb-2 mb-md-0" id="">
-                                 <input type="date" class="form-control " id="to" name="ckeckout" placeholder="Select date" data-input>
-                               </div>
+                            <div class="mb-2 text-md-center">
+                                <label class="fs-5 fw-bold text-secondary">Checkout Date</label>
+                            </div>
+                            <div class="input-group col-md-8 flatpickr me-2 mb-2 mb-md-0" id="">
+                                <input type="date" class="form-control " id="to" name="ckeckout" placeholder="Select date" data-input>
+                            </div>
                          </div>
                          <div class="col-md-2 p-0">
                             <div class="mb-2 text-md-center">
@@ -58,33 +65,8 @@
                         </div>
                     </div>
  
-                    <div class="row m-0 continainer" id="searchResult">
-                        {{-- <div class="col p-2">
-                            <div class="card mb-3 shadow-sm">
-                                <div class="row g-0">
-                                    <div class="col-md-4">
-                                        <img src="https://www.thespruce.com/thmb/zwsJE_aYKwL20wwKBOmwn0pXoTQ=/960x0/filters:no_upscale():max_bytes(150000):strip_icc()/Colorful-Art-Studio-Garden-in-California_5-3221e3e172f442c09d844c1d872d3162.jpg" class="img-fluid rounded-start" alt="...">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body p-3">
-                                            <h5>Guest House Name</h5>
-                                            <p class="card-text mb-1"><small class="text-body-secondary">Golaghat, Assam</small></p>
-                                            <ul>
-                                                <li>daafa</li>
-                                                <li>a j  ak  nskdjak ajsn</li>
-                                            </ul>
-                                            <p class="card-text text-truncate">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-                                            <div class="d-flex justify-content-end">
-                                                <button class="btn btn-primary">
-                                                    Check availablity
-                                                    <span class="mdi mdi-chevron-double-right"></span>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> --}}
-                        </div>
+                    <div class="container-sm" id="searchResult">
+
                     </div>
                  </div>
             </div>
@@ -145,11 +127,11 @@
                 success: function(res) {
                     console.log(res)
                     const guestHouseCard = res.map(data =>`
-                        <div class="col p-2">
-                            <div class="card mb-3 shadow-sm">
+                        <div class="">
+                            <div class="card mb-3 shadow-sm mb-3">
                                 <div class="row g-0">
                                     <div class="col-md-4">
-                                        <img src="https://www.thespruce.com/thmb/zwsJE_aYKwL20wwKBOmwn0pXoTQ=/960x0/filters:no_upscale():max_bytes(150000):strip_icc()/Colorful-Art-Studio-Garden-in-California_5-3221e3e172f442c09d844c1d872d3162.jpg" class="img-fluid rounded-start" alt="...">
+                                        <img class="card-image" src="https://www.thespruce.com/thmb/zwsJE_aYKwL20wwKBOmwn0pXoTQ=/960x0/filters:no_upscale():max_bytes(150000):strip_icc()/Colorful-Art-Studio-Garden-in-California_5-3221e3e172f442c09d844c1d872d3162.jpg" class="img-fluid rounded-start" alt="...">
                                     </div>
                                     <div class="col-md-8">
                                         <div class="card-body p-3">
@@ -160,8 +142,8 @@
                                                 <li>a j  ak  nskdjak ajsn</li>
                                             </ul>
                                             <p class="card-text text-truncate">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-                                            <div class="d-flex justify-content-end">
-                                                <button data-id="${data.id}" class="btn btn-primary check-guest-house">
+                                            <div class="d-flex justify-content-end pt-2">
+                                                <button data-id="${data.id}" class="btn btn-outline-success pt-1 check-guest-house">
                                                     Check availablity
                                                     <span class="mdi mdi-chevron-double-right"></span>
                                                 </button>
@@ -181,8 +163,16 @@
 
     $(document).on('click', '.check-guest-house', function () {
         var id = $(this).data('id');
-        var bookUrl = "{{ route('show-guest-house', ':id') }}";
-        window.location.href= bookUrl.replace(':id', id);
+        var checkin = $('#from').val();
+        var checkout = $('#to').val();
+
+        var bookUrl = "{{ route('show-guest-house', [':id',':checkin',':checkout']) }}";
+        bookUrl = bookUrl.replace(':id', id);
+        bookUrl = bookUrl.replace(':checkin', checkin);
+        bookUrl = bookUrl.replace(':checkout', checkout);
+        // bookUrl = bookUrl.replace([':id', ':checkin', ':checkout'], [id, checkin, checkout]);
+        console.log(bookUrl);
+        window.location.href = bookUrl;
         console.log(id);
     });
 

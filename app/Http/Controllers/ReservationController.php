@@ -2,13 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Reservation;
 use Illuminate\Http\Request;
+use App\Models\GuestHouseHasEmployee;
 
 class ReservationController extends Controller
 {
     //
     public function allReservations () {
-        return view('guestHouse.Reservation.index');
+        $employeeId = auth()->user()->id;
+        $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
+        
+        $reservations = Reservation::where('guest_house_id', $guest_house_id)
+                                    ->with('guest')
+                                    ->get();
+
+        return view('guestHouse.Reservation.index', compact('reservations'));
     }
 
     public function getAllReservations () {

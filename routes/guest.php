@@ -9,6 +9,7 @@ use App\Http\Controllers\RateController;
 use App\Http\Controllers\RoomController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\GuestMiddleware;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\BookingController;
@@ -48,6 +49,9 @@ Route::prefix('guest')->group( function () {
     });
 
     // Route::get('/profile')
+    Route::controller(OrderController::class)->group(function () {
+        Route::get('/orders', 'index')->name('my-orders');
+    });
 
     Route::controller(ProfileController::class)->group( function () {
         Route::get('/profile', 'profile')->name('guest-profile')->middleware(['auth']);
@@ -58,7 +62,8 @@ Route::prefix('guest')->group( function () {
     // })->name('show-guest-houses');
 
     Route::controller(BookingController::class)->group( function () {
-        Route::get('/book/{id}', 'index')->name('show-guest-house')->middleware('auth');
+        Route::get('/book/{id}/{checkin}/{checkout}', 'index')->name('show-guest-house')->middleware('guest');
+        Route::post('/book/new', 'newBooking')->name('new-booking')->middleware('guest');
     });
 
     Route::group(['middleware' => ['auth','role:admin|super admin']], function () {       

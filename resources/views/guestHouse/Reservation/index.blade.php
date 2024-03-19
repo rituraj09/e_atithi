@@ -1,6 +1,6 @@
 <!-- resources/views/profile.blade.php -->
 
-{{-- {{ dd($guest); }} --}}
+{{-- {{ dd($reservations); }} --}}
 
 <x-header/>
 <body>
@@ -36,8 +36,15 @@
                                     <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody id="List">
-                                    
+                                <tbody id="">
+                                    @foreach ($reservations as $reservation)
+                                        <tr>
+                                            <td>{{ $reservation->guest->name }}</td>
+                                            <td>a</td>
+                                            <td>{{ $reservation->created_at }}</td>
+                                            <td>a</td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
