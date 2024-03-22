@@ -1,56 +1,7 @@
-{{-- @php
-    phpinfo(INFO_MODULES);
-@endphp --}}
-
-{{-- 
-<form action="{{ route('guest-registration')}}" method="post">
-    @csrf
-    <div>
-        <label for="fullname">Full Name</label>
-        <input type="text" name="fullname" id="fullname">
-    </div>
-    <div>
-        <label for="phone">Phone</label>
-        <input type="number" name="phone" id="phone">
-    </div>
-    <div>
-        <label for="phoneOtp">OTP</label>
-        <input type="number" name="phoneOtp" id="phoneOtp">
-        <button>verify</button>
-    </div>
-    <div>
-        <label for="email">Email</label>
-        <input type="email" name="email" id="email">
-    </div>
-    <div>
-        <label for="emailOtp">OTP</label>
-        <input type="number" name="emailOtp" id="emailOtp">
-        <button>verify</button>
-    </div>
-    <div>
-        <img src="{{ route('captcha') }}" alt="Captcha Image">
-        <button>reload</button>
-    </div>
-    <div>
-        <input type="text" name="captcha" id="captcha">
-        <button>verify</button>
-    </div>
-    <div>
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password">
-    </div>
-    <div>
-        <label for="confirmPassword">Confirm Password</label>
-        <input type="password" name="confirmPassword" id="confirmPassword">
-    </div>
-    <div>
-        <input type="submit" value="Register">
-    </div>
-</form> --}}
-
 <x-header/>
-
+{{-- {{dd(session('otp'));}} --}}
 <body>
+  <x-loading/>
 	<div class="main-wrapper">
 		<div class="page-wrapper full-page">
 			<div class="page-content d-flex align-items-center justify-content-center">
@@ -96,16 +47,9 @@
                       <div class="row mb-2">
                         <label for="email" class="form-label col-md-4 m-auto">Email address</label>
                         <div class="col-md-8">
-                          <input type="email" class="form-control" id="email" name="email" placeholder="Email address">
-                        </div>
-                        
-                      </div>
-                      <div class="row mb-3">
-                        <label for="email-otp" class="form-label col-md-4 m-auto">OTP for email</label>
-                        <div class="col-md-8">
                           <div class="input-group">
-                            <input type="text" id="email-otp" class="form-control" placeholder="OTP sent to email address"/>
-                            <button type="button" class="btn btn-success">verify</button>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email address">
+                            <button id="emailVerification" type="button" class="btn btn-sm btn-success">Verify</button>
                           </div>
                         </div>
                       </div>
@@ -160,5 +104,60 @@
 			</div>
 		</div>
 	</div>
+
+  <script>
+  $(document).ready(function (){
+    $('#emailVerification').on('click', function (e) {
+      e.preventDefault();
+      const email = $('#email').val();
+
+      Swal.fire({
+        html: `
+          <div class="my-2">
+            <input class="form-control" type='text' id="otp" placeholder="Enter OTP">
+          </div>
+          <div class="row mx-0">
+            <div class="col"><button class="btn btn-primary btn-sm w-100" id="verify">verify</button></div>
+            <div class="col"><button class="btn btn-warning btn-sm w-100" id="resend">resend OTP</button></div>
+          </div>
+        `,
+        showConfirmButton: false,
+        allowOutsideClick: false,
+      });
+
+      $.ajax({
+        url: "{{ route('email-otp') }}",
+        type: "POST",
+        data: {email:email},
+        success: function (res) {
+          console.log(res);
+          Swal.fire({
+            position: "top-end",
+            title: "Your OTP has been sent to your email.",
+            showConfirmButton: false,
+            timer: 1500
+          });
+          $('#loading').addClass('d-none');
+          Swal.fire({
+            html: `
+              <div class="my-2">
+                <input class="form-control" type='text' id="otp" placeholder="Enter OTP">
+              </div>
+              <div class="row mx-0">
+                <div class="col"><button class="btn btn-primary btn-sm w-100" id="verify">verify</button></div>
+                <div class="col"><button class="btn btn-warning btn-sm w-100" id="resend">resend OTP</button></div>
+              </div>
+            `,
+            showConfirmButton: false,
+            allowOutsideClick: false,
+          });
+        }
+      })
+      $('#loading').removeClass('d-none');
+
+      // $('#')
+    })
+  })
+  </script>
 
 <x-main-footer/>

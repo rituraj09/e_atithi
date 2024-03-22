@@ -127,7 +127,7 @@
                         </a>
                     </li>
                     <li class="dropdown-item py-2">
-                        <form action="{{ route('logout')}}" method="post">
+                        <form action="{{ route('guest-logout')}}" method="post">
                             @csrf
                             <button class="bg-opacity-0" href="" class="text-body ms-0">
                                 <i class="me-2 icon-md" data-feather="log-out"></i>

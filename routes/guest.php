@@ -46,11 +46,12 @@ Route::prefix('guest')->group( function () {
             return view('guest.user.login');
         })->name('guest-login');
         Route::post('/login', 'login')->name('guest-login-entry');
+        Route::post('/logout', 'logout')->name('guest-logout');
     });
 
     // Route::get('/profile')
     Route::controller(OrderController::class)->group(function () {
-        Route::get('/orders', 'index')->name('my-orders');
+        Route::get('/orders', 'index')->name('my-orders')->middleware('guest');
     });
 
     Route::controller(ProfileController::class)->group( function () {

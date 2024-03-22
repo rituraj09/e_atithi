@@ -120,21 +120,21 @@ class AuthController extends Controller
         } catch (e) {
             return 'e';
         }
-    }
+    }  */
 
-    public function logout2(Request $request)
+    public function logout(Request $request)
     {
         if (Auth::check()){
             $logs = $this->guestLog($request->ip(), "Logged out", auth()->id());
         }
 
-        Auth::user()->tokens()->delete();
+        // Auth::user()->tokens()->delete();
 
-        Auth::logout();
+        Auth::guard('guest')->logout();
 
         return redirect()->route('guest-login');
     }
-    */
+    
 
     public function guestLog($ip = null, $activity = null, $guestId = null){
         // auto ip, auto time
