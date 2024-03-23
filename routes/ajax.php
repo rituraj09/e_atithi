@@ -44,7 +44,8 @@ Route::prefix('/ajax')->group( function () {
 
     Route::controller(OTPController::class)->group( function () {
         Route::post('/generateOTP', 'generateOTP')->name('email-otp');
-        Route::post('/verifyOTPEmail', 'verifyOTP')->name('verify-email');
+        Route::post('/verifyOTPEmail', 'verifyOTPEmail')->name('verify-email');
+        // Route::post('/resendOTP', 'gener')
     });
 
 });

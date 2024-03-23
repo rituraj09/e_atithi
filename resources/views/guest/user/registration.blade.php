@@ -116,48 +116,86 @@
           <div class="my-2">
             <input class="form-control" type='text' id="otp" placeholder="Enter OTP">
           </div>
+          <div class="p-1">
+            <small id="otpMessage">sending...<small>
+          </div>    
           <div class="row mx-0">
-            <div class="col"><button class="btn btn-primary btn-sm w-100" id="verify">verify</button></div>
-            <div class="col"><button class="btn btn-warning btn-sm w-100" id="resend">resend OTP</button></div>
+            <div class="col"><button class="btn btn-primary btn-sm w-100" id="verify" disabled>verify</button></div>
+            <div class="col"><button class="btn btn-warning btn-sm w-100" id="resend" disabled>resend OTP</button></div>
           </div>
         `,
         showConfirmButton: false,
         allowOutsideClick: false,
       });
+      $('#verify').prop('disabled');
+      $('#resend').prop('disabled');
 
       $.ajax({
         url: "{{ route('email-otp') }}",
         type: "POST",
         data: {email:email},
         success: function (res) {
+          $('#verify').prop('disabled', false);
           console.log(res);
-          Swal.fire({
-            position: "top-end",
-            title: "Your OTP has been sent to your email.",
-            showConfirmButton: false,
-            timer: 1500
-          });
-          $('#loading').addClass('d-none');
-          Swal.fire({
-            html: `
-              <div class="my-2">
-                <input class="form-control" type='text' id="otp" placeholder="Enter OTP">
-              </div>
-              <div class="row mx-0">
-                <div class="col"><button class="btn btn-primary btn-sm w-100" id="verify">verify</button></div>
-                <div class="col"><button class="btn btn-warning btn-sm w-100" id="resend">resend OTP</button></div>
-              </div>
-            `,
-            showConfirmButton: false,
-            allowOutsideClick: false,
-          });
+          $('#otpMessage').html('OTP has been sent to your email. ');
+          $('#otpMessage').addClass('text-success');
+
+          setTimeout(function() {
+            $('#resend').prop('disabled', false);
+          }, (14 * 60 * 1000) + (58 * 1000));
         }
       })
-      $('#loading').removeClass('d-none');
 
       // $('#')
     })
-  })
+
+    $(document).on('click', '#resend', function () {
+      const email = $('#email').val();
+
+      // Resend OTP logic
+      $.ajax({
+        url: "{{ route('email-otp') }}",
+        type: "POST",
+        data: {email: email},
+        success: function (res) {
+          console.log(res);
+          $('#otpMessage').html('OTP has been sent to your email. ');
+          $('#otpMessage').addClass('text-success');
+        }
+      });
+    });
+
+    $(document).on('click', '#verify', function (e) {
+        e.preventDefault();
+        const userOTP = $('#otp').val();
+        $.ajax({
+            url: "{{ route('verify-email') }}",
+            type: "POST",
+            data: {userOTP:userOTP},
+            success: function(res) {
+                if (res.message === 'matching') {
+                    Swal.fire({
+                      title: "Email verified successfully!",
+                      showConfirmButton: false,
+                      timer: 1500
+                    });
+                } else if (res.message === 'invalid') {
+                    $('#otpMessage').html('OTP may expired. Please resend.');
+                    $('#otpMessage').addClass('text-danger');
+                    $('#resend').prop('disabled', false);
+                } else {
+                    $('#otpMessage').html('OTP is not matching.');
+                    $('#otpMessage').addClass('text-danger');
+                    $('#resend').prop('disabled', false);
+                }
+            }
+        });  
+    })
+  });
+
+  $(document).on('input', '#otp', function() {
+    //
+  });
   </script>
 
 <x-main-footer/>

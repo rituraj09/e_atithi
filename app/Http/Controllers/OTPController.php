@@ -6,6 +6,7 @@ use Str;
 // use App\Mail\OTPMail;
 use App\Mail\OtpMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 class OTPController extends Controller
@@ -20,8 +21,11 @@ class OTPController extends Controller
 
         $email = $request->input('email');
 
-        // Generate random OTP
-        $otp = Str::random(6);
+        // Generate random OTP alphan// Generates a 6-digit numeric OTPumeric
+        // $otp = Str::random(6);
+
+        // Generates a 6-digit numeric OTP
+        $otp = rand(100000, 999999); 
 
         $secureOTP = bcrypt($otp);
 
@@ -47,7 +51,36 @@ class OTPController extends Controller
         Mail::to($email)->send(new OtpMail($content));
     }
 
-    public function verifyOTPEmail () {
+    public function verifyOTPEmail(Request $request)
+    {
+        $request->validate([
+            'userOTP' => 'required|string|min:6|max:6', // Assuming OTP length is 6 characters
+        ]);
 
+        // Get user-entered OTP
+        $userOTP = $request->input('userOTP');
+
+        // Retrieve the stored OTP and its expiration time from the session
+        $storedOTP = session('otp');
+        $otpExpiresAt = session('otp_expires_at');
+
+        // Check if OTP exists and is not expired
+        if ($storedOTP && now()->lt($otpExpiresAt)) {
+            // Verify if the user-entered OTP matches the stored OTP
+            // if (password_verify($userOTP, $storedOTP)) {
+            if (Hash::check($userOTP, $storedOTP)) {
+                // You can clear the OTP from the session after successful verification
+                session()->forget('otp');
+                session()->forget('otp_expires_at');
+                return response()->json(['message' => 'matching']);
+            } else {
+                // Incorrect OTP
+                return response()->json(['message' => 'invalid']);
+            }
+        } else {
+            // OTP expired or not found in session
+            return response()->json(['message' => 'expired']);
+        }
     }
+
 }

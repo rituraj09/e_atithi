@@ -7,7 +7,7 @@
     <title>Document</title>
     <style>
         h2 > span{
-            color: rgb(0, 72, 206);
+            color: rgba(0, 72, 206, 0.527);
             text-align: center;
             font-size: 20px;
         }
@@ -30,8 +30,8 @@
 </head>
 <body>
     <h2>Welcome to <span>eAtihi</span></h2>
-    <hr>
-    <h3 style="text-align: center">Your One Time Password (OTP) :</h3>
+    <br>
+    <h3>Your One Time Password (OTP) :</h3>
     <div 
         style="
             width: 100%;
@@ -44,7 +44,9 @@
         </div>
     </div>
     <br>
-    <p>This OTP is for verifying your email address.</p>
-    <p>Thanks</p>
+    <br>
+    <p>This OTP is valid for {{ $mailData['expiry'] }} minutes. Do not share to anyone. The OTP is only for verifying your email address.</p>
+    <p>Thanks for using our service.</p>
+    <p>Team eAtithi.</p>
 </body>
 </html>
