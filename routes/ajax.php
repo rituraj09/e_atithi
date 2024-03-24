@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OTPController;
+use App\Http\Controllers\SMSController;
 use App\Http\Controllers\RateController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\FeatureController;
@@ -42,10 +44,15 @@ Route::prefix('/ajax')->group( function () {
         Route::post('/get-guest-houses', 'getGuestHouses')->name('get-guest-houses');
     });
 
-    Route::controller(OTPController::class)->group( function () {
+    Route::controller(EmailController::class)->group( function () {
         Route::post('/generateOTP', 'generateOTP')->name('email-otp');
         Route::post('/verifyOTPEmail', 'verifyOTPEmail')->name('verify-email');
         // Route::post('/resendOTP', 'gener')
+    });
+
+    Route::controller(SMSController::class)->group( function () {
+        Route::post('/smsOTP', 'sendOTP')->name('sms-otp');
+        
     });
 
 });
