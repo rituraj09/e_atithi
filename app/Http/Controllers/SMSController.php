@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\TwilioService;
+use Illuminate\Support\Facades\Hash;
 
 class SMSController extends Controller
 {
@@ -17,15 +18,19 @@ class SMSController extends Controller
     public function sendOTP(Request $request)
     {
         $request->validate([
-            'phone' => 'required|phone:IN', // Adjust validation as per your requirements
+            'phone' => 'required', // Adjust validation as per your requirements
         ]);
 
         $otp = rand(100000, 999999); // Generate a random 6-digit OTP
         $phone = $request->input('phone');
 
+        $secureOtp = bcrypt($otp);
+
         // session
-        session()->put('phone_otp', $otp);
+        session()->put('phone_otp', $secureOtp);
         session()->put('phone_otp_expires_at', now()->addMinutes(15));
+
+        // return response()->json(['otp'=>$otp]);
 
         // Send OTP via Twilio
         $this->twilioService->sendOTP($phone, $otp);

@@ -65,6 +65,7 @@
             })
         });
 
+        
         $("#price").on("input", function() {
             // Regular expression to allow only numbers, optional decimal point, and up to 2 decimal places
             const regex = /^\d+(\.\d{0,2})?$/;
@@ -110,15 +111,31 @@
             // Check if the entered value matches the regular expression
             const isValid = regex.test($(this).val());
 
+            // Check if the input field is a part of input group or not
+            const hasInputGroupParent = $(this).parent(".input-group").length > 0;
+
             // Set error message and style based on validity
             if (isValid) {
-                $(this).removeClass("error");
-                $(this).siblings(".error-message").remove(); // Remove existing error message if present
+                $(this).removeClass("border-danger");
+                if (hasInputGroupParent) {
+                    $(this).parent(".input-group").removeClass("error");
+                    $(this).parent(".input-group").siblings(".error-message").remove();
+                } else {
+                    $(this).removeClass("error");
+                    $(this).siblings(".error-message").remove();
+                }  
             } else {
-                $(this).addClass("error");
-                $(this).siblings(".error-message").remove();
-                // Add error message next to the input field
-                $(this).after("<span class='error-message text-danger'><small>Please enter a valid email address.<small/></span>");
+                $(this).addClass("border-danger");
+                if (hasInputGroupParent) {
+                    $(this).parent(".input-group").addClass("error");
+                    $(this).parent(".input-group").siblings(".error-message").remove();
+                    $(this).parent(".input-group").after("<span class='error-message text-danger'><small>Please enter a valid email address.<small/></span>");
+                } else {
+                    $(this).addClass("error");
+                    $(this).siblings(".error-message").remove();
+                    $(this).after("<span class='error-message text-danger'><small>Please enter a valid email address.<small/></span>");
+                }
+                
             }
         });
 

@@ -102,17 +102,24 @@
 
   <script>
   $(document).ready(function (){
+    // CSRF header
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
     // Phone verification using OTP
     $('#phoneVerification').on('click', function (e) {
       e.preventDefault();
-      const email = $('#phone').val();
+      const phone = $('#phone').val();
       Swal.fire({
         html: `
           <div class="my-2">
             <input class="form-control" type='text' id="phoneOTP" placeholder="Enter OTP sent to your email">
           </div>
           <div class="p-1">
-            <small id="otpMessage">sending...<small>
+            <small id="PhoneOtpMessage">sending...<small>
           </div>    
           <div class="row mx-0">
             <div class="col"><button class="btn btn-primary btn-sm w-100" id="verifyPhone" disabled>verify</button></div>
@@ -126,20 +133,67 @@
       $('#resendPhone').prop('disabled');
 
       $.ajax({
-        url: "{{ route('email-otp') }}",
+        url: "{{ route('sms-otp') }}",
         type: "POST",
-        data: {email:email},
+        data: {phone:phone},
         success: function (res) {
-          $('#verify').prop('disabled', false);
+          $('#verifyPhone').prop('disabled', false);
           console.log(res);
-          $('#otpMessage').html('OTP has been sent to your email. ');
-          $('#otpMessage').addClass('text-success');
+          $('#PhoneOtpMessage').html('OTP has been sent to your email. ');
+          $('#PhoneOtpMessage').addClass('text-success');
 
           setTimeout(function() {
-            $('#resend').prop('disabled', false);
-          }, (14 * 60 * 1000) + (58 * 1000));
+            $('#resendPhone').prop('disabled', false);
+          }, (14 * 60 * 1000) + (50 * 1000));
         }
       });
+    });
+
+    $(document).on('click', '#resendPhone', function (e) {
+      const phone = $('#phone').val();
+
+      $.ajax({
+        url: "{{ route('sms-otp') }}",
+        type: "POST",
+        data: {phone:phone},
+        success: function (res) {
+          $('#PhoneOtpMessage').html('OTP has been resent to your phone.');
+          $('#PhoneOtpMessage').removeClass('text-danger');
+          $('#PhoneOtpMessage').addClass('text-success');
+        }
+      })
+    });
+
+    $(document).on('click', '#verifyPhone', function (e) {
+        e.preventDefault();
+        const userOTP = $('#phoneOTP').val();
+        $.ajax({
+            url: "{{ route('verify-phone') }}",
+            type: "POST",
+            data: {userOTP:userOTP},
+            success: function(res) {
+                if (res.message === 'matching') {
+                    Swal.fire({
+                      title: "Phone verified successfully!",
+                      showConfirmButton: false,
+                      timer: 1500
+                    });
+                    $('#phoneVerification').html(`<i class="mdi mdi-check"></i>`);
+                    $('#phoneVerification').addClass('btn-outline-primary').removeClass('btn-success');
+                    $('#phoneVerification').prop('disabled');
+                } else if (res.message === 'invalid') {
+                    $('#PhoneOtpMessage').html('OTP may expired. Please resend.');
+                    $('#PhoneOtpMessage').removeClass('text-success');
+                    $('#PhoneOtpMessage').addClass('text-danger');
+                    $('#resendPhone').prop('disabled', false);
+                } else {
+                    $('#PhoneOtpMessage').html('OTP is not matching.');
+                    $('#PhoneOtpMessage').removeClass('text-success');
+                    $('#PhoneOtpMessage').addClass('text-danger');
+                    $('#resendPhone').prop('disabled', false);
+                }
+            }
+        });  
     })
 
     // Email verification using OTP
@@ -152,7 +206,7 @@
             <input class="form-control" type='text' id="emailOTP" placeholder="Enter OTP sent to your email">
           </div>
           <div class="p-1">
-            <small class="otpMessage">sending...<small>
+            <small class="EmailOtpMessage">sending...<small>
           </div>    
           <div class="row mx-0">
             <div class="col"><button class="btn btn-primary btn-sm w-100" id="verifyEmail" disabled>verify</button></div>
@@ -172,8 +226,8 @@
         success: function (res) {
           $('#verifyEmail').prop('disabled', false);
           console.log(res);
-          $('.otpMessage').html('OTP has been sent to your email. ');
-          $('.otpMessage').addClass('text-success');
+          $('#EmailOtpMessage').html('OTP has been sent to your email. ');
+          $('#EmailOtpMessage').addClass('text-success');
 
           setTimeout(function() {
             $('#resendEmail').prop('disabled', false);
@@ -192,8 +246,8 @@
         data: {email: email},
         success: function (res) {
           console.log(res);
-          $('.otpMessage').html('OTP has been sent to your email. ');
-          $('.otpMessage').addClass('text-success');
+          $('#EmailOtpMessage').html('OTP has been resent to your email. ');
+          $('#EmailOtpMessage').addClass('text-success');
         }
       });
     });
@@ -212,13 +266,16 @@
                       showConfirmButton: false,
                       timer: 1500
                     });
+                    $('#emailVerification').html(`<i class="mdi mdi-check"></i>`);
+                    $('#emailVerification').addClass('btn-outline-primary').removeClass('btn-success');
+                    $('#emailVerification').prop('disabled');
                 } else if (res.message === 'invalid') {
-                    $('.otpMessage').html('OTP may expired. Please resend.');
-                    $('.otpMessage').addClass('text-danger');
+                    $('#EmailOtpMessage').html('OTP may expired. Please resend.');
+                    $('#EmailOtpMessage').addClass('text-danger');
                     $('#resendEmail').prop('disabled', false);
                 } else {
-                    $('.otpMessage').html('OTP is not matching.');
-                    $('.otpMessage').addClass('text-danger');
+                    $('#EmailOtpMessage').html('OTP is not matching.');
+                    $('#EmailOtpMessage').addClass('text-danger');
                     $('#resendEmail').prop('disabled', false);
                 }
             }

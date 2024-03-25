@@ -52,7 +52,7 @@ Route::prefix('/ajax')->group( function () {
 
     Route::controller(SMSController::class)->group( function () {
         Route::post('/smsOTP', 'sendOTP')->name('sms-otp');
-        
+        Route::post('/verifyPhone', 'verifyPhoneOTP')->name('verify-phone');
     });
 
 });
