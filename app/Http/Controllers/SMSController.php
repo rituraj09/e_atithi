@@ -30,10 +30,10 @@ class SMSController extends Controller
         session()->put('phone_otp', $secureOtp);
         session()->put('phone_otp_expires_at', now()->addMinutes(15));
 
-        // return response()->json(['otp'=>$otp]);
+        return response()->json(['otp'=>$otp]);
 
         // Send OTP via Twilio
-        $this->twilioService->sendOTP($phone, $otp);
+        // $this->twilioService->sendOTP($phone, $otp);
 
         // Store OTP in session or database for verification
 

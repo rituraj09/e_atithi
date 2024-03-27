@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use DatePeriod;
 use Carbon\Carbon;
 use App\Models\Rooms;
 use App\Models\Guesthouse;
 use App\Models\Reservation;
+use App\Models\RoomOnDates;
 use App\Models\RoomCategory;
 use Illuminate\Http\Request;
 use App\Models\ReservationRoom;
@@ -55,7 +57,20 @@ class BookingController extends Controller
                 'reservation_id' => $reservationNo,
                 'room_id' => $room,
             ]);
+            
+            $checkin = Carbon::parse($request->checkin);
+            $checkout = Carbon::parse($request->checkout);
+
+            $dates = $checkin->range($checkout)->toArray();
+
+            foreach ($dates as $date) {
+                RoomOnDates::create([
+                    'room_id' => $room,
+                    'date' => $date->format('Y-m-d'),
+                ]);
+            }
         }
+
         if (!$reservation || !$roomReservation) {
             dd($reservation, $roomReservation);
         }
@@ -91,7 +106,7 @@ class BookingController extends Controller
         $formattedCheckIn = Carbon::parse($checkInDate)->format('dmY');
 
         // Generate a random string (adjust length as desired)
-        $randomString = strtoupper(substr(md5(uniqid(microtime(), true)), 0, 6));
+        $randomString = strtoupper(substr(md5(uniqid(microtime(), true)), 0, 4));
 
         // Combine elements with separators
         $reservationNo = $formattedCheckIn . '-' . $guestHouseId . '-' . $randomString;

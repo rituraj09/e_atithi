@@ -172,7 +172,7 @@
                             <tfoot>
                                 <tr>
                                     <td class="text-center">Total</td>
-                                    <td class="text-end" id="total" colspan="3">0.00</td>
+                                    <td class="text-end" id="total" colspan="3"></td>
                                     <td>
                                         <button type="button" class="btn btn-sm btn-primary" type="text" id="book">book</button>
                                     </td>
@@ -189,11 +189,7 @@
     <script>
     $(document).ready(function () {
         var guestHouse = "{{ $guestHouse->id }}";
-        var checkin = "{{ $checkInDate }}";
-        var checkout = "{{ $checkOutDate }}";
-        var visitingReason = $('#visitingReason').val();
-        var roomCategory = $('#roomCategory').val();
-        var doc = $('#idFile').val();
+        
         var rooms = [];
 
 
@@ -204,70 +200,46 @@
 
         $('#book').on('click', function() {
             console.log(rooms, visitingReason, roomCategory);
+            var checkin = "{{ $checkInDate }}";
+            var checkout = "{{ $checkOutDate }}";
+            var visitingReason = $('#visitingReason').val();
+            var roomCategory = $('#roomCategory').val();
+            var doc = $('#idFile').val();
 
-            $.ajax({
-                url: "{{ route('new-booking') }}",
-                type: "POST",
-                data: {
-                    rooms:rooms,
-                    visitingReason:visitingReason,
-                    roomCategory:roomCategory,
-                    checkin:checkin,
-                    checkout:checkout,
-                    guestHouse:guestHouse,
-                    doc:doc,
-                }
-                success: function(res){
-                    
-                }
+            Swal.fire({
+                title: "eAtithi",
+                text: "You have to pay total 110/- Rupees.",
+                showConfirmButton: true,
+                confirmButtonText: "Book",
+                onConfirm: $.ajax({
+                    url: "{{ route('new-booking') }}",
+                    type: "POST",
+                    data: {
+                        rooms:rooms,
+                        visitingReason:visitingReason,
+                        roomCategory:roomCategory,
+                        checkin:checkin,
+                        checkout:checkout,
+                        guestHouse:guestHouse,
+                        doc:doc,
+                    },
+                    success: function(res){
+                        console.log(res);
+                    }
+                });
             })
 
-            // Swal.fire({
-            //     title: "Submit your Github username",
-            //     input: "text",
-            //     inputAttributes: {
-            //         autocapitalize: "off"
-            //     },
-            //     showCancelButton: true,
-            //     confirmButtonText: "Look up",
-            //     showLoaderOnConfirm: true,
-            //     preConfirm: async (login) => {
-            //         try {
-            //             const githubUrl = `
-            //                 https://api.github.com/users/${login}
-            //             `;
-            //             const response = await fetch(githubUrl);
-            //             if (!response.ok) {
-            //                 return Swal.showValidationMessage(`
-            //                 ${JSON.stringify(await response.json())}
-            //                 `);
-            //             }
-            //             return response.json();
-            //         } catch (error) {
-            //             Swal.showValidationMessage(`
-            //                 Request failed: ${error}
-            //             `);
-            //         }
-            //     },
-            //     allowOutsideClick: () => !Swal.isLoading()
-            //     }).then((result) => {
-            //         if (result.isConfirmed) {
-            //             Swal.fire({
-            //             title: `${result.value.login}'s avatar`,
-            //             imageUrl: result.value.avatar_url
-            //         });
-            //     }
-            // });
+            
+
         });
 
-        $('input[name="roomSelect"]').change(function() {
+        $('input[name="roomSelect"]').on('change',function() {
             // console.log($(this));
             if ( $(this).prop('checked') ) {
                 $(this).closest('tr').addClass('bg-selected');
                 rooms.push($(this).data('id'));
             } else {
                 $(this).closest('tr').removeClass('bg-selected');
-                // $(this).closest('tr').addClass('bg-white');
             }
             var total = 0;
             $('input[name="roomSelect"]:checked').each(function() {
@@ -277,11 +249,6 @@
             $('#total').html(total.toFixed(2)); // Assuming you want to display the total with 2 decimal places
         });
     });
-
-
-        $(document).ready(function() {
-            // $('tr').addClass('bg-primary bg-opacity-10');
-        });
 
 
     $(document).ready(function () {
@@ -294,9 +261,6 @@
         $('#to').prop('min', function () {
             return today.toISOString().split('T')[0];
         })
-        // $('#to').prop('min', function () {
-        //     return today.toISOString().split('T')[0];
-        // })      max 3 month
 
         var f;
         $('#from').on('change', function () {
