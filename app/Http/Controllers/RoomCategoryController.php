@@ -10,14 +10,13 @@ class RoomCategoryController extends Controller
 {
     //
     public function roomCategories () {
-        // $guest_house_id = 1;
+
         $employeeId = auth()->user()->id;
         $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
-        // dd(auth()->user()->id);
-        // if (!$guest_house_id) {
-        //     return view('guestHouse.RoomCategory.index');
-        // }
-        $roomCategories = RoomCategory::where('guest_house_id', $guest_house_id)->get();
+
+        $roomCategories = RoomCategory::where('guest_house_id', $guest_house_id)
+                                    ->with('rooms')
+                                    ->get();
 
         // if( !$roomCategories ) {
             $roomCategory = NULL;
@@ -35,7 +34,9 @@ class RoomCategoryController extends Controller
         if(!$guest_house_id) {
             return response()->json('no');
         }
-        $roomCategories = RoomCategory::where('guest_house_id', $guest_house_id)->get();
+        $roomCategories = RoomCategory::where('guest_house_id', $guest_house_id)
+                                    ->with('rooms')
+                                    ->get();
         // dd($roomCategories);
         if (!$roomCategories) {
             return response()->json('null');

@@ -48,11 +48,8 @@
                                         </td>
                                         <td>
                                             <div class="d-flex">
-                                                <a href="" class="btn btn-sm btn-info me-2">view</a>
+                                                <a href="{{ route('view-room-rate', ['id' => $roomRate->id]) }}" class="btn btn-sm btn-info me-2">view</a>
                                                 <a href="{{ route('edit-room-rate', ['id' => $roomRate->id]) }}" class="btn btn-sm btn-primary me-2">edit</a>
-                                                {{-- @if ($roomRate->)
-                                                    
-                                                @endif --}}
                                                 <button class="btn btn-sm btn-danger me-2 ask-delete" data-id="{{ $roomRate->id }}">delete</button>
                                             </div>
                                         </td>

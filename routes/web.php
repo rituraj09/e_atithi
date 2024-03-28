@@ -96,6 +96,7 @@ Route::prefix('guest-house')->group( function () {
             Route::post('/new-room-rate', 'newRoomRate')->name('new-room-rate');
             Route::post('/update-rate', 'updateRoomRate')->name('update-room-rate');
             Route::post('/delete-rate', 'deleteRoomRate')->name('delete-room-rate');
+            Route::get('/view-room-rate/{id}', 'viewRoomRate')->name('view-room-rate');
         });
 
         Route::controller(FeatureController::class)->group( function () {

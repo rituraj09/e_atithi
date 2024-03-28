@@ -153,24 +153,31 @@ class GuestHouseController extends Controller
         // return "hello";
         $fields = $this->validateForm($request);
 
-        $fields = $request->validate([
+        // dd($fields);
+
+        $adminFields = $request->validate([
             // admin part
             'admin_name' => 'required|min:3',
             'admin_email' => 'required|email|unique:admins,email',
             'admin_phone' => 'required|min:10',
         ]);
 
-        $fields['admin_password'] = bcrypt($this->passwordGenerator());
-        $fields['admin_role'] = 2;  // admin role id
+        $adminFields['admin_password'] = bcrypt($this->passwordGenerator());
+        $adminFields['admin_role'] = 2;  // admin role id
 
+        // dd($fields);
 
         $admin = Admin::create([
-            'admin_name' => $fields['admin_name'],
-            'phone' => $fields['admin_phone'],
-            'email' => $fields['admin_email'],
-            'role' => $fields['admin_role'],
-            'password' => $fields['admin_password'],
+            'admin_name' => $adminFields['admin_name'],
+            'phone' => $adminFields['admin_phone'],
+            'email' => $adminFields['admin_email'],
+            'role' => $adminFields['admin_role'],
+            'password' => $adminFields['admin_password'],
         ]);
+
+        if (!$admin) {
+            return redirect()->route('add-guest-house')->with(['icon'=>'error', 'message'=>'Error in admin']);
+        }
 
         $guestHouse = Guesthouse::create([
             'name' => $fields['name'],
@@ -184,10 +191,18 @@ class GuestHouseController extends Controller
             'guest_house_type' => $fields['guestHouseType'],
         ]);
 
+        if (!$guestHouse) {
+            return redirect()->route('add-guest-house')->with(['icon'=>'error', 'message'=>'Error in guest house']);
+        }
+
         $guestHouseEmployee = GuestHouseHasEmployee::create([
             'guest_house_id' => $guestHouse->id,
             'employee_id' => $admin->id,
         ]);
+
+        if (!$guestHouseEmployee) {
+            return redirect()->route('add-guest-house')->with(['icon'=>'error', 'message'=>'Error in guest house has employee']);
+        }
 
 
         // dd($guestHouseEmployee, $guestHouse->id, $admin->id);
@@ -200,10 +215,10 @@ class GuestHouseController extends Controller
 
         if (!$guestHouse || !$admin || !$guestHouseEmployee) {
             // return $guestHouseEmployee;
-            return response()->with('error');
+            return response()->with(['icon'=>'error', 'message'=>'Error in ']);
         }
 
-        return redirect()->route('all-guest-house');
+        return redirect()->route('all-guest-house')->with(['icon'=>'success', 'message'=>'New guest houses added successfully']);
     }
 
     public function passwordGenerator () {

@@ -9,9 +9,6 @@
             <x-admin.navbar/>
 
             <div class="page-content">
-                {{-- <div class="d-flex justify-content-between mb-3">
-                    <h6 class="card-title my-auto">Manage Room Categories</h6>
-                </div> --}}
                 <x-page-header :title="'Manage Room Categories'" />
                 <div class="d-flex flex-column border card">
                     <div class="nav nav-tabs bg-light pt-2 px-2">
@@ -22,7 +19,6 @@
                         </div>
                         <div>
                             <button class="text-capitalize nav-link" id="add">  
-                                {{-- href="{{ route('guest-house-admin-add-room') }}"  --}}
                                 add
                             </button>
                         </div>
@@ -35,6 +31,7 @@
                         @endif
                     </div>
                     <div>
+                        @if ($roomCategory)
                         <div class="card-body categoryForm">
                             <form id="newRoomForm">
                                 <div class="mb-3">
@@ -51,15 +48,15 @@
                                         <button id="addCategory" class="btn btn-sm btn-success">Submit</button>
                                     @endif
                                 </div>
-                            </form>
+                            </form>    
                         </div>
+                        @endif
                         <div class="table-responsive category">
                             <table class="table" id="dataTableExample">
                                 <thead>
                                     <tr>
                                         <th>Room Category</th>
-                                        <th>Rate</th>
-                                        <th>Remarks</th>
+                                        <th>Rooms</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -70,15 +67,6 @@
                         </div>
                     </div>
                 </div>
-                {{-- <div class="row"> --}}
-					{{-- <div class="col-md-12 grid-margin stretch-card"> --}}
-                        {{-- <div class="card"> --}}
-                            {{-- <div class="card-body"> --}}
-                                
-                            {{-- </div> --}}
-                        {{-- </div> --}}
-                    {{-- </div> --}}
-                {{-- </div> --}}
             </div>
         </div>
     </div>
@@ -106,8 +94,11 @@
                     const html = res.data.map(data => `
                         <tr>
                             <td>${data.name}</td>
-                            <td>200/-</td>
-                            <td></td>
+                            <td>
+                                <div class="d-flex py-0" id="${data.id}rooms">
+                                    
+                                </div>    
+                            </td>
                             <td>
                                 <div class="d-flex py-0">
                                     <div class="px-1">
@@ -124,14 +115,24 @@
                             </td>
                         </tr>`).join('');
                     categoryList.html(html);
-                    categoryList.append(html);
-                    categoryList.append(html);
-                    categoryList.append(html);
+
+                    res.data.map(data => {
+                        var rooms = data.rooms.map(room => `
+                        <div class="px-1">
+                            <small class="badge bg-success">
+                                ${room.name}
+                            </small>
+                        </div>
+                        `).join('');
+                        $(`#${data.id}rooms`).html(rooms);
+                    })
+                    
                 }
             });
         }
 
         loadCategory();
+
 
         $("#addCategory").click( (e) => {
             e.preventDefault();
@@ -253,7 +254,6 @@
             $(".category").hide();
         });
 
-        $("")
     })
 
 

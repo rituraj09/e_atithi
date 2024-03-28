@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\RateList;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,4 +24,9 @@ class RoomCategory extends Model
     public $timestamps = false;
 
     protected $dates = ['deleted_at'];
+
+    public function rooms()
+    {
+        return $this->hasMany(RateList::class,'room_category');
+    }
 }

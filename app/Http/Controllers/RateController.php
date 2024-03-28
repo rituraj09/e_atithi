@@ -32,6 +32,17 @@ class RateController extends Controller
         return view('guestHouse.Rate.index', compact('roomRates'));
     }
 
+    public function viewRoomRate ($id) {
+        $roomRate = RateList::find($id)->first();
+        
+        $employeeId = auth()->user()->id;
+        $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
+
+        $roomCategories = RoomCategory::where('guest_house_id', $guest_house_id)->get();
+        
+        return view('guestHouse.Rate.view', compact(['roomRate', 'roomCategories']));
+    }
+
     public function editRoomRate ($id) {
         $roomCategories = RoomCategory::all();
         $roomRate = RateList::find($id)->first();
@@ -62,7 +73,10 @@ class RateController extends Controller
     }
 
     public function addRoomRate () {
-        $roomCategories = RoomCategory::all();
+        $employeeId = auth()->user()->id;
+        $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
+
+        $roomCategories = RoomCategory::where('guest_house_id', $guest_house_id)->get();
         return view('guestHouse.Rate.add', compact('roomCategories'));
     }
 

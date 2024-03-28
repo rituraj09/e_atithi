@@ -189,7 +189,6 @@
     <script>
     $(document).ready(function () {
         var guestHouse = "{{ $guestHouse->id }}";
-        
         var rooms = [];
 
 
@@ -205,31 +204,34 @@
             var visitingReason = $('#visitingReason').val();
             var roomCategory = $('#roomCategory').val();
             var doc = $('#idFile').val();
+            var total = $('#total').text();
+
+            var message = `You have to pay total ${total}/- Rupees`;
 
             Swal.fire({
                 title: "eAtithi",
-                text: "You have to pay total 110/- Rupees.",
-                showConfirmButton: true,
+                text: message,
                 confirmButtonText: "Book",
-                onConfirm: $.ajax({
-                    url: "{{ route('new-booking') }}",
-                    type: "POST",
-                    data: {
-                        rooms:rooms,
-                        visitingReason:visitingReason,
-                        roomCategory:roomCategory,
-                        checkin:checkin,
-                        checkout:checkout,
-                        guestHouse:guestHouse,
-                        doc:doc,
-                    },
-                    success: function(res){
-                        console.log(res);
-                    }
-                });
-            })
-
-            
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ route('new-booking') }}",
+                        type: "POST",
+                        data: {
+                            rooms:rooms,
+                            visitingReason:visitingReason,
+                            roomCategory:roomCategory,
+                            checkin:checkin,
+                            checkout:checkout,
+                            guestHouse:guestHouse,
+                            doc:doc,
+                        },
+                        success: function(res){
+                            console.log(res);
+                        },
+                    });
+                }
+            });
 
         });
 

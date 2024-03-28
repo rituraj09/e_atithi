@@ -48,12 +48,14 @@ class AuthController extends Controller
 
         $guest = Guest::where('email', $incomingFields['email'])->first();
 
+        // dd($incomingFields['email']);
+
         // dd(Hash::check($incomingFields['password'], $guest->password));
 
         if ($guest && Hash::check($incomingFields['password'], $guest->password)) {
             Auth::guard('guest')->login($guest);
 
-            $logs = $this->guestLog($request->ip(), "Logged in", auth()->id());
+            $logs = $this->guestLog($request->ip(), "Logged in", auth()->guard('guest')->user()->id);
 
             // $token = $guest->createToken('eAtithi')->plainTextToken;
             $message = "You have successfully logged in " . $guest->name . ".";
