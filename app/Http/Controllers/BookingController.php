@@ -19,9 +19,22 @@ class BookingController extends Controller
         $checkInDate = $checkin;
         $checkOutDate = $checkout;
         $guestHouse = Guesthouse::where('id', $id)->first();
+
+        $bookedRooms = RoomOnDates::where('date', '>=', $checkInDate)
+            ->where('date', '<=', $checkOutDate)
+            ->pluck('room_id');
+
+        // Step 2: Filter out available rooms
         $rooms = Rooms::where('guest_house_id', $guestHouse->id)
-                    ->with('roomRate')
-                    ->get();
+            ->whereNotIn('id', $bookedRooms)
+            ->with('roomRate')
+            ->get();
+
+
+
+        // $rooms = Rooms::where('guest_house_id', $guestHouse->id)
+        //             ->with('roomRate')
+        //             ->get();
         $roomCategories = RoomCategory::where('guest_house_id', $guestHouse->id)->get();
         // dd($guestHouse, $rooms);
         return view('guest.booking.index', compact(['guestHouse', 'rooms', 'roomCategories', 'checkInDate', 'checkOutDate']));

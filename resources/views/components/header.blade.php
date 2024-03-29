@@ -49,4 +49,9 @@
   	<link rel="shortcut icon" href="{{ asset('assets/images/favicon.png')}}" />
 
 	<link rel="stylesheet" href="{{ asset('css/my-style.css') }}">
+
+	{{-- test --}}
+	<!-- jsCalendar v1.4.5 Javascript and CSS from unpkg cdn -->
+<script src="{{ asset('js/jsCalendar.min.js')  }}"></script>
+<link rel="stylesheet" href="{{ asset('css/jsCalendar.min.css') }}" >
 </head>

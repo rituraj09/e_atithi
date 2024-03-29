@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Rooms;
 use App\Models\RateList;
+use App\Models\RoomOnDates;
 use App\Models\RoomCategory;
 use App\Models\RoomFeatures;
 use Illuminate\Http\Request;
@@ -144,14 +146,22 @@ class RoomController extends Controller
         $features = RoomFeatures::where('room_id', $room->id)
                                 ->get();
 
-        // dd($features);
+        
+        $fetchedDates = RoomOnDates::select('date')->where('room_id', $id)->get();
 
+        $bookedDates = $fetchedDates->map(function($fetchedDate) {
+            return Carbon::parse($fetchedDate->date)->format('d/m/Y');
+        });
+
+        // dd($bookedDates);
+
+        // dd($features);
         // dd($room);
 
         if (!$room) {
             return view('guestHouse.Rooms.viewRoom');
         }   
-        return view('guestHouse.Rooms.viewRoom', compact(['room','roomRates', 'roomCategories', 'features']));
+        return view('guestHouse.Rooms.viewRoom', compact(['room','roomRates', 'roomCategories', 'features', 'bookedDates']));
     }
 
     public function validateForm ($request) {
