@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Reservation;
 use Illuminate\Http\Request;
+use App\Models\ReservationRoom;
 use App\Models\GuestHouseHasEmployee;
 
 class ReservationController extends Controller
@@ -36,8 +37,16 @@ class ReservationController extends Controller
         return view('guestHouse.Reservation.rejected');
     }
 
-    public function reservationDetails () {
-        return view('guestHouse.Reservation.details');
+    public function reservationDetails ($id) {
+        $reservation = Reservation::with(['guest', 'getStatus'])
+                                ->where('id', $id)
+                                ->first();
+
+        $rooms = ReservationRoom::where('reservation_id', $reservation->reservation_no)
+                                ->with('roomDetails')
+                                ->get();
+
+        return view('guestHouse.Reservation.details', compact(['reservation', 'rooms']));
     }
 
     public function createReservation (Request $request) {
@@ -46,5 +55,21 @@ class ReservationController extends Controller
 
     public function checkStatus(){
         return 0;
+    }
+
+    public function approveReservation (Request $request) {
+        $reservation = Reservation::find($request->id);
+
+        $updatedDate = [
+            'status' => 3
+        ];
+
+        $isUpdate = $reservation->update($updatedDate);
+
+        if (!$isUpdate) {
+            return response()->json('failed');
+        }
+        return response()->json('success');
+
     }
 }

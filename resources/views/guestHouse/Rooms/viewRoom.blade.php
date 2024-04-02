@@ -196,13 +196,6 @@
     @endforeach --}}
 
     <script>
-    // $(document).ready( function () {
-    //     var myCalendar = $('#bookingCalendar');
-    //     myCalendar.select([
-    //         "01/03/2024",
-    //         "02/03/2024",
-    //     ]);
-    // })
     $(document).ready( function () {
         var bookedDates = {!! json_encode($bookedDates) !!};
         console.log(bookedDates)

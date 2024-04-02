@@ -15,6 +15,7 @@ use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GuestHouseController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\OfficialAuthController;
 use App\Http\Controllers\RoomCategoryController;
 use App\Http\Middleware\OfficialAdminMiddleware;
@@ -110,8 +111,12 @@ Route::prefix('guest-house')->group( function () {
             Route::get('/reservations/approved', 'approvedReservations')->name('approved-reservations');
             Route::get('/reservations/pending', 'pendingreservations')->name('pending-reservations');
             Route::get('/reservations/rejected', 'rejectedReservations')->name('rejected-reservations');
-            Route::get('/reservations/view/{id}', 'reservationDetails')->name('reservation-details');
+            Route::get('/reservations/details/{id}', 'reservationDetails')->name('reservation-details');
             Route::get('/reservations/create', 'createReservation')->name('create-reservation');
+        });
+
+        Route::controller(TransactionController::class)->group( function () {
+            Route::get('/transaction', 'index')->name('transaction');
         });
         
         

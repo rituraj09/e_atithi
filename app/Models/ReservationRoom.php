@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Rooms;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ReservationRoom extends Model
 {
@@ -18,4 +20,9 @@ class ReservationRoom extends Model
     ];
 
     public $timestamps = false;
+
+    public function roomDetails () : BelongsTo 
+    {
+        return $this->belongsTo(Rooms::class, 'room_id');
+    }
 }

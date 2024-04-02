@@ -13,7 +13,7 @@
 							<div class="row">
                 <div class="col-md-4 pe-md-0">
                   <div class="auth-side-wrapper rounded-end rounded-4">
-
+                    
                   </div>
                 </div>
                 <div class="col-md-8 ps-md-0">

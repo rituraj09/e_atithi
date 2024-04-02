@@ -9,6 +9,8 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\GuestHouseController;
+use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\RoomCategoryController;
 
 Route::prefix('/ajax')->group( function () {
@@ -53,6 +55,14 @@ Route::prefix('/ajax')->group( function () {
     Route::controller(SMSController::class)->group( function () {
         Route::post('/smsOTP', 'sendOTP')->name('sms-otp');
         Route::post('/verifyPhone', 'verifyPhoneOTP')->name('verify-phone');
+    });
+
+    Route::controller(TransactionController::class)->group( function () {
+        Route::get('/fetchReservation/{rid}', 'fetchReservationById')->name('fetch-reservation-by-id');
+    });
+
+    Route::controller(ReservationController::class)->group( function () {
+        Route::post('/approve-reservation', 'approveReservation')->name('approve-reservation');
     });
 
 });

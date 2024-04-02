@@ -108,3 +108,7 @@
     width: 100% !important;
     object-fit: cover;
 }
+
+.text-darkgray {
+    color: rgb(50, 50, 50)
+}

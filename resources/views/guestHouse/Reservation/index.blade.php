@@ -29,10 +29,10 @@
                             <table id="dataTableExample" class="table">
                                 <thead>
                                     <tr>
-                                    <th>Reserved By</th>
-                                    <th>Room Type</th>
-                                    <th>Dates</th>
-                                    <th>Rooms</th>
+                                    <th>Reservation No</th>
+                                    <th>Guest Name</th>
+                                    <th>Checkin/Checkout Date</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                     </tr>
                                 </thead>
@@ -40,9 +40,18 @@
                                     @foreach ($reservations as $reservation)
                                         <tr>
                                             <td>{{ $reservation->guest->name }}</td>
-                                            <td>a</td>
-                                            <td>{{ $reservation->created_at }}</td>
-                                            <td>a</td>
+                                            <td>{{ $reservation->reservation_no }}</td>
+                                            <td>
+                                                <div>
+                                                    <span>{{ $reservation->check_in_date }}</span>
+                                                    <span class="mdi mdi-arrow-left-right mx-2"></span>
+                                                    <span>{{ $reservation->check_out_date }}</span>
+                                                </div> 
+                                            </td>
+                                            <td>{{ $reservation->getStatus->name }}</td>
+                                            <td>
+                                                <a href="{{ route('reservation-details', ['id' => $reservation->id ]) }}" class="btn btn-info btn-sm py-1">view</a>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

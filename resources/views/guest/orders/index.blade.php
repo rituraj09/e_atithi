@@ -1,5 +1,7 @@
 <!-- resources/views/guestHouse/GuestHouse/view.blade.php -->
 
+{{-- {{ dd($orders); }} --}}
+
 <x-header/>
 <body>
     <div class="main-wrapper">
