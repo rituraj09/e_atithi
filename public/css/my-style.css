@@ -110,5 +110,9 @@
 }
 
 .text-darkgray {
-    color: rgb(50, 50, 50)
+    color: rgb(50, 50, 50) !important;
+}
+
+.cursor {
+    cursor: pointer;
 }

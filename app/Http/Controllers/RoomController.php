@@ -69,7 +69,7 @@ class RoomController extends Controller
         $room = Rooms::create([
             'room_number' => $request->roomNumber,
             'guest_house_id' => $guest_house_id,
-            'room_rate' => $request->roomCategory,
+            'room_rate' => $request->price,
             'no_of_beds' => $request->numberOfBeds,
             'capacity' => $request->capacity,
             'width' => $request->width || null,

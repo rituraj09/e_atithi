@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\RateList;
+use App\Models\BedCategory;
+use App\Models\RoomCategory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,10 +19,12 @@ class Rooms extends Model
     protected $fillable = [
         'room_number',
         'guest_house_id',
-        'room_rate',
+        'base_price',
         'no_of_beds',
         'capacity',
-        'toilet_attached',
+        'bed_type',
+        'room_category',
+        'total_price',
         'width',
         'length',
         'is_active',
@@ -28,9 +32,14 @@ class Rooms extends Model
         'deleted_at',
     ];
 
-    public function roomRate(): BelongsTo
+    public function bedType(): BelongsTo
     {
-        return $this->belongsTo(RateList::class, 'room_rate')->withTrashed();
+        return $this->belongsTo(BedCategory::class, 'bed_type')->withTrashed();
+    }
+
+    public function roomCategory(): BelongsTo
+    {
+        return $this->belongsTo(RoomCategory::class, 'room_category')->withTrashed();
     }
 
     public $timestamps = false;

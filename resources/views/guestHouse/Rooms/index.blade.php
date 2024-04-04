@@ -1,6 +1,6 @@
 <!-- resources/views/profile.blade.php -->
 
-{{-- {{ dd($guest); }} --}}
+{{-- {{ dd($rooms); }} --}}
 
 <x-header/>
 <body>

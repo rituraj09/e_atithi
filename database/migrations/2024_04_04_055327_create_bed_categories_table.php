@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('room_transactions', function (Blueprint $table) {
+        Schema::create('bed_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('transaction_id')->nullable();   // generate
-            $table->integer('room_category', false, true)->nullable();
-            $table->integer('room_book')->nullable();
-            $table->date('date')->nullable();
-            $table->timestamp('created_at');
+            $table->string('name',100);
+            $table->integer('capacity');
+            $table->decimal('price_modifier',10,2)->nullable();
+            $table->string('remarks`')->nullable();
+            $table->integer('guest_house_id',false, true)->nullable();
             $table->softDeletes();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('room_transactions');
+        Schema::dropIfExists('bed_categories');
     }
 };
