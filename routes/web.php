@@ -14,6 +14,7 @@ use App\Http\Controllers\CaptchaController;
 use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GuestHouseController;
+use App\Http\Controllers\BedCategoryController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\OfficialAuthController;
@@ -83,9 +84,9 @@ Route::prefix('guest-house')->group( function () {
 
         Route::controller(RoomCategoryController::class)->group( function () {
             Route::get('/all-room-category', 'roomCategories')->name('room-category');
-            // Route::get('/add-room-category', 'addRoomCategory')->name('add-room-category');
+            Route::get('/add-room-category', 'addRoomCategory')->name('add-room-category');
             Route::get('/edit-room-category/{id}', 'editRoomCategory')->name('edit-room-category');
-            Route::post('/room-category/update', 'storeRoomCategory')->name('update-room-category');
+            Route::post('/room-category/update', 'updateRoomCategory')->name('update-room-category');
             Route::post('/room-category/add', 'storeRoomCategory')->name('new-room-category');
             Route::post('/room-category/delete', 'deleteRoomCateory')->name('delete-room-category');
         });
@@ -117,6 +118,14 @@ Route::prefix('guest-house')->group( function () {
 
         Route::controller(TransactionController::class)->group( function () {
             Route::get('/transaction', 'index')->name('transaction');
+        });
+
+        Route::controller(BedCategoryController::class)->group( function() {
+            Route::get('/bed-categories', 'index')->name('bed-categories');
+            Route::get('/bed-category/add', 'add')->name('add-bed-category');
+            Route::get('/bed-category/view', 'view')->name('view-bed-category');
+            Route::get('/bed-category/edit', 'edit')->name('edit-bed-category');
+            Route::post('/bed-category/store', 'store')->name('store-bed-category');
         });
         
         

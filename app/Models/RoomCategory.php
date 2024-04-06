@@ -17,6 +17,7 @@ class RoomCategory extends Model
         'name',
         'guest_house_id',
         'created_by',
+        'price_modifier',
         'is_active',
         'deleted_at',
     ];
@@ -25,8 +26,8 @@ class RoomCategory extends Model
 
     protected $dates = ['deleted_at'];
 
-    public function rooms()
-    {
-        return $this->hasMany(RateList::class,'room_category');
-    }
+    // public function rooms()
+    // {
+    //     return $this->hasMany(RateList::class,'room_category');
+    // }
 }

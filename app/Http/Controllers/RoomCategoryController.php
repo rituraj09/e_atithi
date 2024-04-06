@@ -15,12 +15,11 @@ class RoomCategoryController extends Controller
         $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
 
         $roomCategories = RoomCategory::where('guest_house_id', $guest_house_id)
-                                    ->with('rooms')
                                     ->get();
 
         // if( !$roomCategories ) {
-            $roomCategory = NULL;
-            return view('guestHouse.RoomCategory.index', compact('roomCategory'));
+            // $roomCategory = NULL;
+            // return view('guestHouse.RoomCategory.index', compact('roomCategory'));
         // }
 
         return view('guestHouse.RoomCategory.index', compact('roomCategories'));
@@ -35,7 +34,6 @@ class RoomCategoryController extends Controller
             return response()->json('no');
         }
         $roomCategories = RoomCategory::where('guest_house_id', $guest_house_id)
-                                    ->with('rooms')
                                     ->get();
         // dd($roomCategories);
         if (!$roomCategories) {
@@ -45,19 +43,26 @@ class RoomCategoryController extends Controller
     }
 
     public function storeRoomCategory (Request $request) {
+        // dd($request);
+
         $employeeId = auth()->user()->id;
-        $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
+        $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)
+                                                ->pluck('guest_house_id')
+                                                ->first();
 
         // validation
         $request->validate([
-            'category' => 'required|min:3',
+            'categoryName' => 'required|min:3',
+            'price_modifier' =>'required',
         ]);
 
-        $category = strtolower($request->input('category'));
+        // echo $request;
+
+        $categoryName = strtolower($request->input('categoryName'));
 
         // Check if the room category already exists for the guest house
         $existingCategory = RoomCategory::where('guest_house_id', $guest_house_id)
-            ->whereRaw('LOWER(name) = ?', [$category])
+            ->whereRaw('LOWER(name) = ?', [$categoryName])
             ->first();
 
         // existance check
@@ -69,52 +74,57 @@ class RoomCategoryController extends Controller
                         ->update(['is_delete' => 0]);
             }
             // return update refreshed data
-            return response()->json([
+            return redirect()->route('add-room-category')->with([
                 'message' => 'Room category already exists for this guest house', 
                 'icon' => 'warning'
             ]);
         }
 
-        // return $request->id;
-
-        if ($request->id) {
-            // update existing room category
-            $roomCategory = RoomCategory::where($request->id)
-                                        ->update(['name' => $request->input('category')]);
-
-            return $roomCategory;
-
-            if (!$roomCategory) {
-                return response()->json([
-                    'message'=>'Failed to update room category',
-                    'icon' => 'error'
-                ]);
-            }
-            return response()->json([
-                'message'=>'Room category updateded successfully',
-                'icon' => 'success'
-            ]);
-
-        } else {
         
-            // new room category
-            $roomCategory = RoomCategory::create([
-                'name' => $request->input('category'),
-                'guest_house_id' => $guest_house_id,
-                'created_by' => auth()->id(),
-            ]);
+        // new room category
+        $roomCategory = RoomCategory::create([
+            'name' => $request->input('categoryName'),
+            'price_modifier' => $request->input('price_modifier'),
+            'guest_house_id' => $guest_house_id,
+            'created_by' => auth()->id(),
+        ]);
 
-            if (!$roomCategory) {
-                return response()->json([
-                    'message'=>'Failed to add room category',
-                    'icon' => 'error'
-                ]);
-            }
-            return response()->json([
-                'message'=>'Room category added successfully',
-                'icon' => 'success'
+        if (!$roomCategory) {
+            return redirect()->route('add-room-category')->with([
+                'message'=>'Failed to add room category',
+                'icon' => 'error'
             ]);
         }
+        return redirect()->route('room-category')->with([
+            'message'=>'Room category added successfully',
+            'icon' => 'success'
+        ]);
+    }
+
+    public function updateRoomCategory(Request $request) {
+        $request->validat([
+            'name' => 'required|min:3',
+            'price_modifier' => 'required',
+            'id' => 'required',
+        ]);
+
+         // update existing room category
+        $roomCategory = RoomCategory::where($request->id)
+                                    ->update([
+                                        'name' => $request->input('category'),
+                                        'price_modifier' => $request->input('price_modifier'),
+                                    ]);
+
+        if (!$roomCategory) {
+            return redirect()->route('add-room-category')->with([
+                'message'=>'Failed to update room category',
+                'icon' => 'error'
+            ]);
+        }
+        return redirect()->route('room-category')->with([
+            'message'=>'Room category updateded successfully',
+            'icon' => 'success'
+        ]);
     }
 
     // edit view
@@ -134,5 +144,9 @@ class RoomCategoryController extends Controller
         $roomCategory = RoomCategory::where($request->id)
                                     ->update(['is_delete'=>1, 'is_active'=>0]);
         return 'done';
+    }
+
+    public function addRoomCategory() {
+        return view('guestHouse.RoomCategory.add');
     }
 }

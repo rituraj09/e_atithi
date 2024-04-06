@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name',100);
             $table->integer('capacity');
             $table->decimal('price_modifier',10,2)->nullable();
-            $table->string('remarks`')->nullable();
+            $table->string('remarks')->nullable();
             $table->integer('guest_house_id',false, true)->nullable();
             $table->softDeletes();
         });
