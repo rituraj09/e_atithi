@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BedCategory;
 use App\Models\RoomCategory;
 use Illuminate\Http\Request;
+use App\Models\RoomCategoryHasPrice;
 use App\Models\GuestHouseHasEmployee;
 
 class RoomCategoryController extends Controller
@@ -16,12 +18,6 @@ class RoomCategoryController extends Controller
 
         $roomCategories = RoomCategory::where('guest_house_id', $guest_house_id)
                                     ->get();
-
-        // if( !$roomCategories ) {
-            // $roomCategory = NULL;
-            // return view('guestHouse.RoomCategory.index', compact('roomCategory'));
-        // }
-
         return view('guestHouse.RoomCategory.index', compact('roomCategories'));
     }
 
@@ -35,7 +31,7 @@ class RoomCategoryController extends Controller
         }
         $roomCategories = RoomCategory::where('guest_house_id', $guest_house_id)
                                     ->get();
-        // dd($roomCategories);
+
         if (!$roomCategories) {
             return response()->json('null');
         }
@@ -43,8 +39,6 @@ class RoomCategoryController extends Controller
     }
 
     public function storeRoomCategory (Request $request) {
-        // dd($request);
-
         $employeeId = auth()->user()->id;
         $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)
                                                 ->pluck('guest_house_id')
@@ -84,9 +78,14 @@ class RoomCategoryController extends Controller
         // new room category
         $roomCategory = RoomCategory::create([
             'name' => $request->input('categoryName'),
-            'price_modifier' => $request->input('price_modifier'),
             'guest_house_id' => $guest_house_id,
             'created_by' => auth()->id(),
+        ]);
+
+        $guestHouseRoomCategory = RoomCategoryHasPrice::create([
+            'guest_house_id' => $guest_house_id,
+            'room_category_id' => $roomCategory->id,
+            'price_modifier' => $request->input('price_modifier'),
         ]);
 
         if (!$roomCategory) {
@@ -147,6 +146,9 @@ class RoomCategoryController extends Controller
     }
 
     public function addRoomCategory() {
-        return view('guestHouse.RoomCategory.add');
+        $roomCategories = RoomCategory::all();
+        return view('guestHouse.RoomCategory.add', compact('roomCategories'));
     }
+
+    
 }

@@ -39,10 +39,10 @@
                                     <tr>
                                         <td>{{ $room->room_number }}</td>
                                         <td class="text-capitalize">
-                                            {{ $room['roomRate']->name }}, 
-                                            {{ $room['roomRate']['roomCategory']->name }}
+                                            {{ $room['roomCategory']->name }}, 
+                                            {{ $room['bedType'][0]->name }}
                                         </td>
-                                        <td>{{ $room['roomRate']->price }}</td>
+                                        <td>{{ $room->total_price }}</td>
                                         <td>{{ $room->capacity }}</td>
                                         <td>
                                             <div class="d-flex py-0">

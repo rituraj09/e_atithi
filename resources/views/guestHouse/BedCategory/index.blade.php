@@ -35,8 +35,8 @@
                             <tbody>
                                 @foreach ($bedCategories as $bedCategory)
                                     <tr>
-                                        <td>{{ $bedCategory['name'] }}</td>
-                                        <td>{{ $bedCategory['capacity'] }}</td>
+                                        <td>{{ $bedCategory['Bed']->name }}</td>
+                                        <td>{{ $bedCategory['Bed']->capacity }}</td>
                                         <td>{{ $bedCategory['price_modifier'] }}</td>
                                         <td>{{ $bedCategory['remarks'] }}</td>
                                         <td>
@@ -47,8 +47,7 @@
                                             </div>
                                         </td>
                                     </tr>
-                                @endforeach
-                                                
+                                @endforeach           
                             </tbody>
                         </table>
                     </div>

@@ -27,7 +27,7 @@ class BookingController extends Controller
         // Step 2: Filter out available rooms
         $rooms = Rooms::where('guest_house_id', $guestHouse->id)
             ->whereNotIn('id', $bookedRooms)
-            ->with('roomRate')
+            // ->with('roomRate')
             ->get();
 
 
@@ -41,15 +41,21 @@ class BookingController extends Controller
     }
 
     public function newBooking(Request $request) {
-        // $request->query('from');
-        // $request->query('to');
-        // dd($request->guestHouse);
 
+        // return $request;
+        // dd($request);
+        // $rooms = explode(',', $request->rooms);
+
+        // foreach ( $rooms as $room ) {
+        //     $roomId = (int)trim($room, '[]');
+        //     dd($room, $roomId);
+        // }
+        // dd($request->toArray());
+        
         $fields = $request->validate([
             'guestHouse' => 'required',
-            'checkin' => 'required',
-            'checkout' => 'required',
-            'roomCategory' => 'required',
+            'checkIn' => 'required',
+            'checkOut' => 'required',
             'visitingReason' => 'required',
             'rooms' => 'required',
         ]);
@@ -60,15 +66,21 @@ class BookingController extends Controller
         $reservation = Reservation::create([
             'guest_id' => $guestId,
             'guest_house_id' => $request->guestHouse,
-            'check_in_date' => $request->checkin,
-            'check_out_date' => $request->checkout,
+            'check_in_date' => $request->checkIn,
+            'check_out_date' => $request->checkOut,
             'reservation_no' => $reservationNo,
+            'reservationType' => $request->visitingReason,
+            'charges_of_accomodation' => $request->totalCharge,
+            'status' => 1,
         ]);
 
-        foreach ( $request->rooms as $room ) {
+        $rooms = explode(',', $request->rooms);
+
+        foreach ( $rooms as $room ) {
+            $roomId = (int)trim($room, '[]');
             $roomReservation = ReservationRoom::create([
                 'reservation_id' => $reservationNo,
-                'room_id' => $room,
+                'room_id' => $roomId,
             ]);
             
             $checkin = Carbon::parse($request->checkin);
@@ -78,7 +90,7 @@ class BookingController extends Controller
 
             foreach ($dates as $date) {
                 RoomOnDates::create([
-                    'room_id' => $room,
+                    'room_id' => $roomId,
                     'date' => $date->format('Y-m-d'),
                 ]);
             }
@@ -86,29 +98,11 @@ class BookingController extends Controller
 
         if (!$reservation || !$roomReservation) {
             dd($reservation, $roomReservation);
+            // return 
         }
 
         return redirect()->route('guest-home')->with(['icon'=>'success', 'message'=>'Guest house booked successfully!']);
     }
-
-    // 'guest_id',
-    //     'guest_house_id',
-    //     'check_in_date',
-    //     'check_out_date',
-    //     'no_of_room_required',
-    //     'occupency',
-    //     'docs',
-    //     'status',
-    //     'remarks',
-    //     'check_in_id',
-    //     'created_at',
-    //     'reservation_no',
-    //     'reservation_type',
-    //     'charges_of_accommodation',
-    //     'remarks_by_guest',
-    //     'remarks_by_admin',
-    //     'approved_by',
-
 
     public function generateReservationNo($guestHouseId, $checkInDate)
     {

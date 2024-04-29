@@ -30,7 +30,7 @@ class Reservation extends Model
         'created_at',
         'reservation_no',
         'reservation_type',
-        'charges_of_accommodation',
+        'charges_of_accomodation',
         'remarks_by_guest',
         'remarks_by_admin',
         'approved_by',

@@ -33,7 +33,7 @@ class SMSController extends Controller
         return response()->json(['otp'=>$otp]);
 
         // Send OTP via Twilio
-        // $this->twilioService->sendOTP($phone, $otp);
+        $this->twilioService->sendOTP($phone, $otp);
 
         // Store OTP in session or database for verification
 

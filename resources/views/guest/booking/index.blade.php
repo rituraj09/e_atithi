@@ -8,100 +8,107 @@
 
             <div class="page-content" style="background-color: #f1fcff">
                 <div>
+                    <x-page-header :title="'Guest House'" />
                     <div class="card row mb-2 p-3">
-                        <div class="d-flex col-md-10 mx-auto my-2 flex-wrap">
-                            <x-page-header :title="'Guest House'" />
+                        <form action="{{ route('new-booking') }}" method="post" class="form">
+                            @csrf
+                            <input type="hidden" name="guestHouse" value="{{ $guestHouse->id }}">
+                            <div class="d-flex col-md-10 mx-auto my-2 flex-wrap">
+                                
+                                <div class="image-wrapper">
+                                    <div>
+                                        <img class="image-filler" src="https://www.contemporist.com/wp-content/uploads/2017/02/minimalist-modern-house-exteriors-030217-424-06a-800x856.jpg" style="grid-area: A;" alt="">
+                                    </div>
+                                    <div>
+                                        <img class="image-filler" src="https://www.contemporist.com/wp-content/uploads/2017/02/minimalist-modern-house-exteriors-030217-424-06a-800x856.jpg" style="grid-area: B;" alt="">
+                                    </div>
+                                    <div>
+                                        <img class="image-filler" src="https://www.contemporist.com/wp-content/uploads/2017/02/minimalist-modern-house-exteriors-030217-424-06a-800x856.jpg" style="grid-area: C;" alt="">
+                                    </div>
+                                    <div>
+                                        <img class="image-filler" src="https://www.contemporist.com/wp-content/uploads/2017/02/minimalist-modern-house-exteriors-030217-424-06a-800x856.jpg" style="grid-area: D;" alt="">
+                                    </div>
+                                </div>
+                                <div class="row mx-0 my-3 w-100">
+                                    <div class="col-md px-0">
+                                        <h3>{{ $guestHouse->name }}</h3>
+                                        <small>Golaghat, Assam</small>
+                                    </div>
+                                    <div class="col-md text-md-end px-0 text-dark">
+                                        <p><small>From</small> {{ $checkInDate }}</p>
+                                        <input type="hidden" name="checkIn" value="{{ $checkInDate }}">
+                                        <p><small>to</small> {{ $checkOutDate }}</p>
+                                        <input type="hidden" name="checkOut" value="{{ $checkOutDate }}">
+                                    </div>
+                                </div>
+                            </div>
 
-                            {{-- <div class="main-image-container">
-                                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                                    <div class="carousel-inner">
-                                        <div class="carousel-item active">
-                                            <img src="https://www.contemporist.com/wp-content/uploads/2017/02/minimalist-modern-house-exteriors-030217-424-06a-800x856.jpg" class="d-block wd-300" alt="...">
-                                        </div>
-                                        <div class="carousel-item">
-                                            <img src="https://www.contemporist.com/wp-content/uploads/2017/02/minimalist-modern-house-exteriors-030217-424-06a-800x856.jpg" class="d-block wd-300" alt="...">
-                                        </div>
-                                        <div class="carousel-item">
-                                            <img src="https://www.contemporist.com/wp-content/uploads/2017/02/minimalist-modern-house-exteriors-030217-424-06a-800x856.jpg" class="d-block wd-300" alt="...">
-                                        </div>
+                            <div class="col-md-10 mx-auto mb-3">
+                                <h5 class="text-darkgray mb-1">
+                                    Features
+                                </h5>
+                                <ul>
+                                    <li>attached bathroom</li>
+                                    <li>wifi</li>
+                                </ul>
+                            </div>
+                        
+                            <div class="responsive-table mb-4 col-md-10 mx-auto">
+                                <h5 class="mb-1 text-darkgray">Available Rooms</h5>
+                                <table class="table text-center border border-primary">
+                                    <thead class="table-primary">
+                                        <tr>
+                                            <th>Room Number</th>
+                                            <th>Room Type</th>
+                                            <th>Capacity</th>
+                                            <th>Price per night</th>
+                                            <th class="text-center">Select</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if ($rooms)
+                                            @foreach ( $rooms as $room )
+                                            <tr>
+                                                <td>{{ $room->room_number }}</td>
+                                                <td>
+                                                    <div class="text-capitalize">
+                                                        {{ $room->roomCategory->name }},
+                                                        {{ $room->bedType[0]->name }}
+                                                    </div>
+                                                </td>
+                                                <td>{{ $room->capacity }}</td>
+                                                <td class="price text-end pe-3">{{ $room->total_price }}</td>
+                                                <td>
+                                                    <div class="form-check form-switch me-0 px-auto">
+                                                        <input class="form-check-input m-auto" role="switch" type="checkbox" name="roomSelect" id="roomSelect" data-id="{{ $room->id }}">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        @endif
+                                    </tbody>
+                                </table>
+                                <div class="mt-3">
+                                    <span class="fs-5 fw-bold text-darkgray">Total</span>
+                                    <div class="d-flex align-items-center justify-content-between mt-2">
+                                      <span>Total per night :</span>
+                                      <span><span id="total-per-night">0</span></span>
                                     </div>
-                                    <a class="carousel-control-prev" data-bs-target="#carouselExampleControls" role="button" data-bs-slide="prev">
-                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span class="visually-hidden">Previous</span>
-                                    </a>
-                                    <a class="carousel-control-next" data-bs-target="#carouselExampleControls" role="button" data-bs-slide="next">
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span class="visually-hidden">Next</span>
-                                    </a>
+                                    <div class="d-flex align-items-center justify-content-between">
+                                      <span>Total :</span>
+                                      <span><span id="total">0</span></span>
+                                    </div>
                                 </div>
-                            </div> --}}
-                            {{-- <div class="d-md-flex mx-2">
-                                <div>
-                                    <img class="image-filler" src="https://www.contemporist.com/wp-content/uploads/2017/02/minimalist-modern-house-exteriors-030217-424-06a-800x856.jpg" style="grid-area: A;" alt="">
-                                </div>
-                                <div>
-                                    <img class="image-filler" src="https://www.contemporist.com/wp-content/uploads/2017/02/minimalist-modern-house-exteriors-030217-424-06a-800x856.jpg" style="grid-area: A;" alt="">
-                                </div>
-                            </div> --}}
+                            </div>
                             
-                            <div class="image-wrapper">
-                                <div>
-                                    <img class="image-filler" src="https://www.contemporist.com/wp-content/uploads/2017/02/minimalist-modern-house-exteriors-030217-424-06a-800x856.jpg" style="grid-area: A;" alt="">
-                                </div>
-                                <div>
-                                    <img class="image-filler" src="https://www.contemporist.com/wp-content/uploads/2017/02/minimalist-modern-house-exteriors-030217-424-06a-800x856.jpg" style="grid-area: B;" alt="">
-                                </div>
-                                <div>
-                                    <img class="image-filler" src="https://www.contemporist.com/wp-content/uploads/2017/02/minimalist-modern-house-exteriors-030217-424-06a-800x856.jpg" style="grid-area: C;" alt="">
-                                </div>
-                                <div>
-                                    <img class="image-filler" src="https://www.contemporist.com/wp-content/uploads/2017/02/minimalist-modern-house-exteriors-030217-424-06a-800x856.jpg" style="grid-area: D;" alt="">
-                                </div>
-                            </div>
-                            <div class="row mx-0 my-2 w-100">
-                                <div class="col-md px-0">
-                                    <h3>{{ $guestHouse->name }}</h3>
-                                    <small>Golaghat, Assam</small>
-                                </div>
-                                <div class="col-md text-md-end px-0 text-dark">
-                                    <p><small>From</small> {{ $checkInDate }}</p>
-                                    <p><small>to</small> {{ $checkOutDate }}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-2 col-md-10 mx-auto">
-                            <form action="" method="post" class="form">
-                                @csrf
-                                {{-- <div class="row">
-                                    <label for="" class="col-md-4 mb-2">Checkin Date</label>
-                                    <div class="col-md-8 mb-2">
-                                        <input type="date" id="from" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <label for="" class="col-md-4 mb-2">Checkout Date</label>
-                                    <div class="col-md-8 mb-2">
-                                        <input type="date" id="to" class="form-control">
-                                    </div>
-                                </div> --}}
+                            <div class="mb-2 col-md-10 mx-auto">
                                 <div class="row">
                                     <label for="" class="col-md-4 mb-2">Reason for visiting</label>
                                     <div class="col-md-8 mb-2">
-                                        <select name="" id="visitingReason" class="form-control">
+                                        <select name="visitingReason" id="visitingReason" class="form-control">
                                             <option value="" selected disabled>--select--</option>
                                             <option value="personal">Personal</option>
                                             <option value="official">Official</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <label for="" class="col-md-4 mb-2">Room Category</label>
-                                    <div class="col-md-8 mb-2">
-                                        <select name="roomCategory" id="roomCategory" class="form-control text-capitalize">
-                                            <option value="" selected disabled>--select--</option>
-                                            @foreach ($roomCategories as $roomCategory)
-                                                <option value="{{ $roomCategory->id }}">{{ $roomCategory->name }}</option>
-                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -124,62 +131,12 @@
                                         <textarea name="" id="" cols="30" rows="3" class="form-control"></textarea>
                                     </div>
                                 </div>
-                            </form>
-                        </div>
-                    </div>
-
-                    <div class="responsive-table card">
-                        <table class="table text-center">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        Room Number
-                                    </th>
-                                    <th>
-                                        Room Type
-                                    </th>
-                                    <th>
-                                        Capacity
-                                    </th>
-                                    <th>
-                                        Price per night
-                                    </th>
-                                    <th class="text-center">
-                                        Select
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ( $rooms as $room )
-                                <tr>
-                                    <td>{{ $room->room_number }}</td>
-                                    <td>
-                                        <div class="text-capitalize">
-                                            {{ $room->roomRate->roomCategory->name }},
-                                            {{ $room->roomRate->name }}
-                                        </div>
-                                    </td>
-                                    <td>{{ $room->capacity }}</td>
-                                    <td class="price text-end pe-3">{{ $room->roomRate->price }}</td>
-                                    <td>
-                                        <div class="form-check form-switch me-0 px-auto">
-                                            <input class="form-check-input m-auto" role="switch" type="checkbox" name="roomSelect" id="roomSelect" data-id="{{ $room->id }}">
-                                        </div>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td class="text-center">Total</td>
-                                    <td class="text-end" id="total" colspan="3"></td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-primary" type="text" id="book">book</button>
-                                    </td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
+                            </div>
+                            <div class="text-end mb-3 col-md-10 mx-auto">
+                                <button type="button" class="btn btn-sm btn-primary" type="text" id="book">book</button>           
+                            </div>               
+                        </form>
+                    </div>  
                 </div>
             </div>
         </div>
@@ -190,6 +147,26 @@
     $(document).ready(function () {
         var guestHouse = "{{ $guestHouse->id }}";
         var rooms = [];
+
+        // $("#startDate, #endDate").datepicker();
+
+        // $('#calculate').click(function() {
+            var startDate = new Date('{{ $checkInDate }}');
+            var endDate = new Date('{{ $checkOutDate }}');
+
+            // Calculate the difference in milliseconds
+            var difference = endDate.getTime() - startDate.getTime();
+
+            // Convert the difference from milliseconds to days
+            var days = Math.ceil(difference / (1000 * 60 * 60 * 24));
+
+            // console.log(days);
+            $('#days').html(days);
+
+            // $('#result').text(days + ' days');
+        // });
+
+
 
 
         $('input[name="roomSelect"]').each(function() {
@@ -208,48 +185,69 @@
 
             var message = `You have to pay total ${total}/- Rupees`;
 
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'rooms', // Name of the input field
+                value: JSON.stringify(rooms) // Convert the array to a JSON string
+            }).appendTo('.form');
+
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'totalCharge', // Name of the input field
+                value: $('#total').html(), // Convert the array to a JSON string
+            }).appendTo('.form');
+
             Swal.fire({
                 title: "eAtithi",
                 text: message,
                 confirmButtonText: "Book",
             }).then((result) => {
                 if (result.isConfirmed) {
-                    $.ajax({
-                        url: "{{ route('new-booking') }}",
-                        type: "POST",
-                        data: {
-                            rooms:rooms,
-                            visitingReason:visitingReason,
-                            roomCategory:roomCategory,
-                            checkin:checkin,
-                            checkout:checkout,
-                            guestHouse:guestHouse,
-                            doc:doc,
-                        },
-                        success: function(res){
-                            console.log(res);
-                        },
-                    });
+                    $('.form').submit();
+                    // $.ajax({
+                    //     url: "{{ route('new-booking') }}",
+                    //     type: "POST",
+                    //     data: {
+                    //         rooms:rooms,
+                    //         visitingReason:visitingReason,
+                    //         roomCategory:roomCategory,
+                    //         checkin:checkin,
+                    //         checkout:checkout,
+                    //         guestHouse:guestHouse,
+                    //         doc:doc,
+                    //     },
+                    //     success: function(res){
+                    //         console.log(res);
+                            
+                    //     },
+                    // });
                 }
             });
 
         });
 
-        $('input[name="roomSelect"]').on('change',function() {
-            // console.log($(this));
-            if ( $(this).prop('checked') ) {
+        $('input[name="roomSelect"]').on('change', function() {
+            if ($(this).prop('checked')) {
                 $(this).closest('tr').addClass('bg-selected');
                 rooms.push($(this).data('id'));
             } else {
                 $(this).closest('tr').removeClass('bg-selected');
+                var roomId = $(this).data('id');
+                var index = rooms.indexOf(roomId);
+                if (index !== -1) {
+                    rooms.splice(index, 1); // Remove the room ID from the array
+                }
             }
             var total = 0;
             $('input[name="roomSelect"]:checked').each(function() {
                 var price = parseFloat($(this).closest('tr').find('.price').text());
                 total += price;
             });
-            $('#total').html(total.toFixed(2)); // Assuming you want to display the total with 2 decimal places
+            $('#total-per-night').html(total.toFixed(2)); // Assuming you want to display the total with 2 decimal places
+            $('#total').html((days * total).toFixed(2));
+            console.log(rooms);
         });
+
     });
 
 

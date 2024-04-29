@@ -60,16 +60,31 @@ class ReservationController extends Controller
     public function approveReservation (Request $request) {
         $reservation = Reservation::find($request->id);
 
-        $updatedDate = [
-            'status' => 3
+        $updatedStatus = [
+            'status' => 3       //approved by admin
         ];
 
-        $isUpdate = $reservation->update($updatedDate);
+        $isUpdate = $reservation->update($updatedStatus);
 
         if (!$isUpdate) {
             return response()->json('failed');
         }
         return response()->json('success');
 
+    }
+
+    public function rejectReservation (Request $request) {
+        $reservation = Reservation::find($request->id);
+
+        $updatedStatus = [
+            'status' => 4   //rejected by admin
+        ];
+
+        $isUpdate = $reservation->update($updatedStatus);
+
+        if (!$isUpdate) {
+            return response()->json('failed');
+        }
+        return response()->json('success');
     }
 }

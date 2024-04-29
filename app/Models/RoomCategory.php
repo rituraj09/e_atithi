@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use App\Models\RateList;
+use App\Models\RoomCategoryHasPrice;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class RoomCategory extends Model
@@ -17,7 +19,7 @@ class RoomCategory extends Model
         'name',
         'guest_house_id',
         'created_by',
-        'price_modifier',
+        // 'price_modifier',
         'is_active',
         'deleted_at',
     ];
@@ -26,8 +28,18 @@ class RoomCategory extends Model
 
     protected $dates = ['deleted_at'];
 
-    // public function rooms()
+    public function Price(): HasOne
+    {
+        return $this->hasOne(RoomCategoryHasPrice::class,'room_category_id','id');
+    }
+
+    /**
+     * Get the user associated with the RoomCategory
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    // public function user(): HasOne
     // {
-    //     return $this->hasMany(RateList::class,'room_category');
+    //     return $this->hasOne(User::class, 'foreign_key', 'local_key');
     // }
 }

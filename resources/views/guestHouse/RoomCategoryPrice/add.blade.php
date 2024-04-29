@@ -24,11 +24,17 @@
                         </div>
                     </div>
 					<div class="card-body">
-						<form action="{{ route('new-room-category') }}" method="POST">
+						<form action="{{ route('new-room-category-price') }}" method="POST">
                             @csrf
                             <div class="mb-3">
                                 <label for="categoryName" class="form-label">Room Category</label>
-                                <input id="categoryName" class="form-control" name="categoryName" type="text" placeholder="Room category">
+                                <select name="category" id="" class="form-control">
+                                    <option value="" selected disabled>--select--</option>
+                                    @foreach ($roomCategories as $roomCategory)
+                                        <option value="{{ $roomCategory->id }}">{{ $roomCategory->name }}</option>
+                                    @endforeach
+                                </select>
+                                {{-- <input id="categoryName" class="form-control" name="categoryName" type="text" placeholder="Room category"> --}}
                             </div>
                             <div class="mb-3">
                                 <label for="" class="form-label">Price Modifier</label>

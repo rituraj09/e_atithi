@@ -13,9 +13,9 @@
                 <div class="card d-flex flex-column border">
                     <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
                         <div>
-                            <button class="text-capitalize nav-link active px-4 fw-bold">
+                            <a href="{{ route('all-reservations') }}" class="text-capitalize nav-link active px-4 fw-bold">
                                 view
-                            </button>
+                            </a>
                         </div>
                         <div>
                             <button class="text-capitalize nav-link ">
@@ -23,9 +23,9 @@
                             </button>
                         </div>
                         <div>
-                            <a href="{{ route('update-password') }}" class="text-capitalize nav-link ">
+                            <button class="text-capitalize nav-link ">
                                 update password
-                            </a>
+                            </button>
                         </div>
                     </div>
                 {{-- <div class="card row mb-2 p-3"> --}}

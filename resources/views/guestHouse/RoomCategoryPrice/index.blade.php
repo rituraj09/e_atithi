@@ -18,7 +18,7 @@
                             </button>
                         </div>
                         <div>
-                            <a href="{{ route('add-room-category') }}" class="text-capitalize nav-link">  
+                            <a href="{{ route('add-room-category-price') }}" class="text-capitalize nav-link">  
                                 add
                             </a>
                         </div>
@@ -29,12 +29,32 @@
                                 <thead>
                                     <tr>
                                         <th>Room Category</th>
-                                        <th>Price modifier</th>
+                                        <th>Owned by</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody id="categoryList">
-                                    
+                                <tbody> 
+                                    {{-- id="categoryList"> --}}
+                                    @foreach ($roomCategories as $roomCategory)
+                                        <tr>
+                                            <td>{{ $roomCategory->Category->name }}</td>
+                                            <td>{{ $roomCategory->price_modifier }}</td>
+                                            <td>
+                                                <div class="d-flex py-0">
+                                                    <div class="px-1">
+                                                        <button class="btn btn-danger btn-sm py-1 delete-btn" data-id="{{ $roomCategory->id }}">
+                                                            delete
+                                                        </button>
+                                                    </div>
+                                                    <div class="px-1">
+                                                        <button data-id="{{ $roomCategory->id }}" class="btn btn-primary btn-sm py-1 edit-btn">
+                                                            edit
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

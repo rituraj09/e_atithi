@@ -25,7 +25,7 @@
                     </div>
                     <div class="row m-0 p-3 fs-5">
                         <div class="col-md-4 mb-3">
-                            <b class="fw-bolder mb-1 ">Reservation No</b>
+                            <div class="fw-bolder mb-1 ">Reservation No</div>
                             <input id="reservationNo" class="text-darkgray border-0" value="{{ $reservation->reservation_no }}" readonly disabled>
                             <input type="hidden" value="{{ $reservation->id }}" id="reservationId">
                         </div>
@@ -60,7 +60,7 @@
                                     </button>
                                 </div>
                                 <div class="col">
-                                    <button class="btn btn-sm btn-danger wd-200 fw-bolder">
+                                    <button class="btn btn-sm btn-danger wd-200 fw-bolder" id="reject">
                                         Reject
                                     </button>
                                 </div>
@@ -82,8 +82,8 @@
                                   @foreach ($rooms as $room)
                                     <tr data-id="{{ $room->id }}" class="cursor">
                                       <td>{{ $room->roomDetails->room_number }}</td>
-                                      <td>{{ $room->roomDetails->roomRate->roomCategory->name }}</td>
-                                      <td>{{ $room->roomDetails->roomRate->price }}</td>
+                                      <td>{{ $room->roomDetails->roomCategory->name }}</td>
+                                      <td>{{ $room->roomDetails->total_price }}</td>
                                       <td>Pending</td>
                                     </tr>
                                   @endforeach
@@ -187,38 +187,118 @@
         });
     });
 
+    $(document).on('click', '#reject', function () {
+        const id = $('#reservationId').val();
+        const reservationNo = $('#reservationNo').val();
+        $.ajax({
+            url: "{{ route('reject-reservation') }}",
+            type: "POST",
+            data: {
+                id:id,
+                reservationNo:reservationNo
+            },
+            success: function (res) {
+                console.log(res);
+                var Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false, 
+                    timer: 3000,
+                    timerProgressBar: true,
+                });
+                if (res === 'success') {
+                    Toast = Swal.mixin({
+                        title: "Reservation rejected",
+                        icon: "success"
+                    });
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 500);
+                } else {
+                    Toast = Swal.mixin({
+                        title: "Something went wrong",
+                        text: "Please try again",
+                        icon: "error"
+                    });
+                }
+                Toast.fire();
+            }
+        });
+    });
+
+
+
     $(document).ready(function () {
         // Function to handle row selection
         function toggleRowSelection(row) {
-        $(row).toggleClass('table-active');
+            $(row).toggleClass('table-active');
         }
 
-        // Function to store selected rows in an array
-        function storeSelectedRows() {
-        const selectedRows = $('#room-table tbody tr.selected');
-        const selectedData = selectedRows.map(function() {
-            const id = $(this).data('id');
-            // const room = $(this).data('room');
-            // return { id, room, category, rate, status };
-            return id;
-        }).get();
-        return selectedData;
+        // Function to store selected room IDs in an array
+        function storeSelectedRooms() {
+            const selectedRooms = [];
+            $('#room-table tbody tr').each(function() {
+                if ($(this).hasClass('table-active')) {
+                    const roomId = $(this).data('id');
+                    selectedRooms.push(roomId);
+                }
+            });
+            return selectedRooms;
         }
 
-        // Function to handle submission
-        function handleSubmit() {
-            const selectedData = storeSelectedRows();
-            console.log('Submitted data:', selectedData);
+        // Function to create and submit the check-in form
+        function submitCheckinForm(selectedRooms) {
+            // Create a form element
+            const form = $('<form>').attr({
+                method: 'POST',
+                action: '{{ route("room-check-in") }}', // Replace with your check-in route
+            });
+
+            const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+            $('<input>').attr({
+                type: 'hidden',
+                name: '_token',
+                value: csrfToken,
+            }).appendTo(form);
+
+            // Create hidden input fields for each selected room ID
+            selectedRooms.forEach(function(roomId) {
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: 'room_ids[]', // Assuming your backend expects an array of room IDs
+                    value: roomId,
+                }).appendTo(form);
+            });
+
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'reservation_id',
+                value: $('#reservationId').val(),
+            }).appendTo(form);
+
+            // Append the form to the document body and submit it
+            form.appendTo('body').submit();
         }
 
-        // Add event listener to the checkin button
-        $('#checkin-button').click(handleSubmit);
+        // Add event listener to the check-in button
+        $('#checkin-button').click(function() {
+            const selectedRooms = storeSelectedRooms();
+            // Perform check-in action with selected room IDs
+            console.log('Selected rooms for check-in:', selectedRooms);
+            // Submit the form with selected room IDs
+            submitCheckinForm(selectedRooms);
+        });
 
         // Add event listener to each row for selection toggle
         $('#room-table tbody tr').click(function() {
             toggleRowSelection(this);
         });
     });
+
+
+
+   
 
     </script>
 

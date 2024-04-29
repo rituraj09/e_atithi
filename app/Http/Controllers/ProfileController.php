@@ -64,6 +64,7 @@ class ProfileController extends Controller
     }
 
     public function getProfile () {
+        return view('guest.user.profile');
         // if (auth()->check()) {
         $guest = Guest::find(auth()->id());
         if ($guest) {
@@ -77,5 +78,9 @@ class ProfileController extends Controller
         }
         // }         
         return view('guest.user.login');
+    }
+
+    public function updatePassword() {
+        return view('guest.user.updatePassword');
     }
 }

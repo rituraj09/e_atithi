@@ -25,7 +25,7 @@
                         <form class="mx-2 mx-md-3 form" action="{{ route('store-bed-category') }}" method="POST">
                             @csrf
                             <div class="row m-0 p-0">
-                                <div class="col-md-6">
+                                {{-- <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="name" class="form-label">Name</label>
                                         <input id="name" class="form-control" name="name" type="text" placeholder="Name">
@@ -35,6 +35,17 @@
                                     <div class="mb-3">
                                         <label for="price" class="form-label">Occupancy</label>
                                         <input id="price" class="form-control" name="occupancy" type="text" placeholder="Price modifier">
+                                    </div>
+                                </div> --}}
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="bedType" class="form-label">Bed Category</label>
+                                        <select name="bedType" id="bedType" class="form-control">
+                                            <option value="" selected disabled>--select--</option>
+                                            @foreach ($bedCategories as $bedCategory)
+                                                <option value="{{ $bedCategory->id }}">{{ $bedCategory->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">

@@ -59,6 +59,27 @@
         </a>
       </li>
       @endif
+      {{-- utils --}}
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="collapse" href="#extras" role="button" aria-expanded="false" aria-controls="extras">
+          <i class="link-icon" data-feather="mail"></i>
+          <span class="link-title">Extras</span>
+          <i class="link-arrow" data-feather="chevron-down"></i>
+        </a>
+        <div class="collapse" id="extras">
+          <ul class="nav sub-menu">
+            <li class="nav-item">
+              <a href="{{ route('room-category-price') }}" class="nav-link">Manage Room Category</a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ route('bed-categories') }}" class="nav-link">Manage Bed Category</a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/email/compose.html" class="nav-link">Compose</a>
+            </li>
+          </ul>
+        </div>
+      </li>
       {{-- email --}}
       <li class="nav-item">
         <a class="nav-link" data-bs-toggle="collapse" href="#emails" role="button" aria-expanded="false" aria-controls="emails">

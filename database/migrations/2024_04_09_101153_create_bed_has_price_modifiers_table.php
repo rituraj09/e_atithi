@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bed_categories', function (Blueprint $table) {
+        Schema::create('bed_has_price_modifiers', function (Blueprint $table) {
             $table->id();
-            $table->string('name',100);
-            $table->integer('capacity')->nullable();
+            $table->integer('bed_type',false, true)->nullable();
+            $table->integer('guest_house_id',false, true)->nullable();
+            $table->decimal('price_modifier',10,2)->nullable();
             $table->string('remarks')->nullable();
-            $table->integer('admin_id',false, true)->nullable();  // default super admin and if a guest house creates a custom one, it would becomes the admin id of the guest house.
             $table->softDeletes();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bed_categories');
+        Schema::dropIfExists('bed_has_price_modifiers');
     }
 };

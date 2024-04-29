@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
-        Schema::table('room_categories', function (Blueprint $table) {
-            $table->decimal('price_modifier', 10,2)->nullable();
+        Schema::create('room_has_beds', function (Blueprint $table) {
+            $table->id();
+            $table->integer('room_id', false, true)->nullable();
+            $table->integer('bed_type', false, true)->nullable();
+            $table->softDeletes();
         });
     }
 
@@ -22,9 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
-        Schema::table('room_categories', function (Blueprint $table) {
-            $table->dropColumn('price_modifier');
-        });
+        Schema::dropIfExists('room_has_beds');
     }
 };

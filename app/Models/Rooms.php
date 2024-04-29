@@ -22,7 +22,6 @@ class Rooms extends Model
         'base_price',
         'no_of_beds',
         'capacity',
-        'bed_type',
         'room_category',
         'total_price',
         'width',
@@ -32,9 +31,9 @@ class Rooms extends Model
         'deleted_at',
     ];
 
-    public function bedType(): BelongsTo
+    public function bedType()
     {
-        return $this->belongsTo(BedCategory::class, 'bed_type')->withTrashed();
+        return $this->belongsToMany(BedCategory::class, 'room_has_beds', 'room_id', 'bed_type');
     }
 
     public function roomCategory(): BelongsTo

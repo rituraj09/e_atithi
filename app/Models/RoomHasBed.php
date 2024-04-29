@@ -6,23 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class RoomTransaction extends Model
+class RoomHasBed extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = "room_transactions";
+    protected $table = "room_has_beds";
 
     protected $fillable = [
-        'transaction_id',
-        'reservation_no',
-        'checked_in_date',
-        'checked_in_time',
-        'checked_out_date',
-        'checked_out_time',
+        "room_id",
+        "bed_type",
     ];
 
     public $timestamps = false;
 
     protected $dates = ['deleted_at'];
-
 }

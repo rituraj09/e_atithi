@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BedCategory;
 use Illuminate\Http\Request;
+use App\Models\BedHasPriceModifier;
 use App\Models\GuestHouseHasEmployee;
 
 class BedCategoryController extends Controller
@@ -13,19 +14,22 @@ class BedCategoryController extends Controller
         $employeeId = auth()->user()->id;
         $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
 
-        $bedCategories = BedCategory::where('guest_house_id', $guest_house_id)->get();
+        $bedCategories = BedHasPriceModifier::with('Bed')->where('guest_house_id', $guest_house_id)->get();
         return view('guestHouse.BedCategory.index', compact('bedCategories'));
     }
 
     public function add() {
-        return view('guestHouse.BedCategory.add');
+        $bedCategories = BedCategory::all();
+        return view('guestHouse.BedCategory.add', compact('bedCategories'));
     }
 
-    public function edit() {
+    public function edit($id) {
+        dd($id);
         return view('guestHouse.BedCategory.edit');
     }
 
-    public function view() {
+    public function view($id) {
+        dd($id);
         return view('guestHouse.bedCategory.view');
     }
 
@@ -34,18 +38,21 @@ class BedCategoryController extends Controller
         $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
 
         $request->validate([
-            "name" => 'required',
-            "occupancy" => 'required',
+            // "name" => 'required',
+            // "occupancy" => 'required',
+            "bedType" => 'required',
             "price_modifier" => 'required',
         ]);
 
-        $bedCategory = BedCategory::create([
-            "name" => $request->input("name"),
-            "capacity" => $request->input("occupancy"),
-            "price_modifier" => $request->input("price_modifier"),
+        $bedCategory = BedHasPriceModifier::create([
+            // "name" => $request->input("name"),
+            // "capacity" => $request->input("occupancy"),
+            "bed_type" => $request->input("bedType"),
+            "price_modifier" => $request->input("price_modifier") || 0,
             "remarks" => $request->input("remarks"),
             "guest_house_id" => $guest_house_id,
         ]);
+        dd($request);
 
         if (!$bedCategory) {
             return redirect()->route('add-bed-category')->with(['icon'=>'error', 'message'=>'Something went wrong']);

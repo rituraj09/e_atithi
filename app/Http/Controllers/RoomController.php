@@ -5,10 +5,14 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Rooms;
 use App\Models\RateList;
+use App\Models\RoomHasBed;
+use App\Models\BedCategory;
 use App\Models\RoomOnDates;
 use App\Models\RoomCategory;
 use App\Models\RoomFeatures;
 use Illuminate\Http\Request;
+use App\Models\BedHasPriceModifier;
+use App\Models\RoomCategoryHasPrice;
 use App\Models\GuestHouseHasEmployee;
 
 class RoomController extends Controller
@@ -18,7 +22,8 @@ class RoomController extends Controller
         $employeeId = auth()->user()->id;
         $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
         
-        $rooms = Rooms::with('roomRate')
+        $rooms = Rooms::with(['roomCategory','bedType'])
+                        // ->pluck('')
                         ->where('guest_house_id', $guest_house_id)
                         ->get();
 
@@ -31,7 +36,9 @@ class RoomController extends Controller
         if(!$guest_house_id) {
             return response()->json('no');
         }
-        $roomCategories = RoomCategory::where('guest_house_id', $guest_house_id)->get();
+        $roomCategories = RoomCategoryHasPrice::where('guest_house_id', $guest_house_id)->get();
+
+        $bedCategories = BedHasPriceModifier::where('guest_house_id', $guest_house_id)->get();
        
         $roomRates = RateList::with('roomCategory')
                             ->where('guest_house_id', $guest_house_id)
@@ -44,7 +51,7 @@ class RoomController extends Controller
 
         // echo $roomCategories;
 
-        return view('guestHouse.Rooms.addRoom', compact(['roomCategories', 'roomRates']));
+        return view('guestHouse.Rooms.addRoom', compact(['roomCategories', 'roomRates','bedCategories']));
     }
 
     public function getAllRooms () {
@@ -66,14 +73,30 @@ class RoomController extends Controller
         $employeeId = auth()->user()->id;
         $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
 
+        $bedCategory = BedHasPriceModifier::find($request->bedCategory);
+        $roomCategory = RoomCategoryHasPrice::find($request->roomCategory);
+
+        $totalPrice = $request->basePrice + $bedCategory->price_modifier + $roomCategory->price_modifier;
+
+        $capacity = $bedCategory->capacity * $request->numberOfBeds;
+
         $room = Rooms::create([
             'room_number' => $request->roomNumber,
             'guest_house_id' => $guest_house_id,
-            'room_rate' => $request->price,
+            'bed_type' => $request->bedCategory,
+            'room_category' => $request->roomCategory,
+            // 'room_rate' => $request->price,
             'no_of_beds' => $request->numberOfBeds,
-            'capacity' => $request->capacity,
+            'capacity' => $request->capacity || $capacity,
+            'base_price' => $request->basePrice,
+            'total_price' => $totalPrice,
             'width' => $request->width || null,
             'length' => $request->length || null,
+        ]);
+
+        $roomHasBed = RoomHasBed::create([
+            'room_id' => $room->id,
+            'bed_type' => $request->bedCategory,
         ]);
 
         if (!$room) {
@@ -110,9 +133,18 @@ class RoomController extends Controller
         $room = Rooms::find($request->id)->first();
         $this->validateForm($request);
 
+        $bedCategory = BedCategory::find($request->bedCategory);
+        $roomCategory = RoomCategory::find($request->roomCategory);
+
+        $totalPrice = $request->basePrice + $bedCategory->price_modifier + $roomCategory->price_modifier;
+
         $fields = [
             'room_number' => $request->roomNumber,
-            'room_rate' => $request->roomCategory,
+            // 'room_rate' => $request->roomCategory,
+            'bed_type' => $request->bedCategory,
+            'room_category' => $request->roomCategory,
+            'base_price' => $request->basePrice,
+            'total_price' => $totalPrice,
             'no_of_beds' => $request->numberOfBeds,
             'capacity' => $request->capacity,
             'width' => $request->width || null,
@@ -167,10 +199,11 @@ class RoomController extends Controller
     public function validateForm ($request) {
         return $request->validate([
             'roomNumber' => 'required|unique:rooms,room_number',
-            'price' => 'required',
+            'basePrice' => 'required',
             'numberOfBeds' => 'required',
-            'capacity' => 'required',
+            // 'capacity' => 'required',
             'roomCategory' => 'required',
+            'bedCategory' => 'required',
         ]);
     }
 }

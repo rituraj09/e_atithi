@@ -21,6 +21,7 @@ use App\Http\Controllers\OfficialAuthController;
 use App\Http\Controllers\RoomCategoryController;
 use App\Http\Middleware\OfficialAdminMiddleware;
 use App\Http\Controllers\GuestHouseAdminController;
+use App\Http\Controllers\RoomCategoryPriceController;
 
 // ajax routes
 // require __DIR__.'/ajax.php';
@@ -118,17 +119,22 @@ Route::prefix('guest-house')->group( function () {
 
         Route::controller(TransactionController::class)->group( function () {
             Route::get('/transaction', 'index')->name('transaction');
+            Route::post('/room/checkin', 'checkIn')->name('room-check-in');
         });
 
         Route::controller(BedCategoryController::class)->group( function() {
             Route::get('/bed-categories', 'index')->name('bed-categories');
             Route::get('/bed-category/add', 'add')->name('add-bed-category');
-            Route::get('/bed-category/view', 'view')->name('view-bed-category');
+            Route::get('/bed-category/view/{id}', 'view')->name('view-bed-category');
             Route::get('/bed-category/edit', 'edit')->name('edit-bed-category');
             Route::post('/bed-category/store', 'store')->name('store-bed-category');
         });
         
-        
+        Route::controller(RoomCategoryPriceController::class)->group( function () {
+            Route::get('/room-category-price','index')->name('room-category-price');
+            Route::get('/room-category-price/add', 'add')->name('add-room-category-price');
+            Route::post('/room-category/price-modifier/add', 'storeRoomCategoryPrice')->name('new-room-category-price');
+        });
 
         
         // ajax

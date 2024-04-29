@@ -14,7 +14,7 @@ return new class extends Migration
         // add base price 
         Schema::table('rooms', function (Blueprint $table) {
             $table->decimal('base_price', 10, 2)->nullable();
-            $table->integer('bed_type', false, true)->nullable();
+            // $table->integer('bed_type', false, true)->nullable();
             $table->integer('room_category',false, true)->nullable();
             $table->decimal('total_price',10, 2)->nullable();
             $table->dropColumn('room_rate');
@@ -30,7 +30,7 @@ return new class extends Migration
         //
         Schema::table('rooms', function (Blueprint $table) {
             $table->dropColumn('base_price');
-            $table->dropColumn('bed_type');
+            // $table->dropColumn('bed_type');
             $table->dropColumn('total_price');
             $table->dropColumn('room_category');
             $table->integer('room_rate');

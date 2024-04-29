@@ -63,6 +63,7 @@ Route::prefix('/ajax')->group( function () {
 
     Route::controller(ReservationController::class)->group( function () {
         Route::post('/approve-reservation', 'approveReservation')->name('approve-reservation');
+        Route::post('/reject-reservation', 'rejectReservation')->name('reject-reservation');
     });
 
 });
