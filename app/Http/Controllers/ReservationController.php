@@ -48,12 +48,13 @@ class ReservationController extends Controller
                                 ->with('roomDetails')
                                 ->get();
 
-        $checked_in_rooms = RoomTransaction::where('reservation_no', $reservation->reservation_no)
+        $checked_in_rooms = RoomTransaction::where('reservation_no', $reservation->id)
                                             ->whereNotNull('checked_in_date')
                                             ->pluck('room_id')
                                             ->toArray();
+                                            // ->get();
 
-        $checked_out_rooms = RoomTransaction::where('reservation_no', $reservation->reservation_no)
+        $checked_out_rooms = RoomTransaction::where('reservation_no', $reservation->id)
                                             ->whereNotNull('checked_out_date')
                                             ->pluck('room_id')
                                             ->toArray();

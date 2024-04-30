@@ -1,6 +1,6 @@
 <!-- resources/views/guestHouse/GuestHouse/add.blade.php -->
 
-{{ dd($reservation, $rooms, $checked_in_rooms, $checked_out_rooms); }}
+{{-- {{ dd($reservation, $rooms, $checked_in_rooms, $checked_out_rooms); }} --}}
 
 <x-header/>
 <body>
@@ -80,15 +80,28 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($rooms as $room)
-                                        <tr data-id="{{ $room->id }}" class="cursor">
+                                        @if (in_array($room->id, $checked_in_rooms))
+                                            {{-- Room is checked in --}}
+                                            {{-- <span class="text-success">Checked in</span> --}}
+                                            <tr class="text-secondary">
+                                        @elseif (in_array($room->id, $checked_out_rooms))
+                                            {{-- Room is checked out --}}
+                                            {{-- <span class="text-danger">Checked out</span> --}}
+                                            <tr>
+                                        @else
+                                            {{-- Room is pending --}}
+                                            {{-- <span class="text-warning">Pending</span> --}}
+                                            <tr data-id="{{ $room->id }}" class="cursor">
+                                        @endif
+                                        
                                             <td>{{ $room->roomDetails->room_number }}</td>
                                             <td>{{ $room->roomDetails->roomCategory->name }}</td>
                                             <td>{{ $room->roomDetails->total_price }}</td>
                                             <td>
-                                                @if (in_array($room->roomDetails->room_number, $checked_in_rooms))
+                                                @if (in_array($room->id, $checked_in_rooms))
                                                     {{-- Room is checked in --}}
                                                     <span class="text-success">Checked in</span>
-                                                @elseif (in_array($room->roomDetails->room_number, $checked_out_rooms))
+                                                @elseif (in_array($room->id, $checked_out_rooms))
                                                     {{-- Room is checked out --}}
                                                     <span class="text-danger">Checked out</span>
                                                 @else
@@ -251,7 +264,10 @@
             $('#room-table tbody tr').each(function() {
                 if ($(this).hasClass('table-active')) {
                     const roomId = $(this).data('id');
-                    selectedRooms.push(roomId);
+                    if (roomId !== undefined) {
+                        selectedRooms.push(roomId);
+                    }
+                    // selectedRooms.push(roomId);
                 }
             });
             return selectedRooms;
@@ -288,8 +304,28 @@
                 value: $('#reservationId').val(),
             }).appendTo(form);
 
-            // Append the form to the document body and submit it
-            form.appendTo('body').submit();
+            // If there are no selected rooms, don't submit the form
+            console.log(selectedRooms);
+            if (selectedRooms.length > 0) {
+                // Append the form to the document body and submit it
+                form.appendTo('body').submit();
+            } else {
+                // Handle the case where no rooms are selected (e.g., display an error message)
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false, 
+                    timer: 3000,
+                    timerProgressBar: true,
+                    title: "Room may be already checked in!",
+                    icon: "error"
+                });
+                Toast.fire();
+                console.log('No rooms selected for check-in.');
+            }
+
+            // // Append the form to the document body and submit it
+            // form.appendTo('body').submit();
         }
 
         // Add event listener to the check-in button
