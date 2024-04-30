@@ -15,4 +15,11 @@ class OrderController extends Controller
                             ->get();
         return view('guest.orders.index', compact('orders'));
     }
+
+    public function details($id) {
+        $order = Reservation::with(['guestHouse','getStatus'])
+                            ->where('reservation_no', $id)
+                            ->first();
+        return view('guest.orders.details', compact('order'));
+    }
 }

@@ -14,7 +14,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="/" class="nav-link">
+        <a href="{{ route('guest-profile') }}" class="nav-link">
           <i class="link-icon" data-feather="user"></i>
           <span class="link-title">Profile</span>
         </a>

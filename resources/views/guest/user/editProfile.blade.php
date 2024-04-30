@@ -9,23 +9,23 @@
             <x-guest.guest-navbar/>
 
             <div class="page-content" style="background-color: #f1fcff">
-                <x-page-header :title="'Profile'" />
+                <x-page-header :prev="'Profile'" :title="'Edit Profile'" />
                 <div class="card d-flex flex-column border">
                     <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
                         <div>
-                            <a href="{{ route('all-reservations') }}" class="text-capitalize nav-link active px-4 fw-bold">
+                            <a href="{{ route('guest-profile') }}" class="text-capitalize nav-link ">
                                 view
                             </a>
                         </div>
                         <div>
-                            <button class="text-capitalize nav-link ">
+                            <button class="text-capitalize nav-link active px-4 fw-bold">
                                 edit
                             </button>
                         </div>
                         <div>
-                            <button class="text-capitalize nav-link ">
+                            <a href="{{ route('update-password') }}" class="text-capitalize nav-link ">
                                 update password
-                            </button>
+                            </a>
                         </div>
                     </div>
                 {{-- <div class="card row mb-2 p-3"> --}}
@@ -33,32 +33,35 @@
                     <div class="row m-0 p-3 fs-5">
                         <div class="col-md-4 mb-3">
                             <div class="fw-bolder mb-1 ">Name</div>
-                            <input id="reservationNo" class="text-darkgray border-0" value="Abc Abck" readonly disabled>
+                            <input id="reservationNo" class="text-darkgray form-control" value="Abc Abck" >
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="fw-bolder mb-1 ">Email</div>
-                            <input id="reservationNo" class="text-darkgray border-0" value="user@email" readonly disabled>
+                            <input id="reservationNo" class="text-darkgray form-control" value="user@email" >
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="fw-bolder mb-1 ">Phone</div>
-                            <input id="reservationNo" class="text-darkgray border-0" value="9876543210" readonly disabled>
+                            <input id="reservationNo" class="text-darkgray form-control" value="9876543210" >
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="fw-bolder mb-1 ">Nationality</div>
-                            <input id="reservationNo" class="text-darkgray border-0" value="Indian" readonly disabled>
+                            <input id="reservationNo" class="text-darkgray form-control" value="Indian" >
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="fw-bolder mb-1 ">Address</div>
-                            <input id="reservationNo" class="text-darkgray border-0" value="Golaghat, Assam" readonly disabled>
+                            <input id="reservationNo" class="text-darkgray form-control" value="Golaghat, Assam" >
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="fw-bolder mb-1 ">Gender</div>
-                            <input id="reservationNo" class="text-darkgray border-0" value="Male" readonly disabled>
+                            <input id="reservationNo" class="text-darkgray form-control" value="Male" >
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="fw-bolder mb-1 ">User Typr</div>
-                            <input id="reservationNo" class="text-darkgray border-0" value="Govt employee" readonly disabled>
+                            <input id="reservationNo" class="text-darkgray form-control" value="Govt employee" >
                         </div>
+                    </div>
+                    <div class="p-4 text-end">
+                        <button class="btn btn-success">Save changes</button>
                     </div>
                 </div>
                 <x-footer/>

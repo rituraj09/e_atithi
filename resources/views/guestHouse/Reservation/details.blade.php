@@ -1,6 +1,6 @@
 <!-- resources/views/guestHouse/GuestHouse/add.blade.php -->
 
-{{-- {{ dd($reservation); }} --}}
+{{ dd($reservation, $rooms, $checked_in_rooms, $checked_out_rooms); }}
 
 <x-header/>
 <body>
@@ -79,14 +79,25 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  @foreach ($rooms as $room)
-                                    <tr data-id="{{ $room->id }}" class="cursor">
-                                      <td>{{ $room->roomDetails->room_number }}</td>
-                                      <td>{{ $room->roomDetails->roomCategory->name }}</td>
-                                      <td>{{ $room->roomDetails->total_price }}</td>
-                                      <td>Pending</td>
-                                    </tr>
-                                  @endforeach
+                                    @foreach ($rooms as $room)
+                                        <tr data-id="{{ $room->id }}" class="cursor">
+                                            <td>{{ $room->roomDetails->room_number }}</td>
+                                            <td>{{ $room->roomDetails->roomCategory->name }}</td>
+                                            <td>{{ $room->roomDetails->total_price }}</td>
+                                            <td>
+                                                @if (in_array($room->roomDetails->room_number, $checked_in_rooms))
+                                                    {{-- Room is checked in --}}
+                                                    <span class="text-success">Checked in</span>
+                                                @elseif (in_array($room->roomDetails->room_number, $checked_out_rooms))
+                                                    {{-- Room is checked out --}}
+                                                    <span class="text-danger">Checked out</span>
+                                                @else
+                                                    {{-- Room is pending --}}
+                                                    <span class="text-warning">Pending</span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach                                
                                 </tbody>
                                 <tfoot id="transactionBody">
                                   <tr>

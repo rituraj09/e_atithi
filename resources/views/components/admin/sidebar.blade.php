@@ -22,14 +22,7 @@
       </li>
       @endif
 
-      {{-- room category --}}
       @if( auth()->guard('web')->user()->hasRole('admin') )
-      <li class="nav-item">
-        <a href="{{ route('room-category') }}" class="nav-link">
-          <i class="link-icon" data-feather="hexagon"></i>
-          <span class="link-title">Manage Room Category</span>
-        </a>
-      </li>
       {{-- rooms --}}
       <li class="nav-item">
         <a href="{{ route('guest-house-admin-rooms') }}" class="nav-link">

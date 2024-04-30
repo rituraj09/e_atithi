@@ -31,9 +31,12 @@
                             <span class="mdi mdi-sort-reverse-variant fs-4"></span>
                         </div>
                     </div>
+                    <div class="row m-0 bg-light p-2 mb-3">
+                        
+                    </div>
                     <div class="row mx-0">
                         @foreach ($orders as $order)
-                        <div class="row mx-0 border rounded mb-2 p-2 text-capitalize cursor">
+                        <a href="{{ route('order-details', ['id' => $order->reservation_no]) }}" class="row mx-0 border rounded mb-2 p-2 text-capitalize cursor">
                             <p class="col-12 fw-bold fs-4 pb-1">Reservation No: {{ $order->reservation_no }}</p>
                             <div class="col-7 text-darkgray">
                                 <p>{{ $order->guestHouse->name }}, {{ $order->guestHouse->district_name->name }}</p>
@@ -59,7 +62,7 @@
                             <div class="col-1 p-2 text-center">
                                 <span class="mdi mdi-chevron-right text-primary fs-3"></span>
                             </div>
-                        </div>
+                        </a>
                         @endforeach
                         
                     </div>

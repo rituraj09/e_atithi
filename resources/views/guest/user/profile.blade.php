@@ -18,9 +18,9 @@
                             </button>
                         </div>
                         <div>
-                            <button class="text-capitalize nav-link ">
+                            <a href="{{ route('edit-profile') }}" class="text-capitalize nav-link ">
                                 edit
-                            </button>
+                            </a>
                         </div>
                         <div>
                             <a href="{{ route('update-password') }}" class="text-capitalize nav-link ">

@@ -83,4 +83,8 @@ class ProfileController extends Controller
     public function updatePassword() {
         return view('guest.user.updatePassword');
     }
+
+    public function editProfile () {
+        return view('guest.user.editProfile');
+    }
 }

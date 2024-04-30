@@ -36,15 +36,18 @@ class TransactionController extends Controller
         // $rooms = explode(',', $request->room_ids);
         $rooms = $request->room_ids;
 
-        foreach ( $rooms as $roomId ) {
+        foreach ( $rooms as $room ) {
             // $roomId = (int)trim($room, '[]');
-            $roomId = (int) $roomId;
+            $roomId = (int) $room;
 
             $now = Carbon::now('Asia/Kolkata');
+
+            // dd($room);
 
             $roomTransaction =  RoomTransaction::create([
                 'transaction_id' => $this->generateTransactionId($roomId),
                 'reservation_no' => $request->reservation_id,
+                'room_id' => $room,
                 'checked_in_date' => $now->format('dmy'),
                 'checked_in_time' => $now->format('H:i:s'),
                 // 'checked_out_date' => $request->checked_out_date,

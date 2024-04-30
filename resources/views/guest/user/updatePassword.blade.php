@@ -9,7 +9,7 @@
             <x-guest.guest-navbar/>
 
             <div class="page-content" style="background-color: #f1fcff">
-                <x-page-header :title="'Profile'" />
+                <x-page-header :prev="'Profile'" :title="'Update Password'" />
                 <div class="card d-flex flex-column border">
                     <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
                         <div>
@@ -18,9 +18,9 @@
                             </a>
                         </div>
                         <div>
-                            <button class="text-capitalize nav-link ">
+                            <a href="{{ route('edit-profile') }}" class="text-capitalize nav-link ">
                                 edit
-                            </button>
+                            </a>
                         </div>
                         <div>
                             <button class="text-capitalize nav-link active px-4 fw-bold">
@@ -30,7 +30,7 @@
                     </div>
                 
                     <div class="row m-0 p-3 fs-5">
-                        <div class="col-md-8 mx-auto">
+                        <div class="col-md-5 mx-auto">
                             <form action="">
                                 @csrf
                                 <div class="mb-3">
@@ -51,7 +51,7 @@
                                         <button class="btn btn-sm btn-outline-primary"><i class="icon-md" data-feather="repeat"></i></button>
                                     </div>
                                 </div>
-                                <div class="row mb-4">
+                                <div class="mb-4 text-end">
                                     <button class="btn btn-success">Change</button>
                                 </div>
                             </form>

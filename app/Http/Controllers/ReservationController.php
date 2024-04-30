@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use App\Models\ReservationRoom;
+use App\Models\RoomTransaction;
 use App\Models\GuestHouseHasEmployee;
 
 class ReservationController extends Controller
@@ -37,17 +38,30 @@ class ReservationController extends Controller
         return view('guestHouse.Reservation.rejected');
     }
 
-    public function reservationDetails ($id) {
+    public function reservationDetails($id)
+    {
         $reservation = Reservation::with(['guest', 'getStatus'])
-                                ->where('id', $id)
-                                ->first();
+                                    ->where('id', $id)
+                                    ->first();
 
         $rooms = ReservationRoom::where('reservation_id', $reservation->reservation_no)
                                 ->with('roomDetails')
                                 ->get();
 
-        return view('guestHouse.Reservation.details', compact(['reservation', 'rooms']));
+        $checked_in_rooms = RoomTransaction::where('reservation_no', $reservation->reservation_no)
+                                            ->whereNotNull('checked_in_date')
+                                            ->pluck('room_id')
+                                            ->toArray();
+
+        $checked_out_rooms = RoomTransaction::where('reservation_no', $reservation->reservation_no)
+                                            ->whereNotNull('checked_out_date')
+                                            ->pluck('room_id')
+                                            ->toArray();
+
+        return view('guestHouse.Reservation.details', compact('reservation', 'rooms', 'checked_in_rooms', 'checked_out_rooms'));
     }
+
+
 
     public function createReservation (Request $request) {
         return view('guestHouse.Reservation.create');

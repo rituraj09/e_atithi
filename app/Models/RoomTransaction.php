@@ -19,6 +19,7 @@ class RoomTransaction extends Model
         'checked_in_time',
         'checked_out_date',
         'checked_out_time',
+        'room_id',
     ];
 
     public $timestamps = false;
