@@ -31,13 +31,17 @@ class AuthController extends Controller
             'password' => bcrypt($request->input('password')),
         ]);
 
+        $userDetails = GuestDetails::create([
+            'guest_id' => $user->id,   // reference for guest profile data.
+        ]);
+
         $logs = $this->guestLog($request->ip(), "New registration", $user->id);
         
         Auth::guard('guest')->login($user);
 
         $message = "You have successfully logged in " . $request->fullname . ".";
 
-        return redirect()->route('/')->with(['icon'=>'success', 'message'=>$message]);
+        return redirect()->route('guest-home')->with(['icon'=>'success', 'message'=>$message]);
     }
 
     public function login(Request $request) {

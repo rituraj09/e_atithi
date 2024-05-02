@@ -110,7 +110,6 @@ class RoomController extends Controller
 
     public function editRoom ($id) {
         $room = Rooms::where('id', $id)
-                    ->with('roomRate')
                     ->first();
 
         $employeeId = auth()->user()->id;
@@ -164,7 +163,6 @@ class RoomController extends Controller
 
     public function viewRoom($id) {
         $room = Rooms::where('id', $id)
-                    ->with('roomRate')
                     ->first();
 
         $employeeId = auth()->user()->id;

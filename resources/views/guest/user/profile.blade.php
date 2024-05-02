@@ -18,7 +18,7 @@
                             </button>
                         </div>
                         <div>
-                            <a href="{{ route('edit-profile') }}" class="text-capitalize nav-link ">
+                            <a href="{{ route('edit-profile', ['id' => $guest->id]) }}" class="text-capitalize nav-link ">
                                 edit
                             </a>
                         </div>

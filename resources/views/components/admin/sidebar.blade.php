@@ -51,7 +51,6 @@
           <span class="link-title">Manage Reservations</span>
         </a>
       </li>
-      @endif
       {{-- utils --}}
       <li class="nav-item">
         <a class="nav-link" data-bs-toggle="collapse" href="#extras" role="button" aria-expanded="false" aria-controls="extras">
@@ -73,6 +72,7 @@
           </ul>
         </div>
       </li>
+      @endif
       {{-- email --}}
       <li class="nav-item">
         <a class="nav-link" data-bs-toggle="collapse" href="#emails" role="button" aria-expanded="false" aria-controls="emails">

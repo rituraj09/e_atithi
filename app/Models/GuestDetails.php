@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class GuestDetails extends Model
 {
@@ -17,6 +18,7 @@ class GuestDetails extends Model
         'nationality',
         'address',
         'gender',
+        'dob',
         'profile_pic',
         'id_card_no',
         'id_card_type',
@@ -24,4 +26,14 @@ class GuestDetails extends Model
     ];
 
     public $timestamps = false;
+
+    /**
+     * Get the user that owns the GuestDetails
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function guest(): BelongsTo
+    {
+        return $this->belongsTo(Guest::class, 'guest_id');
+    }
 }

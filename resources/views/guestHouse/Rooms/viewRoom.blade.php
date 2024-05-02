@@ -85,7 +85,7 @@
                                         <option value="" disabled>--select--</option>
                                         @foreach ( $roomCategories as $roomCategory )
                                             <option value="{{ $roomCategory->id }}" 
-                                            @if ( $roomCategory->id === $room['roomRate']->room_category )
+                                            @if ( $roomCategory->id === $room->room_category )
                                                 selected
                                             @endif    
                                             >{{ $roomCategory->name }}</option>

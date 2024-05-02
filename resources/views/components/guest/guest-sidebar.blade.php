@@ -2,9 +2,9 @@
     <ul class="nav">
       <li class="nav-item nav-category">Main</li>
       <li class="nav-item">
-        <a href="/guest" class="nav-link">
+        <a href="{{ route('guest-home') }}" class="nav-link">
           <i class="link-icon" data-feather="home"></i>
-          <span class="link-title">Dashboard</span>
+          <span class="link-title">Home</span>
         </a>
       </li>
       <li class="nav-item">

@@ -31,11 +31,12 @@ Route::get('/', function () {
 })->name('dashboard')->middleware(['auth']);
 Route::redirect('/dashboard', '/');
 Route::redirect('/guest-house', '/');
+Route::redirect('/guest', '/guest/home');
 
 
 Route::prefix('guest')->group( function () {
 
-    Route::get('/', function () {
+    Route::get('/home', function () {
         return view('guest.index');
     })->name('guest-home');
 
@@ -59,6 +60,7 @@ Route::prefix('guest')->group( function () {
         Route::get('/profile', 'getProfile')->name('guest-profile')->middleware('guest');
         Route::get('/profile/edit', 'editProfile')->name('edit-profile')->middleware('guest');
         Route::get('/profile/update-password', 'updatePassword')->name('update-password')->middleware('guest');
+        Route::get('/profile/store', 'updateProfile')->name('store-profile')->middleware('guest');
     });
 
     // Route::get('/guest-houses', function () {
