@@ -51,6 +51,13 @@
           <span class="link-title">Manage Reservations</span>
         </a>
       </li>
+      {{-- transaction --}}
+      <li class="nav-item">
+        <a href="{{ route('transaction') }}" class="nav-link">
+          <i class="link-icon" data-feather="briefcase"></i>
+          <span class="link-title">Manage Transactions</span>
+        </a>
+      </li>
       {{-- utils --}}
       <li class="nav-item">
         <a class="nav-link" data-bs-toggle="collapse" href="#extras" role="button" aria-expanded="false" aria-controls="extras">

@@ -92,7 +92,7 @@
                                 <div class="mb-3">
                                     <div class="profile-pic">
                                         <h6 class="form-label pt-3 text-center fw-bolder">Profile Picture</h6>
-                                        <input name="profile_pic" type="file" id="myDropify"/>
+                                        <input name="profile_pic" type="file" id="myDropify" data-default-file="{{ asset('storage/images/' . $guestDetails->profile_pic) }}"/>
                                     </div>
                                 </div>
                             </div>
@@ -100,11 +100,11 @@
                                 <div class="mb-3">
                                     <div class="">
                                         <h6 class="form-label pt-3 text-center fw-bolder">Id Card</h6>
-                                        <input name="id_card_file" type="file" id="myDropify2"/>
+                                        <input name="id_card_file" type="file" id="myDropify2" data-default-file="{{ asset('storage/images/' . $guestDetails->id_card_no) }}"/>
                                         <div class="my-3">
                                             <div class="fw-bolder mb-1">Card Type</div>
                                             <select name="id_card_type" id="" class="form-control text-darkgray">
-                                                <option value="" selected disabled>--select--</option>
+                                                <option value="" disabled>--select--</option>
                                                 @foreach ($idCardTypes as $idCardType)
                                                     <option value="{{ $idCardType->id }}"
                                                     @if ($idCardType === $guestDetails->id_card_type)

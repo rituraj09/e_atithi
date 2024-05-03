@@ -33,23 +33,23 @@
                     <div class="row m-0 p-3 fs-5">
                         <div class="col-md-4 mb-3">
                             <div class="fw-bolder mb-1 ">Name</div>
-                            <input id="reservationNo" class="text-darkgray border-0" value="Abc Abck" readonly disabled>
+                            <input id="reservationNo" class="text-darkgray border-0" value="{{ $guest->name }}" readonly disabled>
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="fw-bolder mb-1 ">Email</div>
-                            <input id="reservationNo" class="text-darkgray border-0" value="user@email" readonly disabled>
+                            <input id="reservationNo" class="text-darkgray border-0" value="{{ $guest->email }}" readonly disabled>
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="fw-bolder mb-1 ">Phone</div>
-                            <input id="reservationNo" class="text-darkgray border-0" value="9876543210" readonly disabled>
+                            <input id="reservationNo" class="text-darkgray border-0" value="{{ $guest->phone }}" readonly disabled>
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="fw-bolder mb-1 ">Nationality</div>
-                            <input id="reservationNo" class="text-darkgray border-0" value="Indian" readonly disabled>
+                            <input id="reservationNo" class="text-darkgray border-0" value="{{ $guestDetail->nationality }}" readonly disabled>
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="fw-bolder mb-1 ">Address</div>
-                            <input id="reservationNo" class="text-darkgray border-0" value="Golaghat, Assam" readonly disabled>
+                            <input id="reservationNo" class="text-darkgray border-0" value="{{ $guestDetail->address }}" readonly disabled>
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="fw-bolder mb-1 ">Gender</div>
@@ -58,6 +58,16 @@
                         <div class="col-md-4 mb-3">
                             <div class="fw-bolder mb-1 ">User Typr</div>
                             <input id="reservationNo" class="text-darkgray border-0" value="Govt employee" readonly disabled>
+                        </div>
+                    </div>
+                    <div class="row col-md-8 mx-auto mb-3 border-top">
+                        <div class="col-md-6 p-4">
+                            <img class="rounded border w-100" src="{{ asset('storage/images/'.$guestDetail->profile_pic) }}" alt="">    
+                            <p>Profile Picture</p>
+                        </div>
+                        <div class="col-md-6 p-4">
+                            <img class="rounded border w-100" src="{{ asset('storage/images/'.$guestDetail->id_card_no) }}" alt="">    
+                            <p>Id Card</p>
                         </div>
                     </div>
                 </div>

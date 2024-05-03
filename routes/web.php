@@ -120,6 +120,8 @@ Route::prefix('guest-house')->group( function () {
         Route::controller(TransactionController::class)->group( function () {
             Route::get('/transaction', 'index')->name('transaction');
             Route::post('/room/checkin', 'checkIn')->name('room-check-in');
+            Route::get('/transaction/checkin/{id?}', 'checkInView')->name('check-in-view');
+            Route::get('/transaction/checkout/{id?}', 'checkOutView')->name('check-out-view');
         });
 
         Route::controller(BedCategoryController::class)->group( function() {

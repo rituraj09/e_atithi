@@ -1,5 +1,7 @@
 <!-- resources/views/guestHouse/Transaction/index.blade.php -->
 
+{{-- {{ dd($roomTransactions); }} --}}
+
 <x-header/>
 <body>
     <div class="main-wrapper">
@@ -7,56 +9,79 @@
             <x-admin.navbar/>
 
             <div class="page-content">
-
-                <x-page-header :title="'Transaction'"/>
+                <x-page-header :title="'Manage Transactions'"/>
                 <div class="d-flex flex-column border card">
-                    <div class="d-none col nav nav-tabs bg-light pt-2 px-2">
+                    <div class="col nav nav-tabs bg-light pt-2 px-2">
                         <div>
-                            <a href="{{ route('all-reservations') }}" class="text-capitalize nav-link active px-4 fw-bold">
+                            <button class="text-capitalize nav-link active px-4 fw-bold">
                                 view
+                            </button>
+                        </div>
+                        <div>
+                            <a href="{{ route('check-in-view') }}" class="text-capitalize nav-link">
+                                Check in
                             </a>
                         </div>
                         <div>
-                            <a href="{{ route('create-reservation') }}" class="text-capitalize nav-link">
-                                add
+                            <a href="{{ route('check-out-view') }}" class="text-capitalize nav-link">
+                                Check out
                             </a>
                         </div>
                     </div>
-                    <div class="p-2">
-                        <div class="row m-0">
-                            <div class="col-md-8 py-3">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="reservation_id">
-                                    <button class="btn btn-outline-primary" id="search">
-                                        Search
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row m-0">
-                            <div class="col-md-6 mb-3">
-                                Name
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                Name
-                            </div>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table">
+                    <div class="">
+                        {{-- data from room transactions only --}}
+                        {{-- <div class="table-responsive">
+                            <table id="dataTableExample">
                                 <thead>
                                     <tr>
-                                    <th>Room No</th>
-                                    <th>Room Type</th>
+                                    <th>Transaction No</th>
+                                    <th>Reservation No</th>
+                                    <th>Guest Name</th>
+                                    <th>Room Number</th>
                                     <th>Status</th>
+                                    <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody id="">
-                                   
+                                <tbody>
+                                    @foreach ($roomTransactions as $roomTransaction)
+                                    <tr>
+                                        <td>{{ $roomTransaction->transaction_id }}</td>
+                                        <td>{{ $roomTransaction->reservation_no }}</td>
+                                        <td>{{ $roomTransaction->reservationDetails->guest->name }}</td>
+                                        <td>{{ $roomTransaction->reservedRooms->roomDetails->room_number }}</td>
+                                        <td>{{ $roomTransaction->reservationDetails->getStatus->name }}</td>
+                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
-                        </div>
+                        </div> --}}
+                        <table id="dataTableExample" class="table">
+                            <thead>
+                                <tr>
+                                    <th>Transaction No</th>
+                                    <th>Reservation No</th>
+                                    <th>Guest Name</th>
+                                    <th>Room Number</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($roomTransactions as $roomTransaction)
+                                    <tr>
+                                        <td>{{ $roomTransaction->transaction_id }}</td>
+                                        <td>{{ $roomTransaction->reservationDetails->reservation_no }}</td>
+                                        <td>{{ $roomTransaction->reservationDetails->guest->name }}</td>
+                                        <td>{{ $roomTransaction->reservedRooms->roomDetails->room_number }}</td>
+                                        <td>{{ $roomTransaction->reservationDetails->getStatus->name }}</td>
+                                        <td></td>
+                                    </tr>
+                                    @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+                <x-footer/>
             </div>
         </div>
     </div>

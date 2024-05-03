@@ -15,38 +15,26 @@ class ProfileController extends Controller
     //
     public function updateProfile(Request $request) {
 
-        // return $request;
+        $idCardImage = $request->file('id_card_file');
+        $idCardImageName = null;
+        if ($idCardImage) {
+            $idCardImageName = time() . '.' . $idCardImage->getClientOriginalExtension();
+            $idCardPath = $idCardImage->storeAs('public/images', $idCardImageName);
+        }
 
-        // $incomingFields = $request->validate([
-        //     'name' => 'required|min:3',
-        //     'email' => 'required|email',
-        //     'phone' => 'required|min:10',
-        //     'dob' => 'required',
-        //     'guestcategory_id' => 'required',
-        //     'nationality' => 'required',
-        //     'address' => 'required',
-        //     'gender' => 'required',
-        //     'id_card_file' => 'required',
-        //     'id_card_type' => 'required',
-        // ]);
-
-        $idCardImage = $request->file('profile_pic');
-        $idCardImageName = time().'.'.$idCardImage->getClientOriginalExtension();
-        $idCardPath = $idCardImage->storeAs('public/images', $idCardImageName);
-
-        $profileImage = $request->file('id_card_file');
-        $profileImageName = time().'.'.$profileImage->getClientOriginalExtension();
-        $profilePath = $profileImage->storeAs('public/images', $profileImageName);
-
+        $profileImage = $request->file('profile_pic');
+        $profileImageName = null;
+        if ($profileImage) {
+            $profileImageName = time() . '.' . $profileImage->getClientOriginalExtension();
+            $profilePath = $profileImage->storeAs('public/images', $profileImageName);
+        }
 
         $guest = Guest::find(auth()->guard('guest')->id());
 
         $guestDetail = GuestDetails::where('guest_id', $guest->id)->first();
 
-        // dd($guestDetail);
-
         $guest->update([
-            'name' => $request->input('names'),
+            'name' => $request->input('name'),
             'email' => $request->input('email'),
             'phone' => $request->input('phone'),
         ]);
@@ -57,8 +45,8 @@ class ProfileController extends Controller
             'nationality' => $request->input('nationality'),
             'address' => $request->input('address'),
             'gender' => $request->input('gender'),
-            'profile_pic'=> $profilePath,
-            'id_card_no' => $idCardPath,
+            'profile_pic' => $profileImageName ?: $guestDetail->profile_pic,
+            'id_card_no' => $idCardImageName ?: $guestDetail->id_card_no,
             'id_card_type' => $request->input('id_card_type'),
             'remarks' => $request->input('remarks'),
         ]);
@@ -73,7 +61,7 @@ class ProfileController extends Controller
 
         // $logs = GuestsLogs::create($data);
 
-        return $guestDetail;
+        return redirect()->route('guest-profile')->with(['icon'=>'success', 'message' => 'Guest profile updated']);
 
     }
 
@@ -86,6 +74,8 @@ class ProfileController extends Controller
         // return view('guest.user.profile');
         // if (auth()->check()) {
         $guest = Guest::find(auth()->guard('guest')->id());
+
+        $guestDetail = GuestDetails::find($guest->id);
         // dd($guest);
         if ($guest) {
             $guestCategories = GuestCategories::all();
@@ -94,6 +84,7 @@ class ProfileController extends Controller
                 'guest' => $guest, 
                 'guestCategories' => $guestCategories,
                 'genders' => $genders,
+                'guestDetail' => $guestDetail,
             ]);
         }
         // }         

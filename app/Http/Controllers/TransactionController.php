@@ -3,15 +3,65 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Guest;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
+use App\Models\ReservationRoom;
 use App\Models\RoomTransaction;
 
 class TransactionController extends Controller
 {
     //
     public function index() {
-        return view('guestHouse.Transaction.index');
+        $roomTransactions = RoomTransaction::with(['reservedRooms','reservationDetails'])->get();
+
+
+        return view('guestHouse.Transaction.index', compact('roomTransactions'));
+    }
+
+    public function checkInView($id = null) {
+
+        if ($id) {
+            $reservation = Reservation::with(['getStatus'])
+                                ->where('reservation_no', $id)
+                                ->first();
+
+            $rooms = ReservationRoom::where('reservation_id', $reservation->reservation_no)
+                                ->with('roomDetails')
+                                ->get();
+
+            $reservation_no = $id;
+
+            $guest = Guest::find($reservation->guest_id);
+
+            return view('guestHouse.Transaction.checkin', compact(['reservation','rooms','guest', 'reservation_no']));
+        } else {
+            return view('guestHouse.Transaction.checkin');
+        }
+    }
+
+    public function checkOutView($id = null) {
+        if ($id) {
+            $reservation = Reservation::with(['getStatus'])
+                                ->where('reservation_no', $id)
+                                ->first();
+
+            $rooms = ReservationRoom::where('reservation_id', $reservation->reservation_no)
+                                ->with('roomDetails')
+                                ->get();
+
+            $reservation_no = $id;
+
+            $guest = Guest::find($reservation->guest_id);
+
+            return view('guestHouse.Transaction.checkout', compact(['reservation','rooms','guest', 'reservation_no']));
+        } else {
+            return view('guestHouse.Transaction.checkout');
+        }
+    }
+
+    public function fetchRooms() {
+
     }
 
     public function fetchReservationById($rid){
@@ -42,12 +92,14 @@ class TransactionController extends Controller
 
             $now = Carbon::now('Asia/Kolkata');
 
+            // $roomdetails = ReservationRoom::find($room);  we will not store the room id, instead we will fetch room id from reservedRoom collection
+
             // dd($room);
 
             $roomTransaction =  RoomTransaction::create([
                 'transaction_id' => $this->generateTransactionId($roomId),
                 'reservation_no' => $request->reservation_id,
-                'room_id' => $room,
+                'room_id' => $roomId,
                 'checked_in_date' => $now->format('dmy'),
                 'checked_in_time' => $now->format('H:i:s'),
                 // 'checked_out_date' => $request->checked_out_date,

@@ -31,7 +31,7 @@
                 
                     <div class="row m-0 p-3 fs-5">
                         <div class="col-md-5 mx-auto">
-                            <form action="">
+                            <form action="" method="POST">
                                 @csrf
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
