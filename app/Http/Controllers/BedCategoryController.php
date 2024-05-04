@@ -34,6 +34,9 @@ class BedCategoryController extends Controller
     }
 
     public function store (Request $request) {
+
+        dd($request->input("price_modifier"));
+
         $employeeId = auth()->user()->id;
         $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
 
@@ -48,14 +51,14 @@ class BedCategoryController extends Controller
             // "name" => $request->input("name"),
             // "capacity" => $request->input("occupancy"),
             "bed_type" => $request->input("bedType"),
-            "price_modifier" => $request->input("price_modifier") || 0,
+            "price_modifier" => $request->input("price_modifier"),
             "remarks" => $request->input("remarks"),
             "guest_house_id" => $guest_house_id,
         ]);
         dd($request);
 
         if (!$bedCategory) {
-            return redirect()->route('add-bed-category')->with(['icon'=>'error', 'message'=>'Something went wrong']);
+            return back()->with(['icon'=>'error', 'message'=>'Something went wrong']);
         }
 
         return redirect()->route('bed-categories')->with(['icon'=>'sucess','message'=>'Bed category added successfully']);

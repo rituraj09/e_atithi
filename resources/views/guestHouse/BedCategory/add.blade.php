@@ -51,7 +51,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="price" class="form-label">Price Modifier</label>
-                                        <input id="price" class="form-control" name="price_modifier" type="text" placeholder="Price modifier">
+                                        <input id="price" class="form-control" name="price_modifier" type="text" placeholder="Price modifier" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -63,6 +63,9 @@
                             </div>
                             <div class="d-flex justify-content-end py-3">
                                 <button id="formSubmit" type="submit" class="btn btn-success">Submit</button>
+                            </div>
+                            <div class="mb-3">
+                                <small class="text-danger"><span class="mdi mdi-alert fs-4 pe-1"></span>If there's no extra fee, please enter 0.</small>
                             </div>
                         </form>
                     </div>

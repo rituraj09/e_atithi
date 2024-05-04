@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Models\BedHasPriceModifier;
 use App\Models\RoomCategoryHasPrice;
 use App\Models\GuestHouseHasEmployee;
+use App\Http\Controllers\PriceCalculatorController;
 
 class RoomController extends Controller
 {
@@ -76,7 +77,11 @@ class RoomController extends Controller
         $bedCategory = BedHasPriceModifier::find($request->bedCategory);
         $roomCategory = RoomCategoryHasPrice::find($request->roomCategory);
 
-        $totalPrice = $request->basePrice + $bedCategory->price_modifier + $roomCategory->price_modifier;
+        // $totalPrice = $request->basePrice + $bedCategory->price_modifier + $roomCategory->price_modifier;
+
+        $totalPrice = PriceCalculatorController::calculateRoomPrice($request->basePrice, $request->bedCategory, $request->roomCategory);
+
+        // dd($totalPrice);
 
         $capacity = $bedCategory->capacity * $request->numberOfBeds;
 
