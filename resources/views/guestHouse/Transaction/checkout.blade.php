@@ -1,6 +1,6 @@
 <!-- resources/views/guestHouse/Transaction/index.blade.php -->
 
-{{-- {{ dd($roomTransactions); }} --}}
+{{-- {{ dd($checked_in_rooms); }} --}}
 
 <x-header/>
 <body>
@@ -29,14 +29,20 @@
                         </div>
                     </div>
                     <div class="row p-3">
-                        <div class="col-md-8 mx-auto my-4">
-                            <form action="" method="post">
+                        <div class="col-md-9 mx-auto my-4">
+                            <form action="{{ route('get-check-out') }}" method="POST">
+                                @csrf
                                 <div class="input-group mb-5">
                                     <input type="text" class="form-control" name="reservation_no" 
                                     @if (isset($reservation_no))
                                         value="{{ $reservation_no }}"
                                     @endif
                                     placeholder="Reservation No">
+                                    <input type="hidden" id="reservationId"
+                                    @if (isset($reservation_no))
+                                        value="{{ $reservation->id }}"
+                                    @endif 
+                                    >
                                     <button class="btn btn-primary" type="submit">Search</button>
                                 </div>
                             </form>
@@ -48,7 +54,42 @@
                                     </div>
                                 </div>
                                 <div class="mb-3">
-                                    <table class="table">
+                                    <table class="table table-hover border text-capitalize" id="room-table">
+                                        <thead>
+                                          <tr>
+                                            <th class="text-darkgray">Room</th>
+                                            <th class="text-darkgray">Category</th>
+                                            <th class="text-darkgray">Check in date</th>
+                                            <th class="text-darkgray">Rate</th>
+                                            <th class="text-darkgray">total Cost</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($checked_in_rooms as $room)
+                                                {{-- @if (in_array($room->id, $checked_in_rooms)) --}}
+                                                @if (in_array($room->id, $checked_out_rooms))
+                                                    {{-- Room is checked in --}}
+                                                    {{-- <span class="text-success">Checked in</span> --}}
+                                                    <tr class="text-secondary">
+                                                @else
+                                                    {{-- Room is pending --}}
+                                                    {{-- <span class="text-warning">Pending</span> --}}
+                                                    <tr data-id="{{ $room->id }}" class="cursor">
+                                                @endif
+                                                    <td>{{ $room->reservedRooms->roomDetails->room_number }}</td>
+                                                    <td>
+                                                        {{ $room->reservedRooms->roomDetails->roomCategory->name }}, 
+                                                        {{ $room->reservedRooms->roomDetails->bedType[0]->name }}
+                                                    </td>
+                                                    <td>{{ $room->checked_in_date }}</td>
+                                                    <td>{{ $room->reservedRooms->roomDetails->total_price }}</td>
+                                                    <td>{{ $room->totalCost }}.00</td>
+                                                </tr>
+                                                {{-- @endif --}}
+                                            @endforeach                                
+                                        </tbody>
+                                      </table>
+                                    {{-- <table class="table">
                                         <thead>
                                             <tr>
                                                 <th>Room number</th>
@@ -59,18 +100,20 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($rooms as $room)
+                                                @if (in_array($room->id, $checked_in_rooms))
                                                 <tr class="cursor">
                                                     <td>{{ $room->roomDetails->room_number }}</td>
                                                     <td>{{ $room->roomDetails->roomCategory->name }}, {{ $room->roomDetails->bedType[0]->name }}</td>
                                                     <td>{{ $room->roomDetails->total_price }}</td>
                                                     <td><input type="checkbox" name="" id=""></td>
                                                 </tr>
+                                                @endif
                                             @endforeach
                                         </tbody>
-                                    </table>
+                                    </table> --}}
                                 </div>
                                 <div class="d-flex justify-content-end mb-3">
-                                    <button class="btn btn-success">Check in</button>
+                                    <button class="btn btn-success" id="checkout-button">Check Out</button>
                                 </div>
                                 <div class="mb-3">
                                     <div class="mb-2">
@@ -110,6 +153,98 @@
                     console.error(xhr.responseText);
                 }
             });
+        });
+    });
+
+
+    $(document).ready(function () {
+        // Function to handle row selection
+        function toggleRowSelection(row) {
+            $(row).toggleClass('table-active');
+        }
+
+        // Function to store selected room IDs in an array
+        function storeSelectedRooms() {
+            const selectedRooms = [];
+            $('#room-table tbody tr').each(function() {
+                if ($(this).hasClass('table-active')) {
+                    const roomId = $(this).data('id');
+                    if (roomId !== undefined) {
+                        selectedRooms.push(roomId);
+                    }
+                    // selectedRooms.push(roomId);
+                }
+            });
+            return selectedRooms;
+        }
+
+        // Function to create and submit the check-in form
+        function submitCheckoutForm(selectedRooms) {
+            // Create a form element
+            const form = $('<form>').attr({
+                method: 'POST',
+                action: '{{ route("room-check-out") }}', // Replace with your check-in route
+            });
+
+            const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+            $('<input>').attr({
+                type: 'hidden',
+                name: '_token',
+                value: csrfToken,
+            }).appendTo(form);
+
+            // Create hidden input fields for each selected room ID
+            selectedRooms.forEach(function(roomId) {
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: 'room_ids[]', // Assuming your backend expects an array of room IDs
+                    value: roomId,
+                }).appendTo(form);
+            });
+
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'reservation_id',
+                value: $('#reservationId').val(),
+            }).appendTo(form);
+
+            // If there are no selected rooms, don't submit the form
+            console.log(selectedRooms);
+            if (selectedRooms.length > 0) {
+                // Append the form to the document body and submit it
+                form.appendTo('body').submit();
+            } else {
+                // Handle the case where no rooms are selected (e.g., display an error message)
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false, 
+                    timer: 3000,
+                    timerProgressBar: true,
+                    title: "Room may be already checked in!",
+                    icon: "error"
+                });
+                Toast.fire();
+                console.log('No rooms selected for check-in.');
+            }
+
+            // // Append the form to the document body and submit it
+            // form.appendTo('body').submit();
+        }
+
+        // Add event listener to the check-in button
+        $('#checkout-button').click(function() {
+            const selectedRooms = storeSelectedRooms();
+            // Perform check-in action with selected room IDs
+            console.log('Selected rooms for check-out:', selectedRooms);
+            // Submit the form with selected room IDs
+            submitCheckoutForm(selectedRooms);
+        });
+
+        // Add event listener to each row for selection toggle
+        $('#room-table tbody tr').click(function() {
+            toggleRowSelection(this);
         });
     });
 

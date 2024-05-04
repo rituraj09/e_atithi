@@ -122,7 +122,7 @@
                                     </td>
                                   </tr>
                                 </tfoot>
-                              </table>
+                            </table>
                         </div>
                     </div>
                     <div class="row m-0 mt-2 mb-3 p-3 fs-5">
