@@ -87,7 +87,7 @@ class GuestHouseController extends Controller
 
         $guestHouses = Guesthouse::all();
         $countries = Country::find($guestHouses->pluck('country')->toArray());
-        dd($countries->pluck('name')->toArray());
+        // dd($countries->pluck('name')->toArray());
         return view('guestHouse.GuestHouse.index', compact('guestHouses'));
     }
 

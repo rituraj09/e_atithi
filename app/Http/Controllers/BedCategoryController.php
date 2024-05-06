@@ -24,18 +24,20 @@ class BedCategoryController extends Controller
     }
 
     public function edit($id) {
-        dd($id);
-        return view('guestHouse.BedCategory.edit');
+        // dd($id);
+        $bedCategory = BedHasPriceModifier::find($id);
+        return view('guestHouse.BedCategory.edit', compact('bedCategory'));
     }
 
     public function view($id) {
-        dd($id);
-        return view('guestHouse.bedCategory.view');
+        // dd($id);
+        $bedCategory = BedHasPriceModifier::find($id);
+        return view('guestHouse.bedCategory.view', 'bedCategory');
     }
 
     public function store (Request $request) {
 
-        dd($request->input("price_modifier"));
+        // dd($request->input("price_modifier"));
 
         $employeeId = auth()->user()->id;
         $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
@@ -55,7 +57,7 @@ class BedCategoryController extends Controller
             "remarks" => $request->input("remarks"),
             "guest_house_id" => $guest_house_id,
         ]);
-        dd($request);
+        // dd($request);
 
         if (!$bedCategory) {
             return back()->with(['icon'=>'error', 'message'=>'Something went wrong']);

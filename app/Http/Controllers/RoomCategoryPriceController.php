@@ -35,13 +35,18 @@ class RoomCategoryPriceController extends Controller
         ]);
 
         if (!$res) {
-            return redirect()->route('add-room-category')->with(['icon'=>'error','message'=>'Something is wrong']);
+            return back()->with(['icon'=>'error','message'=>'Something is wrong']);
         }
-        return redirect()->route('room-category')->with(['icon'=>'success','message'=>'Room category price modifier added successfully']);
+        return redirect()->route('room-category-price')->with(['icon'=>'success','message'=>'Room category price modifier added successfully']);
     }
 
     public function add() {
         $roomCategories = RoomCategory::all();
         return view('guestHouse.RoomCategoryPrice.add', compact('roomCategories'));
+    }
+
+    public function edit($id) {
+        $roomCategory = RoomCategoryHasPrice::find($id);
+        return view('guestHouse.RoomCategoryPrice.edit', compact('roomCategory'));
     }
 }

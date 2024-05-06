@@ -18,11 +18,11 @@
               <small class="text-primary fw-bold fs-6">Golaghat</small>
             @endif
         </div>
-        <div class="my-auto d-none d-md-block">
+        {{-- <div class="my-auto d-none d-md-block">
             <span class="p-2 badge text-bg-info" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Logged in as admin">
                 {{ auth()->user()->roles[0]->name }}
             </span>
-        </div>
+        </div> --}}
         <ul class="navbar-nav">
             <li class="nav-item dropdown d-none">
                 <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

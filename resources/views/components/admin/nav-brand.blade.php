@@ -3,7 +3,7 @@
       <a href="#" class="sidebar-brand">
         <span>e</span>Atithi 
         <span>
-            @if (auth()->user()->roles[0]->name === 'admin' || auth()->user()->roles[0]->name === 'super admin')
+            @if (Auth::guard('web')->user()->roles[0]->name === 'admin' || Auth::guard('web')->user()->roles[0]->name === 'super admin')
                 admin
             @endif
         </span>

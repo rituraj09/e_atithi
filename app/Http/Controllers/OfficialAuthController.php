@@ -50,7 +50,7 @@ class OfficialAuthController extends Controller
         ]);
         $admin = Admin::where('email', $request->email)->first();
   
-     
+    //  dd($admin);
         if (!$admin || !Hash::check($fields['password'], $admin->password)) {
             return redirect()->route('guest-house-admin-login')->with(['icon'=>'error', 'message'=>'Wrong credentials']);
         }
@@ -78,6 +78,7 @@ class OfficialAuthController extends Controller
 
     public function getGuestHouseName () {
         $employeeId = auth()->user()->id;
+        // dd($employeeId);
         $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
         $guestHouse = Guesthouse::find($guest_house_id)->first();
         // dd($guestHouse->name);

@@ -56,13 +56,23 @@ class UsersController extends Controller
     }
 
     public function storeSubUser (Request $request) {
+        $employeeId = auth()->user()->id;
+        $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
+        
         // common validation
         $fields = $request->validate([
             'fullname' => 'required',
-            'phone' => 'required',
+            'phone' => 'required|digits:10',
             'email' => 'required|email',
             'role' => 'required',
             'password' => 'required',
+        ],[
+            'fullname.required' => 'Name is required',
+            'phone.required' => 'Phone number is required',
+            'phone.digits' => 'Phone number should contain 10 digits',
+            'email.required' => 'Email address is required',
+            'role.required' => 'Please select a role for the user/employee',
+            'password.required' => 'Password is required',
         ]);
 
 
@@ -86,15 +96,16 @@ class UsersController extends Controller
         } else {
             // select all guestHouse id of the admin
             $guestHouse = GuestHouseHasEmployee::where('employee_id',auth()->user()->id)->pluck('guest_house_id');
+            // dd($guestHouse);
             $guestHouseEmployee = GuestHouseHasEmployee::create([
-                'guest_house_id' => $guestHouse->id,
+                'guest_house_id' => $guestHouse[0],
                 'employee_id' => $subUser->id,
             ]);
         }
 
         $role = Role::findById($subUser->role, 'web');
         
-        $subUser->assignRole($subUser->role);
+        $subUser->assignRole($subUser->name);
         $permissions = $role->permissions;
         // assigning permissions to the sub users
         $subUser->givePermissionTo($permissions);
@@ -137,10 +148,17 @@ class UsersController extends Controller
         // common validation
         $fields = $request->validate([
             'fullname' => 'required',
-            'phone' => 'required',
+            'phone' => 'required|digits:10',
             'email' => 'required|email',
             'role' => 'required',
             'password' => 'required',
+        ],[
+            'fullname.required' => 'Name is required',
+            'phone.required' => 'Phone number is required',
+            'phone.digits' => 'Phone number should contain 10 digits',
+            'email.required' => 'Email address is required',
+            'role.required' => 'Please select a role for the user/employee',
+            'password.required' => 'Password is required',
         ]);
 
         // for super admin

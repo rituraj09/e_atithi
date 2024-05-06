@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Models\Admin;
+use App\Models\State;
 use App\Models\States;
+use App\Models\Country;
 use App\Models\Countries;
 use App\Models\Districts;
 use Illuminate\Database\Eloquent\Model;
@@ -33,12 +35,12 @@ class Guesthouse extends Model
 
     public function country_name()
     {
-        return $this->belongsTo(Countries::class, 'country');
+        return $this->belongsTo(Country::class, 'country');
     }
 
     public function state_name()
     {
-        return $this->belongsTo(States::class, 'state');
+        return $this->belongsTo(State::class, 'state');
     }
 
     public function district_name()

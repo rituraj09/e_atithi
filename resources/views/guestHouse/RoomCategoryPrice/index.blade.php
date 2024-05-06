@@ -103,18 +103,6 @@
                             </td>
                         </tr>`).join('');
                     categoryList.html(html);
-
-                    // res.data.map(data => {
-                    //     var rooms = data.rooms.map(room => `
-                    //     <div class="px-1">
-                    //         <small class="badge bg-success">
-                    //             ${room.name}
-                    //         </small>
-                    //     </div>
-                    //     `).join('');
-                    //     $(`#${data.id}rooms`).html(rooms);
-                    // })
-                    
                 }
             });
         }
@@ -210,7 +198,7 @@
             return;
         }
         // Redirect to the edit route with the ID
-        const editRoute = "{{ route('edit-room-category', ':id') }}"; // Replace with your actual route
+        const editRoute = "{{ route('edit-room-category-price', ':id') }}"; // Replace with your actual route
         window.location.href = editRoute.replace(':id', id);
     });
 

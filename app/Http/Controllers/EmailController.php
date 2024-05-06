@@ -34,7 +34,7 @@ class EmailController extends Controller
         // Send OTP email
         $this->sendOTPEmail($email, $otp);
 
-        return response()->json(['message' => 'OTP sent successfully!']);
+        return response()->json(['message' => 'OTP sent successfully!', 'opt' => $otp]);
     }
 
     public function sendOTPEmail($email, $otp)

@@ -23,7 +23,7 @@
                             </button>
                         </div>
                         <div>
-                            <a href="{{ route('update-password') }}" class="text-capitalize nav-link ">
+                            <a href="{{ route('edit-password') }}" class="text-capitalize nav-link ">
                                 update password
                             </a>
                         </div>

@@ -75,8 +75,14 @@ class ProfileController extends Controller
         // if (auth()->check()) {
         $guest = Guest::find(auth()->guard('guest')->id());
 
-        $guestDetail = GuestDetails::find($guest->id);
+        // $guestDetail = GuestDetails::where('guest_id', auth()->guard('guest')->user()->id)->first();
+
+        $guestDetail = GuestDetails::where('guest_id', auth()->guard('guest')->user()->id)->first();
         // dd($guest);
+        if (!$guestDetail->nationality) {
+            return redirect()->route('edit-profile')->with(['icon'=>'warning', 'message'=>"Please update your profile first"]);
+        }
+
         if ($guest) {
             $guestCategories = GuestCategories::all();
             $genders = Gender::all();
@@ -89,6 +95,15 @@ class ProfileController extends Controller
         }
         // }         
         return view('guest.user.login');
+    }
+
+    public function editPassword() {
+        $guestDetail = GuestDetails::where('guest_id', auth()->guard('guest')->user()->id)->first();
+
+        if ( !$guestDetail->nationality ) {
+            return redirect()->route('edit-profile')->with(['icon'=>'warning', 'message'=>"Please update your profile first"]);
+        }
+        return view('guest.user.updatePassword');
     }
 
     public function updatePassword(Request $request) {

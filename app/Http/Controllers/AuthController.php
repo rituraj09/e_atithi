@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Guest;
 use App\Models\GuestsLogs;
+use App\Models\GuestDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -18,10 +19,20 @@ class AuthController extends Controller
     public function newRegistration (Request $request) {
         $request->validate([
             'fullname' => 'required|min:3',
-            'phone' => 'required|min:3',
+            'phone' => 'required|digits:10',
             'email' => 'required|email|unique:guest,email',
             'password' => 'required|min:6',
             'confirmPassword' => 'required_with:password|same:password|min:6',
+        ],[
+            'fullname.required' => 'Name is required',
+            'fullname.min' => 'Name should atleast contain 3 characters',
+            'phone.required' => 'Phone number is required',
+            'phone.digits' => 'Phone number should contain 10 digits',
+            'email.required' => 'Email address is required',
+            'email.unique' => 'Email address already exist',
+            'role.required' => 'Please select a role for the user/employee',
+            'password.required' => 'Password is required',
+            'password.min' => 'Password should contain at least 6 characters',
         ]);
 
         $user = Guest::create([
@@ -63,6 +74,13 @@ class AuthController extends Controller
 
             // $token = $guest->createToken('eAtithi')->plainTextToken;
             $message = "You have successfully logged in " . $guest->name . ".";
+
+            $guestDetail = GuestDetails::where('guest_id', auth()->guard('guest')->user()->id)->first();
+
+            if (!$guestDetail->nationality) {
+                return redirect()->route('edit-profile')->with(['icon'=>'success', 'message'=>$message]);
+            }
+
             return redirect()->route('guest-home')->with(['icon'=>'success', 'message'=>$message]);
         } else {
             throw ValidationException::withMessages([

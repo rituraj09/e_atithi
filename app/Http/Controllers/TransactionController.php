@@ -8,12 +8,18 @@ use App\Models\Reservation;
 use Illuminate\Http\Request;
 use App\Models\ReservationRoom;
 use App\Models\RoomTransaction;
+use App\Models\GuestHouseHasEmployee;
 
 class TransactionController extends Controller
 {
     //
     public function index() {
-        $roomTransactions = RoomTransaction::with(['reservedRooms','reservationDetails'])->get();
+        $employeeId = auth()->user()->id;
+        $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
+
+        $roomTransactions = RoomTransaction::with(['reservedRooms','reservationDetails'])
+                                            // ->where('reservationDetails.guest_house_id',$guest_house_id)
+                                            ->get();
 
 
         return view('guestHouse.Transaction.index', compact('roomTransactions'));

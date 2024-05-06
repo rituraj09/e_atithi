@@ -59,8 +59,9 @@ Route::prefix('guest')->group( function () {
     Route::controller(ProfileController::class)->group( function () {
         Route::get('/profile', 'getProfile')->name('guest-profile')->middleware('guest');
         Route::get('/profile/edit', 'editProfile')->name('edit-profile')->middleware('guest');
-        Route::get('/profile/update-password', 'updatePassword')->name('update-password')->middleware('guest');
-        Route::get('/profile/store', 'updateProfile')->name('store-profile')->middleware('guest');
+        Route::get('/profile/edit-password', 'editPassword')->name('edit-password')->middleware('guest');
+        Route::post('/profile/update-password', 'updatePassword')->name('update-password')->middleware('guest');
+        Route::post('/profile/store', 'updateProfile')->name('store-profile')->middleware('guest');
     });
 
     // Route::get('/guest-houses', function () {

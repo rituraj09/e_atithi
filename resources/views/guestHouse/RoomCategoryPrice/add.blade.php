@@ -13,7 +13,7 @@
                 <div class="d-flex flex-column border card">
                     <div class="nav nav-tabs bg-light pt-2 px-2">
                         <div>
-                            <a href="{{ route('room-category') }}" class="text-capitalize nav-link" id="view">
+                            <a href="{{ route('room-category-price') }}" class="text-capitalize nav-link" id="view">
                                 view
                             </a>
                         </div>
