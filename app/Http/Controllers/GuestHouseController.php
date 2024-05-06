@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Models\Rooms;
-use App\Models\States;
-use App\Models\Countries;
+use App\Models\State;
+use App\Models\Country;
 use App\Models\Districts;
 use App\Models\Guesthouse;
 use Illuminate\Http\Request;
@@ -86,21 +86,21 @@ class GuestHouseController extends Controller
 
 
         $guestHouses = Guesthouse::all();
-        $countries = Countries::find($guestHouses->pluck('country')->toArray());
+        $countries = Country::find($guestHouses->pluck('country')->toArray());
         dd($countries->pluck('name')->toArray());
         return view('guestHouse.GuestHouse.index', compact('guestHouses'));
     }
 
     public function addGuestHouse () {
         $guestHouseTypes = GuestHouseType::all();
-        $countries = Countries::all();
+        $countries = Country::all();
         return view('guestHouse.GuestHouse.add', compact('guestHouseTypes', 'countries'));
     }
 
     public function editGuestHouse ($id) {
         $guestHouseTypes = GuestHouseType::all();
-        $countries = Countries::all();
-        $states = States::all();
+        $countries = Country::all();
+        $states = State::all();
         $districts = Districts::all();
         $roles = Role::where('name', '!=', 'super admin')->get();
         // fetch guest house data
@@ -136,8 +136,8 @@ class GuestHouseController extends Controller
 
     public function viewGuestHouse ($id) {
         $guestHouseTypes = GuestHouseType::all();
-        $countries = Countries::all();
-        $states = States::all();
+        $countries = Country::all();
+        $states = State::all();
         $districts = Districts::all();
         $roles = Role::where('name', '!=', 'super admin')->get();
         // fetch guest house data

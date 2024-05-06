@@ -4,6 +4,7 @@ use App\Models\Guest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\RateController;
 use App\Http\Controllers\RoomController;
 use App\Http\Middleware\AdminMiddleware;
@@ -199,3 +200,5 @@ Route::prefix('/guest')->group( function () {
 
 // route for captcha
 Route::get('/captcha', [CaptchaController::class, 'generateCaptcha'])->name('captcha');
+
+Route::get('/download-pdf', [PDFController::class, 'index']);
