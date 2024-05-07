@@ -28,7 +28,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="">
+                    <div class="table-responsive">
                         {{-- data from room transactions only --}}
                         {{-- <div class="table-responsive">
                             <table id="dataTableExample">
@@ -55,7 +55,7 @@
                                 </tbody>
                             </table>
                         </div> --}}
-                        <table id="dataTableExample" class="table">
+                        <table id="example" class="table">
                             <thead>
                                 <tr>
                                     <th>Transaction No</th>

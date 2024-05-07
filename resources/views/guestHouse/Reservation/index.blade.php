@@ -26,7 +26,7 @@
                     </div>
                     <div class="">
                         <div class="table-responsive">
-                            <table id="dataTableExample" class="table">
+                            <table id="example" class="table">
                                 <thead>
                                     <tr>
                                     <th>Reservation No</th>
@@ -62,6 +62,8 @@
             </div>
         </div>
     </div>
+
+
 
     <script>
     $(document).ready( function () {
@@ -150,6 +152,31 @@
         const editRoute = "{{ route('edit-sub-user', ':id') }}"; // Replace with your actual route
         window.location.href = editRoute.replace(':id', id);
     });
+
+    // $(document).ready(function(){
+    //     $("#dataTableExample").DataTable({
+    //         pageLength: 25,
+    //         responsive: true,
+    //         dom: '<"html5buttons"B>17fgitp',
+    //         buttons: [
+    //             {extend: 'copy'},
+    //             {extend: 'csv'},
+    //             {extend: 'excel', title: 'ExampleFile'},
+    //             {extend: 'pdf', title: 'ExampleFile'},
+    //             {extend: 'print',
+    //                 customize: function (win){
+    //                     $(win.document.body).addClass("white-bg"); 
+    //                     $(win.document.body).css('font-size', '10px');
+                    
+    //                     $(win.document.body).find('table')
+    //                     .addClass('compact')
+    //                     .css("font-size", "inherit");
+    //                 }
+    //             }
+    //         ],
+    //     });
+    // });    
+
     </script>
 
 <x-main-footer/>

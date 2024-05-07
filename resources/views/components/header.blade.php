@@ -54,4 +54,8 @@
 	<!-- jsCalendar v1.4.5 Javascript and CSS from unpkg cdn -->
 <script src="{{ asset('js/jsCalendar.min.js')  }}"></script>
 <link rel="stylesheet" href="{{ asset('css/jsCalendar.min.css') }}" >
+
+<link rel="stylesheet" href="https://cdn.datatables.net/2.0.6/css/dataTables.dataTables.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.dataTables.css">
+
 </head>

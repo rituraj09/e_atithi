@@ -30,8 +30,6 @@ class BookingController extends Controller
             // ->with('roomRate')
             ->get();
 
-
-
         // $rooms = Rooms::where('guest_house_id', $guestHouse->id)
         //             ->with('roomRate')
         //             ->get();
@@ -43,13 +41,6 @@ class BookingController extends Controller
     public function newBooking(Request $request) {
 
         // return $request;
-        // dd($request);
-        // $rooms = explode(',', $request->rooms);
-
-        // foreach ( $rooms as $room ) {
-        //     $roomId = (int)trim($room, '[]');
-        //     dd($room, $roomId);
-        // }
         // dd($request->toArray());
         
         $fields = $request->validate([
@@ -72,6 +63,7 @@ class BookingController extends Controller
             'reservationType' => $request->visitingReason,
             'charges_of_accomodation' => $request->totalCharge,
             'status' => 1,
+            'request_date' => Carbon::now('Asia/Kolkata'),
         ]);
 
         $rooms = explode(',', $request->rooms);

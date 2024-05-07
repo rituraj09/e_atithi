@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use App\Models\ReservationRoom;
@@ -94,7 +95,8 @@ class ReservationController extends Controller
         $reservation = Reservation::find($request->id);
 
         $updatedStatus = [
-            'status' => 4   //rejected by admin
+            'status' => 4,   //rejected by admin
+            'cancellation_by_admin_date' => Carbon::now('Asia/Kolkata'),
         ];
 
         $isUpdate = $reservation->update($updatedStatus);

@@ -13,10 +13,11 @@ return new class extends Migration
     {
         //
         Schema::table('reservations', function (Blueprint $table) {
-            $table->date('request_date')->nullable();
-            $table->date('cancellation_by_guest_date')->nullable();
-            $table->date('cancellation_by_admin_date')->nullable();
-            $table->date('approval_date')->nullable();
+            $table->timestamp('request_date')->nullable();
+            $table->timestamp('cancellation_by_guest_date')->nullable();
+            $table->timestamp('cancellation_by_admin_date')->nullable();
+            $table->timestamp('approval_date')->nullable();
+            $table->dropColumn('created_at');
         });
     }
 
@@ -31,6 +32,7 @@ return new class extends Migration
             $table->dropColumn('cancellation_by_guest_date')->nullable();
             $table->dropColumn('cancellation_by_admin_date')->nullable();
             $table->dropColumn('approval_date')->nullable();
+            $table->timestamp('created_at');
         });
     }
 };

@@ -26,14 +26,17 @@ class Reservation extends Model
         'docs',
         'status',
         'remarks',
-        'check_in_id',
-        'created_at',
+        'check_in_id',  
         'reservation_no',
         'reservation_type',
         'charges_of_accomodation',
         'remarks_by_guest',
         'remarks_by_admin',
         'approved_by',
+        'request_date',
+        'cancellation_by_guest_date',
+        'cancellation_by_admin_date',
+        'approval_date'
     ];
 
     public $timestamps = false;

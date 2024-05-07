@@ -100,16 +100,23 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mb-3">
+                            {{-- <div class="row mb-3">
                                 <div class="col-md-6 stretch-card">
                                     <div class="card fs-6">
-                                        <div class="card-body">
-                                            <h6 class="card-title">Guest House Image</h6>
+                                        <div class="card-body"> --}}
+                                            
                                             {{-- <p class="text-muted mb-3">Read the <a href="https://github.com/JeremyFagis/dropify" target="_blank"> Official Dropify Documentation </a>for a full list of instructions and other options.</p> --}}
-                                            <input type="file" id="myDropify"/>
+                                            {{-- <input type="file" name="guestHouseImage" id="myDropify"/>
                                         </div>
                                     </div>
                                 </div>
+                            </div>  --}}
+                            <div class="row mb-3 mx-0 mt-3">
+                                <h6 class="card-title">Guest House Image</h6>
+                                <div class="col-12">
+                                    <input type="file" name="images[]" multiple class="form-control-file">
+                                </div>
+                                <div id="preview"></div>
                             </div>
                             <div class="d-flex justify-content-between p-3">
                                 <h5 class="text-secondary">Admin</h5>
@@ -201,6 +208,48 @@
             });
         });
     })
+
+    $(document).ready(function() {
+    $('input[type="file"]').change(function(e) {
+        var files = e.target.files;
+        var output = document.getElementById('preview');
+
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                var img = document.createElement('img');
+                img.src = e.target.result;
+                img.classList.add('col-6');
+                img.classList.add('p-3');
+                img.classList.add('rounded-2');
+                img.classList.add('border');
+                output.appendChild(img);
+
+                var removeButton = document.createElement('button');
+                removeButton.classList.add('btn');
+                removeButton.classList.add('btn-danger');
+                removeButton.classList.add('overlap-button');
+                removeButton.innerHTML = 'Remove';
+                removeButton.addEventListener('click', function() {
+                    output.removeChild(img);
+                    output.removeChild(removeButton);
+
+                    // Remove the corresponding file from the files array
+                    var index = Array.from(output.children).indexOf(img);
+                    files.splice(index, 1);
+                });
+
+                output.appendChild(img);
+                output.appendChild(removeButton);
+            };
+
+            reader.readAsDataURL(file);
+        }
+    });
+});
+
     </script>
 
 <x-main-footer/>

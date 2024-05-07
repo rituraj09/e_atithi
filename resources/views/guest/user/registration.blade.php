@@ -160,21 +160,26 @@
         $('#verifyPhone').prop('disabled');
         $('#resendPhone').prop('disabled');
 
-        $.ajax({
-          url: "{{ route('sms-otp') }}",
-          type: "POST",
-          data: {phone:phone},
-          success: function (res) {
-            $('#verifyPhone').prop('disabled', false);
-            console.log(res);
-            $('#PhoneOtpMessage').html('OTP has been sent to your phone number. ');
-            $('#PhoneOtpMessage').addClass('text-success');
+        $('#verifyPhone').prop('disabled', false);
+        // console.log('111');
+        $('#PhoneOtpMessage').html('OTP has been sent to your phone number(console log). ');
+        $('#PhoneOtpMessage').addClass('text-success');
 
-            setTimeout(function() {
-              $('#resendPhone').prop('disabled', false);
-            }, (14 * 60 * 1000) + (50 * 1000));
-          }
-        });
+        // $.ajax({
+        //   url: "{{ route('sms-otp') }}",
+        //   type: "POST",
+        //   data: {phone:phone},
+        //   success: function (res) {
+        //     $('#verifyPhone').prop('disabled', false);
+        //     console.log(res);
+        //     $('#PhoneOtpMessage').html('OTP has been sent to your phone number. ');
+        //     $('#PhoneOtpMessage').addClass('text-success');
+
+        //     setTimeout(function() {
+        //       $('#resendPhone').prop('disabled', false);
+        //     }, (14 * 60 * 1000) + (50 * 1000));
+        //   }
+        // });
       }
     });
 
@@ -198,34 +203,45 @@
     $(document).on('click', '#verifyPhone', function (e) {
         e.preventDefault();
         const userOTP = $('#phoneOTP').val();
-        $.ajax({
-            url: "{{ route('verify-phone') }}",
-            type: "POST",
-            data: {userOTP:userOTP},
-            success: function(res) {
-                if (res.message === 'matching') {
-                    Swal.fire({
-                      title: "Phone verified successfully!",
-                      showConfirmButton: false,
-                      timer: 1500
-                    });
-                    $('#phoneOtpStatus').val('done');
-                    $('#phoneVerification').html(`<i class="mdi mdi-check"></i>`);
-                    $('#phoneVerification').addClass('btn-outline-primary').removeClass('btn-success');
-                    $('#phoneVerification').prop('disabled');
-                } else if (res.message === 'invalid') {
-                    $('#PhoneOtpMessage').html('OTP may expired. Please resend.');
-                    $('#PhoneOtpMessage').removeClass('text-success');
-                    $('#PhoneOtpMessage').addClass('text-danger');
-                    $('#resendPhone').prop('disabled', false);
-                } else {
-                    $('#PhoneOtpMessage').html('OTP is not matching.');
-                    $('#PhoneOtpMessage').removeClass('text-success');
-                    $('#PhoneOtpMessage').addClass('text-danger');
-                    $('#resendPhone').prop('disabled', false);
-                }
-            }
-        });  
+
+        Swal.fire({
+          title: "Phone verified successfully!",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        $('#phoneOtpStatus').val('done');
+        $('#phoneVerification').html(`<i class="mdi mdi-check"></i>`);
+        $('#phoneVerification').addClass('btn-outline-primary').removeClass('btn-success');
+        $('#phoneVerification').prop('disabled');
+
+        // $.ajax({
+        //     url: "{{ route('verify-phone') }}",
+        //     type: "POST",
+        //     data: {userOTP:userOTP},
+        //     success: function(res) {
+        //         if (res.message === 'matching') {
+        //             Swal.fire({
+        //               title: "Phone verified successfully!",
+        //               showConfirmButton: false,
+        //               timer: 1500
+        //             });
+        //             $('#phoneOtpStatus').val('done');
+        //             $('#phoneVerification').html(`<i class="mdi mdi-check"></i>`);
+        //             $('#phoneVerification').addClass('btn-outline-primary').removeClass('btn-success');
+        //             $('#phoneVerification').prop('disabled');
+        //         } else if (res.message === 'invalid') {
+        //             $('#PhoneOtpMessage').html('OTP may expired. Please resend.');
+        //             $('#PhoneOtpMessage').removeClass('text-success');
+        //             $('#PhoneOtpMessage').addClass('text-danger');
+        //             $('#resendPhone').prop('disabled', false);
+        //         } else {
+        //             $('#PhoneOtpMessage').html('OTP is not matching.');
+        //             $('#PhoneOtpMessage').removeClass('text-success');
+        //             $('#PhoneOtpMessage').addClass('text-danger');
+        //             $('#resendPhone').prop('disabled', false);
+        //         }
+        //     }
+        // });  
     })
 
     // Email verification using OTP

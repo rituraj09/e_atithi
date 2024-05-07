@@ -160,7 +160,19 @@ class GuestHouseController extends Controller
             'admin_name' => 'required|min:3',
             'admin_email' => 'required|email|unique:admins,email',
             'admin_phone' => 'required|min:10',
+        ],[
+            'admin_name.required' => 'Please enter a correct admin name',
+            'admin_email.required' => 'Please enter a correct email address',
+            'admin_email.unique' => 'Email address already exist',
+            'admin_phone.required' => 'Please enter a correct 10-digit phone number',
         ]);
+
+        // $guestHouseImage = $request->file('guestHouseImage');
+        // $guestHouseImageName = null;
+        // if ($guestHouseImage) {
+        //     $guestHouseImageName = time() . '.' . $guestHouseImage->getClientOriginalExtension();
+        //     $guestHousePath = $guestHouseImage->storeAs('public/images', $guestHouseImage);
+        // }
 
         $adminFields['admin_password'] = bcrypt($this->passwordGenerator());
         $adminFields['admin_role'] = 2;  // admin role id
@@ -189,6 +201,7 @@ class GuestHouseController extends Controller
             'country' => $fields['country'],
             'pin' => $fields['pin'],
             'guest_house_type' => $fields['guestHouseType'],
+            ''
         ]);
 
         if (!$guestHouse) {
@@ -250,6 +263,16 @@ class GuestHouseController extends Controller
             'state' => 'required',
             'district' => 'required',
             'pin' => 'required',
+        ],[
+            'name.required' => 'Please enter a name for the guest house',
+            'guestHouseType.required' => 'Please select a guest house type',
+            'email.required' => 'Please enter an email address',
+            'email.unique' => 'Email address already exist',
+            'phone.required' => 'Please enter a phone number',
+            'country.required' => 'Please select the country name',
+            'state.required' => 'Please select the state name',
+            'district.required' => 'Please select the district name',
+            'pin.required' => 'Please enter the PIN code',
         ]);
     }
 }

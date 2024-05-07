@@ -1,53 +1,3 @@
-{{-- @php
-    phpinfo(INFO_MODULES);
-@endphp --}}
-
-{{-- 
-<form action="{{ route('guest-registration')}}" method="post">
-    @csrf
-    <div>
-        <label for="fullname">Full Name</label>
-        <input type="text" name="fullname" id="fullname">
-    </div>
-    <div>
-        <label for="phone">Phone</label>
-        <input type="number" name="phone" id="phone">
-    </div>
-    <div>
-        <label for="phoneOtp">OTP</label>
-        <input type="number" name="phoneOtp" id="phoneOtp">
-        <button>verify</button>
-    </div>
-    <div>
-        <label for="email">Email</label>
-        <input type="email" name="email" id="email">
-    </div>
-    <div>
-        <label for="emailOtp">OTP</label>
-        <input type="number" name="emailOtp" id="emailOtp">
-        <button>verify</button>
-    </div>
-    <div>
-        <img src="{{ route('captcha') }}" alt="Captcha Image">
-        <button>reload</button>
-    </div>
-    <div>
-        <input type="text" name="captcha" id="captcha">
-        <button>verify</button>
-    </div>
-    <div>
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password">
-    </div>
-    <div>
-        <label for="confirmPassword">Confirm Password</label>
-        <input type="password" name="confirmPassword" id="confirmPassword">
-    </div>
-    <div>
-        <input type="submit" value="Register">
-    </div>
-</form> --}}
-
 <x-header/>
 
 <body>
@@ -80,33 +30,28 @@
                       <div class="row mb-2">
                         <label for="phone" class="form-label col-md-4 m-auto">Phone no.</label>
                         <div class="col-md-8">
-                          <input type="text" class="form-control" id="phone" name="phone" placeholder="+91" onkeypress="return event.charCode >= 48 && event.charCode <= 57" required>
+                          <div class="input-group">
+                            <input type="text" class="form-control" id="phone" name="phone" placeholder="+91" 
+                              onkeypress="return event.charCode >= 48 && event.charCode <= 57" required>
+                            <button type="button" class="btn btn-sm btn-success" id="phoneVerification">verify</button>
+                            <input type="hidden" name="phoneOtpStatus" id="phoneOtpStatus" required>
+                          </div>
+                          @error('phone')
+                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                          @enderror 
                         </div>
-                        
                       </div>
                       <div class="row mb-3">
-                        <label for="phone-otp" class="form-label col-md-4 m-auto">OTP for phone</label>
-                        <div class="col-md-8">
-                          <div class="input-group">
-                            <input type="text" id="phone-otp" class="form-control" placeholder="OTP sent to phone number">
-                            <button class="btn btn-success">verify</button>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row mb-2">
                         <label for="email" class="form-label col-md-4 m-auto">Email address</label>
                         <div class="col-md-8">
-                          <input type="email" class="form-control" id="email" name="email" placeholder="Email address" required>
-                        </div>
-                        
-                      </div>
-                      <div class="row mb-3">
-                        <label for="email-otp" class="form-label col-md-4 m-auto">OTP for email</label>
-                        <div class="col-md-8">
                           <div class="input-group">
-                            <input type="text" id="email-otp" class="form-control" placeholder="OTP sent to email address"/>
-                            <button type="button" class="btn btn-success">verify</button>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email address">
+                            <button id="emailVerification" type="button" class="btn btn-sm btn-success">Verify</button>
+                            <input type="hidden" name="emailOtpStatus" id="emailOtpStatus" required>
                           </div>
+                          @error('email')
+                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                          @enderror
                         </div>
                       </div>
                       <div class="row mb-2">
@@ -172,18 +117,239 @@
 		</div>
 	</div>
 
-	<!-- core:js -->
-	<script src="../../../assets/vendors/core/core.js"></script>
-	<!-- endinject -->
+  <script>
+  $(document).ready(function (){
+    // CSRF header
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
-	<!-- inject:js -->
-	<script src="../../../assets/vendors/feather-icons/feather.min.js"></script>
-	<script src="../../../assets/js/template.js"></script>
-	<!-- endinject -->
+    // Phone verification using OTP
+    $('#phoneVerification').on('click', function (e) {
+      e.preventDefault();
+      const phone = $('#phone').val();
+      if (phone.length !== 10 ) {
+        $(this).addClass("error");
+        $(this).siblings(".error-message").remove();
+        // Add error message next to the input field
+        $(this).after("<span class='error-message text-danger'><small>Please enter a valid phone number of 10 digits<small/></span>");
+      } else {
+        $(this).removeClass("error");
+        $(this).siblings(".error-message").remove(); // Remove existing error message if present
+        Swal.fire({
+          html: `
+            <div class="my-2">
+              <input class="form-control" type='text' id="phoneOTP" placeholder="Enter OTP sent to your phone number">
+            </div>
+            <div class="p-1">
+              <small id="PhoneOtpMessage">sending...<small>
+            </div>    
+            <div class="row mx-0">
+              <div class="col"><button class="btn btn-primary btn-sm w-100" id="verifyPhone" disabled>verify</button></div>
+              <div class="col"><button class="btn btn-warning btn-sm w-100" id="resendPhone" disabled>resend OTP</button></div>
+            </div>
+          `,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+        });
+        $('#verifyPhone').prop('disabled');
+        $('#resendPhone').prop('disabled');
 
-	<!-- Custom js for this page -->
-  <script type="text/javascript" src="{{ asset('js/maxLength.js')}}"></script>
-	<!-- End custom js for this page -->
+        $('#verifyPhone').prop('disabled', false);
+        // console.log('111');
+        $('#PhoneOtpMessage').html('OTP has been sent to your phone number(console log). ');
+        $('#PhoneOtpMessage').addClass('text-success');
 
-</body>
-</html>
+        // $.ajax({
+        //   url: "{{ route('sms-otp') }}",
+        //   type: "POST",
+        //   data: {phone:phone},
+        //   success: function (res) {
+        //     $('#verifyPhone').prop('disabled', false);
+        //     console.log(res);
+        //     $('#PhoneOtpMessage').html('OTP has been sent to your phone number. ');
+        //     $('#PhoneOtpMessage').addClass('text-success');
+
+        //     setTimeout(function() {
+        //       $('#resendPhone').prop('disabled', false);
+        //     }, (14 * 60 * 1000) + (50 * 1000));
+        //   }
+        // });
+      }
+    });
+
+    // resend phone otp
+    $(document).on('click', '#resendPhone', function (e) {
+      const phone = $('#phone').val();
+
+      $.ajax({
+        url: "{{ route('sms-otp') }}",
+        type: "POST",
+        data: {phone:phone},
+        success: function (res) {
+          $('#PhoneOtpMessage').html('OTP has been resent to your phone.');
+          $('#PhoneOtpMessage').removeClass('text-danger');
+          $('#PhoneOtpMessage').addClass('text-success');
+        }
+      })
+    });
+
+    // verify phone otp
+    $(document).on('click', '#verifyPhone', function (e) {
+        e.preventDefault();
+        const userOTP = $('#phoneOTP').val();
+
+        Swal.fire({
+          title: "Phone verified successfully!",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        $('#phoneOtpStatus').val('done');
+        $('#phoneVerification').html(`<i class="mdi mdi-check"></i>`);
+        $('#phoneVerification').addClass('btn-outline-primary').removeClass('btn-success');
+        $('#phoneVerification').prop('disabled');
+
+        //working 
+        // $.ajax({
+        //     url: "{{ route('verify-phone') }}",
+        //     type: "POST",
+        //     data: {userOTP:userOTP},
+        //     success: function(res) {
+        //         if (res.message === 'matching') {
+        //             Swal.fire({
+        //               title: "Phone verified successfully!",
+        //               showConfirmButton: false,
+        //               timer: 1500
+        //             });
+        //             $('#phoneOtpStatus').val('done');
+        //             $('#phoneVerification').html(`<i class="mdi mdi-check"></i>`);
+        //             $('#phoneVerification').addClass('btn-outline-primary').removeClass('btn-success');
+        //             $('#phoneVerification').prop('disabled');
+        //         } else if (res.message === 'invalid') {
+        //             $('#PhoneOtpMessage').html('OTP may expired. Please resend.');
+        //             $('#PhoneOtpMessage').removeClass('text-success');
+        //             $('#PhoneOtpMessage').addClass('text-danger');
+        //             $('#resendPhone').prop('disabled', false);
+        //         } else {
+        //             $('#PhoneOtpMessage').html('OTP is not matching.');
+        //             $('#PhoneOtpMessage').removeClass('text-success');
+        //             $('#PhoneOtpMessage').addClass('text-danger');
+        //             $('#resendPhone').prop('disabled', false);
+        //         }
+        //     }
+        // });  
+    })
+
+    // Email verification using OTP
+    $('#emailVerification').on('click', function (e) {
+      e.preventDefault();
+      const email = $('#email').val();
+
+      const regex = /^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/;
+      const isValid = regex.test(email);
+
+      if (!isValid || email === '') {
+        $(this).parent(".input-group").addClass("error");
+        $(this).parent(".input-group").siblings(".error-message").remove();
+        $(this).parent(".input-group").after("<span class='error-message text-danger'><small>Please enter a valid email address.<small/></span>");
+      } else {
+        $(this).parent(".input-group").removeClass("error");
+        $(this).parent(".input-group").siblings(".error-message").remove();
+        Swal.fire({
+          html: `
+            <div class="my-2">
+              <input class="form-control" type='text' id="emailOTP" placeholder="Enter OTP sent to your email">
+            </div>
+            <div class="p-1">
+              <small id="EmailOtpMessage">sending...<small>
+            </div>    
+            <div class="row mx-0">
+              <div class="col"><button class="btn btn-primary btn-sm w-100" id="verifyEmail" disabled>verify</button></div>
+              <div class="col"><button class="btn btn-warning btn-sm w-100" id="resendEmail" disabled>resend OTP</button></div>
+            </div>
+          `,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+        });
+        $('#verifyEmail').prop('disabled');
+        $('#resendEmail').prop('disabled');
+
+        $.ajax({
+          url: "{{ route('email-otp') }}",
+          type: "POST",
+          data: {email:email},
+          success: function (res) {
+            $('#verifyEmail').prop('disabled', false);
+            $('#EmailOtpMessage').html('OTP has been sent to your email. ');
+            $('#EmailOtpMessage').addClass('text-success');
+            console.log(res);
+            setTimeout(function() {
+              $('#resendEmail').prop('disabled', false);
+            }, (14 * 60 * 1000) + (58 * 1000));
+          }
+        });
+      }
+    })
+
+    $(document).on('click', '#resendEmail', function () {
+      const email = $('#email').val();
+
+      // Resend OTP logic
+      $.ajax({
+        url: "{{ route('email-otp') }}",
+        type: "POST",
+        data: {email: email},
+        success: function (res) {
+          console.log(res);
+          $('#EmailOtpMessage').html('OTP has been resent to your email. ');
+          $('#EmailOtpMessage').addClass('text-success');
+        }
+      });
+    });
+
+    $(document).on('click', '#verifyEmail', function (e) {
+        e.preventDefault();
+        const userOTP = $('#emailOTP').val();
+        $.ajax({
+            url: "{{ route('verify-email') }}",
+            type: "POST",
+            data: {userOTP:userOTP},
+            success: function(res) {
+                if (res.message === 'matching') {
+                    Swal.fire({
+                      title: "Email verified successfully!",
+                      showConfirmButton: false,
+                      timer: 1500
+                    });
+                    $('#emailOtpStatus').val('done');
+                    $('#emailVerification').html(`<i class="mdi mdi-check"></i>`);
+                    $('#emailVerification').addClass('btn-outline-primary').removeClass('btn-success');
+                    $('#emailVerification').prop('disabled');
+                } else if (res.message === 'invalid') {
+                    $('#EmailOtpMessage').html('OTP may expired. Please resend.');
+                    $('#EmailOtpMessage').addClass('text-danger');
+                    $('#resendEmail').prop('disabled', false);
+                } else {
+                    $('#EmailOtpMessage').html('OTP is not matching.');
+                    $('#EmailOtpMessage').addClass('text-danger');
+                    $('#resendEmail').prop('disabled', false);
+                }
+            }
+        });  
+    })
+  });
+
+  // when different phone number is used
+  $(document).on('input', '#phone', function() {
+    $('#phoneVerification').html('verfiy');
+  });
+
+  // when different email is used
+  $(document).on('input', '#email', function () {
+    $('#emailVerification').html('verify');
+  })
+  </script>
+
+<x-main-footer/>
