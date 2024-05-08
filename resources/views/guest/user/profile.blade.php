@@ -66,7 +66,7 @@
                             <p>Profile Picture</p>
                         </div>
                         <div class="col-md-6 p-4">
-                            <img class="rounded border w-100" src="{{ asset('storage/images/'.$guestDetail->id_card_no) }}" alt="">    
+                            <img class="rounded border w-100" src="{{ asset('storage/images/'.$guestDetail->id_card_file) }}" alt="">    
                             <p>Id Card</p>
                         </div>
                     </div>

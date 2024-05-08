@@ -25,7 +25,7 @@
                     </div>
                     <div>
                         <div class="table-responsive category">
-                            <table class="table" id="dataTableExample">
+                            <table class="table" id="example">
                                 <thead>
                                     <tr>
                                         <th>Room Category</th>

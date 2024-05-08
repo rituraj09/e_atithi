@@ -113,10 +113,11 @@ class TransactionController extends Controller
         //     'reservation_id' => 'required',
         // ]);
 
-        // dd($request);
 
         // $rooms = explode(',', $request->room_ids);
         $rooms = $request->room_ids;
+
+        $transactionId = $this->generateTransactionId($request->reservation_id);
 
         foreach ( $rooms as $room ) {
             // $roomId = (int)trim($room, '[]');
@@ -127,13 +128,11 @@ class TransactionController extends Controller
             // $roomdetails = ReservationRoom::find($room);  we will not store the room id, instead we will fetch room id from reservedRoom collection
 
             $roomTransaction =  RoomTransaction::create([
-                'transaction_id' => $this->generateTransactionId($roomId),
+                'transaction_id' => $transactionId,
                 'reservation_no' => $request->reservation_id,
                 'room_id' => $roomId,
                 'checked_in_date' => $now->format('y-m-d'),
                 'checked_in_time' => $now->format('H:i:s'),
-                // 'checked_out_date' => $request->checked_out_date,
-                // 'checked_out_time' => $request->checked_out_time,
             ]);
 
         }
@@ -182,17 +181,19 @@ class TransactionController extends Controller
 
 
     // transaction id generator
-    public function generateTransactionId($roomId)
+    public function generateTransactionId($reservationId)
     {
+        // Pad the reservation ID with zeros to ensure a fixed length (e.g., 5 digits)
+        $paddedReservationId = str_pad($reservationId, 5, '0', STR_PAD_LEFT);
 
         // Format dates (optional, adjust format as needed)
-        $formattedDate = Carbon::now()->format('Ymd');
+        $formattedDate = Carbon::now('Asia/Kolkata')->format('md');
 
         // Generate a random string (adjust length as desired)
         $randomString = strtoupper(substr(md5(uniqid(microtime(), true)), 0, 2));
 
         // Combine elements with separators
-        $transactionId = $roomId . '-' . $randomString . '-' . $formattedDate;
+        $transactionId = $paddedReservationId . '-' . $randomString . '-' . $formattedDate;
 
         return $transactionId;
     }

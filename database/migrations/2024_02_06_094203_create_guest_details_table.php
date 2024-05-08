@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('gender')->nullable();
             $table->date('dob')->nullable();
             $table->string('profile_pic')->nullable();
-            $table->string('id_card_no')->nullable();
+            $table->string('id_card_file')->nullable();
             $table->string('id_card_type')->nullable();
             $table->string('remarks')->nullable();
             $table->timestamp('created_at');

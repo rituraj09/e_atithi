@@ -42,10 +42,6 @@ Route::controller(GuestHouseAdminController::class)->group( function () {
 
 Route::prefix('guest-house')->group( function () {
 
-    // Route::get('/', function () {
-    //     return view('guestHouse.index');
-    // })->name('guest-house-admin-dashboard')->middleware(['auth']);
-
     Route::controller(OfficialAuthController::class)->group( function () {
         Route::post('/login', 'login')->name('admin-login');
         Route::post('/registration', 'registration')->name('admin-registration');
@@ -142,11 +138,6 @@ Route::prefix('guest-house')->group( function () {
             Route::get('/room-category-price/edit/{id}', 'edit')->name('edit-room-category-price');
             Route::post('/room-category/price-modifier/add', 'storeRoomCategoryPrice')->name('new-room-category-price');
         });
-
-        
-        // ajax
-        // Route::get('/all-room-categories', [RoomCategoryController::class, 'getAllRoomCategories'])->name('get-all-room-categories');
-
         
     });
 });

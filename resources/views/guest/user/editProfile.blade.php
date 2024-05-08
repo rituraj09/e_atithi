@@ -100,7 +100,7 @@
                                 <div class="mb-3">
                                     <div class="">
                                         <h6 class="form-label pt-3 text-center fw-bolder">Id Card</h6>
-                                        <input name="id_card_file" type="file" id="myDropify2" data-default-file="{{ asset('storage/images/' . $guestDetails->id_card_no) }}"/>
+                                        <input name="id_card_file" type="file" id="myDropify2" data-default-file="{{ asset('storage/images/' . $guestDetails->id_card_file) }}"/>
                                         <div class="my-3">
                                             <div class="fw-bolder mb-1">Card Type</div>
                                             <select name="id_card_type" id="" class="form-control text-darkgray">

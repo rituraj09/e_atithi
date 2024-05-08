@@ -79,7 +79,8 @@ class ReservationController extends Controller
         $reservation = Reservation::find($request->id);
 
         $updatedStatus = [
-            'status' => 3       //approved by admin
+            'status' => 3,       //approved by admin
+            'approval_date' => Carbon::now('Asia/Kolkata'),
         ];
 
         $isUpdate = $reservation->update($updatedStatus);

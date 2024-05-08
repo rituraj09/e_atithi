@@ -20,7 +20,8 @@ class GuestDetails extends Model
         'gender',
         'dob',
         'profile_pic',
-        'id_card_no',
+        'id_card_number',
+        'id_card_file',
         'id_card_type',
         'remarks',
     ];

@@ -53,7 +53,7 @@ class BookingController extends Controller
 
         $guestId = auth()->guard('guest')->user()->id;
         $reservationNo = $this->generateReservationNo($request->guestHouse, $request->checkin);
-
+        /* create reservation */
         $reservation = Reservation::create([
             'guest_id' => $guestId,
             'guest_house_id' => $request->guestHouse,

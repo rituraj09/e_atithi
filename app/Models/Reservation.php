@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Guest;
 use App\Models\ReservationRoom;
+use App\Models\RoomTransaction;
 use App\Models\ReservationStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -59,5 +60,20 @@ class Reservation extends Model
     public function hasRooms () : HasMany
     {
         return $this->hasMany(ReservationRoom::class, 'reservation_id', 'reservation_no');
+    }
+
+    public function hasTransactions()
+    {
+        return $this->hasMany(RoomTransaction::class, 'reservation_no', 'id')
+            ->selectRaw('transaction_id, 
+                        MAX(id) as id, 
+                        MAX(reservation_no) as reservation_no, 
+                        MAX(room_id) as room_id, 
+                        MAX(transaction_id) as transaction_id, 
+                        MAX(checked_in_date) as checked_in_date,
+                        MAX(checked_in_time) as checked_in_time,
+                        MAX(checked_out_date) as checked_out_date,
+                        MAX(checked_out_time) as checked_out_time')
+            ->groupBy('transaction_id');
     }
 }

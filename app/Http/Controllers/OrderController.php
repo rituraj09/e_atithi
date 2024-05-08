@@ -25,7 +25,7 @@ class OrderController extends Controller
     }
 
     public function details($id) {
-        $order = Reservation::with(['guestHouse','getStatus'])
+        $order = Reservation::with(['guestHouse','getStatus', 'hasTransactions'])
                             ->where('reservation_no', $id)
                             ->first();
         return view('guest.orders.details', compact('order'));
