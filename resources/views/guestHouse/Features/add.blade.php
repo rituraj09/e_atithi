@@ -24,49 +24,36 @@
                         </div>
                     </div>
                     <div class="pt-3">
-                        <form id="newRoomForm" action="{{ route('new-room-features') }}" method="POST" class="mx-2 mx-md-3" >
+                        <form id="newRoomForm" action="{{ route('new-room-features') }}" method="POST" class="mx-3 mx-md-3" >
                             @csrf
-                            <div class="d-block py-2 bg-light bg-opacity-25 rounded" id="saasForm">
-                                <div class="table-responsive">
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Description</th>
-                                                <th>Price</th>
-                                                <th>Remarks</th>
-                                                <th>Action</th>
-                                                    {{-- <div>
-                                                        Action
-                                                        <span class="mdi mdi-plus-circle-outline ps-2"></span>
-                                                    </div>
-                                                </th> --}}
-                                            </tr>
-                                        </thead>
-                                        <tbody class="table-group-divider" id="roomFeatureList">
-                                            <tr>
-                                                <td>
-                                                    <input type="text" name="features[0][name]" id="" class="form-control">
-                                                </td>
-                                                <td>
-                                                    <textarea class="form-control" name="features[0][description]" id="" cols="30" rows="1"></textarea>
-                                                </td>
-                                                <td>
-                                                    <input type="text" name="features[0][price]" id="price" class="form-control">
-                                                </td>
-                                                <td>
-                                                    <input type="text" name="features[0][remarks]" id="" class="form-control">
-                                                </td>
-                                                <td>
-                                                    <button type="button" class="btn btn-success btn-sm" id="add-feature">add</button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                            <div class="d-block py-2" >
+                                <div class="col-md-8 mx-auto">
+                                    <div class="mb-3">
+                                        <label for="fname" class="form-label">Feature's name</label>
+                                        <input type="text" id="fname" class="form-control" name="name" placeholder="Feature's name">
+                                        @error('name')
+                                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="description" class="form-label">Description</label>
+                                        <textarea name="description" id="description" cols="30" rows="3" class="form-control"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="price" class="form-label">Price</label>
+                                        <input type="text" class="form-control" id="price" name="price" placeholder="Price modifier">
+                                        @error('price')
+                                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="remarks" class="form-label">Remarks</label>
+                                        <textarea name="remarks" id="remarks" cols="30" rows="3" class="form-control"></textarea>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="d-flex justify-content-end py-3 px-3">
-                                <button id="formSubmit" type="Submit" class="btn btn-success mx-auto">Submit</button>
+                            <div class="mb-5 col-md-4 mx-auto">
+                                <button class="btn btn-success w-100">Save</button>
                             </div>
                         </form>
                     </div>

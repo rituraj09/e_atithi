@@ -78,6 +78,7 @@ Route::prefix('guest-house')->group( function () {
             Route::get('/edit-room/{id}', 'editRoom')->name('guest-house-edit-room');
             Route::post('/update-room', 'updateRoom')->name('update-room');
             Route::get('/room-details/{id}', 'viewRoom')->name('room-details');
+            Route::get('/room-details/features/{id}', 'roomFeatures')->name('room-has-features');
         });
 
         Route::controller(RoomCategoryController::class)->group( function () {
@@ -102,7 +103,9 @@ Route::prefix('guest-house')->group( function () {
         Route::controller(FeatureController::class)->group( function () {
             Route::get('/room-features', 'allFeatures')->name('guest-house-room-features');
             Route::get('/add-features', 'addFeature')->name('add-guest-house-room-features');
+            Route::get('/edit-feature/{id}', 'editFeature')->name('edit-room-feature');
             Route::post('/new-features', 'newFeatures')->name('new-room-features');
+            Route::post('/update-feature', 'updateFeature')->name('update-room-feature');
         });
 
         Route::controller(ReservationController::class)->group( function () {

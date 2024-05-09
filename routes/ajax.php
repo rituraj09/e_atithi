@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OTPController;
 use App\Http\Controllers\SMSController;
 use App\Http\Controllers\RateController;
+use App\Http\Controllers\RoomController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AddressController;
@@ -64,6 +65,10 @@ Route::prefix('/ajax')->group( function () {
     Route::controller(ReservationController::class)->group( function () {
         Route::post('/approve-reservation', 'approveReservation')->name('approve-reservation');
         Route::post('/reject-reservation', 'rejectReservation')->name('reject-reservation');
+    });
+
+    Route::controller(RoomController::class)->group( function () {
+        Route::post('/room/add-feature', 'addRoomFeature')->name('add-new-room-feature');
     });
 
 });

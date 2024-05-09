@@ -14,10 +14,8 @@ class RoomFeatures extends Model
 
     protected $fillable = [
         'room_id',
-        'name',
-        'description',
-        'price',
-        'remarks',
+        'guest_house_id',
+        'feature_id',
         'created_by',
         'is_active',
         'created_at',

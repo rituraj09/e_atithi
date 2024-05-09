@@ -74,7 +74,10 @@
                                         <td>{{ $roomTransaction->reservationDetails->guest->name }}</td>
                                         <td>{{ $roomTransaction->reservedRooms->roomDetails->room_number }}</td>
                                         <td>{{ $roomTransaction->reservationDetails->getStatus->name }}</td>
-                                        <td></td>
+                                        <td>
+                                            <a href="{{ route('check-in-view',['id' => $roomTransaction->reservationDetails->reservation_no]) }}" class="btn btn-info me-1">check in</a>
+                                            <a href="{{ route('check-out-view', ['id' => $roomTransaction->reservationDetails->reservation_no]) }}" class="btn btn-warning me-1">check out</a>
+                                        </td>
                                     </tr>
                                     @endforeach
                             </tbody>

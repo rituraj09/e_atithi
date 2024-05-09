@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Rooms;
+use App\Models\Feature;
 use App\Models\RateList;
 use App\Models\RoomHasBed;
 use App\Models\BedCategory;
@@ -189,14 +190,62 @@ class RoomController extends Controller
         });
 
         // dd($bookedDates);
-
-        // dd($features);
-        // dd($room);
-
         if (!$room) {
             return view('guestHouse.Rooms.viewRoom');
         }   
         return view('guestHouse.Rooms.viewRoom', compact(['room','roomRates', 'roomCategories', 'features', 'bookedDates']));
+    }
+
+    public function roomFeatures($id) {
+        $room = Rooms::find($id);
+        $features = Feature::all();
+        // $roomFeatues = [];
+        // $roomFeature = RoomFeatures::where('room_id', $request->roomId)
+        //                         ->where('feature_id', $request->featureId)
+        //                         ->first();
+
+        $roomFeatures = RoomFeatures::where('room_id', $id)
+                                    ->where('is_active',1)      //if already added but not active
+                                    ->pluck('feature_id')
+                                    ->toArray();
+
+        // dd($roomFeatues);
+
+        return view('guestHouse.Rooms.roomFeatures', compact(['room', 'features', 'roomFeatures']));
+    }
+
+    // 'room_id',
+    //     'guest_house_id',
+    //     'feature_id',
+    //     'created_by',
+    //     'is_active',
+
+    // ajax
+    public function addRoomFeature (Request $request) {
+        $guest_house_id = GuestHouseHasEmployee::where('employee_id', auth()->user()->id)->pluck('guest_house_id')->first();
+        
+        $roomFeature = RoomFeatures::where('room_id', $request->roomId)
+                                ->where('feature_id', $request->featureId)
+                                ->first();
+
+        if ($roomFeature) {
+            $isAdded = $roomFeature->update([
+                'is_active' => 1,
+            ]);
+        } else {
+            $isAdded = RoomFeatures::create([
+                'room_id' => $request->roomId,
+                'guest_house_id' => $guest_house_id,
+                'feature_id' => $request->featureId,
+                'is_active' => 1,
+            ]);
+        }
+
+        if(!$isAdded) {
+            return "failed";
+        }
+
+        return "done";
     }
 
     public function validateForm ($request) {

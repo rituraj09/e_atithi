@@ -31,12 +31,12 @@
         </a>
       </li>
       {{-- room rate --}}
-      <li class="nav-item">
+      {{-- <li class="nav-item">
         <a href="{{ route('room-rates') }}" class="nav-link">
           <i class="link-icon" data-feather="dollar-sign"></i>
           <span class="link-title">Manage Room Rates</span>
         </a>
-      </li>
+      </li> --}}
       {{-- features --}}
       <li class="nav-item">
         <a href="{{ route('guest-house-room-features') }}" class="nav-link">

@@ -42,7 +42,7 @@
                                             <td>{{ $feature->remarks }}</td>
                                             <td>
                                                 <div class="d-flex py-0">
-                                                    <a href="{{ route('edit-sub-user', ['id' => $feature->id]) }}" class="btn btn-sm btn-outline-primary">edit</a>
+                                                    <a href="{{ route('edit-room-feature', ['id' => $feature->id]) }}" class="btn btn-sm btn-outline-primary">edit</a>
                                                 </div>
                                             </td>
                                             <td>
@@ -54,17 +54,6 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                        </div>
-                        <div class="d-none mx-2 mx-md-3">
-                            <div class="d-flex justify-content-between p-3">
-                                <h5 class="text-secondary">Employees</h5>
-                            </div>
-                            <div class="d-flex justify-content-end py-3">
-                                <a href="{{ route('add-sub-users') }}" class="btn btn-sm btn-outline-primary">
-                                    Add employee
-                                </a>
-                                {{-- <button id="formSubmit" disabled type="submit" class="btn btn-success">Save changes</button> --}}
-                            </div>
                         </div>
                     </div>
                 </div>

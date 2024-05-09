@@ -8,4 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Feature extends Model
 {
     use HasFactory;
+
+    protected $table = "features";
+
+    protected $fillable = [
+        'name',
+        'description',
+        'price',
+        'remarks',
+        'guest_house_id',
+    ];
+
+    public $timestamps = false;
+
 }

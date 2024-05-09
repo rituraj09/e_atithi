@@ -18,10 +18,15 @@
                             </button>
                         </div>
                         <div>
+                            <a href="{{ route('room-has-features', ['id' => $room->id]) }}" class="text-capitalize nav-link ">
+                                Features
+                            </a>
+                        </div>
+                        {{-- <div>
                             <button id="featureButton" class="text-capitalize nav-link">
                                 features
                             </button>
-                        </div> 
+                        </div>  --}}
                     </div>
                     <div class="pt-3" id="roomView">
                         <form id="newRoomForm" class="mx-2 mx-md-5 d-flex flex-column flex-md-row-reverse" action="{{ route('guest-house-new-room') }}" method="POST">
@@ -100,10 +105,14 @@
                         </form>
                     </div>
                     <div class="pt-3" id="featureView">
+                        <div class="mb-3 mx-3">
+                            <p>Room Number : {{ $room->room_number }}</p>
+                            <p></p>
+                        </div>
                         <div class="table-responsive px-3">
-                            <div class="p-2 text-end">
+                            {{-- <div class="p-2 text-end">
                                 <button class="btn btn-sm btn-info">Add feature</button>
-                            </div>
+                            </div> --}}
                             <table id="dataTableExample" class="table">
                                 <thead>
                                     <tr>
