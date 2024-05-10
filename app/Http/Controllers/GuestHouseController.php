@@ -275,4 +275,11 @@ class GuestHouseController extends Controller
             'pin.required' => 'Please enter the PIN code',
         ]);
     }
+
+    public function searchLocations (Request $request) {
+        $locations = Districts::where('name', 'like', '%' . $request->guestHous . '%')
+                                ->get();
+
+        return $locations;
+    }
 }

@@ -1,6 +1,6 @@
 <!-- resources/views/guestHouse/GuestHouse/view.blade.php -->
 
-{{-- {{ dd($order->hasTransactions); }} --}}
+{{-- {{ dd($order->hasTransactions[0]->reservedRooms->roomDetails->room_number); }} --}}
 
 <x-header />
 
@@ -11,11 +11,11 @@
 
             <div class="page-content" style="background-color: #f1fcff">
                 <x-page-header :prev="'My Orders'" :title="'Details'" />
-                <div class="card row mb-2 p-3 text-capitalize">
+                <div class="card row mb-2 p-3">
                     <div class="mb-4 d-flex">
 
                     </div>
-                    <div class="row m-0 mb-3 col-md-10 mx-auto">
+                    <div class="row m-0 mb-3 col-md-10 mx-auto text-capitalize">
                         <p class="fw-bold fs-4 mb-3">Reservation No: {{ $order->reservation_no }}</p>
                         <div class="mb-2">
                             <p>{{ $order->guestHouse->name }}, {{ $order->guestHouse->district_name->name }}</p>
@@ -60,7 +60,7 @@
 										{{ \Carbon\Carbon::parse($orderTransaction->checked_in_date)->format('d M, Y') }}
 									">
                                     <h3 class="title">Rooms checked in</h3>
-                                    <p>Rooms checked in by you.</p>
+                                    <p>Room number {{ $orderTransaction->reservedRooms->roomDetails->room_number }} has been checked in by you.</p>
                                 </li>
                                 @if ($orderTransaction->checked_out_time)
 									<li class="event"
@@ -69,7 +69,7 @@
 											{{ \Carbon\Carbon::parse($orderTransaction->checked_out_date)->format('d M, Y') }}
 										">
                                         <h3 class="title">Rooms checked out</h3>
-                                        <p>Rooms checked in by you.</p>
+                                        <p>Room number {{ $orderTransaction->reservedRooms->roomDetails->room_number }} has been checked out by you.</p>
                                     </li>
                                 @endif
                             @endforeach

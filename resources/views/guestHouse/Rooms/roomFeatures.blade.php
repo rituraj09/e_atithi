@@ -93,8 +93,6 @@
             const roomId = "{{ $room->id }}";
             const featureId = $(this).parent().parent().data('id');
             const name = $(this).parent().parent().find('.name').html();
-            // console.log(name);
-            // console.log(roomId)
 
             Swal.fire({
                 title: "Do want the " + name + " feature in your room {{ $room->room_number }}?",
@@ -129,12 +127,47 @@
                     })
                 }
             });
-            // toggleRowSelection(this);
         });
 
         $('#example tbody tr td .remove-feature').on('click', function() {
             console.log('remove');
-            // toggleRowSelection(this);
+            const roomId = "{{ $room->id }}";
+            const featureId = $(this).parent().parent().data('id');
+            const name = $(this).parent().parent().find('.name').html();
+
+            Swal.fire({
+                title: "Do want to remove the " + name + " feature from your room {{ $room->room_number }}?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Remove"
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ route('remove-room-feature') }}",
+                        type: 'POST',
+                        data: {
+                            roomId:roomId,
+                            featureId:featureId,
+                        },
+                        success: function (res) {
+                            console.log(res);
+                            if (res === 'done') {
+                                Swal.fire({
+                                    title: "Done!",
+                                    text: "Feature has been removed from the room {{ $room->room_number }}.",
+                                    icon: "success"
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: "Failed!",
+                                    text: "Something is wrong. Please try again.",
+                                    icon: "error"
+                                });
+                            }
+                        }
+                    })
+                }
+            });
         });
     });
     </script>

@@ -45,6 +45,8 @@ Route::prefix('/ajax')->group( function () {
     Route::controller(GuestHouseController::class)->group( function() {
         Route::post('/search-guest-house', 'searchGuestHouse')->name('search-guest-house');
         Route::post('/get-guest-houses', 'getGuestHouses')->name('get-guest-houses');
+
+        Route::post('/search-locations', 'searchLocations')->name('search-locations');
     });
 
     Route::controller(EmailController::class)->group( function () {
@@ -69,6 +71,7 @@ Route::prefix('/ajax')->group( function () {
 
     Route::controller(RoomController::class)->group( function () {
         Route::post('/room/add-feature', 'addRoomFeature')->name('add-new-room-feature');
+        Route::post('/room/remove-feature', 'removeRoomFeature')->name('remove-room-feature');
     });
 
 });

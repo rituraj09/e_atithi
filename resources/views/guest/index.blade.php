@@ -25,11 +25,13 @@
                              </div>
                              <div class="input-group form-control p-0">
                                  <span class="mdi mdi-magnify m-auto fs-4 ms-2 text-secondary"></span>
-                                 <input name="guest-house" type="text" id="guest-house" class="form-control border-0" list="guestHouseList" placeholder="search guest house or place">
+                                 {{-- <input name="guest-house" type="text" id="guest-house" class="form-control border-0" list="guestHouseList" placeholder="search guest house or place"> --}}
+                                 <input type="text" class="form-control" id="guest-house-location" list="locations">
                              </div>
                              <div>
                                 <datalist id="guestHouseList">
                                 </datalist>
+                                <datalist id="locations"></datalist>
                              </div>
                          </div>
                          <div class="col-md-3 p-0">
@@ -96,6 +98,30 @@
                     `).join('');
                     // console.log(html);
                     $('#guestHouseList').html(html);
+                }
+            })
+        })
+
+        $('#guest-house-location').on('input', function () {
+            var guestHouse = $(this).val();
+            var searchUrl = `{{ route('search-locations') }}`;
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                url: searchUrl,
+                type: 'POST',
+                data: {guestHouse:guestHouse},
+                success: function (res) {
+                    // console.log(res);
+                    const html = res.map(data =>`
+                        <option value="${data.name}">${data.name}</option>
+                    `).join('');
+                    // console.log(html);
+                    $('#locations').html(html);
                 }
             })
         })

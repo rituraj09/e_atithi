@@ -248,6 +248,33 @@ class RoomController extends Controller
         return "done";
     }
 
+    public function removeRoomFeature (Request $request) {
+        $guest_house_id = GuestHouseHasEmployee::where('employee_id', auth()->user()->id)->pluck('guest_house_id')->first();
+        
+        $roomFeature = RoomFeatures::where('room_id', $request->roomId)
+                                ->where('feature_id', $request->featureId)
+                                ->first();
+
+        if ($roomFeature) {
+            $isAdded = $roomFeature->update([
+                'is_active' => 0,
+            ]);
+        } else {
+            $isAdded = RoomFeatures::create([
+                'room_id' => $request->roomId,
+                'guest_house_id' => $guest_house_id,
+                'feature_id' => $request->featureId,
+                'is_active' => 0,
+            ]);
+        }
+
+        if(!$isAdded) {
+            return "failed";
+        }
+
+        return "done";
+    }
+
     public function validateForm ($request) {
         return $request->validate([
             'roomNumber' => 'required|unique:rooms,room_number',
