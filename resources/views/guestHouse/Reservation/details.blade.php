@@ -2,13 +2,13 @@
 
 {{-- {{ dd($reservation, $rooms, $checked_in_rooms, $checked_out_rooms); }} --}}
 
-<x-header/>
+{{-- <x-header/>
 <body>
     <div class="main-wrapper">
-        <div class="page-wrapper">
-            <x-admin.navbar/>
+        <div class="page-wrapper"> --}}
+            {{-- <x-admin.navbar/> --}}
 
-            <div class="page-content">
+            {{-- <div class="page-content">
                 <x-page-header :prev="'Manage Reservations'" :title="'Details'"/>
                 <div class="card d-flex flex-column border">
                     <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
@@ -22,7 +22,7 @@
                                 details
                             </button>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="row m-0 p-3 fs-5">
                         <div class="col-md-4 mb-3">
                             <div class="fw-bolder mb-1 ">Reservation No</div>
@@ -138,11 +138,11 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <x-footer/>
+                {{-- </div>
+            </div> --}}
+            {{-- <x-footer/>
         </div>
-    </div>
+    </div> --}}
 
     <script>
     $(document).ready(function() {
@@ -349,4 +349,4 @@
 
     </script>
 
-<x-main-footer/>
+{{-- <x-main-footer/> --}}

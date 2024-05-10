@@ -2,7 +2,7 @@
 
 {{-- {{ dd($bookedDates); }} --}}
 
-<x-header/>
+{{-- <x-header/>
 <body>
     <div class="main-wrapper">
         <div class="page-wrapper">
@@ -21,13 +21,13 @@
                             <a href="{{ route('room-has-features', ['id' => $room->id]) }}" class="text-capitalize nav-link ">
                                 Features
                             </a>
-                        </div>
+                        </div>  --}}
                         {{-- <div>
                             <button id="featureButton" class="text-capitalize nav-link">
                                 features
                             </button>
-                        </div>  --}}
-                    </div>
+                        </div>  
+                    </div>--}}
                     <div class="pt-3" id="roomView">
                         <form id="newRoomForm" class="mx-2 mx-md-5 d-flex flex-column flex-md-row-reverse" action="{{ route('guest-house-new-room') }}" method="POST">
                             @csrf
@@ -157,11 +157,11 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                {{-- </div>
             </div>
             <x-footer/>
         </div>
-    </div>
+    </div> --}}
 
 
     <script>
@@ -212,4 +212,4 @@
         myCalendar.select(bookedDates);
     });
     </script>
-<x-main-footer/>
+{{-- <x-main-footer/> --}}

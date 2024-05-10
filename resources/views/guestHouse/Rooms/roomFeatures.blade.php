@@ -2,7 +2,7 @@
 
 {{-- {{ dd($roomFeatures); }} --}}
 
-<x-header/>
+{{-- <x-header/>
 <body>
     <div class="main-wrapper">
         <div class="page-wrapper">
@@ -22,7 +22,7 @@
                                 features
                             </button>
                         </div> 
-                    </div>
+                    </div> --}}
                     <div class="pt-3" id="featureView">
                         <div class="mb-3 mx-3">
                             <p>Room Number : {{ $room->room_number }}</p>
@@ -80,11 +80,11 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                {{-- </div>
             </div>
             <x-footer/>
         </div>
-    </div>
+    </div> --}}
 
     <script>
     $(document).ready(function() {
@@ -140,4 +140,4 @@
     </script>
 
    
-<x-main-footer/>
+{{-- <x-main-footer/> --}}

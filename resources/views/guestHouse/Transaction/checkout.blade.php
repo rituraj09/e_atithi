@@ -2,7 +2,7 @@
 
 {{-- {{ dd($checked_in_rooms); }} --}}
 
-<x-header/>
+{{-- <x-header/>
 <body>
     <div class="main-wrapper">
         <div class="page-wrapper">
@@ -27,9 +27,9 @@
                                 Check out
                             </button>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="row p-3">
-                        <div class="col-md-9 mx-auto my-4">
+                        <div class="col-md-11 mx-auto my-4">
                             <form action="{{ route('get-check-out') }}" method="POST">
                                 @csrf
                                 <div class="input-group mb-5">
@@ -132,11 +132,11 @@
                             @endif
                         </div>
                     </div>
-                </div>
+                {{-- </div>
                 <x-footer/>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <script>
     $(document).ready(function () {
@@ -251,4 +251,4 @@
 
     </script>
 
-<x-main-footer/>
+{{-- <x-main-footer/> --}}

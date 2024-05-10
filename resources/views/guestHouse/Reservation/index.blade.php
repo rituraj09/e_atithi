@@ -7,9 +7,7 @@
     <div class="main-wrapper">
         <div class="page-wrapper">
             <x-admin.navbar/>
-
             <div class="page-content">
-
                 <x-page-header :title="'Manage Reservations'"/>
                 <div class="d-flex flex-column border card">
                     <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
@@ -50,7 +48,8 @@
                                             </td>
                                             <td>{{ $reservation->getStatus->name }}</td>
                                             <td>
-                                                <a href="{{ route('reservation-details', ['id' => $reservation->id ]) }}" class="btn btn-info btn-sm py-1">view</a>
+                                                {{-- <a href="{{ route('reservation-details', ['id' => $reservation->id ]) }}" class="open-popup btn btn-info btn-sm py-1">view</a> --}}
+                                                <button data-href="{{ route('reservation-details', ['id' => $reservation->id ]) }}" class="open-popup btn btn-info btn-sm">view</button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -62,7 +61,7 @@
             </div>
         </div>
     </div>
-
+    <x-popup/>
 
 
     <script>

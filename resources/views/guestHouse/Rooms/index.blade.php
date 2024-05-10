@@ -47,10 +47,13 @@
                                         <td>
                                             <div class="d-flex py-0">
                                                 <div class="px-1">
-                                                    <a href="{{ route('room-details', ['id' => $room->id]) }}" class="btn btn-info btn-sm">
-                                                        {{-- <i data-feather="trash"></i> --}}
+                                                    {{-- <a href="{{ route('room-details', ['id' => $room->id]) }}" class="btn btn-info btn-sm">
                                                         View
-                                                    </a>
+                                                    </a> --}}
+                                                    <button class="open-popup btn btn-info btn-sm" data-href="{{ route('room-details', ['id' => $room->id]) }}">view</button>
+                                                </div>
+                                                <div class="px-1">
+                                                    <button class="open-popup btn btn-success btn-sm" data-href="{{ route('room-has-features', ['id' => $room->id]) }}">Features</button>
                                                 </div>
                                                 <div class="px-1">
                                                     <a href="{{ route('guest-house-edit-room', ['id' => $room->id]) }}" class="btn btn-primary btn-sm">
@@ -70,6 +73,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <x-popup/>
                     </div>
                 </div>
             </div>

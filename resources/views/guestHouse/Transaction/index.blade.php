@@ -30,31 +30,6 @@
                     </div>
                     <div class="table-responsive">
                         {{-- data from room transactions only --}}
-                        {{-- <div class="table-responsive">
-                            <table id="dataTableExample">
-                                <thead>
-                                    <tr>
-                                    <th>Transaction No</th>
-                                    <th>Reservation No</th>
-                                    <th>Guest Name</th>
-                                    <th>Room Number</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($roomTransactions as $roomTransaction)
-                                    <tr>
-                                        <td>{{ $roomTransaction->transaction_id }}</td>
-                                        <td>{{ $roomTransaction->reservation_no }}</td>
-                                        <td>{{ $roomTransaction->reservationDetails->guest->name }}</td>
-                                        <td>{{ $roomTransaction->reservedRooms->roomDetails->room_number }}</td>
-                                        <td>{{ $roomTransaction->reservationDetails->getStatus->name }}</td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div> --}}
                         <table id="example" class="table">
                             <thead>
                                 <tr>
@@ -75,8 +50,8 @@
                                         <td>{{ $roomTransaction->reservedRooms->roomDetails->room_number }}</td>
                                         <td>{{ $roomTransaction->reservationDetails->getStatus->name }}</td>
                                         <td>
-                                            <a href="{{ route('check-in-view',['id' => $roomTransaction->reservationDetails->reservation_no]) }}" class="btn btn-info me-1">check in</a>
-                                            <a href="{{ route('check-out-view', ['id' => $roomTransaction->reservationDetails->reservation_no]) }}" class="btn btn-warning me-1">check out</a>
+                                            <button data-href="{{ route('check-in-view',['id' => $roomTransaction->reservationDetails->reservation_no]) }}" class="open-popup btn btn-info me-1">check in</button>
+                                            <button data-href="{{ route('check-out-view', ['id' => $roomTransaction->reservationDetails->reservation_no]) }}" class="open-popup btn btn-warning me-1">check out</button>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -88,6 +63,8 @@
             </div>
         </div>
     </div>
+    {{-- popup --}}
+    <x-popup/>
 
     <script>
     $(document).ready(function () {
