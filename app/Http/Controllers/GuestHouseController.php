@@ -26,11 +26,15 @@ class GuestHouseController extends Controller
     }
 
     public function getGuestHouses (Request $request) {
-        // return $request;
 
-        $res = Guesthouse::where('name', $request->guestHouse )
+        if ( $request->dataType === "guestHouse" ) {
+            $res = Guesthouse::with(['district_name','state_name'])->find($request->dataId)->toArray();
+        } else {
+            $res = Guesthouse::where('district', $request->dataId )
                 ->with(['district_name','state_name'])
                 ->get();
+        }
+
         
         return $res;
 
@@ -281,5 +285,36 @@ class GuestHouseController extends Controller
                                 ->get();
 
         return $locations;
+    }
+
+    public function search(Request $request)
+    {
+        $searchTerm = $request->get('search');
+
+        // Search districts
+        $districts = Districts::where('name', 'like', "%$searchTerm%")->get()->map(function($district) {
+            return [
+                'name' => $district->name,
+                'id' => $district->id,
+                'state_name' => $district->state_name->name,
+                'type' => 'locations', // Custom value for type
+            ];
+        });
+
+        // Search guest houses (assuming a relationship with District model)
+        $guestHouses = GuestHouse::where('name', 'like', "%$searchTerm%")->get()->map(function($guestHouse) {
+            return [
+                'id' => $guestHouse->id,
+                'guest_house_name' => $guestHouse->name,
+                'district_name' => $guestHouse->district_name->name,
+                'state_name' => $guestHouse->state_name->name, // Assuming a state relationship in District
+                'type' => 'guest house', // Custom value for type
+            ];
+        });
+
+        return response()->json([
+            'districts' => $districts,
+            'guestHouses' => $guestHouses,
+        ]);
     }
 }

@@ -170,8 +170,29 @@
     cursor: pointer;
 }
 
-.search-result {
-    position: absolute;
-    background: white;
+#search-result {
+    position: relative;
+    padding: .25rem;
+    z-index: 10;
     border-radius: 0px 0px 10px 10px;
+    width: 100%;
+}
+
+#search-result ul {
+    background: white;
+    border-radius: 6px;
+    list-style: none;
+    padding: .25rem;
+}
+
+#search-result ul li {
+    border-bottom: 1px solid rgb(214, 214, 214);
+    padding: .45rem;
+    cursor: pointer;
+}
+
+#search-result ul li:hover {
+    padding-left: .7rem;
+    background: rgb(230, 230, 230);
+    transition: all 200ms ease-in-out;
 }

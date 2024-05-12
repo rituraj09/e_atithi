@@ -43,10 +43,10 @@ Route::prefix('/ajax')->group( function () {
     });
 
     Route::controller(GuestHouseController::class)->group( function() {
-        Route::post('/search-guest-house', 'searchGuestHouse')->name('search-guest-house');
+        Route::post('/search-guest-house', 'search')->name('search-guest-house');
         Route::post('/get-guest-houses', 'getGuestHouses')->name('get-guest-houses');
 
-        Route::post('/search-locations', 'searchLocations')->name('search-locations');
+        // Route::post('/search-locations', 'searchLocations')->name('search-locations');
     });
 
     Route::controller(EmailController::class)->group( function () {

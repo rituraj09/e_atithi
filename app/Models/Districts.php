@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\State;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Districts extends Model
 {
@@ -22,6 +23,11 @@ class Districts extends Model
     public function GuestHouse()
     {
         return $this->hasMany(Guesthouse::class);
+    }
+
+    public function state_name()
+    {
+        return $this->belongsTo(State::class, 'state_id');
     }
 
     public $timestamps = false;
