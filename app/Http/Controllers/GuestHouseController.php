@@ -291,8 +291,13 @@ class GuestHouseController extends Controller
     {
         $searchTerm = $request->get('search');
 
+        // soundex
+        // whereRaw("SOUNDEX(name) = SOUNDEX(?)", [$searchTerm])
+
         // Search districts
-        $districts = Districts::where('name', 'like', "%$searchTerm%")->get()->map(function($district) {
+        $districts = Districts::whereRaw("SOUNDEX(name) = SOUNDEX(?)", [$searchTerm])
+                            ->orWhere('name', 'like', "%$searchTerm%")
+                            ->get()->map(function($district) {
             return [
                 'name' => $district->name,
                 'id' => $district->id,
@@ -302,7 +307,9 @@ class GuestHouseController extends Controller
         });
 
         // Search guest houses (assuming a relationship with District model)
-        $guestHouses = GuestHouse::where('name', 'like', "%$searchTerm%")->get()->map(function($guestHouse) {
+        $guestHouses = GuestHouse::whereRaw("SOUNDEX(name) = SOUNDEX(?)", [$searchTerm])
+                                ->orwhere('name', 'like', "%$searchTerm%")
+                                ->get()->map(function($guestHouse) {
             return [
                 'id' => $guestHouse->id,
                 'guest_house_name' => $guestHouse->name,

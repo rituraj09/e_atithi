@@ -46,7 +46,7 @@ class ProfileController extends Controller
             'address' => $request->input('address'),
             'gender' => $request->input('gender'),
             'profile_pic' => $profileImageName ?: $guestDetail->profile_pic,
-            'id_card_file' => $idCardImageName ?: $guestDetail->id_card_no,
+            'id_card_file' => $idCardImageName ?: $guestDetail->id_card_file,
             'id_card_number' => $request->input('id_card_number'),
             'id_card_type' => $request->input('id_card_type'),
             'remarks' => $request->input('remarks'),

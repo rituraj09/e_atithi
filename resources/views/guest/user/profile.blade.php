@@ -1,6 +1,6 @@
 <!-- resources/views/guestHouse/GuestHouse/view.blade.php -->
 
-{{-- {{ dd($orders); }} --}}
+{{-- {{ dd($guestDetail); }} --}}
 
 <x-header/>
 <body>

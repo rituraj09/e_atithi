@@ -25,7 +25,6 @@
                              </div>
                              <div class="input-group form-control p-0">
                                  <span class="mdi mdi-magnify m-auto fs-4 ms-2 text-secondary"></span>
-                                 {{-- <input name="guest-house" type="text" id="guest-house" class="form-control border-0" list="guestHouseList" placeholder="search guest house or place"> --}}
                                  <input type="text" class="form-control outline-0 border-0" id="search" >
                              </div>
                              <div>
@@ -35,11 +34,6 @@
                              <div id="search-result">
                                 {{-- search results here --}}
                              </div>
-                             {{-- <div>
-                                <datalist id="guestHouseList">
-                                </datalist>
-                                <datalist id="locations"></datalist>
-                             </div> --}}
                          </div>
                          <div class="col-md-3 p-0">
                              <div class="mb-2 text-md-center">
