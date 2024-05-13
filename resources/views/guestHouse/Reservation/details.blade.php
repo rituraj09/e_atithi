@@ -81,16 +81,10 @@
                                 <tbody>
                                     @foreach ($rooms as $room)
                                         @if (in_array($room->id, $checked_in_rooms))
-                                            {{-- Room is checked in --}}
-                                            {{-- <span class="text-success">Checked in</span> --}}
                                             <tr class="text-secondary">
                                         @elseif (in_array($room->id, $checked_out_rooms))
-                                            {{-- Room is checked out --}}
-                                            {{-- <span class="text-danger">Checked out</span> --}}
                                             <tr>
                                         @else
-                                            {{-- Room is pending --}}
-                                            {{-- <span class="text-warning">Pending</span> --}}
                                             <tr data-id="{{ $room->id }}" class="cursor">
                                         @endif
                                         
@@ -134,7 +128,13 @@
                                 Remarks
                             </div>
                             <div class="text-darkgray mb-3">
-                                {{ $reservation->remarks }}
+                                <p>{{ $reservation->remarks }}</p>
+                                @if ($reservation->remarks_by_guest)
+                                    <p>Guest : {{ $reservation->remarks_by_guest }}</p>
+                                @endif
+                                @if ($reservation->remarks_by_admin)
+                                    <p>Admin : {{ $reservation->remarks_by_admin }}</p>
+                                @endif
                             </div>
                         </div>
                     </div>

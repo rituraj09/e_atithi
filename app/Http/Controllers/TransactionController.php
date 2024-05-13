@@ -108,12 +108,6 @@ class TransactionController extends Controller
 
     public function checkIn(Request $request) {
 
-        // $request->validate([
-        //     'room_ids[]' => 'required',
-        //     'reservation_id' => 'required',
-        // ]);
-
-
         // $rooms = explode(',', $request->room_ids);
         $rooms = $request->room_ids;
 
@@ -136,6 +130,13 @@ class TransactionController extends Controller
             ]);
 
         }
+
+        $reservation = Reservation::find($request->reservation_id);
+
+        $reservation->update([
+            'status' => 5,
+        ]);
+
 
         if (!$roomTransaction) {
             return redirect()->route('reservation-details', ['id' => $request->reservaton_id ])->with(['icon'=>'error', 'message'=>'Something went wrong']);

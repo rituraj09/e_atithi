@@ -1,6 +1,7 @@
 <!-- resources/views/guestHouse/GuestHouse/view.blade.php -->
 
 {{-- {{ dd($order->hasTransactions[0]->reservedRooms->roomDetails->room_number); }} --}}
+{{-- {{ dd($order->hasTransactions === NULL); }} --}}
 
 <x-header />
 
@@ -27,24 +28,28 @@
                     </div>
                     <div id="content">
                         <ul class="timeline">
+
                             <li class="event" data-date="{{ \Carbon\Carbon::parse($order->request_date)->format('h:m A, d M, Y') }}">
                                 <h3 class="title">Reservation requested</h3>
                                 <p>Reservation request by you.</p>
                             </li>
-                            @if ($order->cancellation_by_guest_date)
+                            {{-- cancel before approval --}}
+                            @if ($order->cancellation_by_guest_date && !$order->approval_date)
                                 <li class="event"
                                     data-date="{{ \Carbon\Carbon::parse($order->cancellation_by_guest_date)->format('h:m A, d M, Y') }}">
                                     <h3 class="title">Reservation cancelled</h3>
                                     <p>Reservation cancelled by you.</p>
                                 </li>
                             @endif
-                            @if ($order->cancellation_by_admin_date)
+                            {{-- cancel before approval --}}
+                            @if ($order->cancellation_by_admin_date && !$order->approval_date)
                                 <li class="event"
                                     data-date="{{ \Carbon\Carbon::parse($order->cancellation_by_admin_date)->format('h:m A, d M, Y') }}">
                                     <h3 class="title">Reservation cancelled</h3>
                                     <p>Reservation cancelled by admin.</p>
                                 </li>
                             @endif
+                            {{-- approval --}}
                             @if ($order->approval_date)
                                 <li class="event"
                                     data-date="{{ \Carbon\Carbon::parse($order->approval_date)->format('h:m A, d M, Y') }}">
@@ -52,7 +57,24 @@
                                     <p>Reservation approved by admin.</p>
                                 </li>
                             @endif
+                            {{-- cancel after approval --}}
+                            @if ($order->cancellation_by_guest_date && $order->approval_date)
+                                <li class="event"
+                                    data-date="{{ \Carbon\Carbon::parse($order->cancellation_by_guest_date)->format('h:m A, d M, Y') }}">
+                                    <h3 class="title">Reservation cancelled</h3>
+                                    <p>Reservation cancelled by you.</p>
+                                </li>
+                            @endif
+                            {{-- cancel after approval --}}
+                            @if ($order->cancellation_by_admin_date && $order->approval_date)
+                                <li class="event"
+                                    data-date="{{ \Carbon\Carbon::parse($order->cancellation_by_admin_date)->format('h:m A, d M, Y') }}">
+                                    <h3 class="title">Reservation cancelled</h3>
+                                    <p>Reservation cancelled by admin.</p>
+                                </li>
+                            @endif
 
+                            {{-- room check-in check-out part --}}
                             @foreach ($order->hasTransactions as $orderTransaction)
                                 <li class="event"
                                     data-date="
@@ -75,10 +97,19 @@
                             @endforeach
                         </ul>
                     </div>
-                </div>
 
+                    {{-- reservation cancellation part --}}
+                    @if ($order->cancellation_by_guest_date === NULL && $order->cancellation_by_admin_date === NULL && $order->hasTransactions === NULL)
+                        <div class="col-md-7 mx-auto p-2 mt-4 border-top pt-4">
+                            <div class="mb-2 text-end">
+                                <button class="btn btn-warning open-popup" data-href="{{ route('order-cancellation', ['id' => $order->id]) }}">Cancel reservation</button>
+                            </div>
+                        </div>
+                    @endif
+                </div>
                 <x-footer />
             </div>
+            <x-popup/>
         </div>
     </div>
     </div>

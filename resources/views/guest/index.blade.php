@@ -108,7 +108,7 @@
                                     <span class="mdi mdi-map-marker-outline fs-3"></span>
                                 </div>
                                 <div class="col ps-2">
-                                    <b class="text-darkgray" data-name="${data.name}">${data.name}</b>
+                                    <b class="text-darkgray text-capitalize" data-name="${data.name}">${data.name}</b>
                                     <p>${data.state_name}</p>
                                 </div>
                             </div>
@@ -123,7 +123,7 @@
                                     <span class="mdi mdi-home-city-outline fs-3"></span>
                                 </div>
                                 <div class="col ps-2">
-                                    <b class="text-darkgray" data-name="${data.guest_house_name}">${data.guest_house_name}</b>
+                                    <b class="text-darkgray text-capitalize" data-name="${data.guest_house_name}">${data.guest_house_name}</b>
                                     <p>${data.district_name}, ${data.state_name}</p>
                                 </div>
                             </div>

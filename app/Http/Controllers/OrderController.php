@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Reservation;
 use App\Models\GuestDetails;
 use Illuminate\Http\Request;
@@ -29,5 +30,32 @@ class OrderController extends Controller
                             ->where('reservation_no', $id)
                             ->first();
         return view('guest.orders.details', compact('order'));
+    }
+
+    public function orderCancelView($id) {
+        $id = $id;
+        return view('guest.orders.reservationCancel', compact('id'));
+    }
+
+    public function cancelOrder(Request $request) {
+        $reservation = Reservation::find($request->reservation_id);
+
+        $request->validate([
+            'cancellationReason' => 'required',
+        ],[
+            'cancellationReason.required' => "Please mention the cancellation reason."
+        ]);
+
+        $isUpdate = $reservation->update([
+            'status' => 2,
+            'cancellation_by_guest_date' => Carbon::now('Asia/Kolkata'),
+            'remarks_by_guest' => $request->cancellationReason,
+        ]);
+
+        if (!$isUpdate) {
+            return back()->with(['icon' => 'failed', 'message' => 'Something is wrong.']);
+        }
+
+        return back()->with(['icon' => 'success', 'message' => 'Reservation cancelled successfully']);
     }
 }

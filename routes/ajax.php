@@ -6,6 +6,7 @@ use App\Http\Controllers\SMSController;
 use App\Http\Controllers\RateController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\FeatureController;
@@ -72,6 +73,11 @@ Route::prefix('/ajax')->group( function () {
     Route::controller(RoomController::class)->group( function () {
         Route::post('/room/add-feature', 'addRoomFeature')->name('add-new-room-feature');
         Route::post('/room/remove-feature', 'removeRoomFeature')->name('remove-room-feature');
+    });
+
+    Route::controller(OrderController::class)->group( function() {
+        Route::get('/order/cancellation/{id}', 'orderCancelView')->name('order-cancellation');
+        Route::post('/cancel-order', 'cancelOrder')->name('cancel-order');
     });
 
 });

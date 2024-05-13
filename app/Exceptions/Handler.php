@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+// use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -28,20 +29,20 @@ class Handler extends ExceptionHandler
         });
     }
 
-    public function render($request, Throwable $e): Response
-    {
-        if ($e instanceof HttpException) {
-            $statusCode = $e->getStatusCode();
+    // public function render($request, Throwable $e): Response
+    // {
+    //     if ($e instanceof HttpException) {
+    //         $statusCode = $e->getStatusCode();
 
-            if ($statusCode == 404) {
-                return response()->view('errors.404', [], 404);
-            }
+    //         if ($statusCode == 404) {
+    //             return response()->view('errors.404', [], 404);
+    //         }
 
-            if ($statusCode == 500) {
-                return response()->view('errors.500', [], 500);
-            }
-        }
+    //         if ($statusCode == 500) {
+    //             return response()->view('errors.500', [], 500);
+    //         }
+    //     }
 
-        return parent::render($request, $e);
-    }
+    //     return parent::render($request, $e);
+    // }
 }
