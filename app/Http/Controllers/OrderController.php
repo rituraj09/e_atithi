@@ -21,6 +21,7 @@ class OrderController extends Controller
         $guestId = auth()->guard('guest')->user()->id;
         $orders = Reservation::with(['guestHouse','getStatus'])
                             ->where('guest_id', $guestId)
+                            ->orderBy('id', 'DESC')
                             ->get();
         return view('guest.orders.index', compact('orders'));
     }

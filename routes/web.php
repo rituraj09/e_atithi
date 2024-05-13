@@ -22,6 +22,7 @@ use App\Http\Controllers\OfficialAuthController;
 use App\Http\Controllers\RoomCategoryController;
 use App\Http\Middleware\OfficialAdminMiddleware;
 use App\Http\Controllers\GuestHouseAdminController;
+use App\Http\Controllers\GuestHouseConfigController;
 use App\Http\Controllers\RoomCategoryPriceController;
 
 // ajax routes
@@ -140,6 +141,11 @@ Route::prefix('guest-house')->group( function () {
             Route::get('/room-category-price/add', 'add')->name('add-room-category-price');
             Route::get('/room-category-price/edit/{id}', 'edit')->name('edit-room-category-price');
             Route::post('/room-category/price-modifier/add', 'storeRoomCategoryPrice')->name('new-room-category-price');
+        });
+
+        Route::controller(GuestHouseConfigController::class)->group( function() {
+            Route::get('/settings', 'index')->name('guest-house-config');
+            Route::post('/settings/update', 'update')->name('update-guest-house-config');
         });
         
     });

@@ -28,6 +28,9 @@ class Guesthouse extends Model
         'country',
         'pin',
         'guest_house_type',
+        'guest_type',
+        'payment_type',
+        'base_price',
         'is_active',
         'deleted_at',
     ];

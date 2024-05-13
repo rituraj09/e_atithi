@@ -138,6 +138,9 @@
         <div class="collapse" id="settings">
           <ul class="nav sub-menu">
             <li class="nav-item">
+              <a href="{{ route('guest-house-config') }}" class="nav-link">Guest House Setting</a>
+            </li>
+            <li class="nav-item">
               <a href="Super admin, db room categories" class="nav-link">All Guest Houses</a>
             </li>
             <li class="nav-item">

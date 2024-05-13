@@ -63,6 +63,7 @@ class BookingController extends Controller
             'reservationType' => $request->visitingReason,
             'charges_of_accomodation' => $request->totalCharge,
             'status' => 1,
+            'remarks' => $request->remarks,
             'request_date' => Carbon::now('Asia/Kolkata'),
         ]);
 
