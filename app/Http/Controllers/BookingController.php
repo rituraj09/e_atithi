@@ -8,6 +8,7 @@ use App\Models\Rooms;
 use App\Models\Guesthouse;
 use App\Models\Reservation;
 use App\Models\RoomOnDates;
+use App\Models\GuestDetails;
 use App\Models\RoomCategory;
 use Illuminate\Http\Request;
 use App\Models\ReservationRoom;
@@ -30,12 +31,16 @@ class BookingController extends Controller
             // ->with('roomRate')
             ->get();
 
+        $guestDetails = GuestDetails::with('guestCategory')->find(auth()->guard('guest')->user()->id);
+
+        // dd($guestDetails);
+
         // $rooms = Rooms::where('guest_house_id', $guestHouse->id)
         //             ->with('roomRate')
         //             ->get();
         $roomCategories = RoomCategory::where('guest_house_id', $guestHouse->id)->get();
         // dd($guestHouse, $rooms);
-        return view('guest.booking.index', compact(['guestHouse', 'rooms', 'roomCategories', 'checkInDate', 'checkOutDate']));
+        return view('guest.booking.index', compact(['guestHouse', 'rooms', 'roomCategories', 'checkInDate', 'checkOutDate', 'guestDetails']));
     }
 
     public function newBooking(Request $request) {
@@ -100,7 +105,8 @@ class BookingController extends Controller
     public function generateReservationNo($guestHouseId, $checkInDate)
     {
         // $date = new Date();
-        // Use Carbon for date manipulation
+        // padded guestHouseId
+        $paddedReservationId = str_pad($guestHouseId, 3, '0', STR_PAD_LEFT);
 
         // Format dates (optional, adjust format as needed)
         $formattedCheckIn = Carbon::parse($checkInDate)->format('dmY');
@@ -109,7 +115,7 @@ class BookingController extends Controller
         $randomString = strtoupper(substr(md5(uniqid(microtime(), true)), 0, 4));
 
         // Combine elements with separators
-        $reservationNo = $formattedCheckIn . '-' . $guestHouseId . '-' . $randomString;
+        $reservationNo = $guestHouseId . '-' . $randomString . '-' . $formattedCheckIn;
 
         return $reservationNo;
     }

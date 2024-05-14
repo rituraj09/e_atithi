@@ -77,7 +77,7 @@
                                             @endif
                                             
                                                 <td>{{ $room->roomDetails->room_number }}</td>
-                                                <td>{{ $room->roomDetails->roomCategory->name }}</td>
+                                                <td>{{ $room->roomDetails->roomCategory->Category->name }}</td>
                                                 <td>{{ $room->roomDetails->total_price }}</td>
                                                 <td>
                                                     @if (in_array($room->id, $checked_in_rooms))

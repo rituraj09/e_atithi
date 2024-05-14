@@ -63,21 +63,33 @@ class TransactionController extends Controller
         $now = Carbon::now('Asia/Kolkata');
 
         if ($id) {
+
+            $checked_in_rooms = RoomTransaction::where('transaction_id', $id)->with(['reservedRooms', 'reservationDetails'])->get();
+
+            // return $checked_in_rooms;
+
             $reservation = Reservation::with(['getStatus'])
-                                ->where('reservation_no', $id)
+                                ->where('id', $checked_in_rooms[0]->reservation_no)
                                 ->first();
 
-            $checked_in_rooms = RoomTransaction::where('reservation_no', $reservation->id)
-                                            ->whereNotNull('checked_in_date')
-                                            ->with(['reservedRooms', 'reservationDetails'])
-                                            ->get();
+            // return $reservation;
 
-            $checked_out_rooms = RoomTransaction::where('reservation_no', $reservation->id)
+            // $checked_in_rooms = RoomTransaction::where('reservation_no', $reservation->id)
+            //                                 ->whereNotNull('checked_in_date')
+            //                                 ->with(['reservedRooms', 'reservationDetails'])
+            //                                 ->get();
+
+            $checked_out_rooms = RoomTransaction::where('reservation_no', $checked_in_rooms[0]->reservation_no)
                                             ->whereNotNull('checked_out_date')
                                             ->pluck('room_id')
                                             ->toArray();
 
-            $reservation_no = $id;
+            // foreach($checked_in_rooms as $room){
+            //     $room->days = $now->diffInDays($room->checked_in_date);
+            //     $room->totalCost = $room->days * $room->reservedRooms->roomDetails->total_price;
+            // }
+
+            $reservation_no = $reservation->reservation_no;
 
             $guest = Guest::find($reservation->guest_id);
 
@@ -86,15 +98,21 @@ class TransactionController extends Controller
                 $room->totalCost = $room->days * $room->reservedRooms->roomDetails->total_price;
             }
 
-            return view('guestHouse.Transaction.checkout', compact(['reservation','guest', 'reservation_no', 'checked_in_rooms', 'checked_out_rooms']));
+            // return $checked_in_rooms[0]->transaction_id;
+
+            // $transactionId = $id;
+
+            // return $checked_in_rooms; 
+
+            return view('guestHouse.Transaction.checkout', compact(['reservation', 'guest', 'reservation_no', 'checked_in_rooms', 'checked_out_rooms']));
         } else {
             return view('guestHouse.Transaction.checkout');
         }
     }
 
-    public function fetchRooms() {
+    // public function fetchRooms() {
 
-    }
+    // }
 
     public function fetchReservationById($rid){
         $reservation = Reservation::with(['getStatus'])
@@ -107,6 +125,9 @@ class TransactionController extends Controller
     }
 
     public function checkIn(Request $request) {
+
+        $employeeId = auth()->user()->id;
+        $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
 
         // $rooms = explode(',', $request->room_ids);
         $rooms = $request->room_ids;
@@ -127,6 +148,8 @@ class TransactionController extends Controller
                 'room_id' => $roomId,
                 'checked_in_date' => $now->format('y-m-d'),
                 'checked_in_time' => $now->format('H:i:s'),
+                'guest_house_id' => $guest_house_id,
+                'proceed_by' => auth()->guard('web')->user()->id,
             ]);
 
         }
@@ -147,7 +170,8 @@ class TransactionController extends Controller
 
     public function checkOut(Request $request) {
 
-        // dd($request);
+        return $request;
+        dd($request);
 
         // $rooms = explode(',', $request->room_ids);
         $rooms = $request->room_ids;
@@ -169,14 +193,24 @@ class TransactionController extends Controller
                 'checked_out_time' => $now->format('H:i:s'),
                 // 'checked_out_date' => $request->checked_out_date,
                 // 'checked_out_time' => $request->checked_out_time,
+                'proceed_by' => auth()->guard('web')->user()->id,
             ]);
 
         }
 
+        $reservation = Reservation::find($request->reservation_id);
+
+        $reservation->update([
+            'status' => 7,
+        ]);
+
+        // bill generation
+
+
         if (!$roomTransaction) {
             return back()->with(['icon'=>'error', 'message'=>'Something went wrong']);
         }
-        return back()->with(['icon'=>'success', 'message'=>'Room checked out successsfully']);
+        return back()->with(['icon'=>'success', 'message'=>'Room checked out successsfully with a bill.']);
 
     }
 

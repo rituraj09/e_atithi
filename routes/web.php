@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PDFController;
+use App\Http\Controllers\BillController;
 use App\Http\Controllers\RateController;
 use App\Http\Controllers\RoomController;
 use App\Http\Middleware\AdminMiddleware;
@@ -14,6 +15,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\CaptchaController;
 use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\GuestHouseController;
 use App\Http\Controllers\BedCategoryController;
 use App\Http\Controllers\ReservationController;
@@ -146,6 +148,14 @@ Route::prefix('guest-house')->group( function () {
         Route::controller(GuestHouseConfigController::class)->group( function() {
             Route::get('/settings', 'index')->name('guest-house-config');
             Route::post('/settings/update', 'update')->name('update-guest-house-config');
+        });
+
+        Route::controller(BillController::class)->group( function() {
+            Route::get('/bills', 'index')->name('all-bills');
+        });
+
+        Route::controller(ReceiptController::class)->group( function() {
+            Route::get('/receipts', 'index')->name('all-receipts');
         });
         
     });

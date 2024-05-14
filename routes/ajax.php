@@ -10,6 +10,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\FeatureController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\GuestHouseController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\TransactionController;
@@ -78,6 +79,10 @@ Route::prefix('/ajax')->group( function () {
     Route::controller(OrderController::class)->group( function() {
         Route::get('/order/cancellation/{id}', 'orderCancelView')->name('order-cancellation');
         Route::post('/cancel-order', 'cancelOrder')->name('cancel-order');
+    });
+
+    Route::controller(PaymentController::class)->group( function() {
+        Route::get('/payment/view', 'index')->name('payment-view');
     });
 
 });

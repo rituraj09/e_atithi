@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Bill extends Model
+class Receipt extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -27,4 +27,5 @@ class Bill extends Model
     public $timestamps = false;
 
     protected $dates = ['deleted_at'];
+
 }

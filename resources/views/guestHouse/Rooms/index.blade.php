@@ -39,7 +39,7 @@
                                     <tr>
                                         <td>{{ $room->room_number }}</td>
                                         <td class="text-capitalize">
-                                            {{ $room['roomCategory']->name }}, 
+                                            {{ $room['roomCategory']['Category']->name }}, 
                                             {{ $room['bedType'][0]->name }}
                                         </td>
                                         <td>{{ $room->total_price }}</td>

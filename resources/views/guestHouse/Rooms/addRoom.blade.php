@@ -91,7 +91,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="price" class="form-label">Base Price</label>
-                                        <input id="price" type="text" class="form-control" name="basePrice" placeholder="Base price" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                                        <input id="price" type="text" class="form-control" name="basePrice" value="{{ $guestHouse->base_price }}" placeholder="Base price" readonly disabled>
                                     </div>
                                 </div>
                                 <div class="col-md-6">

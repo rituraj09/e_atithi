@@ -59,4 +59,7 @@ class Guesthouse extends Model
     public $timestamps = false;
 
     protected $dates = ['deleted_at'];
+
+    // guest type = 1 = govt
+    // guest type = 0 = all
 }

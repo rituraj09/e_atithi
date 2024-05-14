@@ -132,10 +132,29 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="text-end mb-3 col-md-10 mx-auto">
-                                <button type="button" class="btn btn-sm btn-primary" type="text" id="book">book</button>           
-                            </div>               
+                            @if ( $guestHouse->guest_type === $guestDetails->guestcategory_id )
+                                <div class="col-md-10 mx-auto mb-3">
+                                    <p class="p-2 bg-warning bg-opacity-50 text-danger w-100 text-center">General publics are not allowed.</p>
+                                </div> 
+                            @else 
+                                @if ( $guestHouse->payment_type === 1 )  {{-- 1 for post paid --}}
+                                <div class="text-end mb-3 col-md-10 mx-auto mb-3">
+                                    <span class="me-4 text-secondary">Payment mode: post paid</span>
+                                    <button type="button" class="btn btn-sm btn-primary" type="text" id="book">book</button>           
+                                </div>  
+                                @else 
+                                <div class="text-end mb-3 col-md-10 mx-auto mb-3">
+                                    <span class="me-4 text-secondary">Payment mode : prepaid</span>
+                                    <button type="button" class="open-popup btn btn-sm btn-success" type="text" data-href="{{ route('payment-view') }}">book</button>           
+                                </div>
+                                @endif
+                            @endif
+                            {{-- <span>{{ $guestDetails->guest_id }}</span>
+                            <span>{{ $guestDetails->guestcategory_id }}</span>
+                            <span>{{ $guestDetails->guestCategory->name }}</span>
+                            <span>{{ $guestHouse->guest_type }}</span>              --}}
                         </form>
+                        <x-popup/>
                     </div>  
                 </div>
             </div>

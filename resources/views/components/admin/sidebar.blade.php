@@ -60,6 +60,20 @@
           <span class="link-title">Manage Transactions</span>
         </a>
       </li>
+      {{-- bills --}}
+      <li class="nav-item">
+        <a href="{{ route('all-bills') }}" class="nav-link">
+          <i class="link-icon" data-feather="credit-card"></i>
+          <span class="link-title">Manage Bills</span>
+        </a>
+      </li>
+      {{-- receipt --}}
+      <li class="nav-item">
+        <a href="{{ route('all-receipts') }}" class="nav-link">
+          <i class="link-icon" data-feather="trello"></i>
+          <span class="link-title">Manage Receipts</span>
+        </a>
+      </li>
       {{-- utils --}}
       <li class="nav-item">
         <a class="nav-link" data-bs-toggle="collapse" href="#extras" role="button" aria-expanded="false" aria-controls="extras">

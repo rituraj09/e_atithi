@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Rooms;
 use App\Models\Feature;
 use App\Models\RateList;
+use App\Models\Guesthouse;
 use App\Models\RoomHasBed;
 use App\Models\BedCategory;
 use App\Models\RoomOnDates;
@@ -41,19 +42,17 @@ class RoomController extends Controller
         $roomCategories = RoomCategoryHasPrice::where('guest_house_id', $guest_house_id)->get();
 
         $bedCategories = BedHasPriceModifier::where('guest_house_id', $guest_house_id)->get();
-       
-        $roomRates = RateList::with('roomCategory')
-                            ->where('guest_house_id', $guest_house_id)
-                            ->get();
-
 
         if (!$roomCategories) {
             return view('guestHouse.Rooms.addRoom');
         }
 
+        $guestHouse = Guesthouse::select('base_price')->find($guest_house_id);
+
+        // dd($guestHouse);
         // echo $roomCategories;
 
-        return view('guestHouse.Rooms.addRoom', compact(['roomCategories', 'roomRates','bedCategories']));
+        return view('guestHouse.Rooms.addRoom', compact(['roomCategories','bedCategories', 'guestHouse']));
     }
 
     public function getAllRooms () {
@@ -75,12 +74,13 @@ class RoomController extends Controller
         $employeeId = auth()->user()->id;
         $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
 
+        $guestHouse = Guesthouse::select('base_price')->find($guest_house_id);
         $bedCategory = BedHasPriceModifier::find($request->bedCategory);
         $roomCategory = RoomCategoryHasPrice::find($request->roomCategory);
 
         // $totalPrice = $request->basePrice + $bedCategory->price_modifier + $roomCategory->price_modifier;
 
-        $totalPrice = PriceCalculatorController::calculateRoomPrice($request->basePrice, $request->bedCategory, $request->roomCategory);
+        $totalPrice = PriceCalculatorController::calculateRoomPrice($guestHouse->base_price, $request->bedCategory, $request->roomCategory);
 
         // dd($totalPrice);
 
@@ -94,7 +94,7 @@ class RoomController extends Controller
             // 'room_rate' => $request->price,
             'no_of_beds' => $request->numberOfBeds,
             'capacity' => $request->capacity || $capacity,
-            'base_price' => $request->basePrice,
+            // 'base_price' => $request->basePrice,
             'total_price' => $totalPrice,
             'width' => $request->width || null,
             'length' => $request->length || null,
@@ -106,7 +106,7 @@ class RoomController extends Controller
         ]);
 
         if (!$room) {
-            return redirect()->route('guest-house-admin-add-room')->with(['icon'=>'error', 'message'=>'Something went wrong']);
+            return back()->with(['icon'=>'error', 'message'=>'Something went wrong']);
         }
 
         // dd($request);
@@ -148,7 +148,7 @@ class RoomController extends Controller
             // 'room_rate' => $request->roomCategory,
             'bed_type' => $request->bedCategory,
             'room_category' => $request->roomCategory,
-            'base_price' => $request->basePrice,
+            // 'base_price' => $request->basePrice,
             'total_price' => $totalPrice,
             'no_of_beds' => $request->numberOfBeds,
             'capacity' => $request->capacity,
@@ -278,9 +278,8 @@ class RoomController extends Controller
     public function validateForm ($request) {
         return $request->validate([
             'roomNumber' => 'required|unique:rooms,room_number',
-            'basePrice' => 'required',
+            // 'basePrice' => 'required',
             'numberOfBeds' => 'required',
-            // 'capacity' => 'required',
             'roomCategory' => 'required',
             'bedCategory' => 'required',
         ]);

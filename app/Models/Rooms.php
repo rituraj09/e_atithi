@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\RateList;
 use App\Models\BedCategory;
 use App\Models\RoomCategory;
+use App\Models\RoomCategoryHasPrice;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -38,7 +39,7 @@ class Rooms extends Model
 
     public function roomCategory(): BelongsTo
     {
-        return $this->belongsTo(RoomCategory::class, 'room_category')->withTrashed();
+        return $this->belongsTo(RoomCategoryHasPrice::class, 'room_category')->withTrashed();
     }
 
     public $timestamps = false;

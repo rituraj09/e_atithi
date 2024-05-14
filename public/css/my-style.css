@@ -196,3 +196,8 @@
     background: rgb(230, 230, 230);
     transition: all 200ms ease-in-out;
 }
+
+.modal-content {
+    border-radius: 0;
+    border-top: 0.5rem solid rgb(101 113 255) !important;
+}

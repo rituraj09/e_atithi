@@ -1,6 +1,6 @@
 <!-- resources/views/guestHouse/Transaction/index.blade.php -->
 
-{{-- {{ dd($checked_in_rooms); }} --}}
+{{-- {{ dd($rooms); }} --}}
 
 {{-- <x-header/>
 <body>
@@ -32,6 +32,8 @@
                         <div class="col-md-11 mx-auto my-4">
                             <form action="{{ route('get-check-out') }}" method="POST">
                                 @csrf
+                                <input type="hidden" id="guest_id" value="{{ $checked_in_rooms[0]->reservationDetails->guest_id }}">
+                                <input type="hidden" id="transaction_id" value="{{ $checked_in_rooms[0]->transaction_id }}">
                                 <div class="input-group mb-5">
                                     <input type="text" class="form-control" name="reservation_no" 
                                     @if (isset($reservation_no))
@@ -49,6 +51,7 @@
                             @if (isset($reservation))
                                 <div class="row mb-3">
                                     <div class="">
+                                        <p class="fw-bold mb-1">Transaction ID: <span class="fw-medium text-darkgray">{{ $checked_in_rooms[0]->transaction_id }}</span></p>
                                         <p class="fw-bold mb-1">Check In Date:  <span class="fw-medium text-darkgray">{{ $reservation->check_in_date }}</span></p>
                                         <p class="fw-bold mb-1">Check Out Date: <span class="fw-medium text-darkgray">{{ $reservation->check_out_date }}</span></p>
                                     </div>
@@ -78,16 +81,21 @@
                                                 @endif
                                                     <td>{{ $room->reservedRooms->roomDetails->room_number }}</td>
                                                     <td>
-                                                        {{ $room->reservedRooms->roomDetails->roomCategory->name }}, 
+                                                        {{ $room->reservedRooms->roomDetails->roomCategory->Category->name }}, 
                                                         {{ $room->reservedRooms->roomDetails->bedType[0]->name }}
                                                     </td>
                                                     <td>{{ $room->checked_in_date }}</td>
                                                     <td>{{ $room->reservedRooms->roomDetails->total_price }}</td>
-                                                    <td>{{ $room->totalCost }}.00</td>
+                                                    <td class="eachTotal">{{ $room->totalCost }}.00</td>
                                                 </tr>
                                                 {{-- @endif --}}
                                             @endforeach                                
                                         </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="5" id="total" class="text-end" ></td>
+                                            </tr>
+                                        </tfoot>
                                       </table>
                                     {{-- <table class="table">
                                         <thead>
@@ -158,6 +166,7 @@
 
 
     $(document).ready(function () {
+        var total = 0;
         // Function to handle row selection
         function toggleRowSelection(row) {
             $(row).toggleClass('table-active');
@@ -209,6 +218,24 @@
                 value: $('#reservationId').val(),
             }).appendTo(form);
 
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'guest_id',
+                value: $('#guest_id').val(),
+            }).appendTo(form);
+
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'transaction_id',
+                value: $('#transaction_id').val(),
+            }).appendTo(form);
+
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'amount',
+                value: $('#total').val(),
+            }).appendTo(form);
+
             // If there are no selected rooms, don't submit the form
             console.log(selectedRooms);
             if (selectedRooms.length > 0) {
@@ -245,6 +272,20 @@
         // Add event listener to each row for selection toggle
         $('#room-table tbody tr').click(function() {
             toggleRowSelection(this);
+            var valueText = $(this).find('.eachTotal').text().trim();
+            console.log('Value text:', valueText);
+            var value = parseFloat(valueText.replace(/,/g, '')); // Remove commas and parse as float
+            if (!isNaN(value)) {
+                total += value;
+                $('#total').text(total.toFixed(2)); // Display total with 2 decimal places
+            } else {
+                console.error('Invalid value:', valueText);
+            }
+            // var value = parseInt($(this).find('.eachTotal').text()); // Change the index to the column you want to sum (0-based)
+            // total += value;
+            
+            // console.log(value);
+            // $('#total').text(total);
         });
     });
 

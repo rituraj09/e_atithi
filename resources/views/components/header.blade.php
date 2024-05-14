@@ -58,4 +58,11 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/2.0.6/css/dataTables.dataTables.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.dataTables.css">
 
+<!-- Include FullCalendar library CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.8.0/main.min.css" rel="stylesheet" />
+
+<!-- Include FullCalendar library JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.8.0/main.min.js"></script>
+
+
 </head>

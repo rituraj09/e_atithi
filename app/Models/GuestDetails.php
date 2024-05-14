@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\GuestCategories;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -36,5 +37,10 @@ class GuestDetails extends Model
     public function guest(): BelongsTo
     {
         return $this->belongsTo(Guest::class, 'guest_id');
+    }
+
+    public function guestCategory(): belongsTo
+    {
+        return $this->belongsTo(GuestCategories::class, 'guestcategory_id');
     }
 }

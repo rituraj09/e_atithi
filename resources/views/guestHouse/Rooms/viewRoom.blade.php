@@ -33,7 +33,9 @@
                             @csrf
                             <div class="col-lg-4 col-md-6 ps-3">
                                 <div class="auto-jsCalendar " id="bookingCalendar"></div>
+                                {{-- <div id="calendar"></div> --}}
                             </div>
+
                             <div class="col-lg-8 col-md-6">
                                 <div class="mb-3">
                                     <label for="roomNumber" class="form-label">Room Number</label>
@@ -41,18 +43,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="price" class="form-label">Price</label>
-                                    <select name="price" id="price" class="form-control text-capitalize">
-                                        <option value="" disabled>--select--</option>
-                                        @foreach ($roomRates as $roomRate)
-                                            <option value="{{ $roomRate->id }}"
-                                                @if ( $roomRate->id === $room->room_rate )
-                                                    selected
-                                                @endif
-                                                >
-                                                {{ $roomRate->price }} | {{ $roomRate->name }} | {{ $roomRate['roomCategory']->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+                                    <input type="text" class="form-control" value="{{ $room->total_price }}">
                                 </div>
                                 <div class="mb-3">
                                     <label for="numberOfBeds" class="form-label">Number Of Beds</label>
@@ -90,7 +81,7 @@
                                         <option value="" disabled>--select--</option>
                                         @foreach ( $roomCategories as $roomCategory )
                                             <option value="{{ $roomCategory->id }}" 
-                                            @if ( $roomCategory->id === $room->room_category )
+                                            @if ( $roomCategory->id === $room->roomCategory->room_category_id )
                                                 selected
                                             @endif    
                                             >{{ $roomCategory->name }}</option>
@@ -163,6 +154,21 @@
         </div>
     </div> --}}
 
+    {{-- <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          var calendar = new jsCalendar('#bookingCalendar');
+          var bookedDates = @json($bookedDates); // Assuming $bookedDates is available in the view
+      
+          calendar.setOptions({
+            customClasses: {
+              reservations: bookedDates // Highlight booked dates
+            }
+          });
+      
+          calendar.draw();
+        });
+      </script> --}}
+
 
     <script>
     $(document).ready(function() {
@@ -209,7 +215,8 @@
         var bookedDates = {!! json_encode($bookedDates) !!};
         console.log(bookedDates)
         var myCalendar = $('#bookingCalendar');
-        myCalendar.select(bookedDates);
+        // myCalendar.select(bookedDates);
+        // console.log(myCalendar)
     });
     </script>
 {{-- <x-main-footer/> --}}
