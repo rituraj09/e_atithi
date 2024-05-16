@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\ReservationRoom;
 use App\Models\RoomTransaction;
 use App\Models\GuestHouseHasEmployee;
+use App\Http\Controllers\BillController;
 
 class TransactionController extends Controller
 {
@@ -84,11 +85,6 @@ class TransactionController extends Controller
                                             ->pluck('room_id')
                                             ->toArray();
 
-            // foreach($checked_in_rooms as $room){
-            //     $room->days = $now->diffInDays($room->checked_in_date);
-            //     $room->totalCost = $room->days * $room->reservedRooms->roomDetails->total_price;
-            // }
-
             $reservation_no = $reservation->reservation_no;
 
             $guest = Guest::find($reservation->guest_id);
@@ -98,21 +94,11 @@ class TransactionController extends Controller
                 $room->totalCost = $room->days * $room->reservedRooms->roomDetails->total_price;
             }
 
-            // return $checked_in_rooms[0]->transaction_id;
-
-            // $transactionId = $id;
-
-            // return $checked_in_rooms; 
-
             return view('guestHouse.Transaction.checkout', compact(['reservation', 'guest', 'reservation_no', 'checked_in_rooms', 'checked_out_rooms']));
         } else {
             return view('guestHouse.Transaction.checkout');
         }
     }
-
-    // public function fetchRooms() {
-
-    // }
 
     public function fetchReservationById($rid){
         $reservation = Reservation::with(['getStatus'])
@@ -170,10 +156,8 @@ class TransactionController extends Controller
 
     public function checkOut(Request $request) {
 
-        return $request;
-        dd($request);
+        $proceed_by = auth()->guard('web')->user()->id;
 
-        // $rooms = explode(',', $request->room_ids);
         $rooms = $request->room_ids;
 
         foreach ( $rooms as $room ) {
@@ -183,19 +167,17 @@ class TransactionController extends Controller
             $now = Carbon::now('Asia/Kolkata');
 
             // $roomdetails = ReservationRoom::find($room);  we will not store the room id, instead we will fetch room id from reservedRoom collection
-
             $roomTransaction = RoomTransaction::find($roomId);
-
-            // dd($roomTransaction);
 
             $roomTransaction->update([
                 'checked_out_date' => $now->format('y-m-d'),
                 'checked_out_time' => $now->format('H:i:s'),
-                // 'checked_out_date' => $request->checked_out_date,
-                // 'checked_out_time' => $request->checked_out_time,
-                'proceed_by' => auth()->guard('web')->user()->id,
+                'proceed_by' => $proceed_by,
             ]);
+        }
 
+        if (!$roomTransaction) {
+            return back()->with(['icon'=>'error', 'message'=>'Something went wrong']);
         }
 
         $reservation = Reservation::find($request->reservation_id);
@@ -205,11 +187,15 @@ class TransactionController extends Controller
         ]);
 
         // bill generation
+        $billController = new BillController();
+        $bill = $billController->billGenerate($request);
 
-
-        if (!$roomTransaction) {
-            return back()->with(['icon'=>'error', 'message'=>'Something went wrong']);
+        if (!$bill) {
+            // Handle potential bill generation error (optional)
+            return back()->with(['icon' => 'error', 'message' => 'Bill generation failed.']);
         }
+
+
         return back()->with(['icon'=>'success', 'message'=>'Room checked out successsfully with a bill.']);
 
     }

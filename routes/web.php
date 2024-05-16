@@ -152,6 +152,7 @@ Route::prefix('guest-house')->group( function () {
 
         Route::controller(BillController::class)->group( function() {
             Route::get('/bills', 'index')->name('all-bills');
+            Route::get('/get-bill/{id}', 'printBill')->name('print-bill');
         });
 
         Route::controller(ReceiptController::class)->group( function() {
@@ -213,3 +214,5 @@ Route::prefix('/guest')->group( function () {
 Route::get('/captcha', [CaptchaController::class, 'generateCaptcha'])->name('captcha');
 
 Route::get('/download-pdf', [PDFController::class, 'index']);
+Route::get('/download-bill/{id}', [PDFController::class, 'printBill']);
+Route::get('/view-pdf', [PDFController::class, 'view']);

@@ -1,7 +1,7 @@
 <!-- resources/views/guestHouse/GuestHouse/view.blade.php -->
 
 {{-- {{ dd($order->hasTransactions[0]->reservedRooms->roomDetails->room_number); }} --}}
-{{-- {{ dd($order->hasTransactions === NULL); }} --}}
+{{-- {{ dd($order->hasTransactions); }} --}}
 
 <x-header />
 

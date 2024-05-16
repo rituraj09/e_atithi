@@ -4,8 +4,8 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="description" content="Responsive HTML Admin Dashboard Template based on Bootstrap 5">
-	<meta name="author" content="NobleUI">
+  	<meta name="description" content="Streamlining Accommodation Management">
+	<meta name="author" content="NIC">
 	<meta name="keywords" content="nobleui, bootstrap, bootstrap 5, bootstrap5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
 	<meta name="csrf-token" content="{{ csrf_token() }}">
@@ -55,14 +55,14 @@
 <script src="{{ asset('js/jsCalendar.min.js')  }}"></script>
 <link rel="stylesheet" href="{{ asset('css/jsCalendar.min.css') }}" >
 
-<link rel="stylesheet" href="https://cdn.datatables.net/2.0.6/css/dataTables.dataTables.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.dataTables.css">
+<link rel="stylesheet" href="{{ asset('css/dataTables.dataTables.min.css') }}">
+<link rel="stylesheet" href="{{ asset('css/buttons.dataTables.min.css') }}">
 
 <!-- Include FullCalendar library CSS -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.8.0/main.min.css" rel="stylesheet" />
+{{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.8.0/main.min.css" rel="stylesheet" /> --}}
 
 <!-- Include FullCalendar library JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.8.0/main.min.js"></script>
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.8.0/main.min.js"></script> --}}
 
 
 </head>

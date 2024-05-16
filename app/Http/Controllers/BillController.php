@@ -5,24 +5,33 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Bill;
 use Illuminate\Http\Request;
+use App\Models\GuestHouseHasEmployee;
+use App\Http\Controllers\PDFController;
 
 class BillController extends Controller
 {
     //
     public function index () {
-        return view('guestHouse.Bills.index');
+        $employeeId = auth()->guard('web')->user()->id;
+        $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
+
+        $bills = Bill::with(['guest','reservation'])
+                    ->where('guest_house_id', $guest_house_id)
+                    ->get();
+
+        return view('guestHouse.Bills.index', compact(['bills']));
     }
 
-    public function billGenerate () {
+    public function billGenerate ($request) {
 
         $this->validateFields($request);
 
-        $employeeId = auth()->user()->id;
+        $employeeId = auth()->guard('web')->user()->id;
         $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
 
         $bill = Bill::create([
             'guest_house_id' => $guest_house_id,
-            'proceed_by' => auth()->guard('web')->user()->id,
+            'proceed_by' => $employeeId,
             'bill_no' => $this->bill_no($request->reservation_id),
             'reservation_id' => $request->reservation_id,
             'transaction_id' => $request->transaction_id,
@@ -31,16 +40,21 @@ class BillController extends Controller
             'amount' => $request->amount,
             'remarks' => '',
         ]);
+
+        return $bill;
+    }
+
+    public function printBill ($id) {
+        $printController = new PDFController();
+        return $printController->printBill($id);
     }
 
     public static function validateFields ($request) {
         return $request->validate([
             'reservation_id' => 'required',
             'transaction_id' => 'required',
-            'bill_to' => 'required',
-            'bill_date' => 'required',
+            'guest_id' => 'required',
             'amount' => 'required',
-            'remarks' => 'required',
         ]);
     } 
 

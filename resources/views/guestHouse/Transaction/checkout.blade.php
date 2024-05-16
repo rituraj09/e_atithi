@@ -93,32 +93,11 @@
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <td colspan="5" id="total" class="text-end" ></td>
+                                                <td colspan="5" class="text-end" id="total-amount"></td>
                                             </tr>
                                         </tfoot>
-                                      </table>
-                                    {{-- <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Room number</th>
-                                                <th>Room Category</th>
-                                                <th>Rate</th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($rooms as $room)
-                                                @if (in_array($room->id, $checked_in_rooms))
-                                                <tr class="cursor">
-                                                    <td>{{ $room->roomDetails->room_number }}</td>
-                                                    <td>{{ $room->roomDetails->roomCategory->name }}, {{ $room->roomDetails->bedType[0]->name }}</td>
-                                                    <td>{{ $room->roomDetails->total_price }}</td>
-                                                    <td><input type="checkbox" name="" id=""></td>
-                                                </tr>
-                                                @endif
-                                            @endforeach
-                                        </tbody>
-                                    </table> --}}
+                                    </table>
+                                    <input type="hidden" id="total" readonly disabled>
                                 </div>
                                 <div class="d-flex justify-content-end mb-3">
                                     <button class="btn btn-success" id="checkout-button">Check Out</button>
@@ -277,15 +256,11 @@
             var value = parseFloat(valueText.replace(/,/g, '')); // Remove commas and parse as float
             if (!isNaN(value)) {
                 total += value;
-                $('#total').text(total.toFixed(2)); // Display total with 2 decimal places
+                $('#total-amount').text(total.toFixed(2));
+                $('#total').val(total.toFixed(2)); // Display total with 2 decimal places
             } else {
                 console.error('Invalid value:', valueText);
             }
-            // var value = parseInt($(this).find('.eachTotal').text()); // Change the index to the column you want to sum (0-based)
-            // total += value;
-            
-            // console.log(value);
-            // $('#total').text(total);
         });
     });
 

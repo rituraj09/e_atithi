@@ -24,6 +24,8 @@ class RoomTransaction extends Model
         'checked_out_date',
         'checked_out_time',
         'room_id',
+        'guest_house_id',
+        'proceed_by',
     ];
 
     public $timestamps = false;

@@ -1,6 +1,6 @@
 <!-- resources/views/guestHouse/Transaction/index.blade.php -->
 
-{{-- {{ dd($roomTransactions); }} --}}
+{{-- {{ dd($bills); }} --}}
 
 <x-header/>
 <body>
@@ -33,16 +33,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- @foreach ($roomTransactions as $roomTransaction) --}}
-                                    {{-- <tr> --}}
-                                        
-                                        {{-- <td>
-                                            <button data-href="{{ route('check-in-view',['id' => '1']) }}" class="open-popup btn btn-info me-1">check in</button>
-                                            <button data-href="{{ route('check-out-view', ['id' => '1']) }}" class="open-popup btn btn-warning me-1">check out</button>
-                                            <button data-href="{{ route('payment-view') }}" class="open-popup btn btn-success me-1">Pay</button>
-                                        </td> --}}
-                                    {{-- </tr> --}}
-                                    {{-- @endforeach --}}
+                                @foreach ($bills as $bill)
+                                    <tr>
+                                        <td>{{ $bill->bill_no }}</td>
+                                        <td>{{ $bill->transaction_id }}</td>
+                                        <td>{{ $bill->reservation->reservation_no }}</td>
+                                        <td>{{ $bill->guest->name }}</td>
+                                        <td>{{ $bill->bill_date }}</td>
+                                        <td>{{ $bill->remarks }}</td>
+                                        <td>
+                                            <button data-route="{{ route('print-bill', ['id' => $bill->id]) }}" class="print-bill btn btn-sm btn-info py-1">Print</button>
+                                            <button class="open-popup btn btn-sm btn-success py-1" data-href="{{ route('payment-view') }}">Pay</button>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -53,5 +57,37 @@
     </div>
     {{-- popup --}}
     <x-popup/>
+
+    <script>
+    $(document).ready(function () {
+        $('.print-bill').on('click', function () {
+            var route = $(this).data('route');
+
+            // Show loading message before AJAX request is sent
+            Swal.fire('loading');
+
+            $.ajax({
+                url: route,
+                type: "GET",
+                success: function (response) {
+                    // Hide loading message after successful response
+                    Swal.close();
+
+                    // Create a temporary anchor element to trigger the file download
+                    var a = document.createElement('a');
+                    a.href = window.URL.createObjectURL(new Blob([response]));
+                    a.download = 'demoBill.pdf'; // You can customize the file name here
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                },
+                error: function () {
+                    Swal.fire('Error occurred while generating the PDF');
+                }
+            });
+        });
+    });
+
+    </script>
 
 <x-main-footer/>

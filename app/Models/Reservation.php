@@ -64,16 +64,20 @@ class Reservation extends Model
 
     public function hasTransactions()
     {
-        return $this->hasMany(RoomTransaction::class, 'reservation_no', 'id')
-            ->selectRaw('transaction_id, 
-                        MAX(id) as id, 
-                        MAX(reservation_no) as reservation_no, 
-                        MAX(room_id) as room_id, 
-                        MAX(transaction_id) as transaction_id, 
-                        MAX(checked_in_date) as checked_in_date,
-                        MAX(checked_in_time) as checked_in_time,
-                        MAX(checked_out_date) as checked_out_date,
-                        MAX(checked_out_time) as checked_out_time')
-            ->groupBy('transaction_id');
+
+        return $this->hasMany(RoomTransaction::class, 'reservation_no', 'id');
+
+        // return $this->hasMany(RoomTransaction::class, 'reservation_no', 'id')
+        //     ->selectRaw('transaction_id, 
+        //                 MAX(id) as id, 
+        //                 MAX(reservation_no) as reservation_no, 
+        //                 MAX(room_id) as room_id, 
+        //                 MAX(transaction_id) as transaction_id, 
+        //                 MAX(checked_in_date) as checked_in_date,
+        //                 MAX(checked_in_time) as checked_in_time,
+        //                 MAX(checked_out_date) as checked_out_date,
+        //                 MAX(checked_out_time) as checked_out_time')
+        //     ->groupBy('transaction_id');
+
     }
 }
