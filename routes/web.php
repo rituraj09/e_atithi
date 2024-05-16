@@ -221,4 +221,6 @@ Route::get('/captcha', [CaptchaController::class, 'generateCaptcha'])->name('cap
 
 Route::get('/download-pdf', [PDFController::class, 'index']);
 Route::get('/download-bill/{id}', [PDFController::class, 'printBill']);
-Route::get('/view-pdf', [PDFController::class, 'view']);
+Route::get('/view-pdf', function () {
+    return view('pdf.receiptPDF');
+});
