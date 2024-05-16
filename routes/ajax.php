@@ -82,7 +82,7 @@ Route::prefix('/ajax')->group( function () {
     });
 
     Route::controller(PaymentController::class)->group( function() {
-        Route::get('/payment/view', 'index')->name('payment-view');
+        Route::get('/payment/view/{id}', 'paymentModel')->name('payment-view');
     });
 
 });

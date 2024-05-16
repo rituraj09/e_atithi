@@ -94,6 +94,8 @@ class TransactionController extends Controller
                 $room->totalCost = $room->days * $room->reservedRooms->roomDetails->total_price;
             }
 
+            // dd($checked_in_rooms);
+
             return view('guestHouse.Transaction.checkout', compact(['reservation', 'guest', 'reservation_no', 'checked_in_rooms', 'checked_out_rooms']));
         } else {
             return view('guestHouse.Transaction.checkout');

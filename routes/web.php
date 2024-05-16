@@ -14,6 +14,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\CaptchaController;
 use App\Http\Controllers\FeatureController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\GuestHouseController;
@@ -157,6 +158,11 @@ Route::prefix('guest-house')->group( function () {
 
         Route::controller(ReceiptController::class)->group( function() {
             Route::get('/receipts', 'index')->name('all-receipts');
+        });
+
+        Route::controller(PaymentController::class)->group( function () {
+            Route::post('/bill/payment', 'payBill')->name('pay-bill');
+            Route::get('/payments', 'index')->name('all-payments');
         });
         
     });

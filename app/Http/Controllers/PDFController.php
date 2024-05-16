@@ -46,7 +46,7 @@ class PDFController extends Controller
 
         // dd($guestHouse);
 
-        return view('pdf.testPdf', compact(['bill', 'guest', 'reservation', 'hasTransactions', 'guestHouse']));
+        // return view('pdf.testPdf', compact(['bill', 'guest', 'reservation', 'hasTransactions', 'guestHouse']));
 
         $pdf = PDF::loadView('pdf.testPdf', compact(['bill', 'guest', 'reservation', 'hasTransactions', 'guestHouse']));
 

@@ -42,8 +42,9 @@
                                         <td>{{ $bill->bill_date }}</td>
                                         <td>{{ $bill->remarks }}</td>
                                         <td>
-                                            <button data-route="{{ route('print-bill', ['id' => $bill->id]) }}" class="print-bill btn btn-sm btn-info py-1">Print</button>
-                                            <button class="open-popup btn btn-sm btn-success py-1" data-href="{{ route('payment-view') }}">Pay</button>
+                                            {{-- <a href="{{ route('print-bill', ['id' => $bill->id]) }}">download</a> --}}
+                                            <a href="{{ route('print-bill', ['id' => $bill->id]) }}" class="btn btn-sm btn-info py-1">Download</a>
+                                            <button class="open-popup btn btn-sm btn-success py-1" data-href="{{ route('payment-view', ['id' => $bill->id]) }}">Pay</button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -74,12 +75,12 @@
                     Swal.close();
 
                     // Create a temporary anchor element to trigger the file download
-                    var a = document.createElement('a');
-                    a.href = window.URL.createObjectURL(new Blob([response]));
-                    a.download = 'demoBill.pdf'; // You can customize the file name here
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
+                    // var a = document.createElement('a');
+                    // a.href = window.URL.createObjectURL(new Blob([response]));
+                    // a.download = 'demoBill.pdf'; // You can customize the file name here
+                    // document.body.appendChild(a);
+                    // a.click();
+                    // document.body.removeChild(a);
                 },
                 error: function () {
                     Swal.fire('Error occurred while generating the PDF');

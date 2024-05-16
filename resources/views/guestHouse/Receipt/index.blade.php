@@ -33,16 +33,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- @foreach ($roomTransactions as $roomTransaction) --}}
-                                    {{-- <tr>
+                                @foreach ($receipts as $receipt)
+                                    <tr>
+                                        <td>{{ $receipt->receipt_no }}</td>
+                                        <td>{{ $receipt->transaction_id }}</td>
+                                        <td>{{ $receipt->reservation->reservation_no }}</td>
+                                        <td>{{ $receipt->guest->name }}</td>
+                                        <td>{{ $receipt->receipt_date }}</td>
+                                        <td>{{ $receipt->remarks }}</td>
                                         
                                         <td>
-                                            <button data-href="{{ route('check-in-view',['id' => '1']) }}" class="open-popup btn btn-info me-1">check in</button>
-                                            <button data-href="{{ route('check-out-view', ['id' => '1']) }}" class="open-popup btn btn-warning me-1">check out</button>
-                                            <button data-href="{{ route('payment-view') }}" class="open-popup btn btn-success me-1">Pay</button>
+                                            <button class="btn btn-sm btn-info py-1">Dwonload</button>
                                         </td>
-                                    </tr> --}}
-                                    {{-- @endforeach --}}
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

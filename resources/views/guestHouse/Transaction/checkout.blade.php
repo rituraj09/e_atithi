@@ -69,14 +69,9 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($checked_in_rooms as $room)
-                                                {{-- @if (in_array($room->id, $checked_in_rooms)) --}}
-                                                @if (in_array($room->id, $checked_out_rooms))
-                                                    {{-- Room is checked in --}}
-                                                    {{-- <span class="text-success">Checked in</span> --}}
+                                                @if (in_array($room->reservedRooms->id, $checked_out_rooms))
                                                     <tr class="text-secondary">
                                                 @else
-                                                    {{-- Room is pending --}}
-                                                    {{-- <span class="text-warning">Pending</span> --}}
                                                     <tr data-id="{{ $room->id }}" class="cursor">
                                                 @endif
                                                     <td>{{ $room->reservedRooms->roomDetails->room_number }}</td>

@@ -74,6 +74,13 @@
           <span class="link-title">Manage Receipts</span>
         </a>
       </li>
+      {{-- payments --}}
+      <li class="nav-item">
+        <a href="{{ route('all-payments') }}" class="nav-link">
+          <i class="link-icon" data-feather="dollar-sign"></i>
+          <span class="link-title">Manage Payments</span>
+        </a>
+      </li>
       {{-- utils --}}
       <li class="nav-item">
         <a class="nav-link" data-bs-toggle="collapse" href="#extras" role="button" aria-expanded="false" aria-controls="extras">
