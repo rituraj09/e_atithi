@@ -31,16 +31,9 @@
                         <label for="userPassword" class="form-label">Password</label>
                         <input type="password" class="form-control" name="password" id="userPassword" autocomplete="current-password" placeholder="Password" required>
                       </div>
-                      <div class="form-check mb-3">
-                        <input type="checkbox" class="form-check-input" id="authCheck">
-                        <label class="form-check-label" for="authCheck">
-                          Remember me
-                        </label>
-                      </div>
                       <div>
                         <input type="submit" class="btn btn-primary rounded-4 me-2 mb-2 mb-md-0 text-white" value="Login"/>
                       </div>
-                      <a href="{{ route('guest-house-admin-registration')}}" class="d-block mt-3 text-muted">Not a user? Sign up</a>
                     </form>
                   </div>
                 </div>

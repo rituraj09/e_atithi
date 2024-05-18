@@ -43,7 +43,7 @@
                                         <td>{{ $receipt->remarks }}</td>
                                         
                                         <td>
-                                            <button class="btn btn-sm btn-info py-1">Dwonload</button>
+                                            <a href="{{ route('print-receipt', ['id' => $receipt->id]) }}" class="btn btn-sm btn-info py-1">Dwonload</a>
                                         </td>
                                     </tr>
                                 @endforeach

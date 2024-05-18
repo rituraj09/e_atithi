@@ -54,6 +54,8 @@ Route::prefix('guest')->group( function () {
     Route::controller(OrderController::class)->group(function () {
         Route::get('/orders', 'index')->name('my-orders')->middleware('guest');
         Route::get('/orders/details/{id}', 'details')->name('order-details')->middleware('guest');
+        Route::get('/orders/modify/{id}', 'modifyOrder')->name('modify-order')->middleware('guest');
+        Route::post('/orders/update', 'updateReservationDates')->name('update-reservation')->middleware('guest');
     });
 
     Route::controller(ProfileController::class)->group( function () {

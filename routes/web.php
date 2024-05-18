@@ -158,6 +158,7 @@ Route::prefix('guest-house')->group( function () {
 
         Route::controller(ReceiptController::class)->group( function() {
             Route::get('/receipts', 'index')->name('all-receipts');
+            Route::get('/get-receipt/{id}', 'printReceipt')->name('print-receipt');
         });
 
         Route::controller(PaymentController::class)->group( function () {

@@ -59,4 +59,25 @@ class OrderController extends Controller
 
         return back()->with(['icon' => 'success', 'message' => 'Reservation cancelled successfully']);
     }
+
+    public function modifyOrder ($id) {
+        // return $id;
+        $reservation = Reservation::find($id);
+        // return $reservation;
+        return view('guest.orders.modifyOrder', compact('reservation'));
+    }
+
+    public function updateReservationDates (Request $request) {
+        $reservation = Reservation::find($request->reservation_id);
+
+        $isUpdate = $reservation->update([
+            'check_in_date' => $request->check_in_date,
+            'check_out_date' => $request->check_out_date,
+        ]);
+
+        if (!$isUpdate) {
+            return  back()->with(['icon'=>'error', 'message'=>'Something went wrong.']);
+        }
+        return back()->with(['icon' => 'success', 'message' => 'Reservation details updated successfully.']);
+    }
 }

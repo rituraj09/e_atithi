@@ -53,22 +53,11 @@
                             <p class="fw-bolder mb-1 ">Current Status</p>
                             <div id="statusMessage" class="text-darkgray">{{ $reservation->getStatus->name }}</div>
                             <input type="hidden" id="status" value="{{ $reservation->status }}">
-                            <div id="approverContainer" class="d-flex flex-wrap justify-content-between p-1 mt-3">
-                                <div class="col">
-                                    <button class="btn btn-sm btn-primary wd-200 fw-bolder" id="approve">
-                                        Approve
-                                    </button>
-                                </div>
-                                <div class="col">
-                                    <button class="btn btn-sm btn-danger wd-200 fw-bolder" id="reject">
-                                        Reject
-                                    </button>
-                                </div>
-                            </div>
+                            
                         </div>
                     </div>
                     <div class="row m-0">
-                        <div class="mb-3 col-lg-9 col-md-10 mx-auto">
+                        <div class="mb-3 ">
                             <table class="table table-hover border text-capitalize" id="room-table">
                                 <thead>
                                   <tr>
@@ -94,7 +83,7 @@
                                             <td>
                                                 @if (in_array($room->id, $checked_in_rooms))
                                                     {{-- Room is checked in --}}
-                                                    <span class="text-success">Checked in</span>
+                                                    <span class="text-success checked_in">Checked in</span>
                                                 @elseif (in_array($room->id, $checked_out_rooms))
                                                     {{-- Room is checked out --}}
                                                     <span class="text-danger">Checked out</span>
@@ -117,6 +106,18 @@
                                   </tr>
                                 </tfoot>
                             </table>
+                        </div>
+                    </div>
+                    <div id="approverContainer" class="d-flex flex-wrap justify-content-between p-1 mt-3">
+                        <div class="col text-end pe-2">
+                            <button class="btn btn-sm btn-primary wd-200 fw-bolder" id="approve">
+                                Approve
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-sm btn-danger wd-200 fw-bolder" id="reject">
+                                Reject
+                            </button>
                         </div>
                     </div>
                     <div class="row m-0 mt-2 mb-3 p-3 fs-5">

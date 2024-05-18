@@ -19,62 +19,47 @@
                         </span>
                     </div>
                     <div class="row justify-content-center align-items-start mt-5 mb-3 container-sm mx-auto">
-                         <div class="col-md-6 p-0">
-                             <div class="mb-2 ">
-                                 <label for="" class="fs-5 fw-bold text-secondary">Guest House</label>
-                             </div>
-                             <div class="input-group form-control p-0">
-                                 <span class="mdi mdi-magnify m-auto fs-4 ms-2 text-secondary"></span>
-                                 <input type="text" class="form-control outline-0 border-0" id="search" >
-                             </div>
-                             <div>
-                                <input type="hidden" id="dataId">
-                                <input type="hidden" id="dataType">
-                             </div>
-                             <div id="search-result">
-                                {{-- search results here --}}
-                             </div>
-                         </div>
-                         <div class="col-md-3 p-0">
-                             <div class="mb-2 text-md-center">
-                                 <label class="fs-5 fw-bold text-secondary">Checkin Date</label>
-                             </div>
-                             <div class="input-group col-md-8 flatpickr me-2 mb-2 mb-md-0" id="">
-                                 <input type="date" class="form-control " id="from" name="ckeckin" placeholder="Select date" data-input>
-                               </div>
-                         </div>
-                         <div class="col-md-3 p-0">
+                        <div class="col-md-6 p-0">
+                            <div class="mb-2 ">
+                                <label for="" class="fs-5 fw-bold text-secondary">Guest House</label>
+                            </div>
+                            <div class="input-group form-control p-0">
+                                <span class="mdi mdi-magnify m-auto fs-4 ms-2 text-secondary"></span>
+                                <input type="text" class="form-control outline-0 border-0" id="search" >
+                            </div>
+                            <div>
+                               <input type="hidden" id="dataId">
+                               <input type="hidden" id="dataType">
+                            </div>
+                            <div id="search-result">
+                               {{-- search results here --}}
+                            </div>
+                        </div>
+                        <div class="col-md-3 p-0">
+                            <div class="mb-2 text-md-center">
+                                <label class="fs-5 fw-bold text-secondary">Checkin Date</label>
+                            </div>
+                            <div class="input-group col-md-8 flatpickr me-2 mb-2 mb-md-0" id="">
+                                <input type="date" class="form-control " id="from" name="ckeckin" placeholder="Select date" data-input required>
+                            </div>
+                        </div>
+                        <div class="col-md-3 p-0">
                             <div class="mb-2 text-md-center">
                                 <label class="fs-5 fw-bold text-secondary">Checkout Date</label>
                             </div>
                             <div class="input-group col-md-8 flatpickr me-2 mb-2 mb-md-0" id="">
-                                <input type="date" class="form-control " id="to" name="ckeckout" placeholder="Select date" data-input>
+                                <input type="date" class="form-control " id="to" name="ckeckout" placeholder="Select date" data-input required>
                             </div>
                             <div class="mt-5">
                                 <button class="btn btn-primary w-100 mb-0 mt-auto" id="search-houses">Search</button>
                             </div>
-                         </div>
-                         {{-- <div class="col-md-2 p-0">
-                            <div class="mb-2 text-md-center">
-                                <label class="fs-5 fw-bold text-secondary" for="">Rooms</label>
-                            </div>
-                            <select class="form-control" name="" id="">
-                                <option value="" selected disabled>--select--</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                            </select>
-                         </div> --}}
-                    </div>
-                    {{-- <div class="d-flex justify-content-end container-sm pt-auto mb-5">
-                        <div class="col-md-2">
-                            <button class="btn btn-primary w-100 mb-0 mt-auto" id="search">Search</button>
                         </div>
-                    </div> --}}
+                    </div>
  
                     <div class="container-sm" id="searchResult">
 
                     </div>
-                 </div>
+                </div>
             </div>
         </div>
     </div>
@@ -155,93 +140,107 @@
     $(document).ready(function () {
         $("#search-houses").on('click', function () {
             // var guestHouse = $('#guest-house').val();
-            var dataId =  $('#dataId').val();
+            var dataId = $('#dataId').val();
             var dataType = $('#dataType').val();
             var checkin = $('#from').val();
             var checkout = $('#to').val();
 
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+            // console.log("date "+ checkout);
+            if (dataId === "" && $("#search").val() === "") {
+                Swal.fire("Please select a Guest House or Location.");
+            } else if (dataId === "" && $("#search").val() !== "") {
+                Swal.fire("Please re-select a Guest House or Location.");
+            } else if (checkin === "") {
+                Swal.fire("Please select a check-in date");
+            } else if (checkout === "") {
+                Swal.fire("Please select a check-out date");
+            } else {
 
-            $.ajax({
-                url: "{{ route('get-guest-houses') }}",
-                type: 'POST',
-                data: {
-                    dataId:dataId,
-                    dataType:dataType,
-                    checkin: checkin,
-                    checkout: checkout,
-                },
-                success: function(res) {
-                    console.log(res)
-                    $('#searchResult').html();
-                    var guestHouseCard;
-                    if (Array.isArray(res)) {
-                        guestHouseCard = res.map(data =>`
-                            <div class="">
-                                <div class="card mb-3 shadow-sm mb-3">
-                                    <div class="row g-0">
-                                        <div class="col-md-4">
-                                            <img class="card-image" src="https://www.thespruce.com/thmb/zwsJE_aYKwL20wwKBOmwn0pXoTQ=/960x0/filters:no_upscale():max_bytes(150000):strip_icc()/Colorful-Art-Studio-Garden-in-California_5-3221e3e172f442c09d844c1d872d3162.jpg" class="img-fluid rounded-start" alt="...">
-                                        </div>
-                                        <div class="col-md-8">
-                                            <div class="card-body p-3">
-                                                <h5>${data.name}</h5>
-                                                <p class="card-text mb-1"><small class="text-body-secondary">${data.district_name.name}, ${data.state_name.name}</small></p>
-                                                <ul>
-                                                    <li>daafa</li>
-                                                    <li>a j  ak  nskdjak ajsn</li>
-                                                </ul>
-                                                <p class="card-text text-truncate">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-                                                <div class="d-flex justify-content-end pt-2">
-                                                    <button data-id="${data.id}" class="btn btn-outline-success pt-1 check-guest-house">
-                                                        Check availablity
-                                                        <span class="mdi mdi-chevron-double-right"></span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        `).join('');
-                    } else {
-                        guestHouseCard = `
-                            <div class="">
-                                <div class="card mb-3 shadow-sm mb-3">
-                                    <div class="row g-0">
-                                        <div class="col-md-4">
-                                            <img class="card-image" src="https://www.thespruce.com/thmb/zwsJE_aYKwL20wwKBOmwn0pXoTQ=/960x0/filters:no_upscale():max_bytes(150000):strip_icc()/Colorful-Art-Studio-Garden-in-California_5-3221e3e172f442c09d844c1d872d3162.jpg" class="img-fluid rounded-start" alt="...">
-                                        </div>
-                                        <div class="col-md-8">
-                                            <div class="card-body p-3">
-                                                <h5>${res.name}</h5>
-                                                <p class="card-text mb-1"><small class="text-body-secondary">${res.district_name.name}, ${res.state_name.name}</small></p>
-                                                <ul>
-                                                    <li>daafa</li>
-                                                    <li>a j  ak  nskdjak ajsn</li>
-                                                </ul>
-                                                <p class="card-text text-truncate">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-                                                <div class="d-flex justify-content-end pt-2">
-                                                    <button data-id="${res.id}" class="btn btn-outline-success pt-1 check-guest-house">
-                                                        Check availablity
-                                                        <span class="mdi mdi-chevron-double-right"></span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
+                });
 
-                    $('#searchResult').html(guestHouseCard);
-                }
-            });
+                $.ajax({
+                    url: "{{ route('get-guest-houses') }}",
+                    type: 'POST',
+                    data: {
+                        dataId:dataId,
+                        dataType:dataType,
+                        checkin: checkin,
+                        checkout: checkout,
+                    },
+                    success: function(res) {
+                        console.log(res)
+                        $('#searchResult').html();
+                        var guestHouseCard;
+                        if (Array.isArray(res)) {
+                            guestHouseCard = res.map(data =>`
+                                <div class="">
+                                    <div class="card mb-3 shadow-sm mb-3">
+                                        <div class="row g-0">
+                                            <div class="col-md-4">
+                                                <img class="card-image" src="https://www.thespruce.com/thmb/zwsJE_aYKwL20wwKBOmwn0pXoTQ=/960x0/filters:no_upscale():max_bytes(150000):strip_icc()/Colorful-Art-Studio-Garden-in-California_5-3221e3e172f442c09d844c1d872d3162.jpg" class="img-fluid rounded-start" alt="...">
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="card-body p-3">
+                                                    <h5>${data.name}</h5>
+                                                    <p class="card-text mb-1"><small class="text-body-secondary">${data.district_name.name}, ${data.state_name.name}</small></p>
+                                                    <ul>
+                                                        <li>daafa</li>
+                                                        <li>a j  ak  nskdjak ajsn</li>
+                                                    </ul>
+                                                    <p class="card-text text-truncate">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+                                                    <div class="d-flex justify-content-end pt-2">
+                                                        <button data-id="${data.id}" class="btn btn-outline-success pt-1 check-guest-house">
+                                                            Check availablity
+                                                            <span class="mdi mdi-chevron-double-right"></span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('');
+                        } else {
+                            guestHouseCard = `
+                                <div class="">
+                                    <div class="card mb-3 shadow-sm mb-3">
+                                        <div class="row g-0">
+                                            <div class="col-md-4">
+                                                <img class="card-image" src="https://www.thespruce.com/thmb/zwsJE_aYKwL20wwKBOmwn0pXoTQ=/960x0/filters:no_upscale():max_bytes(150000):strip_icc()/Colorful-Art-Studio-Garden-in-California_5-3221e3e172f442c09d844c1d872d3162.jpg" class="img-fluid rounded-start" alt="...">
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="card-body p-3">
+                                                    <h5>${res.name}</h5>
+                                                    <p class="card-text mb-1"><small class="text-body-secondary">${res.district_name.name}, ${res.state_name.name}</small></p>
+                                                    <ul>
+                                                        <li>daafa</li>
+                                                        <li>a j  ak  nskdjak ajsn</li>
+                                                    </ul>
+                                                    <p class="card-text text-truncate">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+                                                    <div class="d-flex justify-content-end pt-2">
+                                                        <button data-id="${res.id}" class="btn btn-outline-success pt-1 check-guest-house">
+                                                            Check availablity
+                                                            <span class="mdi mdi-chevron-double-right"></span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        }
+
+                        $('#searchResult').html(guestHouseCard);
+                    }
+                    
+                });
+
+            }
         });
     })
 

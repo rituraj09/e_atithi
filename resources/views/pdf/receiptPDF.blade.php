@@ -1,26 +1,11 @@
-{{-- <!DOCTYPE html>
-<html>
-<head>
-    <title>Laravel 10 Generate PDF From View</title>
-</head>
-<body>
-    <h1>{{ $title }}</h1>
-    <p>{{ $date }}</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-</body>
-</html> --}}
+{{-- {{ dd($hasTransactions); }} --}}
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guest House Bill - T23-00-23</title>
+    <title>Guest House Receipt - {{ $receipt->receipt_no }}</title>
     {{-- <link rel="stylesheet" href="{{ asset('css/my-style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/demo1/style.css')}}">
 
@@ -48,7 +33,8 @@
         }
 
         .guest-details {
-            margin-bottom: 20px;
+            max-width: 800px;
+            margin: 2rem auto;
         }
 
         table {
@@ -75,6 +61,10 @@
 
         table tfoot tr {
             border-top: 2px solid #001058;
+        }
+
+        .guest-details table, .guest-details th, .guest-details td {
+            border: none;
         }
 
         .bill-to h1 {
@@ -104,20 +94,19 @@
             Receipt
         </h1>
         <hr>
-        <h1 style="font-size: 18px; font-weight:600; text-align:center;">Receipt No: R23-00-23</h1>
+        <h1 style="font-size: 18px; font-weight:600; text-align:center;">Receipt No: {{ $receipt->receipt_no }}</h1>
     </div>
     <div class="header">
-        <h1 style="width: 100%">GH11</h1>
-        <p>Golaghat, Assam</p>
-        <p>+91 98765 43210</p>
-        <p>contact@email.com</p>
+        <h1 style="width: 100%">{{ $guestHouse->name }}</h1>
+        <p>{{ $guestHouse->district_name->name }}, {{ $guestHouse->state_name->name }}</p>
+        <p>+91 {{ $guestHouse->contact_no }}</p>
+        <p>{{ $guestHouse->official_email }}</p>
     </div>
 
     <div>
         <table style="max-width: 800px; margin: 0px auto;">
             <thead>
                 <tr>
-                    <th>#</th>
                     <th>Room Number</th>
                     <th>Rate</th>
                     <th>Nights</th>
@@ -125,33 +114,27 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>101</td>
-                    <td>100</td>
-                    <td>3</td>
-                    <td>100/-</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>102</td>
-                    <td>100</td>
-                    <td>3</td>
-                    <td>100/-</td>
-                </tr>
+                @foreach ($hasTransactions as $transaction)
+                    <tr>
+                        <td>{{ $transaction->reservedRooms->roomDetails->room_number }}</td>
+                        <td>{{ $transaction->reservedRooms->roomDetails->total_price }}</td>
+                        <td>{{ $transaction->days }}</td>
+                        <td>{{ $transaction->totalCost }}.00/-</td>
+                    </tr>
+                @endforeach
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="4" style="font-weight: 600">
+                    <td colspan="3" style="font-weight: 600">
                         Subtotal
                     </td>
-                    <td>700/-</td>
+                    <td>{{ $receipt->amount }}/-</td>
                 </tr>
                 <tr>
-                    <td colspan="4" style="font-weight: 600">
+                    <td colspan="3" style="font-weight: 600">
                         Total
                     </td>
-                    <td>700/-</td>
+                    <td>{{ $receipt->amount }}/-</td>
                 </tr>
             </tfoot>
         </table>
@@ -159,18 +142,21 @@
 
     <div class="guest-details">
         <h3>Guest Details</h3>
-        <table>
+        <table style="width: auto !important;">
             <tr>
                 <th>Reservation ID</th>
-                <td>0022-AS-202333</td>
+                <td> : </td>
+                <td>{{ $reservation->reservation_no }}</td>
             </tr>
             <tr>
                 <th>Check-in Date</th>
-                <td>12/03/2002</td>
+                <td> : </td>
+                <td>{{ $hasTransactions[0]->checked_in_date }}</td>
             </tr>
             <tr>
                 <th>Check-out Date</th>
-                <td>23/03/2024</td>
+                <td> : </td>
+                <td>{{ $hasTransactions[0]->checked_out_date }}</td>
             </tr>
             {{-- usng [0] index because all are under same transaction --}}
         </table>
@@ -180,8 +166,8 @@
     <hr>
     <div class="bill-to">
         <h1>Receipt To,</h1>
-        <p>Gaurab Gogoi</p>
-        <p>+91 98765 43210</p>
+        <p>{{ $guest->name }}</p>
+        <p>+91 {{ $guest->phone }}</p>
     </div>
     
     <div class="footer">

@@ -85,6 +85,26 @@
             })
         });
 
+        // pin
+        $("#pin").on('input', function () {
+            // Regular expression to allow only numbers, optional decimal point, and up to 2 decimal places
+            const regex = /^\d{10}$/;
+
+            // Check if the entered value matches the regular expression
+            const isValid = regex.test($(this).val());
+
+            // Set error message and style based on validity
+            if (isValid) {
+                $(this).removeClass("error");
+                $(this).siblings(".error-message").remove(); // Remove existing error message if present
+            } else {
+                $(this).addClass("error");
+                $(this).siblings(".error-message").remove();
+                // Add error message next to the input field
+                $(this).after("<span class='error-message text-danger'><small>Please enter a valid pin of 6 digits.<small/></span>");
+            }
+        });
+
         
         $("#price").on("input", function() {
             // Regular expression to allow only numbers, optional decimal point, and up to 2 decimal places

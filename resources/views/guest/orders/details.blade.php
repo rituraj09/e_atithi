@@ -100,8 +100,11 @@
 
                     {{-- reservation cancellation part --}}
                     @if (($order->cancellation_by_guest_date === NULL && $order->cancellation_by_admin_date === NULL) || $order->hasTransactions === NULL)
-                        <div class="col-md-7 mx-auto p-2 mt-4 border-top pt-4">
-                            <div class="mb-2 text-end">
+                        <div class="col-md-7 mx-auto p-2 mt-4 border-top pt-4 row">
+                            <div class="mb-2 col">
+                                <button class="btn btn-primary open-popup" data-href="{{ route('modify-order', ['id' => $order->id]) }}">Modify Reservation</button>
+                            </div>
+                            <div class="mb-2 text-end col">
                                 <button class="btn btn-warning open-popup" data-href="{{ route('order-cancellation', ['id' => $order->id]) }}">Cancel reservation</button>
                             </div>
                         </div>

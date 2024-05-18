@@ -29,13 +29,13 @@
                             <div class="row m-0 p-0">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="roomNumber" class="form-label">Room Number</label>
+                                        <label for="roomNumber" class="form-label">Room Number <x-required/> </label>
                                         <input id="roomNumber" class="form-control" name="roomNumber" type="text" placeholder="Room number">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="roomCategory" class="form-label">Room Category</label>
+                                        <label for="roomCategory" class="form-label">Room Category <x-required/> </label>
                                         <select class="form-control" readOnly name="roomCategory" id="roomCategory" required>
                                             <option value="" disabled selected>--select--</option>
                                             @foreach ( $roomCategories as $roomCategory )
@@ -46,7 +46,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="roomCategory" class="form-label">Bed Category</label>
+                                        <label for="roomCategory" class="form-label">Bed Category <x-required/> </label>
                                         <select class="form-control" readOnly name="bedCategory" id="bedCategory" required>
                                             <option value="" disabled selected>--select--</option>
                                             @foreach ( $bedCategories as $bedCategory )
@@ -68,7 +68,7 @@
                                 </div> --}}
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="numberOfBeds" class="form-label">Number Of Beds</label>
+                                        <label for="numberOfBeds" class="form-label">Number Of Beds <x-required/> </label>
                                         {{-- <input id="numberOfBeds" class="d-none form-control" name="" type="text" 
                                         onkeypress="return event.charCode >= 48 && event.charCode <= 57" placeholder="Number of bed"> --}}
                                         <select name="numberOfBeds" id="numberOfBeds" class="form-control">

@@ -27,7 +27,7 @@
                             <div class="row m-0 p-0">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="bedType" class="form-label">Bed Category</label>
+                                        <label for="bedType" class="form-label">Bed Category <x-required/> </label>
                                         <select name="bedType" id="bedType" class="form-control">
                                             <option value="" selected disabled>--select--</option>
                                             @foreach ($bedCategories as $bedCategory)
@@ -38,7 +38,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="price" class="form-label">Price Modifier</label>
+                                        <label for="price" class="form-label">Price Modifier <x-required/> </label>
                                         <input id="price" class="form-control" name="price_modifier" type="text" placeholder="Price modifier" required>
                                     </div>
                                 </div>

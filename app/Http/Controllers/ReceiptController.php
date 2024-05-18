@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Receipt;
 use Illuminate\Http\Request;
 use App\Models\GuestHouseHasEmployee;
+use App\Http\Controllers\PDFController;
 
 class ReceiptController extends Controller
 {
@@ -20,6 +21,8 @@ class ReceiptController extends Controller
     }
 
     public function generateReceipt ($payment) {
+
+        // return $payment;
         
         $receipt = Receipt::create([
             'guest_house_id' => $payment->guest_house_id,
@@ -29,10 +32,15 @@ class ReceiptController extends Controller
             'transaction_id' => $payment->payment_no,
             'receipt_to' => $payment->guest_id,
             'receipt_date' => Carbon::now('Asia/Kolkata'),
-            'amount' => $payment->amount,
+            'amount' => $payment->total_amount,
         ]);
 
         return $receipt;
+    }
+
+    public function printReceipt ($id) {
+        $receiptController = new PDFController();
+        return $receiptController->printReceipt($id);
     }
 
     public static function generateReceiptNo($payment_id) {

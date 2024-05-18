@@ -1,13 +1,13 @@
 <!-- resources/views/guestHouse/GuestHouse/add.blade.php -->
 
-<x-header/>
+{{-- <x-header/>
 <body>
     <div class="main-wrapper">
         <div class="page-wrapper">
             <x-admin.navbar/>
             <div class="page-content">
                 <x-page-header :title="'Guest House'"/>
-                <div class="d-flex flex-column border card">
+                <div class="d-flex flex-column border card"> --}}
                     <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
                         <div>
                             <button id="guestHouseButton" class="text-capitalize nav-link active px-4 fw-bold">
@@ -134,9 +134,9 @@
                             </div>
                         
                             <div class="d-flex justify-content-end py-3">
-                                <a href="{{ route('edit-guest-house', ['id' => $guestHouse->id ]) }}" class="btn btn-sm btn-outline-primary">
+                                <button data-href="{{ route('edit-guest-house', ['id' => $guestHouse->id ]) }}" class="open-popup btn btn-sm btn-outline-primary">
                                     Edit
-                                </a>
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -258,12 +258,17 @@
                             </div>
                         </div>
                     </div>
-                </div>
+
+                    <x-popup/>
+                {{-- </div>
             </div>
             <x-footer/>
         </div>
-    </div>
+    </div> --}}
 
+
+<script src="{{ asset('assets/vendors/dropify/dist/dropify.min.js') }}"></script>
+<script src="{{ asset('assets/js/dropify.js') }}"></script>
 
     <script>
     $(document).ready(function() {
@@ -334,4 +339,4 @@
 
     </script>
 
-<x-main-footer/>
+{{-- <x-main-footer/> --}}

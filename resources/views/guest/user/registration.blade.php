@@ -71,8 +71,8 @@
                         <div class="col-md-4"></div>
                         <div class="col-md-8">
                           <div class="input-group">
-                            <input type="text" name="" id="" class="form-control" placeholder="Type captcha here">
-                            <button class="btn btn-success" type="button">verify</button>
+                            <input type="text" name="" id="captcha-input" class="form-control" placeholder="Type captcha here">
+                            <button class="btn btn-success" type="button" id="verifyCaptcha">verify</button>
                           </div>
                           @error('captcha')
                             <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
@@ -97,12 +97,6 @@
                             <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                           @enderror
                         </div>
-                      </div>
-                      <div class="form-check mb-3">
-                        <input type="checkbox" class="form-check-input" id="authCheck">
-                        <label class="form-check-label" for="authCheck">
-                          Remember me
-                        </label>
                       </div>
                       <div>
                         <input type="submit" class="btn btn-primary text-white me-2 mb-2 mb-md-0" id="register" value="Register" />

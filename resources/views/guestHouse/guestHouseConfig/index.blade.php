@@ -73,7 +73,7 @@
                             </div>
                             <div class="col-md-4 mb-3">
                                 <div class="fw-bolder mb-1 ">PIN</div>
-                                <input name="PIN" class="form-control" value="{{ $guestHouse->pin }}" placeholder="PIN code">
+                                <input name="PIN" class="form-control" id="pin" value="{{ $guestHouse->pin }}" placeholder="PIN code">
                             </div>
                         </div>
                         <hr>
@@ -109,7 +109,7 @@
                                 </select>
                             </div>
                             <div class="col-md-4 mb-3">
-                                <div class="fw-bolder mb-1">Base price</div>
+                                <div class="fw-bolder mb-1">Base price <x-required/> </div>
                                 <input type="text" id="price" name="base_price" class="form-control" value="{{ $guestHouse->base_price }}" placeholder="Per room base price">
                             </div>
                         </div>

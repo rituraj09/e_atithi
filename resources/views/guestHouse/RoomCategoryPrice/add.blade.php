@@ -27,7 +27,7 @@
 						<form action="{{ route('new-room-category-price') }}" method="POST">
                             @csrf
                             <div class="mb-3">
-                                <label for="categoryName" class="form-label">Room Category</label>
+                                <label for="categoryName" class="form-label">Room Category <x-required/> </label>
                                 <select name="category" id="" class="form-control">
                                     <option value="" selected disabled>--select--</option>
                                     @foreach ($roomCategories as $roomCategory)
@@ -37,7 +37,7 @@
                                 {{-- <input id="categoryName" class="form-control" name="categoryName" type="text" placeholder="Room category"> --}}
                             </div>
                             <div class="mb-3">
-                                <label for="" class="form-label">Price Modifier</label>
+                                <label for="" class="form-label">Price Modifier <x-required/> </label>
                                 <input type="text" class="form-control" name="price_modifier" placeholder="Price modifier">
                             </div>
                             <div class="d-flex justify-content-end pt-2">

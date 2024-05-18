@@ -59,6 +59,7 @@ class PaymentController extends Controller
         $receiptController = new ReceiptController();
         $generateReceipt = $receiptController->generateReceipt($isPaid);
 
+        // dd($generateReceipt);
 
         if (!$generateReceipt) {
             return back()->with(['icon' => 'error', 'message' => 'Receipt generation failed.']);

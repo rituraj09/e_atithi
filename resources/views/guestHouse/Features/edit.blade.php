@@ -35,7 +35,7 @@
                                 <div class="col-md-8 mx-auto">
                                     <input type="hidden" name="id" value="{{ $feature->id }}">
                                     <div class="mb-3">
-                                        <label for="fname" class="form-label">Feature's name</label>
+                                        <label for="fname" class="form-label">Feature's name <x-required/> </label>
                                         <input type="text" id="fname" class="form-control" name="name" value="{{ $feature->name }}" placeholder="Feature's name">
                                         @error('name')
                                             <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
@@ -46,7 +46,7 @@
                                         <textarea name="description" id="description" cols="30" rows="3" class="form-control">{{ $feature->description }}</textarea>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="price" class="form-label">Price</label>
+                                        <label for="price" class="form-label">Price <x-required/> </label>
                                         <input type="text" class="form-control" id="price" name="price" value="{{ $feature->price }}" placeholder="Price modifier">
                                         @error('price')
                                             <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>

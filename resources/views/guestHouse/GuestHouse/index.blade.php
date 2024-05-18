@@ -56,14 +56,14 @@
                                         <td>
                                             <div class="d-flex py-0">
                                                 <div class="px-1">
-                                                    <a href="{{ route('view-guest-house', ['id' => $guestHouse->id ]) }}" class="btn btn-sm btn-info">
+                                                    <button data-href="{{ route('view-guest-house', ['id' => $guestHouse->id ]) }}" class="open-popup btn btn-sm btn-info">
                                                         View
-                                                    </a>
+                                                    </button>
                                                 </div>
                                                 <div class="px-1">
-                                                    <a href="{{ route('edit-guest-house', ['id' => $guestHouse->id ]) }}" class="btn btn-sm btn-outline-primary">
+                                                    <button data-href="{{ route('edit-guest-house', ['id' => $guestHouse->id ]) }}" class="open-popup btn btn-sm btn-outline-primary">
                                                         Edit
-                                                    </a>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </td>
@@ -76,6 +76,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <x-popup/>
                     </div>
                 </div>
             </div>

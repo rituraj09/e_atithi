@@ -1,5 +1,5 @@
 <!-- resources/views/guestHouse/GuestHouse/add.blade.php -->
-
+{{-- 
 <x-header/>
 <body>
     <div class="main-wrapper">
@@ -8,8 +8,8 @@
 
             <div class="page-content">
                 <x-page-header :prev="'Manage Guest Houses'" :title="'Edit'"/>
-                <div class="d-flex flex-column border card">
-                    <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
+                <div class="d-flex flex-column border card"> --}}
+                    {{-- <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
                         <div>
                             <a href="{{ route('all-guest-house') }}" class="text-capitalize nav-link">
                                 view
@@ -25,7 +25,7 @@
                                 edit
                             </button>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="pt-3">
                         <form class="mx-2 mx-md-3" id="newRoomForm" action="{{ route('update-guest-house') }}" method="POST">
                             @csrf
@@ -146,11 +146,11 @@
                             </div>
                         </form>
                     </div>
-                </div>
+                {{-- </div>
             </div>
             <x-footer/>
         </div>
-    </div>
+    </div> --}}
 
 
     <script>
@@ -226,4 +226,4 @@
 
     </script>
 
-<x-main-footer/>
+{{-- <x-main-footer/> --}}

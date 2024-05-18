@@ -72,7 +72,7 @@
                                                 <td>{{ $room->room_number }}</td>
                                                 <td>
                                                     <div class="text-capitalize">
-                                                        {{ $room->roomCategory->name }},
+                                                        {{ $room->roomCategory->category->name }},
                                                         {{ $room->bedType[0]->name }}
                                                     </div>
                                                 </td>
@@ -102,6 +102,22 @@
                             </div>
                             
                             <div class="mb-2 col-md-10 mx-auto">
+                                <div class="row mb-2">
+                                    <label for="" class="col-md-4 mb-2">Reservation for</label>
+                                    <div class="col-md-8 mb-2 row">
+                                        <div class="col">
+                                            <input type="radio" name="reservation_for" id="self_reservation" value="Self">
+                                            <label for="self_reservation">Self</label>
+                                        </div>
+                                        <div class="col">
+                                            <input type="radio" name="reservation_for" id="other_reservation" value="Other">
+                                            <label for="other_reservation">Other</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="optional">
+
+                                </div>
                                 <div class="row">
                                     <label for="" class="col-md-4 mb-2">Reason for visiting</label>
                                     <div class="col-md-8 mb-2">
@@ -163,6 +179,31 @@
 
     <!-- Custom js for this page -->
     <script>
+    $(document).ready(function () {
+        $("#self_reservation").on('click', function () {
+            $("#optional").html('');
+        });
+
+        $("#other_reservation").on('click', function () {
+            $("#optional").html(`
+            <div class="row">
+                <label for="" class="col-md-4 mb-2">Guest Name</label>
+                <div class="col-md-8 mb-2">
+                    <input type="text" class="form-control" name="guest_name" id="guest_name">
+                </div>
+            </div>
+            <div class="row">
+                <label for="" class="col-md-4 mb-2">Guest Category</label>
+                <div class="col-md-8 mb-2">
+                    <select name="guest_category" id="guest_category" class="form-control">
+                        <option value="">--select--</option>
+                    </select>
+                </div>
+            </div>
+            `);
+        });
+    });
+
     $(document).ready(function () {
         var guestHouse = "{{ $guestHouse->id }}";
         var rooms = [];

@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="price" class="form-label">Price Modifier</label>
+                                        <label for="price" class="form-label">Price Modifier <x-required/> </label>
                                         <input id="price" class="form-control" name="price_modifier" type="text" value="{{ $bedCategory->price_modifier }}" placeholder="Price modifier">
                                     </div>
                                 </div>
