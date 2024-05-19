@@ -10,7 +10,7 @@
                 <div>
                     <x-page-header :title="'Guest House'" />
                     <div class="card row mb-2 p-3">
-                        <form action="{{ route('new-booking') }}" method="post" class="form">
+                        <form action="{{ route('new-booking') }}" method="post" class="form" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="guestHouse" value="{{ $guestHouse->id }}">
                             <div class="d-flex col-md-10 mx-auto my-2 flex-wrap">
@@ -32,7 +32,7 @@
                                 <div class="row mx-0 my-3 w-100">
                                     <div class="col-md px-0">
                                         <h3>{{ $guestHouse->name }}</h3>
-                                        <small>Golaghat, Assam</small>
+                                        <small>{{ $guestHouse->district_name->name }}, {{ $guestHouse->state_name->name }}</small>
                                     </div>
                                     <div class="col-md text-md-end px-0 text-dark">
                                         <p><small>From</small> {{ $checkInDate }}</p>
@@ -62,7 +62,6 @@
                                             <th>Room Type</th>
                                             <th>Capacity</th>
                                             <th>Price per night</th>
-                                            <th class="text-center">Select</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -78,32 +77,16 @@
                                                 </td>
                                                 <td>{{ $room->capacity }}</td>
                                                 <td class="price text-end pe-3">{{ $room->total_price }}</td>
-                                                <td>
-                                                    <div class="form-check form-switch me-0 px-auto">
-                                                        <input class="form-check-input m-auto" role="switch" type="checkbox" name="roomSelect" id="roomSelect" data-id="{{ $room->id }}">
-                                                    </div>
-                                                </td>
                                             </tr>
                                             @endforeach
                                         @endif
                                     </tbody>
                                 </table>
-                                <div class="mt-3">
-                                    <span class="fs-5 fw-bold text-darkgray">Total</span>
-                                    <div class="d-flex align-items-center justify-content-between mt-2">
-                                      <span>Total per night :</span>
-                                      <span><span id="total-per-night">0</span></span>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between">
-                                      <span>Total :</span>
-                                      <span><span id="total">0</span></span>
-                                    </div>
-                                </div>
                             </div>
                             
-                            <div class="mb-2 col-md-10 mx-auto">
+                            {{-- <div class="mb-2 col-md-10 mx-auto">
                                 <div class="row mb-2">
-                                    <label for="" class="col-md-4 mb-2">Reservation for</label>
+                                    <label for="" class="col-md-4 mb-2">Reservation for <x-required/> </label>
                                     <div class="col-md-8 mb-2 row">
                                         <div class="col">
                                             <input type="radio" name="reservation_for" id="self_reservation" value="Self">
@@ -114,12 +97,16 @@
                                             <label for="other_reservation">Other</label>
                                         </div>
                                     </div>
+                                    @error('reservation_for')
+                                        <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                    @enderror
                                 </div>
+                                
                                 <div id="optional">
 
                                 </div>
                                 <div class="row">
-                                    <label for="" class="col-md-4 mb-2">Reason for visiting</label>
+                                    <label for="" class="col-md-4 mb-2">Reason for visiting <x-required/> </label>
                                     <div class="col-md-8 mb-2">
                                         <select name="visitingReason" id="visitingReason" class="form-control">
                                             <option value="" selected disabled>--select--</option>
@@ -127,12 +114,18 @@
                                             <option value="official">Official</option>
                                         </select>
                                     </div>
+                                    @error('visitingReason')
+                                        <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="row">
-                                    <label for="" class="col-md-4 mb-2">ID Proof</label>
+                                    <label for="" class="col-md-4 mb-2">ID Proof <x-required/> </label>
                                     <div class="col-md-8 mb-2">
-                                        <input name="idFIle" id="idFile" type="file" class="form-control">
+                                        <input name="idFile" id="idFile" type="file" class="form-control">
                                     </div>
+                                    @error('idFile')
+                                        <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="row hidden">
                                     <label for="" class="col-md-4 mb-2">Occupency</label>
@@ -147,24 +140,17 @@
                                         <textarea name="" id="" cols="30" rows="3" class="form-control"></textarea>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             @if ( $guestHouse->guest_type === $guestDetails->guestcategory_id )
                                 <div class="col-md-10 mx-auto mb-3">
                                     <p class="p-2 bg-warning bg-opacity-50 text-danger w-100 text-center">General publics are not allowed.</p>
                                 </div> 
                             @else 
-                                @if ( $guestHouse->payment_type === 1 )  {{-- 1 for post paid --}}
                                 <div class="text-end mb-3 col-md-10 mx-auto mb-3">
-                                    <span class="me-4 text-secondary">Payment mode: post paid</span>
-                                    <button type="button" class="btn btn-sm btn-primary" type="text" id="book">book</button>           
-                                </div>  
-                                @else 
-                                <div class="text-end mb-3 col-md-10 mx-auto mb-3">
-                                    <span class="me-4 text-secondary">Payment mode : prepaid</span>
-                                    <button type="button" class="open-popup btn btn-sm btn-success" type="text" data-href="{{ route('payment-view') }}">book</button>           
-                                </div>
-                                @endif
+                                    <button data-href="{{ route('book-form', ['id'=> $guestHouse->id,'checkin'=> $checkInDate,'checkout'=> $checkOutDate]) }}" type="button" class="open-popup btn btn-sm btn-primary" type="text" id="">book</button>           
+                                </div> 
                             @endif
+                           
                             {{-- <span>{{ $guestDetails->guest_id }}</span>
                             <span>{{ $guestDetails->guestcategory_id }}</span>
                             <span>{{ $guestDetails->guestCategory->name }}</span>
@@ -173,142 +159,13 @@
                         <x-popup/>
                     </div>  
                 </div>
+                <x-footer/>
             </div>
         </div>
     </div>
 
     <!-- Custom js for this page -->
-    <script>
-    $(document).ready(function () {
-        $("#self_reservation").on('click', function () {
-            $("#optional").html('');
-        });
-
-        $("#other_reservation").on('click', function () {
-            $("#optional").html(`
-            <div class="row">
-                <label for="" class="col-md-4 mb-2">Guest Name</label>
-                <div class="col-md-8 mb-2">
-                    <input type="text" class="form-control" name="guest_name" id="guest_name">
-                </div>
-            </div>
-            <div class="row">
-                <label for="" class="col-md-4 mb-2">Guest Category</label>
-                <div class="col-md-8 mb-2">
-                    <select name="guest_category" id="guest_category" class="form-control">
-                        <option value="">--select--</option>
-                    </select>
-                </div>
-            </div>
-            `);
-        });
-    });
-
-    $(document).ready(function () {
-        var guestHouse = "{{ $guestHouse->id }}";
-        var rooms = [];
-
-        // $("#startDate, #endDate").datepicker();
-
-        // $('#calculate').click(function() {
-            var startDate = new Date('{{ $checkInDate }}');
-            var endDate = new Date('{{ $checkOutDate }}');
-
-            // Calculate the difference in milliseconds
-            var difference = endDate.getTime() - startDate.getTime();
-
-            // Convert the difference from milliseconds to days
-            var days = Math.ceil(difference / (1000 * 60 * 60 * 24));
-
-            // console.log(days);
-            $('#days').html(days);
-
-            // $('#result').text(days + ' days');
-        // });
-
-
-
-
-        $('input[name="roomSelect"]').each(function() {
-            $(this).prop('checked', false);
-        });
-
-
-        $('#book').on('click', function() {
-            console.log(rooms, visitingReason, roomCategory);
-            var checkin = "{{ $checkInDate }}";
-            var checkout = "{{ $checkOutDate }}";
-            var visitingReason = $('#visitingReason').val();
-            var roomCategory = $('#roomCategory').val();
-            var doc = $('#idFile').val();
-            var total = $('#total').text();
-
-            var message = `You have to pay total ${total}/- Rupees`;
-
-            $('<input>').attr({
-                type: 'hidden',
-                name: 'rooms', // Name of the input field
-                value: JSON.stringify(rooms) // Convert the array to a JSON string
-            }).appendTo('.form');
-
-            $('<input>').attr({
-                type: 'hidden',
-                name: 'totalCharge', // Name of the input field
-                value: $('#total').html(), // Convert the array to a JSON string
-            }).appendTo('.form');
-
-            Swal.fire({
-                title: "eAtithi",
-                text: message,
-                confirmButtonText: "Book",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $('.form').submit();
-                    // $.ajax({
-                    //     url: "{{ route('new-booking') }}",
-                    //     type: "POST",
-                    //     data: {
-                    //         rooms:rooms,
-                    //         visitingReason:visitingReason,
-                    //         roomCategory:roomCategory,
-                    //         checkin:checkin,
-                    //         checkout:checkout,
-                    //         guestHouse:guestHouse,
-                    //         doc:doc,
-                    //     },
-                    //     success: function(res){
-                    //         console.log(res);
-                            
-                    //     },
-                    // });
-                }
-            });
-
-        });
-
-        $('input[name="roomSelect"]').on('change', function() {
-            if ($(this).prop('checked')) {
-                $(this).closest('tr').addClass('bg-selected');
-                rooms.push($(this).data('id'));
-            } else {
-                $(this).closest('tr').removeClass('bg-selected');
-                var roomId = $(this).data('id');
-                var index = rooms.indexOf(roomId);
-                if (index !== -1) {
-                    rooms.splice(index, 1); // Remove the room ID from the array
-                }
-            }
-            var total = 0;
-            $('input[name="roomSelect"]:checked').each(function() {
-                var price = parseFloat($(this).closest('tr').find('.price').text());
-                total += price;
-            });
-            $('#total-per-night').html(total.toFixed(2)); // Assuming you want to display the total with 2 decimal places
-            $('#total').html((days * total).toFixed(2));
-            console.log(rooms);
-        });
-
-    });
+    <script>    
 
 
     $(document).ready(function () {

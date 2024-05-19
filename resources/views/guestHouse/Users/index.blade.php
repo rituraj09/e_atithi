@@ -17,14 +17,16 @@
                                 view
                             </a>
                         </div>
+                        @if (auth()->guard('web')->user()->roles[0]->name !== 'super admin')
                         <div>
                             <a href="{{ route('add-sub-users') }}" class="text-capitalize nav-link">
                                 add
                             </a>
                         </div>
+                        @endif
                     </div>
                     <div class="table-responsive">
-                        <table id="dataTableExample" class="table">
+                        <table id="example" class="table">
                             <thead>
                                 <tr>
                                 <th>Name</th>

@@ -137,6 +137,7 @@ Route::prefix('guest-house')->group( function () {
             Route::get('/bed-category/view/{id}', 'view')->name('view-bed-category');
             Route::get('/bed-category/edit/{id}', 'edit')->name('edit-bed-category');
             Route::post('/bed-category/store', 'store')->name('store-bed-category');
+            Route::post('/bed-category/update', 'update')->name('update-bed-category');
         });
         
         Route::controller(RoomCategoryPriceController::class)->group( function () {

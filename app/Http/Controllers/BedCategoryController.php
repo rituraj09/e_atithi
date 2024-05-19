@@ -32,37 +32,59 @@ class BedCategoryController extends Controller
     public function view($id) {
         // dd($id);
         $bedCategory = BedHasPriceModifier::find($id);
-        return view('guestHouse.bedCategory.view', 'bedCategory');
+        return view('guestHouse.BedCategory.view', compact('bedCategory'));
     }
 
     public function store (Request $request) {
-
-        // dd($request->input("price_modifier"));
-
         $employeeId = auth()->user()->id;
         $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
 
         $request->validate([
-            // "name" => 'required',
-            // "occupancy" => 'required',
             "bedType" => 'required',
             "price_modifier" => 'required',
         ]);
 
         $bedCategory = BedHasPriceModifier::create([
-            // "name" => $request->input("name"),
-            // "capacity" => $request->input("occupancy"),
             "bed_type" => $request->input("bedType"),
             "price_modifier" => $request->input("price_modifier"),
             "remarks" => $request->input("remarks"),
             "guest_house_id" => $guest_house_id,
         ]);
-        // dd($request);
 
         if (!$bedCategory) {
             return back()->with(['icon'=>'error', 'message'=>'Something went wrong']);
         }
 
         return redirect()->route('bed-categories')->with(['icon'=>'sucess','message'=>'Bed category added successfully']);
+    }
+
+    public function update (Request $request) {
+        $request->validate([
+            "price_modifier" => 'required',
+        ]);
+
+        $bedCategory = BedHasPriceModifier::find($request->id);
+
+        $oldPrice = $bedCategory->price_modifier;
+        $newPrice = $request->price_modifier;
+
+        $isUpdate = $bedCategory->update([
+            'price_modifier' => $request->price_modifier,
+            'remarks' => $request->remarks,
+        ]);
+
+        if ( $oldPrice !== $newPrice ) {
+            $priceCalculator = new PriceCalculatorController();
+            $updateRooms = $priceCalculator->calculateRoomPrice( $request->id, "bed");
+        }
+
+        // dd($updateRooms);
+
+
+        if ( !$isUpdate ){
+            return back()->with(['icon'=> 'error','message' => 'Sorry, something went wrong.']);
+        }
+
+        return back()->with(['icon'=> 'success','message' => 'Price changed successfully.']);
     }
 }

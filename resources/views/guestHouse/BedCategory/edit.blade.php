@@ -2,7 +2,7 @@
 
 {{-- {{ dd($bedCategory); }} --}}
 
-<x-header/>
+{{-- <x-header/>
 <body>
     <div class="main-wrapper">
         <div class="page-wrapper">
@@ -22,10 +22,11 @@
                                 add
                             </a>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="pt-3">
-                        <form class="mx-2 mx-md-3 form" action="{{ route('store-bed-category') }}" method="POST">
+                        <form class="mx-2 mx-md-3 form" action="{{ route('update-bed-category') }}" method="POST">
                             @csrf
+                            <input type="hidden" name="id" value="{{ $bedCategory->id }}">
                             <div class="row m-0 p-0">
                                 <div class="col-md-6">
                                     <div class="mb-3">
@@ -51,10 +52,10 @@
                             </div>
                         </form>
                     </div>
-                </div>
+                {{-- </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <!-- Custom js for this page -->
     <script>
@@ -99,4 +100,4 @@
     })
     </script>
 
-<x-main-footer/>
+{{-- <x-main-footer/> --}}

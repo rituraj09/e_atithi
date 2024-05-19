@@ -60,11 +60,11 @@
                                                         View
                                                     </button>
                                                 </div>
-                                                <div class="px-1">
+                                                {{-- <div class="px-1">
                                                     <button data-href="{{ route('edit-guest-house', ['id' => $guestHouse->id ]) }}" class="open-popup btn btn-sm btn-outline-primary">
                                                         Edit
                                                     </button>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                         </td>
                                         <td>

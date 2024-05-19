@@ -8,7 +8,7 @@
             <div class="page-content">
                 <x-page-header :title="'Guest House'"/>
                 <div class="d-flex flex-column border card"> --}}
-                    <div class="d-flex col nav nav-tabs bg-light pt-2 px-2">
+                    <div class="d-flex col nav nav-tabs bg-light pt-2 px-2 m-0">
                         <div>
                             <button id="guestHouseButton" class="text-capitalize nav-link active px-4 fw-bold">
                                 details
@@ -133,11 +133,11 @@
                                 </div>
                             </div>
                         
-                            <div class="d-flex justify-content-end py-3">
+                            {{-- <div class="d-flex justify-content-end py-3">
                                 <button data-href="{{ route('edit-guest-house', ['id' => $guestHouse->id ]) }}" class="open-popup btn btn-sm btn-outline-primary">
                                     Edit
                                 </button>
-                            </div>
+                            </div> --}}
                         </form>
                     </div>
                     <div class="pt-3" id="employeeView">
@@ -147,8 +147,8 @@
                                     <tr>
                                         <th>Name</th>
                                         <th>Role</th>
-                                        <th>Official Contacts</th>
-                                        <th>Action</th>
+                                        <th>Email/th>
+                                        <th>Phone</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
@@ -164,11 +164,12 @@
                                             <td>{{ $employee['admin_name'] }}</td>
                                             <td>{{ $employee->roles[0]->name }}</td>
                                             <td>{{ $employee['email'] }}</td>
-                                            <td>
+                                            <td>{{ $employee['phone'] }}</td>
+                                            {{-- <td>
                                                 <div class="d-flex py-0">
                                                     <a href="{{ route('edit-sub-user', ['id' => $employee->id]) }}" class="btn btn-sm btn-outline-primary">edit</a>
                                                 </div>
-                                            </td>
+                                            </td> --}}
                                             <td>
                                                 <div class="form-check form-switch px-auto me-0">
                                                     <input type="checkbox" class="form-check-input" id="formSwitch1">

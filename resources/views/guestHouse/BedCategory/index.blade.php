@@ -41,8 +41,8 @@
                                         <td>{{ $bedCategory['remarks'] }}</td>
                                         <td>
                                             <div class="d-flex">
-                                                <a href="{{ route('view-bed-category', ['id' => $bedCategory->id]) }}" class="btn btn-sm btn-info me-2">view</a>
-                                                <a href="{{ route('edit-bed-category', ['id' => $bedCategory->id]) }}" class="btn btn-sm btn-primary me-2">edit</a>
+                                                <button data-href="{{ route('view-bed-category', ['id' => $bedCategory->id]) }}" class="open-popup btn btn-sm btn-info me-2">view</button>
+                                                <button data-href="{{ route('edit-bed-category', ['id' => $bedCategory->id]) }}" class="open-popup btn btn-sm btn-primary me-2">edit</button>
                                                 <button class="btn btn-sm btn-danger me-2 ask-delete" data-id="{{ $bedCategory->id }}">delete</button>
                                             </div>
                                         </td>
@@ -50,6 +50,7 @@
                                 @endforeach           
                             </tbody>
                         </table>
+                        <x-popup/>
                     </div>
                 </div>
             </div>

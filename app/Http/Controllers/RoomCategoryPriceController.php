@@ -15,8 +15,7 @@ class RoomCategoryPriceController extends Controller
         $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
         
         $roomCategories = RoomCategoryHasPrice::with('Category')->where('guest_house_id',$guest_house_id)->get();
-        // $roomCategories = RoomCategory::with('Price')->find($roomCategoryIds);
-        // dd($roomCategories);
+        
         return view('guestHouse.RoomCategoryPrice.index', compact('roomCategories'));
     }
 
@@ -48,5 +47,11 @@ class RoomCategoryPriceController extends Controller
     public function edit($id) {
         $roomCategory = RoomCategoryHasPrice::find($id);
         return view('guestHouse.RoomCategoryPrice.edit', compact('roomCategory'));
+    }
+
+    public function update (Request $request) {
+        $request->validate([
+            
+        ]);
     }
 }

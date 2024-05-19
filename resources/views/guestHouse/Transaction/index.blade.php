@@ -17,7 +17,7 @@
                                 view
                             </button>
                         </div>
-                        <div>
+                        {{-- <div>
                             <a href="{{ route('check-in-view') }}" class="text-capitalize nav-link">
                                 Check in
                             </a>
@@ -26,7 +26,7 @@
                             <a href="{{ route('check-out-view') }}" class="text-capitalize nav-link">
                                 Check out
                             </a>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="table-responsive">
                         {{-- data from room transactions only --}}
@@ -52,7 +52,6 @@
                                         <td>
                                             <button data-href="{{ route('check-in-view',['id' => $roomTransaction->reservationDetails->reservation_no]) }}" class="open-popup btn btn-info me-1">check in</button>
                                             <button data-href="{{ route('check-out-view', ['id' => $roomTransaction->transaction_id]) }}" class="open-popup btn btn-warning me-1">check out</button>
-                                            {{-- <button data-href="{{ route('payment-view') }}" class="open-popup btn btn-success me-1">Pay</button> --}}
                                         </td>
                                     </tr>
                                     @endforeach

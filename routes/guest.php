@@ -69,6 +69,7 @@ Route::prefix('guest')->group( function () {
     Route::controller(BookingController::class)->group( function () {
         Route::get('/book/{id}/{checkin}/{checkout}', 'index')->name('show-guest-house')->middleware('guest');
         Route::post('/book/new', 'newBooking')->name('new-booking')->middleware('guest');
+        Route::get('/book/form/{id}/{checkin}/{checkout}', 'bookView')->name('book-form')->middleware('guest');
     });
 
     Route::group(['middleware' => ['auth','role:admin|super admin']], function () {       

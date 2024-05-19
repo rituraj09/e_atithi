@@ -16,8 +16,14 @@
       @if( auth()->guard('web')->user()->hasRole('super admin') )
       <li class="nav-item">
         <a href="{{ route('all-guest-house') }}" class="nav-link">
-          <i class="link-icon" data-feather="map-pin"></i>
+          <i class="link-icon" data-feather="home"></i>
           <span class="link-title">Manage Guest House</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{{ route('all-sub-users') }}" class="nav-link">
+          <i class="link-icon" data-feather="user"></i>
+          <span class="link-title">Manage Users</span>
         </a>
       </li>
       @endif
@@ -47,15 +53,6 @@
           </ul>
         </div>
       </li>
-      {{-- room rate --}}
-      {{-- <li class="nav-item">
-        <a href="{{ route('room-rates') }}" class="nav-link">
-          <i class="link-icon" data-feather="dollar-sign"></i>
-          <span class="link-title">Manage Room Rates</span>
-        </a>
-      </li> --}}
-      {{-- features --}}
-
       {{-- reservations --}}
       @if (Auth::guard('web')->user()->hasPermissionTo('add.reservation'))
       <li class="nav-item">
@@ -95,7 +92,7 @@
       </li>
       @endif
       
-      
+      @if( auth()->guard('web')->user()->hasRole('admin') )
       <li class="nav-item nav-category">Config</li>
       <li class="nav-item">
         <a href="{{ route('guest-house-config') }}" class="nav-link">
@@ -103,5 +100,16 @@
           <span class="link-title">Guest House Setting</span>
         </a>
       </li>
+      @endif
+
+      @if( auth()->guard('web')->user()->hasRole('super admin') )
+      <li class="nav-item nav-category">Logs</li>
+      <li class="nav-item">
+        <a href="{{ route('guest-house-config') }}" class="nav-link">
+          <i class="link-icon" data-feather="database"></i>
+          <span class="link-title">Guest Logs</span>
+        </a>
+      </li>
+      @endif
     </ul>
   </div>

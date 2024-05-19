@@ -105,7 +105,7 @@
                                 </select>
                               </div>
                             </div>
-                            @if (auth()->user()->roles[0]->name === 'super admin')
+                            @if (auth()->guard('web')->user()->roles[0]->name === 'super admin')
                             <div class="row mb-3">
                               <label for="role" class="form-label col-md-4 m-auto">Guest House</label>
                               <div class="col-md-8">

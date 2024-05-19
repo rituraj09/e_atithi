@@ -181,7 +181,7 @@
                                     <div class="card mb-3 shadow-sm mb-3">
                                         <div class="row g-0">
                                             <div class="col-md-4">
-                                                <img class="card-image" src="https://www.thespruce.com/thmb/zwsJE_aYKwL20wwKBOmwn0pXoTQ=/960x0/filters:no_upscale():max_bytes(150000):strip_icc()/Colorful-Art-Studio-Garden-in-California_5-3221e3e172f442c09d844c1d872d3162.jpg" class="img-fluid rounded-start" alt="...">
+                                                <img class="card-image" src="{{ asset('assets/images/guest_house_thumb.png') }}" class="img-fluid rounded-start" alt="...">
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="card-body p-3">

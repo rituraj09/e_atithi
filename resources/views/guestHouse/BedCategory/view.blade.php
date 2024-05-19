@@ -1,6 +1,6 @@
 <!-- resources/views/guestHouse/Rate/add.blade.php -->
 
-<x-header/>
+{{-- <x-header/>
 <body>
     <div class="main-wrapper">
         <div class="page-wrapper">
@@ -20,47 +20,42 @@
                                 add
                             </a>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="pt-3">
-                        <form class="mx-2 mx-md-3 form" action="{{ route('store-bed-category') }}" method="POST">
-                            @csrf
+                        {{-- <form class="mx-2 mx-md-3 form" action="{{ route('store-bed-category') }}" method="POST">
+                            @csrf --}}
                             <div class="row m-0 p-0">
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="bedType" class="form-label">Bed Category</label>
-                                        <select name="bedType" id="bedType" class="form-control">
-                                            <option value="" selected disabled>--select--</option>
-                                            @foreach ($bedCategories as $bedCategory)
-                                                <option value="{{ $bedCategory->id }}">{{ $bedCategory->name }}</option>
-                                            @endforeach
-                                        </select>
+                                        <input type="text" class="form-control" value="{{ $bedCategory->bed->name }}" readonly disabled>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="price" class="form-label">Price Modifier</label>
-                                        <input id="price" class="form-control" name="price_modifier" type="text" placeholder="Price modifier" required>
+                                        <input id="price" class="form-control" type="text" value="{{ $bedCategory->price_modifier }}" readonly disabled>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     {{-- <div class="mb-3"> --}}
                                         <label for="price" class="form-label">Remarks</label>
-                                        <textarea class="form-control" name="remarks" id="" cols="30" rows="1"></textarea>
+                                        <textarea class="form-control" cols="30" rows="1" readonly disabled>{{ $bedCategory->remarks }}</textarea>
                                     {{-- </div> --}}
                                 </div>
                             </div>
-                            <div class="d-flex justify-content-end py-3">
+                            {{-- <div class="d-flex justify-content-end py-3">
                                 <button id="formSubmit" type="submit" class="btn btn-success">Submit</button>
                             </div>
                             <div class="mb-3">
                                 <small class="text-danger"><span class="mdi mdi-alert fs-4 pe-1"></span>If there's no extra fee, please enter 0.</small>
-                            </div>
-                        </form>
+                            </div> --}}
+                        {{-- </form> --}}
                     </div>
-                </div>
+                {{-- </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <!-- Custom js for this page -->
     <script>
@@ -105,4 +100,4 @@
     })
     </script>
 
-<x-main-footer/>
+{{-- <x-main-footer/> --}}
