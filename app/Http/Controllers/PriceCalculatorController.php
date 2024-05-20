@@ -13,9 +13,7 @@ use App\Models\GuestHouseHasEmployee;
 class PriceCalculatorController extends Controller
 {
     //
-    public static function calculateRoomPrice($id, $type) {
-
-        // return $id;
+    public function calculateRoomPrice($id, $type) {
 
         $guest_house_id = GuestHouseHasEmployee::where('employee_id', auth()->guard('web')->user()->id)
                                                 ->pluck('guest_house_id')
@@ -28,19 +26,14 @@ class PriceCalculatorController extends Controller
             $bedCategory = BedHasPriceModifier::find($id);
             $rooms = RoomHasBed::where('bed_type', $bedCategory->id)->get();
 
-            // return $rooms;
-
             foreach ( $rooms as $room ) {
                 $newRoom = Rooms::find($room->room_id);
 
-                // return $newRoom;
-
                 $newPrice = $guestHouse->base_price + $bedCategory->price_modifier + $newRoom->roomCategory->price_modifier;
-
-                // return $newPrice;
 
                 $newRoom->update(['total_price' => $newPrice]);
             }
+        // for room category
         } else if ( $type === 'room' ) {
             $roomCategory = RoomCategoryHasPrice::find($id);
             $rooms = Rooms::where('guest_house_id', $guest_house_id)
@@ -48,14 +41,14 @@ class PriceCalculatorController extends Controller
                             ->get();
 
             foreach ( $rooms as $room ) {
-                // $beds = RoomHasBed::where('room_id', $room->id)->first();
-                // $bedHasPrice = BedHasPriceModifier::find($beds->bed_type); $bedHasPrice->price_modifier
+                $beds = RoomHasBed::where('room_id', $room->id)->first();
+                $bedHasPrice = BedHasPriceModifier::find($beds->bed_type); //$bedHasPrice->price_modifier
 
-                $newPrice = $guestHouse->base_price + $room->bedType->price_modifier + $roomCategory->price_modifier;
+                $newPrice = $guestHouse->base_price + $bedHasPrice->price_modifier + $roomCategory->price_modifier;
 
                 $room->update(['total_price' => $newPrice]);
             }
         }
-        return 0;
+        return true;
     }
 }

@@ -57,47 +57,27 @@
         </div>
     </div> --}}
 
-    <!-- Custom js for this page -->
-    <script>
+<script>
     $(document).ready( function () {
+        $("#price").on("input", function() {
+            // Regular expression to allow only numbers, optional decimal point, and up to 2 decimal places
+            const regex = /^\d+(\.\d{0,2})?$/;
 
-        // common csrf header
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            // Check if the entered value matches the regular expression
+            const isValid = regex.test($(this).val());
+
+            // Set error message and style based on validity
+            if (isValid) {
+                $(this).removeClass("error");
+                $(this).siblings(".error-message").remove(); // Remove existing error message if present
+            } else {
+                $(this).addClass("error");
+                $(this).siblings(".error-message").remove();
+                // Add error message next to the input field
+                $(this).after("<span class='error-message text-danger'><small>Please enter a valid price. Format: 0.00<small/></span>");
             }
         });
-        const deleteUrl = "{{ route('delete-room-category')}}";
-        $(".ask-delete").on('click', function (e) {
-            e.preventDefault();
-            var id = $(this).data('id');
-            Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert !" + id,
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
-                }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: deleteUrl,
-                        type: "POST",
-                        data: {id:id},
-                        success: function(res) {
-                            console.log(res)
-                        }
-                    })
-                    Swal.fire({
-                    title: "Deleted!",
-                    text: "id" + id,
-                    icon: "success"
-                    });
-                }
-            });
-        });
-    })
-    </script>
+    });
+</script>
 
 {{-- <x-main-footer/> --}}

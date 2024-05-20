@@ -86,12 +86,12 @@ Route::prefix('guest-house')->group( function () {
         });
 
         Route::controller(RoomCategoryController::class)->group( function () {
-            Route::get('/all-room-category', 'roomCategories')->name('room-category');
-            Route::get('/add-room-category', 'addRoomCategory')->name('add-room-category');
-            Route::get('/edit-room-category/{id}', 'editRoomCategory')->name('edit-room-category');
-            Route::post('/room-category/update', 'updateRoomCategory')->name('update-room-category');
-            Route::post('/room-category/add', 'storeRoomCategory')->name('new-room-category');
-            Route::post('/room-category/delete', 'deleteRoomCateory')->name('delete-room-category');
+            // Route::get('/all-room-category', 'roomCategories')->name('room-category');
+            // Route::get('/add-room-category', 'addRoomCategory')->name('add-room-category');
+            // Route::get('/edit-room-category/{id}', 'editRoomCategory')->name('edit-room-category');
+            // Route::post('/room-category/update', 'updateRoomCategory')->name('update-room-category');
+            // Route::post('/room-category/add', 'storeRoomCategory')->name('new-room-category');
+            // Route::post('/room-category/delete', 'deleteRoomCateory')->name('delete-room-category');
         });
 
         Route::controller(RateController::class)->group( function () {
@@ -144,7 +144,8 @@ Route::prefix('guest-house')->group( function () {
             Route::get('/room-category-price','index')->name('room-category-price');
             Route::get('/room-category-price/add', 'add')->name('add-room-category-price');
             Route::get('/room-category-price/edit/{id}', 'edit')->name('edit-room-category-price');
-            Route::post('/room-category/price-modifier/add', 'storeRoomCategoryPrice')->name('new-room-category-price');
+            Route::post('/room-category/price-modifier/add', 'store')->name('new-room-category-price');
+            Route::post('/room-category/price-modifier/update', 'update')->name('update-room-category-price');
         });
 
         Route::controller(GuestHouseConfigController::class)->group( function() {

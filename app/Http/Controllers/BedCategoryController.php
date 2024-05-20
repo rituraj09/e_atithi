@@ -73,6 +73,10 @@ class BedCategoryController extends Controller
             'remarks' => $request->remarks,
         ]);
 
+        if ( !$isUpdate ){
+            return back()->with(['icon'=> 'error','message' => 'Sorry, something went wrong.']);
+        }
+
         if ( $oldPrice !== $newPrice ) {
             $priceCalculator = new PriceCalculatorController();
             $updateRooms = $priceCalculator->calculateRoomPrice( $request->id, "bed");
@@ -80,10 +84,10 @@ class BedCategoryController extends Controller
 
         // dd($updateRooms);
 
-
-        if ( !$isUpdate ){
-            return back()->with(['icon'=> 'error','message' => 'Sorry, something went wrong.']);
+        if ( !$updateRooms ){
+            return back()->with(['icon'=> 'error','message' => "Sorry, something went wrong on room's price."]);
         }
+        
 
         return back()->with(['icon'=> 'success','message' => 'Price changed successfully.']);
     }

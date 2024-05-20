@@ -24,12 +24,12 @@
                         </div>
                     </div>
                     <div>
-                        <div class="table-responsive category">
+                        <div class="table-responsive category col-md-8 mx-auto">
                             <table class="table" id="example">
                                 <thead>
                                     <tr>
                                         <th>Room Category</th>
-                                        <th>Owned by</th>
+                                        <th>Price Modifier</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -47,7 +47,7 @@
                                                         </button>
                                                     </div>
                                                     <div class="px-1">
-                                                        <button data-id="{{ $roomCategory->id }}" class="btn btn-primary btn-sm py-1 edit-btn">
+                                                        <button data-href="{{ route('edit-room-category-price', ['id' => $roomCategory->id ]) }}" class="btn btn-primary btn-sm py-1 open-popup">
                                                             edit
                                                         </button>
                                                     </div>
@@ -57,6 +57,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            <x-popup/>
                         </div>
                     </div>
                 </div>
@@ -66,96 +67,6 @@
 
     {{-- <!-- .join({{ route('edit-room-category', ['id' => `${roomCategory.name}` ]) }}) --> --}}
     <script>
-    $(document).ready(function() {
-
-        function loadCategory () {
-            var getCategoryPath = "{{ route('get-all-room-categories') }}";
-            var categoryList = $("#categoryList");
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
-            $.ajax({
-                url: getCategoryPath,
-                type: 'GET',
-                success: function (res) {
-                    console.log(res)
-
-                    const html = res.data.map(data => `
-                        <tr>
-                            <td>${data.name}</td>
-                            <td>${data.price_modifier}</td>
-                            <td>
-                                <div class="d-flex py-0">
-                                    <div class="px-1">
-                                        <button class="btn btn-danger btn-sm py-1 delete-btn" data-id="${data.id}">
-                                            delete
-                                        </button>
-                                    </div>
-                                    <div class="px-1">
-                                        <button data-id="${data.id}" class="btn btn-primary btn-sm py-1 edit-btn">
-                                            edit
-                                        </button>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>`).join('');
-                    categoryList.html(html);
-                }
-            });
-        }
-
-        loadCategory();
-
-
-        $("#categoryName").on('changeinput change', function() {
-            $("#updateCategory").attr('disabled', false);
-        })
-
-        $("#updateCategory").click( (e) => {
-            e.preventDefault();
-            var category = $("#categoryName");
-            var categoryId = $("#categoryId");
-            const path = "{{ route('update-room-category') }}";
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
-            $.ajax({
-                url: path,
-                type: 'POST',
-                data: { category: category.val(), id: categoryId.val() },
-                success: function (res) {
-                    console.log(res);
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                    });
-
-                    Toast.fire({
-                        icon: res.icon,
-                        title: res.message,
-                    })
-
-                    if (res.icon === 'success') {
-                        category.val('');
-                    } 
-                    loadCategory();
-                }
-            });
-        })
-        
-    });
-
-    
 
 
     var deleteUrl = ""
@@ -187,19 +98,6 @@
                 });
             }
         });
-    });
-
-    // Handle edit button click
-    $(document).on('click', '.edit-btn', function() {
-        const id = $(this).data('id');
-        // Check if ID is valid before redirecting
-        if (isNaN(id) || id <= 0) {
-            console.error('Invalid category ID:', id);
-            return;
-        }
-        // Redirect to the edit route with the ID
-        const editRoute = "{{ route('edit-room-category-price', ':id') }}"; // Replace with your actual route
-        window.location.href = editRoute.replace(':id', id);
     });
 
     </script>

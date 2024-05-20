@@ -19,7 +19,7 @@ class RoomCategoryPriceController extends Controller
         return view('guestHouse.RoomCategoryPrice.index', compact('roomCategories'));
     }
 
-    public function storeRoomCategoryPrice (Request $request) {
+    public function store (Request $request) {
         $employeeId = auth()->user()->id;
         $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
         
@@ -51,7 +51,28 @@ class RoomCategoryPriceController extends Controller
 
     public function update (Request $request) {
         $request->validate([
-            
+            'price_modifier' => 'required',
         ]);
+
+        $roomCategory = RoomCategoryHasPrice::find($request->id);
+
+        $isUpdate = $roomCategory->update([
+            'price_modifier' => $request->price_modifier,
+        ]);
+
+        if ( !$isUpdate ) {
+            return back()->with(['icon'=>'error', 'message'=>'Something went wrong']);
+        }
+
+        $priceCalculator = new PriceCalculatorController();
+        $updateRoom = $priceCalculator->calculateRoomPrice($request->id, "room");
+
+        // dd($updateRoom);
+
+        if ( !$updateRoom ){
+            return back()->with(['icon'=> 'error','message' => "Sorry, something went wrong on room's price."]);
+        }
+
+        return back()->with(['icon'=>'success', 'message'=>'Room category updated successfully.']);
     }
 }
