@@ -13,8 +13,9 @@ return new class extends Migration
     {
         //
         Schema::table('guesthouses', function (Blueprint $table) {
-            $table->softDeletes();
-            $table->dropColumn('is_delete');
+            $table->decimal('govt_base_price',10,2)->nullable();
+            $table->decimal('cgst',10,2)->nullable();
+            $table->decimal('sgst',10,2)->nullable();
         });
     }
 
@@ -25,7 +26,9 @@ return new class extends Migration
     {
         //
         Schema::table('guesthouses', function (Blueprint $table) {
-            $table->dropColumn('deleted_at');
+            $table->dropColumn('govt_base_price');
+            $table->dropColumn('cgst');
+            $table->dropColumn('sgst');
         });
     }
 };

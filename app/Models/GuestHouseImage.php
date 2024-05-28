@@ -9,5 +9,13 @@ class GuestHouseImage extends Model
 {
     use HasFactory;
 
+    protected $table = "guest_house_images";
+
+    protected $fillable = [
+        'image',
+        'guest_house_id',
+        'is_thumb',
+    ];
+
     public $timestamps = false;
 }

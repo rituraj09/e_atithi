@@ -39,13 +39,13 @@
                                         <label for="description" class="form-label">Description</label>
                                         <textarea name="description" id="description" cols="30" rows="3" class="form-control"></textarea>
                                     </div>
-                                    <div class="mb-3">
+                                    {{-- <div class="mb-3">
                                         <label for="price" class="form-label">Price <x-required/> </label>
                                         <input type="text" class="form-control" id="price" name="price" placeholder="Price modifier">
                                         @error('price')
                                             <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                         @enderror
-                                    </div>
+                                    </div> --}}
                                     <div class="mb-3">
                                         <label for="remarks" class="form-label">Remarks</label>
                                         <textarea name="remarks" id="remarks" cols="30" rows="3" class="form-control"></textarea>

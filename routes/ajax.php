@@ -9,12 +9,14 @@ use App\Http\Controllers\EmailController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\CaptchaController;
 use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\GuestHouseController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\RoomCategoryController;
+use App\Http\Controllers\RoomCategoryFeatureController;
 
 Route::prefix('/ajax')->group( function () {
     
@@ -69,11 +71,12 @@ Route::prefix('/ajax')->group( function () {
     Route::controller(ReservationController::class)->group( function () {
         Route::post('/approve-reservation', 'approveReservation')->name('approve-reservation');
         Route::post('/reject-reservation', 'rejectReservation')->name('reject-reservation');
+        Route::post('/available-rooms', 'changeableRooms')->name('changeable-rooms');
     });
 
-    Route::controller(RoomController::class)->group( function () {
-        Route::post('/room/add-feature', 'addRoomFeature')->name('add-new-room-feature');
-        Route::post('/room/remove-feature', 'removeRoomFeature')->name('remove-room-feature');
+    Route::controller(RoomCategoryFeatureController::class)->group( function () {
+        Route::post('/room-category/add-feature', 'addRoomFeature')->name('add-new-room-feature');
+        Route::post('/room-category/remove-feature', 'removeRoomFeature')->name('remove-room-feature');
     });
 
     Route::controller(OrderController::class)->group( function() {
@@ -83,6 +86,12 @@ Route::prefix('/ajax')->group( function () {
 
     Route::controller(PaymentController::class)->group( function() {
         Route::get('/payment/view/{id}', 'paymentModel')->name('payment-view');
+    });
+
+    // route for captcha
+    Route::controller(CaptchaController::class)->group( function() {
+        Route::get('/captcha', 'generateCaptcha')->name('captcha');
+        Route::post('/captcha/verify', 'verifyCaptcha')->name('verify-captcha');
     });
 
 });

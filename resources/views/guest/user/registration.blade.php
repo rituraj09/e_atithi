@@ -51,7 +51,7 @@
                         <div class="col-md-8">
                           <div class="input-group">
                             <input type="email" class="form-control" id="email" name="email" placeholder="Email address">
-                            <button id="emailVerification" type="button" class="btn btn-sm btn-success">Verify</button>
+                            <button id="emailVerification" type="button" class="btn btn-sm btn-success">verify</button>
                             <input type="hidden" name="emailOtpStatus" id="emailOtpStatus" required>
                           </div>
                           @error('email')
@@ -62,8 +62,8 @@
                       <div class="row mb-2">
                         <label for="captcha" class="form-label col-md-4 m-auto">Captcha</label>
                         <div class="col-md-8">
-                            <img class="rounded-3" src="{{ route('captcha') }}" alt="Captcha Image">
-                            <button class="ms-3 btn btn-sm btn-outline-primary"><i class="me-2 icon-md" data-feather="repea"></i>reload</button>
+                            <img id="captcha-image" class="rounded-3" src="{{ route('captcha') }}" alt="Captcha Image">
+                            <button type="button" id="reload" class="ms-3 btn btn-sm btn-outline-primary"><i class="me-2 icon-md" data-feather="repea"></i>reload</button>
                         </div>
                         {{-- <input type="email" class="form-control" id="userEmail" placeholder="Email"> --}}
                       </div>
@@ -96,6 +96,7 @@
                           @error('confirmPassword')
                             <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                           @enderror
+                          <div id="jsPasswordError" class="d-none alert alert-danger mt-1 mb-1 py-2">Password not matching</div>
                         </div>
                       </div>
                       <div>
@@ -128,13 +129,13 @@
       e.preventDefault();
       const phone = $('#phone').val();
       if (phone.length !== 10 ) {
-        $(this).addClass("error");
-        $(this).siblings(".error-message").remove();
+        $(this).parent(".input-group").addClass("error");
+        $(this).parent(".input-group").siblings(".error-message").remove();
         // Add error message next to the input field
-        $(this).after("<span class='error-message text-danger'><small>Please enter a valid phone number of 10 digits<small/></span>");
+        $(this).parent(".input-group").after("<span class='error-message text-danger'><small>Please enter a valid phone number of 10 digits<small/></span>");
       } else {
-        $(this).removeClass("error");
-        $(this).siblings(".error-message").remove(); // Remove existing error message if present
+        $(this).parent(".input-group").removeClass("error");
+        $(this).parent(".input-group").siblings(".error-message").remove(); // Remove existing error message if present
         Swal.fire({
           html: `
             <div class="my-2">
@@ -272,21 +273,27 @@
         $('#verifyEmail').prop('disabled');
         $('#resendEmail').prop('disabled');
 
-        $.ajax({
-          url: "{{ route('email-otp') }}",
-          type: "POST",
-          data: {email:email},
-          success: function (res) {
-            $('#verifyEmail').prop('disabled', false);
-            console.log(res);
-            $('#EmailOtpMessage').html('OTP has been sent to your email. ');
-            $('#EmailOtpMessage').addClass('text-success');
+        // demo
+        $('#EmailOtpMessage').html('OTP has been sent to your email. ');
+        $('#EmailOtpMessage').addClass('text-success');
+        $('#verifyEmail').prop('disabled', false);
 
-            setTimeout(function() {
-              $('#resendEmail').prop('disabled', false);
-            }, (14 * 60 * 1000) + (58 * 1000));
-          }
-        });
+        // main
+        // $.ajax({
+        //   url: "{{ route('email-otp') }}",
+        //   type: "POST",
+        //   data: {email:email},
+        //   success: function (res) {
+        //     $('#verifyEmail').prop('disabled', false);
+        //     console.log(res);
+        //     $('#EmailOtpMessage').html('OTP has been sent to your email. ');
+        //     $('#EmailOtpMessage').addClass('text-success');
+
+        //     setTimeout(function() {
+        //       $('#resendEmail').prop('disabled', false);
+        //     }, (14 * 60 * 1000) + (58 * 1000));
+        //   }
+        // });
       }
     })
 
@@ -308,33 +315,45 @@
 
     $(document).on('click', '#verifyEmail', function (e) {
         e.preventDefault();
+
+        // demo
+        Swal.fire({
+          title: "Email verified successfully!",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        $('#emailOtpStatus').val('done');
+        $('#emailVerification').html(`<i class="mdi mdi-check"></i>`);
+        $('#emailVerification').addClass('btn-outline-primary').removeClass('btn-success');
+        $('#emailVerification').prop('disabled');
+
         const userOTP = $('#emailOTP').val();
-        $.ajax({
-            url: "{{ route('verify-email') }}",
-            type: "POST",
-            data: {userOTP:userOTP},
-            success: function(res) {
-                if (res.message === 'matching') {
-                    Swal.fire({
-                      title: "Email verified successfully!",
-                      showConfirmButton: false,
-                      timer: 1500
-                    });
-                    $('#emailOtpStatus').val('done');
-                    $('#emailVerification').html(`<i class="mdi mdi-check"></i>`);
-                    $('#emailVerification').addClass('btn-outline-primary').removeClass('btn-success');
-                    $('#emailVerification').prop('disabled');
-                } else if (res.message === 'invalid') {
-                    $('#EmailOtpMessage').html('OTP may expired. Please resend.');
-                    $('#EmailOtpMessage').addClass('text-danger');
-                    $('#resendEmail').prop('disabled', false);
-                } else {
-                    $('#EmailOtpMessage').html('OTP is not matching.');
-                    $('#EmailOtpMessage').addClass('text-danger');
-                    $('#resendEmail').prop('disabled', false);
-                }
-            }
-        });  
+        // $.ajax({
+        //     url: "{{ route('verify-email') }}",
+        //     type: "POST",
+        //     data: {userOTP:userOTP},
+        //     success: function(res) {
+        //         if (res.message === 'matching') {
+        //             Swal.fire({
+        //               title: "Email verified successfully!",
+        //               showConfirmButton: false,
+        //               timer: 1500
+        //             });
+        //             $('#emailOtpStatus').val('done');
+        //             $('#emailVerification').html(`<i class="mdi mdi-check"></i>`);
+        //             $('#emailVerification').addClass('btn-outline-primary').removeClass('btn-success');
+        //             $('#emailVerification').prop('disabled');
+        //         } else if (res.message === 'invalid') {
+        //             $('#EmailOtpMessage').html('OTP may expired. Please resend.');
+        //             $('#EmailOtpMessage').addClass('text-danger');
+        //             $('#resendEmail').prop('disabled', false);
+        //         } else {
+        //             $('#EmailOtpMessage').html('OTP is not matching.');
+        //             $('#EmailOtpMessage').addClass('text-danger');
+        //             $('#resendEmail').prop('disabled', false);
+        //         }
+        //     }
+        // });  
     })
   });
 
@@ -347,6 +366,65 @@
   $(document).on('input', '#email', function () {
     $('#emailVerification').html('verify');
   })
+
+  $(document).on('input', '#confirmPassword', function () {
+    const password = $("#userPassword").val();
+    const confirmPassword = $(this).val();
+
+    if (password !== confirmPassword) {
+      $("#jsPasswordError").removeClass('d-none');
+    } else {
+      $("#jsPasswordError").addClass('d-none');
+    }
+  });
+
+  $(document).ready( function () {
+    const loadCaptcha = () => {
+      $.ajax({
+        url : "{{ route('captcha') }}",
+        type: "GET",
+        success: function (data) {
+          var file = `data:image/png;base64,${data.image}`;
+          console.log(file);
+          $("#captcha-image").attr('src', file);
+        }
+      });
+    }
+
+    loadCaptcha();
+
+    $('#reload').on('click', function (e) {
+      e.preventDefault();
+      $('#verifyCaptcha').html("verify");
+      $('#verifyCaptcha').removeClass('btn-outline-primary').addClass('btn-success');
+      $('#verifyCaptcha').prop('disabled', false);
+      $("#captcha-input").attr('disabled', false);
+      loadCaptcha();
+    });
+
+    $("#verifyCaptcha").on('click', function (e) {
+      e.preventDefault();
+      const captcha = $("#captcha-input").val();
+      $.ajax({
+        url: "{{ route('verify-captcha') }}",
+        type: "POST",
+        data: {captcha:captcha},
+        success: function (res) {
+          if (res.message === 'success') {
+            // done
+            $('#verifyCaptcha').html(`<i class="mdi mdi-check"></i>`);
+            $('#verifyCaptcha').addClass('btn-outline-primary').removeClass('btn-success');
+            $('#verifyCaptcha').prop('disabled');
+            $("#captcha-input").attr('disabled', true);
+            console.log("done");
+          } else {
+            console.log("failed");
+          }
+        }
+      })
+    });
+  });
+  
   </script>
 
 <x-main-footer/>

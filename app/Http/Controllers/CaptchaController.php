@@ -18,14 +18,20 @@ class CaptchaController extends Controller
         // Generate the captcha image
         $captchaImage = $this->generateCaptchaImage($captchaText);
 
-        // Display the captcha image
-        return response()->stream(
-            function () use ($captchaImage) {
-                echo $captchaImage;
-            },
-            200,
-            ['Content-Type' => 'image/png']
-        );
+        // Base64 encode the image data
+        $captchaImageBase64 = base64_encode($captchaImage);
+
+        // Return the base64 encoded image data
+        return response()->json(['image' => $captchaImageBase64, 'secret' => $captchaText]);
+
+        // // Display the captcha image
+        // return response()->stream(
+        //     function () use ($captchaImage) {
+        //         echo $captchaImage;
+        //     },
+        //     200,
+        //     ['Content-Type' => 'image/png']
+        // );
     }
 
     private function generateRandomString($length = 6)
@@ -55,5 +61,15 @@ class CaptchaController extends Controller
         imagedestroy($image);
 
         return $captchaImage;
+    }
+
+    public function verifyCaptcha(Request $request) {
+        $captcha = session('captcha');
+
+        if ($request->captcha === $captcha) {
+            return response()->json(['message' => 'success']);
+        } else {
+            return response()->json(['message' => 'failed']);
+        }
     }
 }

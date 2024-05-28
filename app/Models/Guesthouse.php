@@ -31,6 +31,9 @@ class Guesthouse extends Model
         'guest_type',
         'payment_type',
         'base_price',
+        'cgst',
+        'sgst',
+        'govt_base_price',
         'is_active',
         'deleted_at',
     ];

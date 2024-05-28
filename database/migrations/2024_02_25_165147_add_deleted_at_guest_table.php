@@ -25,7 +25,7 @@ return new class extends Migration
     {
         Schema::table('guest', function (Blueprint $table) {
             //
-            $table->dropColumn('is_delete');
+            $table->dropColumn('deleted_at');
         });
     }
 };

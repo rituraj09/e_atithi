@@ -170,85 +170,47 @@
 
     <!-- Custom js for this page -->
     <script>
-    $(document).ready( function () {
-        // common csrf header
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        const deleteUrl = "{{ route('delete-room-category')}}";
-        $(".ask-delete").on('click', function (e) {
-            e.preventDefault();
-            var id = $(this).data('id');
-            Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert !" + id,
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
-                }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: deleteUrl,
-                        type: "POST",
-                        data: {id:id},
-                        success: function(res) {
-                            console.log(res)
-                        }
-                    })
-                    Swal.fire({
-                    title: "Deleted!",
-                    text: "id" + id,
-                    icon: "success"
-                    });
-                }
-            });
-        });
-    })
 
     $(document).ready(function() {
-    $('input[type="file"]').change(function(e) {
-        var files = e.target.files;
-        var output = document.getElementById('preview');
+        $('input[type="file"]').change(function(e) {
+            var files = e.target.files;
+            var output = document.getElementById('preview');
 
-        for (var i = 0; i < files.length; i++) {
-            var file = files[i];
-            var reader = new FileReader();
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var reader = new FileReader();
 
-            reader.onload = function(e) {
-                var img = document.createElement('img');
-                img.src = e.target.result;
-                img.classList.add('col-6');
-                img.classList.add('p-3');
-                img.classList.add('rounded-2');
-                img.classList.add('border');
-                output.appendChild(img);
+                reader.onload = function(e) {
+                    var img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.classList.add('col-5');
+                    img.classList.add('p-3');
+                    img.classList.add('rounded-2');
+                    img.classList.add('border');
+                    output.appendChild(img);
 
-                var removeButton = document.createElement('button');
-                removeButton.classList.add('btn');
-                removeButton.classList.add('btn-danger');
-                removeButton.classList.add('overlap-button');
-                removeButton.innerHTML = 'Remove';
-                removeButton.addEventListener('click', function() {
-                    output.removeChild(img);
-                    output.removeChild(removeButton);
+                    var removeButton = document.createElement('button');
+                    removeButton.classList.add('btn');
+                    removeButton.classList.add('btn-danger');
+                    removeButton.classList.add('overlap-button');
+                    removeButton.innerHTML = 'Remove';
+                    removeButton.addEventListener('click', function() {
+                        output.removeChild(img);
+                        output.removeChild(removeButton);
 
-                    // Remove the corresponding file from the files array
-                    var index = Array.from(output.children).indexOf(img);
-                    files.splice(index, 1);
-                });
+                        // Remove the corresponding file from the files array
+                        var index = Array.from(output.children).indexOf(img);
+                        files.splice(index, 1);
+                    });
 
-                output.appendChild(img);
-                output.appendChild(removeButton);
-            };
+                    output.appendChild(img);
+                    output.appendChild(removeButton);
+                };
 
-            reader.readAsDataURL(file);
-        }
+                reader.readAsDataURL(file);
+            }
+        });
     });
-});
 
     </script>
 

@@ -12,16 +12,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('guest', function (Blueprint $table) {
+        Schema::create('room_category_features', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 50)->nullable();
-            $table->string('email')->nullable();
-            $table->bigInteger('phone')->nullable();
-            $table->string('password')->nullable();
-            $table->integer('otp')->nullable();
-            $table->boolean('is_active')->default(0);
-            $table->boolean('is_delete')->default(0);
+            $table->integer('feature_id', false, true)->nullable();
+            $table->integer('room_category_id', false, true)->nullable();
+            $table->integer('guest_house_id', false, true)->nullable();
+            $table->integer('created_by', false, true)->nullable();
+            $table->boolean('is_active')->default(1);
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->softDeletes();
         });
     }
 
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('guest');
+        Schema::dropIfExists('room_category_features');
     }
 };

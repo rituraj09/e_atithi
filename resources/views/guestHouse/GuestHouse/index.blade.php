@@ -84,46 +84,5 @@
         </div>
     </div>
 
-    <!-- Custom js for this page -->
-    <script>
-    $(document).ready( function () {
-        // common csrf header
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        const deleteUrl = "{{ route('delete-room-category')}}";
-        $(".ask-delete").on('click', function (e) {
-            e.preventDefault();
-            var id = $(this).data('id');
-            Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert !" + id,
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
-                }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: deleteUrl,
-                        type: "POST",
-                        data: {id:id},
-                        success: function(res) {
-                            console.log(res)
-                        }
-                    })
-                    Swal.fire({
-                    title: "Deleted!",
-                    text: "id" + id,
-                    icon: "success"
-                    });
-                }
-            });
-        });
-    })
-    </script>
 
 <x-main-footer/>

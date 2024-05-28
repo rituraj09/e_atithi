@@ -27,6 +27,7 @@ use App\Http\Middleware\OfficialAdminMiddleware;
 use App\Http\Controllers\GuestHouseAdminController;
 use App\Http\Controllers\GuestHouseConfigController;
 use App\Http\Controllers\RoomCategoryPriceController;
+use App\Http\Controllers\RoomCategoryFeatureController;
 
 // ajax routes
 // require __DIR__.'/ajax.php';
@@ -82,7 +83,6 @@ Route::prefix('guest-house')->group( function () {
             Route::get('/edit-room/{id}', 'editRoom')->name('guest-house-edit-room');
             Route::post('/update-room', 'updateRoom')->name('update-room');
             Route::get('/room-details/{id}', 'viewRoom')->name('room-details');
-            Route::get('/room-details/features/{id}', 'roomFeatures')->name('room-has-features');
         });
 
         Route::controller(RoomCategoryController::class)->group( function () {
@@ -119,6 +119,8 @@ Route::prefix('guest-house')->group( function () {
             Route::get('/reservations/rejected', 'rejectedReservations')->name('rejected-reservations');
             Route::get('/reservations/details/{id}', 'reservationDetails')->name('reservation-details');
             Route::get('/reservations/create', 'createReservation')->name('create-reservation');
+            Route::get('/reservations/change-room/{id}', 'changeRoom')->name('change-reservation-room');
+            Route::post('/reservations/update-room', 'updateRoom')->name('update-reservation-room');
         });
 
         Route::controller(TransactionController::class)->group( function () {
@@ -146,6 +148,10 @@ Route::prefix('guest-house')->group( function () {
             Route::get('/room-category-price/edit/{id}', 'edit')->name('edit-room-category-price');
             Route::post('/room-category/price-modifier/add', 'store')->name('new-room-category-price');
             Route::post('/room-category/price-modifier/update', 'update')->name('update-room-category-price');
+        });
+
+        Route::controller(RoomCategoryFeatureController::class)->group( function () {
+            Route::get('/room-details/features/{id}', 'roomFeatures')->name('room-has-features');
         });
 
         Route::controller(GuestHouseConfigController::class)->group( function() {
@@ -219,8 +225,7 @@ Route::prefix('/guest')->group( function () {
 
 
 
-// route for captcha
-Route::get('/captcha', [CaptchaController::class, 'generateCaptcha'])->name('captcha');
+
 
 Route::get('/download-pdf', [PDFController::class, 'index']);
 Route::get('/download-bill/{id}', [PDFController::class, 'printBill']);

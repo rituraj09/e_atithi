@@ -78,7 +78,10 @@
                                         @endif
                                         
                                             <td>{{ $room->roomDetails->room_number }}</td>
-                                            <td>{{ $room->roomDetails->roomCategory->name }}</td>
+                                            <td>
+                                                {{ $room->roomDetails->bedType[0]->name }},
+                                                {{ $room->roomDetails->roomCategory->category->name }}
+                                            </td>
                                             <td>{{ $room->roomDetails->total_price }}</td>
                                             <td>
                                                 @if (in_array($room->id, $checked_in_rooms))
@@ -97,7 +100,10 @@
                                 </tbody>
                                 <tfoot id="transactionBody">
                                   <tr>
-                                    <td colspan="3"></td>
+                                    <td>
+                                        <button data-href="{{ route('change-reservation-room', ['id' => $reservation->id ]) }}" class="open-popup btn btn-info">Change Room</button>
+                                    </td>
+                                    <td colspan="2"></td>
                                     <td class="p-1">
                                       <button type="button" class="ms-auto me-0 btn btn-success py-1" id="checkin-button">
                                         Checkin
@@ -139,6 +145,7 @@
                             </div>
                         </div>
                     </div>
+                <x-popup/>
                 {{-- </div>
             </div> --}}
             {{-- <x-footer/>

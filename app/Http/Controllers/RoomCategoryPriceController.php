@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\RoomCategory;
 use Illuminate\Http\Request;
+use App\Models\RoomCategoryFeature;
 use App\Models\RoomCategoryHasPrice;
 use App\Models\GuestHouseHasEmployee;
 
@@ -15,8 +16,10 @@ class RoomCategoryPriceController extends Controller
         $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
         
         $roomCategories = RoomCategoryHasPrice::with('Category')->where('guest_house_id',$guest_house_id)->get();
+
+        $features = RoomCategoryFeature::where('guest_house_id', $guest_house_id)->get();
         
-        return view('guestHouse.RoomCategoryPrice.index', compact('roomCategories'));
+        return view('guestHouse.RoomCategoryPrice.index', compact(['roomCategories', 'features']));
     }
 
     public function store (Request $request) {
@@ -75,4 +78,6 @@ class RoomCategoryPriceController extends Controller
 
         return back()->with(['icon'=>'success', 'message'=>'Room category updated successfully.']);
     }
+
+
 }

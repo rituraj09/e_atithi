@@ -12,9 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         //
-        Schema::table('admin_logs', function (Blueprint $table) {
-            $table->softDeletes();
-            $table->dropColumn('is_delete');
+        Schema::table('guest_house_images', function (Blueprint $table) {
+            $table->boolean('is_thumb')->default(0);
         });
     }
 
@@ -24,8 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         //
-        Schema::table('admin_logs', function (Blueprint $table) {
-            $table->dropColumn('deleted_at');
+        Schema::table('guest_house_images', function (Blueprint $table) {
+            $table->dropColumn('is_thumb');
         });
     }
 };

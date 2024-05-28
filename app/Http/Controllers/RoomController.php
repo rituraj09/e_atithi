@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 use App\Models\BedHasPriceModifier;
 use App\Models\RoomCategoryHasPrice;
 use App\Models\GuestHouseHasEmployee;
-use App\Http\Controllers\PriceCalculatorController;
+// use App\Http\Controllers\PriceCalculatorController;
 
 class RoomController extends Controller
 {
@@ -78,11 +78,8 @@ class RoomController extends Controller
         $bedCategory = BedHasPriceModifier::find($request->bedCategory);
         $roomCategory = RoomCategoryHasPrice::find($request->roomCategory);
 
-        // $totalPrice = $request->basePrice + $bedCategory->price_modifier + $roomCategory->price_modifier;
+        $totalPrice = $guestHouse->base_price + $bedCategory->price_modifier + $roomCategory->price_modifier;
 
-        $totalPrice = PriceCalculatorController::calculateRoomPrice($guestHouse->base_price, $request->bedCategory, $request->roomCategory);
-
-        // dd($totalPrice);
 
         $capacity = $bedCategory->capacity * $request->numberOfBeds;
 
@@ -91,10 +88,8 @@ class RoomController extends Controller
             'guest_house_id' => $guest_house_id,
             'bed_type' => $request->bedCategory,
             'room_category' => $request->roomCategory,
-            // 'room_rate' => $request->price,
             'no_of_beds' => $request->numberOfBeds,
             'capacity' => $request->capacity || $capacity,
-            // 'base_price' => $request->basePrice,
             'total_price' => $totalPrice,
             'width' => $request->width || null,
             'length' => $request->length || null,
@@ -108,8 +103,6 @@ class RoomController extends Controller
         if (!$room) {
             return back()->with(['icon'=>'error', 'message'=>'Something went wrong']);
         }
-
-        // dd($request);
 
         return redirect()->route('guest-house-admin-rooms')->with(['icon'=>'success','message'=>'Room added successfull']);
     }
@@ -196,89 +189,9 @@ class RoomController extends Controller
         return view('guestHouse.Rooms.viewRoom', compact(['room','roomRates', 'roomCategories', 'features', 'bookedDates']));
     }
 
-    public function roomFeatures($id) {
-        $room = Rooms::find($id);
-        $features = Feature::all();
-        // $roomFeatues = [];
-        // $roomFeature = RoomFeatures::where('room_id', $request->roomId)
-        //                         ->where('feature_id', $request->featureId)
-        //                         ->first();
-
-        $roomFeatures = RoomFeatures::where('room_id', $id)
-                                    ->where('is_active',1)      //if already added but not active
-                                    ->pluck('feature_id')
-                                    ->toArray();
-
-        // dd($roomFeatues);
-
-        return view('guestHouse.Rooms.roomFeatures', compact(['room', 'features', 'roomFeatures']));
-    }
-
-    // 'room_id',
-    //     'guest_house_id',
-    //     'feature_id',
-    //     'created_by',
-    //     'is_active',
-
-    // ajax
-    public function addRoomFeature (Request $request) {
-        $guest_house_id = GuestHouseHasEmployee::where('employee_id', auth()->user()->id)->pluck('guest_house_id')->first();
-        
-        $roomFeature = RoomFeatures::where('room_id', $request->roomId)
-                                ->where('feature_id', $request->featureId)
-                                ->first();
-
-        if ($roomFeature) {
-            $isAdded = $roomFeature->update([
-                'is_active' => 1,
-            ]);
-        } else {
-            $isAdded = RoomFeatures::create([
-                'room_id' => $request->roomId,
-                'guest_house_id' => $guest_house_id,
-                'feature_id' => $request->featureId,
-                'is_active' => 1,
-            ]);
-        }
-
-        if(!$isAdded) {
-            return "failed";
-        }
-
-        return "done";
-    }
-
-    public function removeRoomFeature (Request $request) {
-        $guest_house_id = GuestHouseHasEmployee::where('employee_id', auth()->user()->id)->pluck('guest_house_id')->first();
-        
-        $roomFeature = RoomFeatures::where('room_id', $request->roomId)
-                                ->where('feature_id', $request->featureId)
-                                ->first();
-
-        if ($roomFeature) {
-            $isAdded = $roomFeature->update([
-                'is_active' => 0,
-            ]);
-        } else {
-            $isAdded = RoomFeatures::create([
-                'room_id' => $request->roomId,
-                'guest_house_id' => $guest_house_id,
-                'feature_id' => $request->featureId,
-                'is_active' => 0,
-            ]);
-        }
-
-        if(!$isAdded) {
-            return "failed";
-        }
-
-        return "done";
-    }
-
     public function validateForm ($request) {
         return $request->validate([
             'roomNumber' => 'required|unique:rooms,room_number',
-            // 'basePrice' => 'required',
             'numberOfBeds' => 'required',
             'roomCategory' => 'required',
             'bedCategory' => 'required',

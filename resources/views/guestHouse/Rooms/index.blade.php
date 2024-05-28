@@ -52,9 +52,9 @@
                                                     </a> --}}
                                                     <button class="open-popup btn btn-info btn-sm" data-href="{{ route('room-details', ['id' => $room->id]) }}">view</button>
                                                 </div>
-                                                <div class="px-1">
+                                                {{-- <div class="px-1">
                                                     <button class="open-popup btn btn-success btn-sm" data-href="{{ route('room-has-features', ['id' => $room->id]) }}">Features</button>
-                                                </div>
+                                                </div> --}}
                                                 <div class="px-1">
                                                     <a href="{{ route('guest-house-edit-room', ['id' => $room->id]) }}" class="btn btn-primary btn-sm">
                                                         {{-- <i data-feather="edit"></i --}}

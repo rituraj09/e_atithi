@@ -46,7 +46,7 @@ class FeatureController extends Controller
         $isFeature = Feature::create([
             'name' => $request->name,
             'description' => $request->description,
-            'price' => $request->price,
+            // 'price' => $request->price,
             'remarks' => $request->remarks,
             'guest_house_id' => $guest_house_id,
         ]);
@@ -72,7 +72,7 @@ class FeatureController extends Controller
         $isUpdate = $feature->update([
             'name' => $request->name,
             'description' => $request->description,
-            'price' => $request->price,
+            // 'price' => $request->price,
             'remarks' => $request->remarks,
         ]);
 
@@ -85,10 +85,10 @@ class FeatureController extends Controller
     public function validateFields($request) {
         return $request->validate([
             'name' => 'required',
-            'price' => 'required',
+            // 'price' => 'required',
         ],[
             'name.required' => 'Please enter the feature name',
-            'price.required' => "Please enter a price, ('zero' or 0 for free)",
+            // 'price.required' => "Please enter a price, ('zero' or 0 for free)",
         ]);
     }
 }

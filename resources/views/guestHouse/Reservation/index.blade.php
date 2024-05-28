@@ -55,58 +55,17 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            <x-popup/>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <x-popup/>
+    
 
 
     <script>
-    $(document).ready( function () {
-        function reload () {
-            var path = "{{ route('get-all-sub-users') }}"
-            $.ajax({
-                url: path,
-                type: 'GET',
-                success: function(res) {
-                    console.log(res);
-                    const html = res.map(data => `
-                        <tr>
-                            <td>${data.admin_name}</td>
-                            <td>${data.roles[0].name || data.role}</td>
-                            <td>${data.phone}</td>
-                            <td>${data.email}</td>
-                            <td>
-                                <div class="d-flex py-0">
-                                    <div class="px-1">
-                                        <button class="btn btn-info btn-sm py-1 view-btn" data-id="${data.id}">
-                                            view
-                                        </button>
-                                    </div>
-                                    <div class="px-1">
-                                        <button class="btn btn-success btn-sm py-1 approve-btn" data-id="${data.id}">
-                                            Approve
-                                        </button>
-                                    </div>
-                                    <div class="px-1">
-                                        <button class="btn btn-danger btn-sm py-1 reject-btn" data-id="${data.id}">
-                                            Reject
-                                        </button>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>    
-                    `).join('');
-                    $("#List").html(html);
-                }
-            })
-        }
-
-        reload();
-    });
 
     var deleteUrl = ""
     $(document).on('click', '.delete-btn', function() {
@@ -150,31 +109,7 @@
         // Redirect to the edit route with the ID
         const editRoute = "{{ route('edit-sub-user', ':id') }}"; // Replace with your actual route
         window.location.href = editRoute.replace(':id', id);
-    });
-
-    // $(document).ready(function(){
-    //     $("#dataTableExample").DataTable({
-    //         pageLength: 25,
-    //         responsive: true,
-    //         dom: '<"html5buttons"B>17fgitp',
-    //         buttons: [
-    //             {extend: 'copy'},
-    //             {extend: 'csv'},
-    //             {extend: 'excel', title: 'ExampleFile'},
-    //             {extend: 'pdf', title: 'ExampleFile'},
-    //             {extend: 'print',
-    //                 customize: function (win){
-    //                     $(win.document.body).addClass("white-bg"); 
-    //                     $(win.document.body).css('font-size', '10px');
-                    
-    //                     $(win.document.body).find('table')
-    //                     .addClass('compact')
-    //                     .css("font-size", "inherit");
-    //                 }
-    //             }
-    //         ],
-    //     });
-    // });    
+    });   
 
     </script>
 

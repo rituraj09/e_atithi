@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Rooms;
 use App\Models\Reservation;
+use App\Models\RoomOnDates;
 use Illuminate\Http\Request;
 use App\Models\ReservationRoom;
 use App\Models\RoomTransaction;
@@ -106,5 +108,38 @@ class ReservationController extends Controller
             return response()->json('failed');
         }
         return response()->json('success');
+    }
+
+    public function changeRoom ($id) {
+        $reservation = Reservation::find($id);
+
+        $oldRooms = ReservationRoom::where('reservation_id', $reservation->reservation_no)
+            ->with('roomDetails')
+            ->get();
+
+        return view('guestHouse.Reservation.changeRoom', compact(['reservation', 'oldRooms']));
+    }
+
+    public function updateRoom (Request $request) {
+        $request->validate([
+            'new_room' => 'required',
+        ]);
+
+        return $request;
+    }
+
+    public function changeableRooms (Request $request) {
+        $reservation = Reservation::find($request->id);
+
+        $bookedRooms = RoomOnDates::where('date', '>=', $reservation->check_in_date)
+            ->where('date', '<=', $reservation->check_out_date)
+            ->pluck('room_id');
+
+        // Step 2: Filter out available rooms
+        $rooms = Rooms::where('guest_house_id', $reservation->guest_house_id)
+            ->whereNotIn('id', $bookedRooms)
+            ->get();
+
+        return $rooms;
     }
 }

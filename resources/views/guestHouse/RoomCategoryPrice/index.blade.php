@@ -24,12 +24,13 @@
                         </div>
                     </div>
                     <div>
-                        <div class="table-responsive category col-md-8 mx-auto">
+                        <div class="table-responsive category">
                             <table class="table" id="example">
                                 <thead>
                                     <tr>
                                         <th>Room Category</th>
                                         <th>Price Modifier</th>
+                                        <th>Features</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -40,11 +41,23 @@
                                             <td>{{ $roomCategory->Category->name }}</td>
                                             <td>{{ $roomCategory->price_modifier }}</td>
                                             <td>
+                                                @foreach ($features as $feature)
+                                                    @if ( $feature->room_category_id === $roomCategory->id && $feature->is_active )
+                                                        <span class="bg-primary text-white p-1 px-2 rounded mx-1">
+                                                            {{ $feature->featureDetails->name }}
+                                                        </span>
+                                                    @endif
+                                                @endforeach
+                                            </td>
+                                            <td>
                                                 <div class="d-flex py-0">
                                                     <div class="px-1">
                                                         <button class="btn btn-danger btn-sm py-1 delete-btn" data-id="{{ $roomCategory->id }}">
                                                             delete
                                                         </button>
+                                                    </div>
+                                                    <div class="px-1">
+                                                        <button class="open-popup btn btn-success py-1 btn-sm" data-href="{{ route('room-has-features', ['id' => $roomCategory->id]) }}">Features</button>
                                                     </div>
                                                     <div class="px-1">
                                                         <button data-href="{{ route('edit-room-category-price', ['id' => $roomCategory->id ]) }}" class="btn btn-primary btn-sm py-1 open-popup">
