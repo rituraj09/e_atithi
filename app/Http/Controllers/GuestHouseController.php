@@ -28,19 +28,18 @@ class GuestHouseController extends Controller
     public function getGuestHouses (Request $request) {
 
         if ( $request->dataType === "guestHouse" ) {
-            $res = Guesthouse::with(['district_name','state_name'])->find($request->dataId)->toArray();
+            $res = Guesthouse::with(['district_name','state_name','thumbnail', 'features'])->find($request->dataId)->toArray();
         } else {
             $res = Guesthouse::where('district', $request->dataId )
-                ->with(['district_name','state_name'])
+                ->with(['district_name','state_name','thumbnail', 'features'])
                 ->get();
         }
-
         
         return $res;
 
         return response()->json($res);
 
-        if ($request->ajax()) {
+        if ($request->ajax()) { 
             return Guesthouse::select("name")
                 ->where('name', 'LIKE', '%' . $request->get('search') . '%')
                 ->get();

@@ -54,8 +54,6 @@ class BookingController extends Controller
         $rooms = Rooms::where('guest_house_id', $guestHouse->id)
             ->whereNotIn('id', $bookedRooms)
             ->get();
-        
-        // dd($rooms);
 
         $guestDetails = GuestDetails::with('guestCategory')->find(auth()->guard('guest')->user()->id);
 

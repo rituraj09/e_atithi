@@ -29,11 +29,13 @@
                                 @if ( $guestHouseImage->is_thumb )
                                     <div class="col-md-6 col-lg-3">
                                         <label for="thumb">
-                                            <img class="prev-image" src="{{ $guestHouseImage->image }}" id="thumb-view" alt="">    
+                                            <img class="prev-image" src="{{ asset("storage/images/". $guestHouseImage->image) }}" id="thumb-view" alt="">    
                                         </label>
                                         <input class="d-none" type="file" name="thumb" id="thumb">
                                     </div>
-                                    {{ $i++ }}
+                                    @php
+                                        $i++;
+                                    @endphp
                                 @endif
                             @endforeach
 
@@ -55,7 +57,7 @@
                                     @if ( !$guestHouseImage->is_thumb )
                                         <div class="col-md-6 col-lg-3">
                                             <label class="prev-image" for="img{{$i}}">
-                                                <img src="{{$guestHouseImage->image}}" id="img{{$i}}-view" alt="">
+                                                <img src="{{ asset("storage/images/". $guestHouseImage->image) }}" id="img{{$i}}-view" alt="">
                                             </label>
                                             <input class="d-none" type="file" name="img{{$i}}" id="img{{$i}}">                                    
                                         </div>

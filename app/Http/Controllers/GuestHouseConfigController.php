@@ -15,7 +15,7 @@ class GuestHouseConfigController extends Controller
 {
     //
     public function index() {
-        $employeeId = auth()->user()->id;
+        $employeeId = auth()->guard('web')->user()->id;
         $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
 
         $guestHouse = Guesthouse::find($guest_house_id);
@@ -32,7 +32,7 @@ class GuestHouseConfigController extends Controller
 
     public function update(Request $request) {
 
-        return $request;
+        // return $request;
 
         $request->validate([
             'name' => 'required',
@@ -85,6 +85,7 @@ class GuestHouseConfigController extends Controller
         ]);
 
         // GuestHouseImages::find(1);
+        $this->uploadImage($request);
 
         if (!$isUpdate) {
             return back()->with(['icon' => 'error', 'message' => 'Something is wrong']);
@@ -94,9 +95,121 @@ class GuestHouseConfigController extends Controller
         
     }
 
-    public function uploadImage() {
-        $request->validate([
-            
-        ])
+    private function uploadImage( $request){
+        $guestHouseId = GuestHouseHasEmployee::where('employee_id', auth()->guard('web')->user()->id)
+            ->pluck('guest_house_id')
+            ->first();
+
+        // Retrieve uploaded images (assuming single file for thumbnail and separate for others)
+        $thumbnailImage = $request->file('thumb');
+        $otherImages = [
+            $request->file('img1'),
+            $request->file('img2'),
+            $request->file('img3'),
+        ];
+
+        // Update or create thumbnail image
+        $thumbnail = GuestHouseImage::where('guest_house_id', $guestHouseId)
+            ->where('is_thumb', 1)
+            ->first();
+
+        if ($thumbnail) {
+            // Update existing thumbnail
+            $thumbnailName = null;
+            if ($thumbnailImage) {
+                $thumbnailName = time() . '.' . $thumbnailImage->getClientOriginalExtension();
+                $thumbnailPath = $thumbnailImage->storeAs('public/images', $thumbnailName);
+                $thumbnail->update([
+                    'image' => $thumbnailName,
+                ]);
+            }
+        } else {
+            // Create a new thumbnail if it doesn't exist
+            $thumbnailName = time() . '.' . $thumbnailImage->getClientOriginalExtension();
+            $thumbnailPath = $thumbnailImage->storeAs('public/images', $thumbnailName);
+            GuestHouseImage::create([
+                'guest_house_id' => $guestHouseId,
+                'image' => $thumbnailName,
+                'is_thumb' => 1,
+            ]);
+        }
+
+        // Handle other images (up to 3)
+        $existingOtherImages = GuestHouseImage::where('guest_house_id', $guestHouseId)
+            ->where('is_thumb', 0)
+            ->get();
+
+        $numNewImages = min(count(array_filter($otherImages)), 3 - count($existingOtherImages)); // Limit to 3 new images
+
+        // Prepare image data for updates (if any)
+        $imagesToUpdate = [];
+        for ($i = 0; $i < count($otherImages); $i++) {
+            if ($otherImages[$i] !== null) {
+                $imageName = time() . $i . '.' . $otherImages[$i]->getClientOriginalExtension();
+                $imagePath = $otherImages[$i]->storeAs('public/images', $imageName);
+                $imagesToUpdate[] = [
+                    'id' => isset($existingOtherImages[$i]) ? $existingOtherImages[$i]->id : null, // Use existing ID if available
+                    'image' => $imageName,
+                ];
+            }
+        }
+
+        // Update existing non-thumbnail images (if any)
+        if ($imagesToUpdate) {
+            foreach ($imagesToUpdate as $data) {
+                GuestHouseImage::where('id', $data['id'])->update($data);
+            }
+        }
+
+        // Create new non-thumbnail images (if any)
+        if ($numNewImages > 0) {
+            for ($i = 0; $i < $numNewImages; $i++) {
+                if ($otherImages[$i] !== null) {
+                    $image = $otherImages[$i];
+                    $imageName = time() . $i . '.' . $image->getClientOriginalExtension();
+                    $imagePath = $image->storeAs('public/images', $imageName);
+                    GuestHouseImage::create([
+                        'guest_house_id' => $guestHouseId,
+                        'image' => $imageName,
+                        'is_thumb' => 0,
+                    ]);
+                }
+            }
+        }
+
+        // Handle success or error scenarios (e.g., redirect, flash messages)
+    }
+
+
+    public function upload2Image($request) {
+
+        $guest_house_id = GuestHouseHasEmployee::where('employee_id', auth()->guard('web')->user()->id)
+                                                ->pluck('guest_house_id')
+                                                ->first();
+
+        $thumbnail = GuestHouseImage::where('guest_house_id', $guest_house_id)->where('is_thumb', 1)->first();
+
+        $thumbnailImage = $request->file('thumb');
+        $thumbnailName = null;
+        if ($thumbnailImage) {
+            $thumbnailName = time() . '.' . $thumbnailImage->getClientOriginalExtension();
+            $thumbnailPath = $thumbnailImage->storeAs('public/images', $thumbnailName);
+        }
+
+        $thumbnail->update([
+            'image' => $thumbnailPath,
+        ]);
+
+        $otherImages = GuestHouseImage::where('guest_house_id', $guest_house_id)->where('is_thumb', 0)->get();
+
+        if ($otherImages) {
+            //update
+        } else {
+            GuestHouseImage::create([
+                'image' => $imagePath,
+                'is_thumb' => 0,
+            ]);
+        }
+
     }
 }

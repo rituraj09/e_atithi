@@ -155,7 +155,6 @@
             } else if (checkout === "") {
                 Swal.fire("Please select a check-out date");
             } else {
-
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -176,24 +175,37 @@
                         $('#searchResult').html();
                         var guestHouseCard;
                         if (Array.isArray(res)) {
-                            guestHouseCard = res.map(data =>`
+                            guestHouseCard = res.map(guestHouse =>{
+
+                                var thumbnailUrl;
+                                if (guestHouse.thumbnail !== null) {
+                                    thumbnailUrl = "{{asset('storage/images')}}" + '/' + guestHouse.thumbnail.image;
+                                } else {
+                                    thumbnailUrl = "{{asset('assets/images/guest_house_thumb.png')}}";
+                                }
+
+                                let featuresList = '';
+                                if (Array.isArray(guestHouse.features)) { // Check if features is an array
+                                    featuresList = guestHouse.features.map(feature => `<li>${feature.name}</li>`).join('');
+                                }
+                                
+                                return `
                                 <div class="">
                                     <div class="card mb-3 shadow-sm mb-3">
                                         <div class="row g-0">
                                             <div class="col-md-4">
-                                                <img class="card-image" src="{{ asset('assets/images/guest_house_thumb.png') }}" class="img-fluid rounded-start" alt="...">
+                                                <img class="card-image" src="${thumbnailUrl}" class="img-fluid rounded-start" alt="...">
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="card-body p-3">
-                                                    <h5>${data.name}</h5>
-                                                    <p class="card-text mb-1"><small class="text-body-secondary">${data.district_name.name}, ${data.state_name.name}</small></p>
+                                                    <h5>${guestHouse.name}</h5>
+                                                    <p class="card-text mb-1"><small class="text-body-secondary">${guestHouse.district_name.name}, ${guestHouse.state_name.name}</small></p>
                                                     <ul>
-                                                        <li>daafa</li>
-                                                        <li>a j  ak  nskdjak ajsn</li>
+                                                        ${featuresList}
                                                     </ul>
                                                     <p class="card-text text-truncate">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
                                                     <div class="d-flex justify-content-end pt-2">
-                                                        <button data-id="${data.id}" class="btn btn-outline-success pt-1 check-guest-house">
+                                                        <button data-id="${guestHouse.id}" class="btn btn-outline-success pt-1 check-guest-house">
                                                             Check availablity
                                                             <span class="mdi mdi-chevron-double-right"></span>
                                                         </button>
@@ -203,22 +215,33 @@
                                         </div>
                                     </div>
                                 </div>
-                            `).join('');
+                            `}).join('');
                         } else {
+                            var thumbnailUrl;
+                            if (res.thumbnail !== null) {
+                                thumbnailUrl = "{{asset('storage/images')}}" + '/' + res.thumbnail.image;
+                            } else {
+                                thumbnailUrl = "{{asset('assets/images/guest_house_thumb.png')}}";
+                            }
+
+                            let featuresList = '';
+                            if (Array.isArray(res.features)) { // Check if features is an array
+                                featuresList = res.features.map(feature => `<li>${feature.name}</li>`).join('');
+                            }
+                            
                             guestHouseCard = `
                                 <div class="">
                                     <div class="card mb-3 shadow-sm mb-3">
                                         <div class="row g-0">
                                             <div class="col-md-4">
-                                                <img class="card-image" src="https://www.thespruce.com/thmb/zwsJE_aYKwL20wwKBOmwn0pXoTQ=/960x0/filters:no_upscale():max_bytes(150000):strip_icc()/Colorful-Art-Studio-Garden-in-California_5-3221e3e172f442c09d844c1d872d3162.jpg" class="img-fluid rounded-start" alt="...">
+                                                <img class="card-image" src="${thumbnailUrl}" class="img-fluid rounded-start" alt="...">
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="card-body p-3">
                                                     <h5>${res.name}</h5>
                                                     <p class="card-text mb-1"><small class="text-body-secondary">${res.district_name.name}, ${res.state_name.name}</small></p>
                                                     <ul>
-                                                        <li>daafa</li>
-                                                        <li>a j  ak  nskdjak ajsn</li>
+                                                        ${featuresList}
                                                     </ul>
                                                     <p class="card-text text-truncate">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
                                                     <div class="d-flex justify-content-end pt-2">
@@ -293,44 +316,10 @@
 
     </script>
 
-    <script>
-        // $( function() {
-        //     var dateFormat = "dd/mmm/yy",
-        //         from = $( "#from" )
-        //             .datepicker({
-        //                 defaultDate: "+1w",
-        //                 changeMonth: true,
-        //                 numberOfMonths: 3
-        //             })
-        //             .on( "change", function() {
-        //                 to.datepicker( "option", "minDate", getDate( this ) );
-        //             }),
-        //         to = $( "#to" ).datepicker({
-        //             defaultDate: "+1w",
-        //             changeMonth: true,
-        //             numberOfMonths: 3
-        //         })
-        //         .on( "change", function() {
-        //             from.datepicker( "option", "maxDate", getDate( this ) );
-        //         });
-
-        //     function getDate( element ) {
-        //         var date;
-        //         try {
-        //             date = $.datepicker.parseDate( dateFormat, element.value );
-        //         } catch( error ) {
-        //             date = null;
-        //         }
-
-        //         return date;
-        //     }
-        // } );
-	</script>
-
     <style>
         .ui-draggable, .ui-droppable {
-	background-position: top;
-}
+            background-position: top;
+        }
     </style>
 
 <x-main-footer/>

@@ -6,10 +6,14 @@ use App\Models\Admin;
 use App\Models\State;
 use App\Models\States;
 use App\Models\Country;
+use App\Models\Feature;
 use App\Models\Countries;
 use App\Models\Districts;
+use App\Models\GuestHouseImage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Guesthouse extends Model
@@ -57,6 +61,26 @@ class Guesthouse extends Model
     public function admins()
     {
         return $this->belongsToMany(Admin::class, 'guest_house_has_employees', 'guest_house_id', 'employee_id');
+    }
+
+    /**
+     * Get the thumbnail associated with the Guesthouse
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function thumbnail(): HasOne
+    {
+        return $this->hasOne(GuestHouseImage::class, 'guest_house_id', 'id');
+    }
+
+    /**
+     * Get all of the features for the Guesthouse
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function features(): HasMany
+    {
+        return $this->hasMany(Feature::class, 'guest_house_id', 'id');
     }
 
     public $timestamps = false;
