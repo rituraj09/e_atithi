@@ -15,6 +15,8 @@ class RoomOnDates extends Model
         'room_id',
         'date',
         'status',
+        'reservation_id',
+        'is_cancelled',
     ];
 
     public $timestamps = false;

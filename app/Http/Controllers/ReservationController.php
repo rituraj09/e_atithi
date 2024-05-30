@@ -117,13 +117,52 @@ class ReservationController extends Controller
             ->with('roomDetails')
             ->get();
 
-        return view('guestHouse.Reservation.changeRoom', compact(['reservation', 'oldRooms']));
+        $bookedRooms = RoomOnDates::where('date', '>=', $reservation->check_in_date)
+            ->where('date', '<=', $reservation->check_out_date)
+            ->where('is_cancelled', 0)
+            ->pluck('room_id');
+
+        // Step 2: Filter out available rooms
+        $rooms = Rooms::where('guest_house_id', $reservation->guest_house_id)
+            ->whereNotIn('id', $bookedRooms)
+            ->get();
+
+        return view('guestHouse.Reservation.changeRoom', compact(['reservation', 'oldRooms', 'rooms']));
     }
 
     public function updateRoom (Request $request) {
-        $request->validate([
-            'new_room' => 'required',
-        ]);
+        // $request->validate([
+        //     'new_room' => 'required',
+        // ]);
+
+        // return $request->new_room_101;
+
+        $reservation = Reservation::find($request->reservation_id);
+
+        $num_rooms = $request->num_rooms;
+        $reservations = ReservationRoom::where('reservation_id', $reservation->reservation_no)
+                                        ->with('roomDetails')
+                                        ->get();
+
+        // return $reservations;
+
+        foreach ( $reservations as $reservation ) {
+            $room = $request->input('new_room_' . $reservation->roomDetails->room_number);
+            if ($room) {
+                $reservation->update([
+                    'room_id' => $room,
+                ]);
+            }
+            $roomDates = RoomOnDates::where('room_id', $room)
+                                    ->where('reservation_id', $request->reservation_id)
+                                    ->get();
+            foreach ( $roomDates as $roomDate ) {
+                $roomDate->update([
+                    'is_cancelled' => 1,
+                ]);
+            }
+            // dd($room);
+        }
 
         return $request;
     }

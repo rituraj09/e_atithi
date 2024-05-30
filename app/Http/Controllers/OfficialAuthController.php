@@ -69,7 +69,7 @@ class OfficialAuthController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::user()->tokens()->delete();
+        Auth::gueard('web')->user()->tokens()->delete();
 
         Auth::logout();
 

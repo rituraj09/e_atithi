@@ -14,8 +14,8 @@ return new class extends Migration
     {
         Schema::create('reservation_rooms', function (Blueprint $table) {
             $table->id();
-            $table->integer('reservation_id', false, true);       //references('id', 'reservations');
-            $table->integer('room_id', false, true);                //references('id', 'rooms');
+            $table->integer('reservation_id', false, true)->nullable();       //references('id', 'reservations');
+            $table->integer('room_id', false, true)->nullable();                //references('id', 'rooms');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
         });
     }

@@ -7,7 +7,8 @@
     <hr>
     <form action="{{ route('update-reservation-room') }}" method="post">
         @csrf
-        <input type="hidden" id="id" value="{{ $reservation->id }}">
+        <input type="hidden" name="reservation_id" id="id" value="{{ $reservation->id }}">
+        <input type="hidden" name="num_rooms" value="{{ count($oldRooms) }}">
         @foreach ($oldRooms as $index => $oldRoom)
             <div class="row col-md-8 mx-auto">
                 <div class="col-md-6 mb-3">
@@ -15,106 +16,76 @@
                     <input type="text" class="form-control" value="{{ $oldRoom->roomDetails->room_number }}" disabled readonly>  
                 </div>
                 <div class="col-md-6 mb-3">
-                    <div class="fw-bolder mb-1">New Rooom</div>
-                    <select name="new_room" id="{{ $index }}" class="form-control room-select">
-                        {{-- <option value="{{ $oldRoom->roomDetails->id }}">{{ $oldRoom->roomDetails->room_number }}</option> --}}
-                        
+                    <div class="fw-bolder mb-1">New Room </div>
+                    <select name="new_room_{{$oldRoom->roomDetails->room_number}}" id="{{$index}}" class="form-control room-select">
+                        <option value="" selected disabled>--select--</option>
+                        @foreach ($rooms as $room)
+                            <option value="{{ $room->id }}">{{ $room->room_number }}</option>
+                        @endforeach
                     </select>
                 </div>
-            </div>   
+            </div>
         @endforeach
          
+        <div class="d-none p-2 col-md-7 mx-auto bg-warning bg-opacity-25 text-danger text-center" id="room-warning">
+            This room is already selected in another dropdown!
+        </div>
         <hr>  
         <div class="col-md-8 mx-auto mb-3">
             <div class="fw-bolder mb-1">Remarks</div>
             <textarea name="remarks" id="" cols="30" rows="2" class="form-control"></textarea>
         </div>
         <div class="col-md-8 mx-auto text-end">
-            <button class="btn btn-success">Save</button>
+            <button type="submit" class="btn btn-success">Save</button>
         </div>
     </form>
 </div>
 
 {{-- remove selected rooms --}}
 <script>
-    $(document).ready(function(){
-        var roomOptions = $(".room-select");
-        var selected = [];
-        var allRooms;
 
-        $.ajax({
-            url: "{{ route('changeable-rooms') }}",
-            type: "POST",
-            data: {
-                id:$("#id").val(),
-            },
-            success: function(res) {
-                // console.log(res);
-                allRooms = res;
-                refreshOptions();
-            }
-        })
-
-        const refreshOptions = () => {
-            let html = '<option value="" selected disabled>--select--</option>'; // Default option
-            html += allRooms.map(room => {
-                if (!selected.includes(room.id)) { // Check if the room ID is not in the selected array
-                    return `<option value="${room.id}">${room.room_number}</option>`;
-                }
-                return ''; // Return an empty string for already selected rooms
-            }).join('');
-            // roomOptions.html(html);
-            roomOptions.each(function() {
-                $(this).html(html);
-            });
-
-        }
-
-
-        $('select').on('change',function(e) {
-            var selectedRoomId =  $(this).find("option:selected");
-            selectedRoomId.attr('selected');
-            selected.push(selectedRoomId.val());     // it pushes only selected
-            console.log(selectedRoomId.val())
-
-            setTimeout(() => {
-                refreshOptions();
-            }, 1000);
-            
-
-            // // Set the selected attribute for the selected option
-            // $(this).find('option').removeAttr('selected'); // Remove selected attribute from all options
-            // $(this).find('option[value="' + selectedRoomId + '"]').attr('selected', 'selected'); // Set selected attribute for the selected option
-        });
-
-    })
-
-</script>
-{{-- <script>
     $(document).ready(function() {
-        var roomOptions = $('#room-options');
+    const selectedRooms = {}; // Object to store selected room IDs
 
-        @foreach ($rooms as $room)
-                            <option value="{{ $room->id }}">{{ $room->room_number }}</option>
-                        @endforeach
+        $('.room-select').on('change', function() {
+            const currentSelect = $(this);
+            const selectedRoomId = currentSelect.val();
 
-        roomOptions.html(``);
-
-
-        var selected = [];
-        var allRooms = [];
-        $('.room-select option:not([value=""])').each(function() {
-            allRooms.push($(this));     // it pushes all options
-        });
-
-        $('.room-select').change(function() {
-            var selectedRoomId = $(this).val();
-            $('.room-select').not(this).find('option').each(function() {
-                if ($(this).val() === selectedRoomId) {
-                    selected.push($(this));     // it pushes only selected
-
-                }
-            });
+            // Check if the selected room is already present in the object
+            if (selectedRoomId && selectedRooms[selectedRoomId]) {
+                // alert('This room is already selected in another dropdown!');
+                $("#room-warning").removeClass('d-none');
+                currentSelect.val(''); // Reset the current selection to avoid form submission
+            } else {
+                // Update the selectedRooms object with the new selection
+                selectedRooms[selectedRoomId] = true;
+                $("#room-warning").addClass('d-none');
+            }
         });
     });
-</script> --}}
+
+    // $(document).ready(function() {
+    //     $('.room-select').on('change', function() {
+    //         const selectedRoom = $(this).val();
+
+            // Re-enable the previously selected room option in all select tags
+            // $('.room-select').each(function() {
+            //     const $select = $(this);
+            //     const previouslySelectedRoom = $select.data('previously-selected-room');
+
+            //     if (previouslySelectedRoom && previouslySelectedRoom !== selectedRoom) {
+            //         $select.find(`option[value="${previouslySelectedRoom}"]`).prop('disabled', false);
+            //     }
+
+            //     // Store the currently selected room as the previously selected room
+            //     $select.data('previously-selected-room', selectedRoom);
+
+            //     // Disable the selected room option in all other select tags
+            //     if (previouslySelectedRoom !== selectedRoom) {
+            //         $select.find(`option[value="${selectedRoom}"]`).prop('disabled', true);
+            //     }
+            // });
+    //     });
+    // });
+
+</script>

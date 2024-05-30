@@ -31,6 +31,7 @@
                                 <th>Room Type</th>
                                 <th>Rate</th>
                                 <th>Occupency</th>
+                                <th>Status</th>
                                 <th>Action</th>
                                 </tr>
                             </thead>
@@ -45,6 +46,20 @@
                                         <td>{{ $room->total_price }}</td>
                                         <td>{{ $room->capacity }}</td>
                                         <td>
+                                            <select class="form-control" name="" id="">
+                                                <option value="1"
+                                                @if ( $room->is_active )
+                                                    selected
+                                                @endif
+                                                >Active</option>
+                                                <option value="0"
+                                                @if ( !$room->is_active )
+                                                    selected
+                                                @endif
+                                                >Blocked</option>
+                                            </select>
+                                        </td>
+                                        <td>
                                             <div class="d-flex py-0">
                                                 <div class="px-1">
                                                     {{-- <a href="{{ route('room-details', ['id' => $room->id]) }}" class="btn btn-info btn-sm">
@@ -56,17 +71,15 @@
                                                     <button class="open-popup btn btn-success btn-sm" data-href="{{ route('room-has-features', ['id' => $room->id]) }}">Features</button>
                                                 </div> --}}
                                                 <div class="px-1">
-                                                    <a href="{{ route('guest-house-edit-room', ['id' => $room->id]) }}" class="btn btn-primary btn-sm">
-                                                        {{-- <i data-feather="edit"></i --}}
+                                                    <button data-href="{{ route('guest-house-edit-room', ['id' => $room->id]) }}" class="open-popup btn btn-primary btn-sm">
                                                         Edit
-                                                    </a>
-                                                </div>
-                                                <div class="px-1">
-                                                    <button class="btn btn-danger btn-sm">
-                                                        {{-- <i data-feather="trash"></i> --}}
-                                                        Delete
                                                     </button>
                                                 </div>
+                                                {{-- <div class="px-1">
+                                                    <button class="btn btn-danger btn-sm">
+                                                        Delete
+                                                    </button>
+                                                </div> --}}
                                             </div>
                                         </td>
                                     </tr>
@@ -84,6 +97,12 @@
     // $(document).ready({
 
     // })
+    const calculatePrice = () => {
+        var total = 0;
+        total = total + parseFloat($('#bedCategory').find(':selected').data('price')) + parseFloat($('#roomCategory').find(':selected').data('price')) + (parseFloat($('#price').val()) || 0);
+        console.log(total);
+        $('#total').html(total + '.00');
+    }
 </script>
 
 <x-main-footer/>

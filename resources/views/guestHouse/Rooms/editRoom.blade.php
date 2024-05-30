@@ -2,7 +2,7 @@
 
 {{-- {{ dd($roomCategories ); }} --}}
 
-<x-header/>
+{{-- <x-header/>
 <body>
     <div class="main-wrapper">
         <div class="page-wrapper">
@@ -27,88 +27,91 @@
                                 edit
                             </button>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="pt-3">
-                        <form id="newRoomForm" class="mx-2 mx-md-3" action="{{ route('update-room') }}" method="POST">
+                        <form id="newRoomForm" class="mx-2 mx-md-3" action="{{ route('guest-house-new-room') }}" method="POST">
                             @csrf
-                            <div>
-                                <input type="hidden" name="id" value="{{ $room->id }}">
-                            </div>
                             <div class="row m-0 p-0">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="roomNumber" class="form-label">Room Number</label>
-                                        <input id="roomNumber" class="form-control" name="roomNumber" type="text" value="{{ $room->room_number }}" placeholder="Room number">
+                                        <label for="roomNumber" class="form-label">Room Number <x-required/> </label>
+                                        <input id="roomNumber" class="form-control" name="roomNumber" value="{{ $room->room_number }}" readonly disabled>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="price" class="form-label">Price</label>
-                                        <select name="price" id="price" class="form-control text-capitalize">
-                                            <option value="" disabled>--select--</option>
-                                            @foreach ($roomRates as $roomRate)
-                                                <option value="{{ $roomRate->id }}"
-                                                    @if ( $roomRate->id === $room->room_rate )
-                                                        selected
-                                                    @endif
-                                                    >
-                                                    {{ $roomRate->price }} | {{ $roomRate->name }} | {{ $roomRate['roomCategory']->name }}
-                                                </option>
+                                        <label for="roomCategory" class="form-label">Room Category <x-required/> </label>
+                                        <select class="form-control" readOnly name="roomCategory" id="roomCategory" required>
+                                            @foreach ( $roomCategories as $roomCategory )
+                                                <option value="{{ $roomCategory->id }}" data-price="{{ $roomCategory->price_modifier }}"
+                                                @if ( $roomCategory->id === $room->roomCategory->id )
+                                                    selected
+                                                @endif    
+                                                >{{ $roomCategory->Category->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="numberOfBeds" class="form-label">Number Of Beds</label>
-                                        <select name="numberOfBeds" id="numberOfBeds" class="form-control">
-                                            <option value="" disabled>--select--</option>
-                                            @for ($i = 1; $i<=5; $i++)
-                                                <option value="{{ $i }}"
-                                                @if ($room->number_of_beds === $i)
+                                        <label for="roomCategory" class="form-label">Bed Category <x-required/> </label>
+                                        <select class="form-control" readOnly name="bedCategory" id="bedCategory" required>
+                                            <option value="" disabled selected>--select--</option>
+                                            @foreach ( $bedCategories as $bedCategory )
+                                                <option value="{{ $bedCategory->id }}" data-price="{{ $bedCategory->price_modifier }}"
+                                                @if ( $bedCategory->id === $room->bedType[0]->id )
                                                     selected
-                                                @endif
-                                                >{{ $i }}</option>
-                                            @endfor
+                                                @endif     
+                                                >{{ $bedCategory->Bed->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="numberOfBeds" class="form-label">Number Of Beds <x-required/> </label>
+                                        <select name="numberOfBeds" id="numberOfBeds" class="form-control" disabled>
+                                            <option value="1" selected disabled>1</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="capacity" class="form-label">Capacity</label>
-                                        <input id="capacity" class="form-control" name="capacity" type="text" placeholder="Capacity" 
-                                        value="{{ $room->capacity }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                                        <select name="capacity" id="capacity" class="form-control">
+                                            <option value="" selected disabled>--select--</option>
+                                            @for ( $i = 1; $i <= $room->bedType[0]->capacity; $i++ )
+                                                <option value="{{ $i }}"
+                                                @if ( $room->capacity === $i )
+                                                    selected
+                                                @endif
+                                                >{{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                        {{-- <input id="capacity" class="form-control" name="capacity" type="text" placeholder="Capacity (optional)" 
+                                        onkeypress="return event.charCode >= 48 && event.charCode <= 57"> --}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="price" class="form-label">Base Price</label>
+                                        <input id="price" type="text" class="form-control" name="basePrice" value="{{ $guestHouse->base_price }}" placeholder="Base price" readonly disabled>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="width" class="form-label">Width</label>
-                                        <input id="width" class="form-control" name="width" type="text" value="{{ $room->width }}"
+                                        <input id="width" class="form-control" name="width" type="text" 
                                             onkeypress="return event.charCode >= 48 && event.charCode <= 57" 
-                                            placeholder="Width (optional)">
+                                            placeholder="Width (optional)" value="{{ $room->width }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="length" class="form-label">Length</label>
-                                        <input id="width" class="form-control" name="length" type="text" value="{{ $room->length }}"
+                                        <input id="width" class="form-control" name="length" type="text" 
                                             onkeypress="return event.charCode >= 48 && event.charCode <= 57" 
-                                            placeholder="Length (optional)">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="roomCategory" class="form-label">Room Category</label>
-                                        <select class="form-control" readOnly name="roomCategory" id="roomCategory" required>
-                                            <option value="" disabled>--select--</option>
-                                            @foreach ( $roomCategories as $roomCategory )
-                                                <option value="{{ $roomCategory->id }}" 
-                                                @if ( $roomCategory->id === $room->room_category )
-                                                    selected
-                                                @endif    
-                                                >{{ $roomCategory->name }}</option>
-                                            @endforeach
-                                        </select>
+                                            placeholder="Length (optional)" value="{{ $room->length }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -117,40 +120,40 @@
                                         <textarea class="form-control" name="roomDetails" id="roomDetails" cols="30" rows="1"></textarea>
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Total Rate</label>
+                                        <span class="d-block w-100 p-1 text-darkgray" id="total">{{ $room->total_price }}</span>
+                                    </div>
+                                </div>
                             </div>
+                
                             <div class="d-flex justify-content-end py-3 px-3">
                                 <button id="formSubmit" class="btn btn-success mx-auto">Submit</button>
                             </div>
                         </form>
                     </div>
-                </div>
+                {{-- </div>
             </div>
         </div>
-    </div>
-
+    </div> --}}
 
     <script>
-    
-    var i = 0;
+    $(document).on('change', '#bedCategory', function () {
+        calculatePrice();
+    });
 
+    $(document).on('change', '#roomCategory', function () {
+        calculatePrice();
+    });
 
-    $(document).on('change', '#price', function () {
-        const rateId = $(this).val();
-        console.log(rateId);
-        const rateRoute = "{{ route('get-category-of-price') }}";
-
-        $.ajax({
-            url: rateRoute,
-            type: 'POST',
-            data: {rateId:rateId},
-            success: function(res) {
-                // console.log(res);
-                const option = `<option value="${res['id']}" selected>${res['name']}</option>`;
-                $("#roomCategory").html(option);
-            }
-        })
-    })
-
+    // const calculatePrice = () => {
+    //     var total = 0;
+    //     total = total + parseFloat($('#bedCategory').find(':selected').data('price')) + parseFloat($('#roomCategory').find(':selected').data('price')) + (parseFloat($('#price').val()) || 0);
+    //     console.log(total);
+    //     $('#total').html(total);
+    // }
     </script>
 
-<x-main-footer/>
+
+{{-- <x-main-footer/> --}}

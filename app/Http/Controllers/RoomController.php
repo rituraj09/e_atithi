@@ -71,15 +71,16 @@ class RoomController extends Controller
         $this->validateForm($request);
         // dd($request);
 
-        $employeeId = auth()->user()->id;
+        $employeeId = auth()->guard('web')->user()->id;
         $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
 
         $guestHouse = Guesthouse::select('base_price')->find($guest_house_id);
         $bedCategory = BedHasPriceModifier::find($request->bedCategory);
         $roomCategory = RoomCategoryHasPrice::find($request->roomCategory);
 
-        $totalPrice = $guestHouse->base_price + $bedCategory->price_modifier + $roomCategory->price_modifier;
+        $subTotal = $guestHouse->base_price + $bedCategory->price_modifier + $roomCategory->price_modifier;
 
+        $totalPrice = $subTotal + (($subTotal * $guestHouse->sgst)/100 ) + (($subTotal * $guestHouse->sgst)/100 );
 
         $capacity = $bedCategory->capacity * $request->numberOfBeds;
 
@@ -108,33 +109,38 @@ class RoomController extends Controller
     }
 
     public function editRoom ($id) {
-        $room = Rooms::where('id', $id)
-                    ->first();
+        $room = Rooms::with(['bedType','roomCategory'])->find($id);
 
-        $employeeId = auth()->user()->id;
+        $employeeId = auth()->guard('web')->user()->id;
         $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
-        $roomCategories = RoomCategory::where('guest_house_id', $guest_house_id)->get();
+        $guestHouse = Guesthouse::find($guest_house_id);
+        $roomCategories = RoomCategoryHasPrice::where('guest_house_id', $guest_house_id)->get();
+        $bedCategories = BedHasPriceModifier::where('guest_house_id', $guest_house_id)->get();
         
-        $roomRates = RateList::with('roomCategory')
-                            ->where('guest_house_id', $guest_house_id)
-                            ->get();
+        // $roomRates = RateList::with('roomCategory')
+        //                     ->where('guest_house_id', $guest_house_id)
+        //                     ->get();
 
         // dd($room);
 
         if (!$room) {
             return view('guestHouse.Rooms.editRoom');
         }
-        return view('guestHouse.Rooms.editRoom', compact(['room','roomRates', 'roomCategories']));
+        return view('guestHouse.Rooms.editRoom', compact(['guestHouse','room', 'roomCategories', 'bedCategories']));
     }
 
     public function updateRoom (Request $request) {
         $room = Rooms::find($request->id)->first();
         $this->validateForm($request);
 
+        $guest_house_id = GuestHouseHasEmployee::where('employee_id', auth()->guard('web')->user()->id)->pluck('guest_house_id')->first();
+        $guestHouse = Guesthouse::select('base_price')->find($guest_house_id);
         $bedCategory = BedCategory::find($request->bedCategory);
         $roomCategory = RoomCategory::find($request->roomCategory);
 
-        $totalPrice = $request->basePrice + $bedCategory->price_modifier + $roomCategory->price_modifier;
+        $subTotal = $request->basePrice + $bedCategory->price_modifier + $roomCategory->price_modifier;
+
+        $totalPrice = $subTotal + (($subTotal * $guestHouse->sgst)/100 ) + (($subTotal * $guestHouse->sgst)/100 );
 
         $fields = [
             'room_number' => $request->roomNumber,

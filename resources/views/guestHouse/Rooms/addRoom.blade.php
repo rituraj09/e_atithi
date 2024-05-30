@@ -139,18 +139,6 @@
     
     var i = 0;
 
-   // var total = 0;
-
-    // $.ajax({
-    //         url: rateRoute,
-    //         type: 'POST',
-    //         data: {rateId:rateId},
-    //         success: function(res) {
-    //             const option = `<option value="${res['id']}" selected>${res['name']}</option>`;
-    //             $("#roomCategory").html(option);
-    //         }
-    //     })
-
     $(document).on('change', '#price', function () {
         const rateId = $(this).val();
         console.log(rateId);
@@ -159,16 +147,10 @@
     })
 
     $(document).on('change', '#bedCategory', function () {
-        // console.log($(this).find(':selected').data('price'));
-        // total += parseFloat($(this).find(':selected').data('price'));
-        // $('#total').html(total);
         calculatePrice();
     });
 
     $(document).on('change', '#roomCategory', function () {
-        // console.log($(this).find(':selected').data('price'));
-        // total += parseFloat($(this).find(':selected').data('price'));
-        // $('#total').html(total);
         calculatePrice();
     });
 
@@ -199,35 +181,6 @@
             })
         });
 
-
-
-    
-
-        // $("#formSubmit").on('click', function(e) {
-        //     // e.preventDefault();
-        //     var data = $("#newRoomForm").serialize();
-            // const path = "{{ route('guest-house-new-room') }}";
-
-        //     const form = $("#newRoomForm");
-
-        //     console.log(data)
-
-            // $.ajaxSetup({
-            //     headers: {
-            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //     }
-            // });
-
-            // $.ajax({
-            //     url: path,
-            //     type: 'POST',
-            //     data: {data: data},
-            //     success: function(res) {
-            //         console.log(res);
-            //     }
-            // });
-
-        // })
     
     });
 

@@ -119,15 +119,9 @@ class GuestHouseController extends Controller
         // dd($request);
         $fields = $this->validateForm($request);
 
-        // $fields = $request;
-
         $guestHouse = Guesthouse::find($request->id)->first();
 
-        // dd($guestHouse);
-
         $isUpdate = $guestHouse->update($fields);
-
-        // dd($isUpdate);
 
         if (!$isUpdate) {
             return redirect()->route('edit-guest-house', ['id' => $request->id])

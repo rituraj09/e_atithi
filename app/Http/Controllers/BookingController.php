@@ -25,6 +25,7 @@ class BookingController extends Controller
 
         $bookedRooms = RoomOnDates::where('date', '>=', $checkInDate)
             ->where('date', '<=', $checkOutDate)
+            ->where('is_cancelled', 0)
             ->pluck('room_id');
 
         // Step 2: Filter out available rooms
@@ -48,6 +49,7 @@ class BookingController extends Controller
 
         $bookedRooms = RoomOnDates::where('date', '>=', $checkInDate)
             ->where('date', '<=', $checkOutDate)
+            ->where('is_cancelled', 0)
             ->pluck('room_id');
 
         // Step 2: Filter out available rooms
@@ -128,7 +130,7 @@ class BookingController extends Controller
         foreach ( $rooms as $room ) {
             $roomId = (int)trim($room, '[]');
             $roomReservation = ReservationRoom::create([
-                'reservation_id' => $reservationNo,
+                'reservation_id' => $request->guestHouse,
                 'room_id' => $roomId,
             ]);
             
@@ -148,6 +150,7 @@ class BookingController extends Controller
                 RoomOnDates::create([
                     'room_id' => $roomId,
                     'date' => $date->format('Y-m-d'),
+                    'reservation_id' => $request->guestHouse,
                 ]);
             }
         }

@@ -29,7 +29,9 @@ class PriceCalculatorController extends Controller
             foreach ( $rooms as $room ) {
                 $newRoom = Rooms::find($room->room_id);
 
-                $newPrice = $guestHouse->base_price + $bedCategory->price_modifier + $newRoom->roomCategory->price_modifier;
+                $subTotal = $guestHouse->base_price + $bedCategory->price_modifier + $newRoom->roomCategory->price_modifier;
+
+                $newPrice = $subTotal + (($subTotal * $guestHouse->sgst)/100 ) + (($subTotal * $guestHouse->sgst)/100 );
 
                 $newRoom->update(['total_price' => $newPrice]);
             }
@@ -44,9 +46,11 @@ class PriceCalculatorController extends Controller
                 $beds = RoomHasBed::where('room_id', $room->id)->first();
                 $bedHasPrice = BedHasPriceModifier::find($beds->bed_type); //$bedHasPrice->price_modifier
 
-                $newPrice = $guestHouse->base_price + $bedHasPrice->price_modifier + $roomCategory->price_modifier;
+                $subTotal = $guestHouse->base_price + $bedHasPrice->price_modifier + $roomCategory->price_modifier;
 
-                $room->update(['total_price' => $newPrice]);
+                $newPrice = $subTotal + (($subTotal * $guestHouse->sgst)/100 ) + (($subTotal * $guestHouse->sgst)/100 );
+
+                $newRoom->update(['total_price' => $newPrice]);
             }
         }
         return true;
