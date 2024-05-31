@@ -31,7 +31,7 @@
                 
                     <div class="row m-0 p-3 fs-5">
                         <div class="col-md-5 mx-auto">
-                            <form action="" method="POST">
+                            <form action="{{ route('guest-update-password') }}" method="POST">
                                 @csrf
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
@@ -40,19 +40,24 @@
                                 <div class="mb-3">
                                     <label for="confirmPassword" class="form-label">Confirm Password</label>
                                     <input type="password" class="form-control" id="confirmPassword" autocomplete="current-password" placeholder="Confirm Password">
+                                    <div id="jsPasswordError" class="d-none alert alert-danger mt-1 mb-1 py-2">Password not matching</div>
                                 </div>
                                 <div class="row mb-3">
                                     <label for="captcha" class="form-label">Captcha</label>
                                     <div class="mb-2">
-                                        <img class="rounded-2" src="{{ route('captcha') }}" alt="Captcha Image">
+                                        {{-- <img class="rounded-2" src="{{ route('captcha') }}" alt="Captcha Image"> --}}
+                                        <img id="captcha-image" class="rounded-3" src="{{ route('captcha') }}" alt="Captcha Image">
+                                        <button type="button" id="reload" class="ms-3 btn btn-sm btn-outline-primary"><i class="me-2 icon-md" data-feather="repea"></i>reload</button>
                                     </div>
                                     <div class="col-md-8 input-group">
-                                        <input type="text" class="form-control" placeholder="Captcha code">
-                                        <button class="btn btn-sm btn-outline-primary"><i class="icon-md" data-feather="repeat"></i></button>
+                                        {{-- <input type="text" class="form-control" placeholder="Captcha code">
+                                        <button class="btn btn-sm btn-outline-primary"><i class="icon-md" data-feather="repeat"></i></button> --}}
+                                        <input type="text" name="" id="captcha-input" class="form-control" placeholder="Type captcha here">
+                                        <button class="btn btn-success" type="button" id="verifyCaptcha">verify</button>
                                     </div>
                                 </div>
                                 <div class="mb-4 text-end">
-                                    <button class="btn btn-success">Change</button>
+                                    <button type="submit" class="btn btn-success">Change</button>
                                 </div>
                             </form>
                         </div>
@@ -65,8 +70,64 @@
 
     <!-- Custom js for this page -->
     <script>
-    $(document).ready(function () {
+    $(document).ready( function () {
+        const loadCaptcha = () => {
+            $.ajax({
+                url : "{{ route('captcha') }}",
+                type: "GET",
+                success: function (data) {
+                var file = `data:image/png;base64,${data.image}`;
+                console.log(file);
+                $("#captcha-image").attr('src', file);
+                }
+            });
+        }
 
+        loadCaptcha();
+
+        $('#reload').on('click', function (e) {
+            e.preventDefault();
+            $('#verifyCaptcha').html("verify");
+            $('#verifyCaptcha').removeClass('btn-outline-primary').addClass('btn-success');
+            $('#verifyCaptcha').prop('disabled', false);
+            $("#captcha-input").attr('disabled', false);
+            loadCaptcha();
+        });
+
+        $("#verifyCaptcha").on('click', function (e) {
+            e.preventDefault();
+            const captcha = $("#captcha-input").val();
+            $.ajax({
+                url: "{{ route('verify-captcha') }}",
+                type: "POST",
+                data: {captcha:captcha},
+                success: function (res) {
+                    if (res.message === 'success') {
+                        // done
+                        $('#verifyCaptcha').html(`<i class="mdi mdi-check"></i>`);
+                        $('#verifyCaptcha').addClass('btn-outline-primary').removeClass('btn-success');
+                        $('#verifyCaptcha').prop('disabled');
+                        $("#captcha-input").attr('disabled', true);
+                        console.log("done");
+                    } else {
+                        console.log("failed");
+                    }
+                }
+            })
+        });
+
+        
+    });
+
+    $(document).on('input', '#confirmPassword', function () {
+        const password = $("#password").val();
+        const confirmPassword = $(this).val();
+
+        if (password !== confirmPassword) {
+            $("#jsPasswordError").removeClass('d-none');
+        } else {
+            $("#jsPasswordError").addClass('d-none');
+        }
     });
     </script>
 

@@ -6,10 +6,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guest House Receipt - {{ $receipt->receipt_no }}</title>
-    {{-- <link rel="stylesheet" href="{{ asset('css/my-style.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/demo1/style.css')}}">
-
-	<link rel="stylesheet" href="{{ asset('assets/vendors/mdi/css/materialdesignicons.min.css') }}"> --}}
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -128,13 +124,13 @@
                     <td colspan="3" style="font-weight: 600">
                         Subtotal
                     </td>
-                    <td>{{ $receipt->amount }}/-</td>
+                    <td>{{ number_format($receipt->amount, 2) }}/-</td>
                 </tr>
                 <tr>
                     <td colspan="3" style="font-weight: 600">
                         Total
                     </td>
-                    <td>{{ $receipt->amount }}/-</td>
+                    <td>{{ number_format($receipt->amount, 2) }}/-</td>
                 </tr>
             </tfoot>
         </table>
@@ -172,13 +168,10 @@
     
     <div class="footer">
         <hr>
-        <div>
-            <div class="left">
-                <span>&copy; NIC, Assam</span>
-            </div>
-            <div class="right">
-                <span>eAtithi</span>
-            </div>
+        <div style="text-align: center">
+            <span>&copy; NIC, Assam</span>
+            <span> | </span>
+            <span>eAtithi</span>
         </div>
     </div>
     {{-- <script src="{{ asset('assets/vendors/core/core.js') }}"></script> --}}

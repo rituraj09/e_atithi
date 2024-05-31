@@ -8,6 +8,7 @@ use App\Models\GuestDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\LogController;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
@@ -46,7 +47,8 @@ class AuthController extends Controller
             'guest_id' => $user->id,   // reference for guest profile data.
         ]);
 
-        $logs = $this->guestLog($request->ip(), "New registration", $user->id);
+        $log = new LogController();
+        $logged = $log->guestLog($request->ip(), "New registration");
         
         Auth::guard('guest')->login($user);
 
@@ -70,7 +72,8 @@ class AuthController extends Controller
         if ($guest && Hash::check($incomingFields['password'], $guest->password)) {
             Auth::guard('guest')->login($guest);
 
-            $logs = $this->guestLog($request->ip(), "Logged in", auth()->guard('guest')->user()->id);
+            $log = new LogController();
+            $logged = $log->guestLog($request->ip(), "Logged in");
 
             // $token = $guest->createToken('eAtithi')->plainTextToken;
             $message = "You have successfully logged in " . $guest->name . ".";
@@ -87,6 +90,23 @@ class AuthController extends Controller
                 'email' => ['Invalid email or password'],
             ]);
         }
+    }
+
+    public function updatePassword(Request $request) {
+        $guestId = auth()->guard('guest')->user()->id;
+        $guest = Guest::find($guestId);
+        $isUpdate = $guest->update([
+            'password' => bcrypt($request->input('password')),
+        ]);
+
+        if (!$isUpdate) {
+            return back()->with(['icon'=>'error', 'messsage'=>'Something went wrong!']);
+        }
+
+        $log = new LogController();
+        $logged = $log->guestLog($request->ip(), "Password changed");
+
+        return redirect()->route('guest-profile')->with(['icon'=>'success', 'message'=>'Password updated successfully.']);
     }
 
     // public function profile () {
@@ -117,39 +137,13 @@ class AuthController extends Controller
         return redirect()->route('guest-profile')->with('message', 'You have logged in successfully');
     }
 
-    public function login(Request $request)
-    {
-        try {
-            $incomingFields = $request->validate([
-                'email' => 'required|email',
-                'password' => 'required',
-            ]);
-    
-            $guest = Guest::where('email', $incomingFields['email'])->first();
-    
-            if ($guest && Hash::check($incomingFields['password'], $guest->password)) {
-                Auth::login($guest);
-    
-                $logs = $this->guestLog($request->ip(), "Logged in", auth()->id());
-    
-                // $token = $guest->createToken('eAtithi')->plainTextToken;
-                
-                return redirect()->route('guest-profile')->with('message', 'logged in');
-            } else {
-                throw ValidationException::withMessages([
-                    'email' => ['Invalid email or password'],
-                ]);
-            }
-
-        } catch (e) {
-            return 'e';
-        }
-    }  */
+    */
 
     public function logout(Request $request)
     {
         if (Auth::check()){
-            $logs = $this->guestLog($request->ip(), "Logged out", auth()->id());
+            $log = new LogController();
+            $logged = $log->guestLog($request->ip(), "Logged out");
         }
 
         // Auth::user()->tokens()->delete();
@@ -157,21 +151,6 @@ class AuthController extends Controller
         Auth::guard('guest')->logout();
 
         return redirect()->route('guest-login');
-    }
-    
-
-    public function guestLog($ip = null, $activity = null, $guestId = null){
-        // auto ip, auto time
-        // custom activity, variable user id
-        $data = [
-            'ip_address' => $ip,
-            'activity' => $activity,
-            'guest_id' => $guestId,
-        ];
-
-        $logs = GuestsLogs::create($data);
-
-        return $logs;
     }
 
 }

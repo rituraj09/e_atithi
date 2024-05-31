@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Guest;
 use App\Models\ReservationRoom;
 use App\Models\RoomTransaction;
+use App\Models\ReservationReason;
 use App\Models\ReservationStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -57,6 +58,11 @@ class Reservation extends Model
     public function getStatus(): BelongsTo
     {
         return $this->belongsTo(ReservationStatus::class, 'status');
+    }
+
+    public function reservationReason(): BelongsTo 
+    {
+        return $this->belongsTo(ReservationReason::class, 'reservation_type');
     }
 
     public function hasRooms () : HasMany

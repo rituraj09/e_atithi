@@ -9,6 +9,15 @@ class AdminLogs extends Model
 {
     use HasFactory;
 
+    protected $table = "admin_logs";
+
+    protected $fillable = [
+        'activity',
+        'admin_id',
+        'admin_role',
+        'ip_address',
+    ];
+
 
     public $timestamps = false;
 }

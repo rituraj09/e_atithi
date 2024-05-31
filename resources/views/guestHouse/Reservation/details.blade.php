@@ -34,8 +34,8 @@
                             <div class="text-darkgray">{{ $reservation->guest->name }}</div>
                         </div>
                         <div class="col-md-4 mb-3">
-                            <div class="fw-bolder mb-1 ">Reservation Type</div>
-                            <div class="text-darkgray">{{ $reservation->reservation_no }}</div>
+                            <div class="fw-bolder mb-1 ">Reservation Reason</div>
+                            <div class="text-darkgray">{{ $reservation->reservationReason->reason_name }}</div>
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="fw-bolder mb-1 ">Checkin Date</div>
@@ -47,13 +47,29 @@
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="fw-bolder mb-1 ">Amount</div>
-                            <div class="text-darkgray">700/- <span class="badge bg-success ms-2"><small>Paid</small></span></div>
+                            <div class="text-darkgray">
+                                @if ($payment !== 0)
+                                    {{ $payment }}/-
+                                    <span class="badge bg-success ms-2">
+                                        <small>Paid</small>
+                                    </span>
+                                @else
+                                    {{ $reservation->charges_of_accomodation }}/- 
+                                @endif
+                            </div>
                         </div>
-                        <div class="col-12 mb-3 mt-3">
+                        <div class="col-8 mb-3 mt-3">
                             <p class="fw-bolder mb-1 ">Current Status</p>
                             <div id="statusMessage" class="text-darkgray">{{ $reservation->getStatus->name }}</div>
                             <input type="hidden" id="status" value="{{ $reservation->status }}">
-                            
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="fw-bolder mb-1 ">Document</div>
+                            <img 
+                                class="open-popup prev-image" 
+                                src="{{ asset('storage/images/'. $reservation->docs) }}" alt=""
+                                data-href="{{ route('view-full-doc', ['id' => $reservation->id]) }}"
+                            >
                         </div>
                     </div>
                     <div class="row m-0">
@@ -101,13 +117,25 @@
                                 <tfoot id="transactionBody">
                                   <tr>
                                     <td>
-                                        <button data-href="{{ route('change-reservation-room', ['id' => $reservation->id ]) }}" class="open-popup btn btn-info">Change Room</button>
+                                        @if ($reservation->status === 1 || $reservation->status === 3)
+                                            <button data-href="{{ route('change-reservation-room', ['id' => $reservation->id ]) }}" class="open-popup btn btn-info">Change Room</button>  
+                                        @endif
                                     </td>
                                     <td colspan="2"></td>
                                     <td class="p-1">
-                                      <button type="button" class="ms-auto me-0 btn btn-success py-1" id="checkin-button">
+                                        @php
+                                            $today = \Carbon\Carbon::today();
+                                            $checkInDate = \Carbon\Carbon::parse($reservation->check_in_date);
+                                        @endphp
+
+                                        @if ($checkInDate->isFuture())
+                                            <span></span>
+                                        @else
+                                            <button class="btn btn-success" id="checkin-button">Check in</button>
+                                        @endif
+                                      {{-- <button type="button" class="ms-auto me-0 btn btn-success py-1" id="checkin-button">
                                         Checkin
-                                      </button>
+                                      </button> --}}
                                     </td>
                                   </tr>
                                 </tfoot>

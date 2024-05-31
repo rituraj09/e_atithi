@@ -26,9 +26,9 @@ use App\Http\Controllers\GuestHouseAdminController;
 // ajax routes
 // require __DIR__.'/ajax.php';
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('dashboard')->middleware(['auth']);
+// Route::get('/', function () {
+//     return view('welcome');
+// })->name('dashboard')->middleware(['auth']);
 Route::redirect('/dashboard', '/');
 Route::redirect('/guest-house', '/');
 Route::redirect('/guest', '/guest/home');
@@ -48,6 +48,7 @@ Route::prefix('guest')->group( function () {
         })->name('guest-login');
         Route::post('/login', 'login')->name('guest-login-entry');
         Route::post('/logout', 'logout')->name('guest-logout');
+        Route::post('/update-password', 'updatePassword')->name('guest-update-password');
     });
 
     // Route::get('/profile')

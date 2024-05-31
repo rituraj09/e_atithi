@@ -10,103 +10,102 @@
 					<div class="col-md-10 col-xl-8 mx-auto">
 						<div class="card">
 							<div class="row">
-                <div class="col-md-4 pe-md-0">
-                  <div class="auth-side-wrapper">
+                                <div class="col-md-4 pe-md-0">
+                                    <div class="auth-side-wrapper">
 
-                  </div>
-                </div>
-                <div class="col-md-8 ps-md-0">
-                  <div class="auth-form-wrapper p-5">
-                    <a href="#" class="noble-ui-logo logo-light d-block mb-2"><span>e</span>Atithi</a>
-                    <h5 class="text-muted fw-normal mb-4">Create a free account.</h5>
-                    <form class="forms-sample" action="{{ route('new-guest-registration')}}" method="post">
-                        @csrf
-                      <div class="row mb-3">
-                        <label for="fullname" class="form-label col-md-4 m-auto">Full name</label>
-                        <div class="col-md-8">
-                          <input type="text" class="form-control" id="fullname" autocomplete="Username" name="fullname" placeholder="Full name" required>
-                          @error('phone')
-                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                          @enderror
-                        </div>
-                        
-                      </div>
-                      <div class="row mb-3">
-                        <label for="phone" class="form-label col-md-4 m-auto">Phone no.</label>
-                        <div class="col-md-8">
-                          <div class="input-group">
-                            <input type="text" class="form-control" id="phone" name="phone" placeholder="+91" 
-                              onkeypress="return event.charCode >= 48 && event.charCode <= 57" required>
-                            <button type="button" class="btn btn-sm btn-success" id="phoneVerification">verify</button>
-                            <input type="hidden" name="phoneOtpStatus" id="phoneOtpStatus" required>
-                          </div>
-                          @error('phone')
-                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                          @enderror 
-                        </div>
-                        
-                      </div>
-                      <div class="row mb-3">
-                        <label for="email" class="form-label col-md-4 m-auto">Email address</label>
-                        <div class="col-md-8">
-                          <div class="input-group">
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Email address">
-                            <button id="emailVerification" type="button" class="btn btn-sm btn-success">verify</button>
-                            <input type="hidden" name="emailOtpStatus" id="emailOtpStatus" required>
-                          </div>
-                          @error('email')
-                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                          @enderror
-                        </div>
-                      </div>
-                      <div class="row mb-2">
-                        <label for="captcha" class="form-label col-md-4 m-auto">Captcha</label>
-                        <div class="col-md-8">
-                            <img id="captcha-image" class="rounded-3" src="{{ route('captcha') }}" alt="Captcha Image">
-                            <button type="button" id="reload" class="ms-3 btn btn-sm btn-outline-primary"><i class="me-2 icon-md" data-feather="repea"></i>reload</button>
-                        </div>
-                        {{-- <input type="email" class="form-control" id="userEmail" placeholder="Email"> --}}
-                      </div>
-                      <div class="row mb-3">
-                        <div class="col-md-4"></div>
-                        <div class="col-md-8">
-                          <div class="input-group">
-                            <input type="text" name="" id="captcha-input" class="form-control" placeholder="Type captcha here">
-                            <button class="btn btn-success" type="button" id="verifyCaptcha">verify</button>
-                          </div>
-                          @error('captcha')
-                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                          @enderror
-                        </div>
-                      </div>
-                      <div class="row mb-3">
-                        <label for="userPassword" class="form-label col-md-4 m-auto">Password</label>
-                        <div class="col-md-8">
-                          <input type="password" class="form-control" id="userPassword" name="password" autocomplete="current-password" placeholder="Password">
-                          @error('password')
-                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                          @enderror
-                        </div>
-                        
-                      </div>
-                      <div class="row mb-3">
-                        <label for="confirmPassword" class="form-label col-md-4 m-auto">Confirm Password</label>
-                        <div class="col-md-8">
-                          <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" autocomplete="current-password" placeholder="Confirm password">
-                          @error('confirmPassword')
-                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                          @enderror
-                          <div id="jsPasswordError" class="d-none alert alert-danger mt-1 mb-1 py-2">Password not matching</div>
-                        </div>
-                      </div>
-                      <div>
-                        <input type="submit" class="btn btn-primary text-white me-2 mb-2 mb-md-0" id="register" value="Register" />
-                      </div>
-                      <a href="{{ route('guest-login')}}" class="d-block mt-3 text-muted">Already a user? Sign in</a>
-                    </form>
-                  </div>
-                </div>
-              </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8 ps-md-0">
+                                    <div class="auth-form-wrapper p-5">
+                                        <a href="#" class="noble-ui-logo logo-light d-block mb-2"><span>e</span>Atithi</a>
+                                        <h5 class="text-muted fw-normal mb-4">Create a free account.</h5>
+                                        <form class="forms-sample" action="{{ route('new-guest-registration')}}" method="post">
+                                            @csrf
+                                        <div class="row mb-3">
+                                            <label for="fullname" class="form-label col-md-4 m-auto">Full name</label>
+                                            <div class="col-md-8">
+                                            <input type="text" class="form-control" id="fullname" autocomplete="Username" name="fullname" placeholder="Full name" required>
+                                            @error('phone')
+                                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                            @enderror
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="row mb-3">
+                                            <label for="phone" class="form-label col-md-4 m-auto">Phone no.</label>
+                                            <div class="col-md-8">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="phone" name="phone" placeholder="+91" 
+                                                    onkeypress="return event.charCode >= 48 && event.charCode <= 57" required>
+                                                    <button type="button" class="btn btn-sm btn-success" id="phoneVerification">verify</button>
+                                                    <input type="hidden" name="phoneOtpStatus" id="phoneOtpStatus" required>
+                                                </div>
+                                                @error('phone')
+                                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                                @enderror 
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label for="email" class="form-label col-md-4 m-auto">Email address</label>
+                                                <div class="col-md-8">
+                                                <div class="input-group">
+                                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email address">
+                                                    <button id="emailVerification" type="button" class="btn btn-sm btn-success">verify</button>
+                                                    <input type="hidden" name="emailOtpStatus" id="emailOtpStatus" required>
+                                                </div>
+                                                @error('email')
+                                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                                @enderror
+                                                </div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <label for="captcha" class="form-label col-md-4 m-auto">Captcha</label>
+                                                <div class="col-md-8">
+                                                    <img id="captcha-image" class="rounded-3" src="{{ route('captcha') }}" alt="Captcha Image">
+                                                    <button type="button" id="reload" class="ms-3 btn btn-sm btn-outline-primary"><i class="me-2 icon-md" data-feather="repea"></i>reload</button>
+                                                </div>
+                                                {{-- <input type="email" class="form-control" id="userEmail" placeholder="Email"> --}}
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-4"></div>
+                                                <div class="col-md-8">
+                                                <div class="input-group">
+                                                    <input type="text" name="" id="captcha-input" class="form-control" placeholder="Type captcha here">
+                                                    <button class="btn btn-success" type="button" id="verifyCaptcha">verify</button>
+                                                </div>
+                                                @error('captcha')
+                                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                                @enderror
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label for="userPassword" class="form-label col-md-4 m-auto">Password</label>
+                                                <div class="col-md-8">
+                                                <input type="password" class="form-control" id="userPassword" name="password" autocomplete="current-password" placeholder="Password">
+                                                @error('password')
+                                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                                @enderror
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label for="confirmPassword" class="form-label col-md-4 m-auto">Confirm Password</label>
+                                                <div class="col-md-8">
+                                                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" autocomplete="current-password" placeholder="Confirm password">
+                                                @error('confirmPassword')
+                                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                                @enderror
+                                                <div id="jsPasswordError" class="d-none alert alert-danger mt-1 mb-1 py-2">Password not matching</div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <button type="submit" class="btn btn-primary text-white me-2 mb-2 mb-md-0" id="register">Register</button>
+                                            </div>
+                                            <a href="{{ route('guest-login')}}" class="d-block mt-3 text-muted">Already a user? Sign in</a>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
 						</div>
 					</div>
 				</div>
@@ -378,52 +377,52 @@
     }
   });
 
-  $(document).ready( function () {
-    const loadCaptcha = () => {
-      $.ajax({
-        url : "{{ route('captcha') }}",
-        type: "GET",
-        success: function (data) {
-          var file = `data:image/png;base64,${data.image}`;
-          console.log(file);
-          $("#captcha-image").attr('src', file);
+    $(document).ready( function () {
+        const loadCaptcha = () => {
+            $.ajax({
+                url : "{{ route('captcha') }}",
+                type: "GET",
+                success: function (data) {
+                    var file = `data:image/png;base64,${data.image}`;
+                    console.log(file);
+                    $("#captcha-image").attr('src', file);
+                }
+            });
         }
-      });
-    }
 
-    loadCaptcha();
-
-    $('#reload').on('click', function (e) {
-      e.preventDefault();
-      $('#verifyCaptcha').html("verify");
-      $('#verifyCaptcha').removeClass('btn-outline-primary').addClass('btn-success');
-      $('#verifyCaptcha').prop('disabled', false);
-      $("#captcha-input").attr('disabled', false);
-      loadCaptcha();
+        loadCaptcha();
     });
 
-    $("#verifyCaptcha").on('click', function (e) {
-      e.preventDefault();
-      const captcha = $("#captcha-input").val();
-      $.ajax({
-        url: "{{ route('verify-captcha') }}",
-        type: "POST",
-        data: {captcha:captcha},
-        success: function (res) {
-          if (res.message === 'success') {
-            // done
-            $('#verifyCaptcha').html(`<i class="mdi mdi-check"></i>`);
-            $('#verifyCaptcha').addClass('btn-outline-primary').removeClass('btn-success');
-            $('#verifyCaptcha').prop('disabled');
-            $("#captcha-input").attr('disabled', true);
-            console.log("done");
-          } else {
-            console.log("failed");
-          }
-        }
-      })
+    $(document).on('click', '#reload', function (e) {
+        e.preventDefault();
+        $('#verifyCaptcha').html("verify");
+        $('#verifyCaptcha').removeClass('btn-outline-primary').addClass('btn-success');
+        $('#verifyCaptcha').prop('disabled', false);
+        $("#captcha-input").attr('disabled', false);
+        loadCaptcha();
     });
-  });
+
+    $(document).on('click', "#verifyCaptcha", function (e) {
+        e.preventDefault();
+        const captcha = $("#captcha-input").val();
+        $.ajax({
+            url: "{{ route('verify-captcha') }}",
+            type: "POST",
+            data: {captcha:captcha},
+            success: function (res) {
+                if (res.message === 'success') {
+                    // done
+                    $('#verifyCaptcha').html(`<i class="mdi mdi-check"></i>`);
+                    $('#verifyCaptcha').addClass('btn-outline-primary').removeClass('btn-success');
+                    $('#verifyCaptcha').prop('disabled');
+                    $("#captcha-input").attr('disabled', true);
+                    console.log("done");
+                } else {
+                    console.log("failed");
+                }
+            }
+        })
+    });
   
   </script>
 

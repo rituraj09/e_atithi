@@ -100,7 +100,7 @@
 
                     {{-- reservation cancellation part --}}
                     <div class="col-md-7 mx-auto p-2 mt-4 border-top pt-4 row">
-                        @if ( $order->approval_date === NULL )
+                        @if ( $order->status === 1 )
                         <div class="mb-2 col">
                             <button class="btn btn-primary open-popup" data-href="{{ route('modify-order', ['id' => $order->id]) }}">Modify Reservation</button>
                         </div>

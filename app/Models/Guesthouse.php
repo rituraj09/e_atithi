@@ -73,6 +73,11 @@ class Guesthouse extends Model
         return $this->hasOne(GuestHouseImage::class, 'guest_house_id', 'id');
     }
 
+    public function images(): HasMany 
+    {
+        return $this->hasMany(GuestHouseImage::class, 'guest_house_id', 'id');
+    }
+
     /**
      * Get all of the features for the Guesthouse
      *

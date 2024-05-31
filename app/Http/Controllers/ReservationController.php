@@ -9,6 +9,7 @@ use App\Models\RoomOnDates;
 use Illuminate\Http\Request;
 use App\Models\ReservationRoom;
 use App\Models\RoomTransaction;
+use App\Models\PaymentTransaction;
 use App\Models\GuestHouseHasEmployee;
 
 class ReservationController extends Controller
@@ -47,7 +48,7 @@ class ReservationController extends Controller
                                     ->where('id', $id)
                                     ->first();
 
-        $rooms = ReservationRoom::where('reservation_id', $reservation->reservation_no)
+        $rooms = ReservationRoom::where('reservation_id', $reservation->id)
                                 ->with('roomDetails')
                                 ->get();
 
@@ -64,7 +65,9 @@ class ReservationController extends Controller
                                             ->pluck('room_id')
                                             ->toArray();
 
-        return view('guestHouse.Reservation.details', compact('reservation', 'rooms', 'checked_in_rooms', 'checked_out_rooms'));
+        $payment = PaymentTransaction::where('reservation_id', $id)->sum('total_amount');
+
+        return view('guestHouse.Reservation.details', compact('reservation', 'rooms', 'checked_in_rooms', 'checked_out_rooms', 'payment'));
     }
 
 
@@ -97,6 +100,8 @@ class ReservationController extends Controller
     public function rejectReservation (Request $request) {
         $reservation = Reservation::find($request->id);
 
+        // $guest_house_id = GuestHouseHasEmployee::where('employee_id', auth()->guear('web')->user()->id)->pluck('guest_house_id')->first();
+
         $updatedStatus = [
             'status' => 4,   //rejected by admin
             'cancellation_by_admin_date' => Carbon::now('Asia/Kolkata'),
@@ -107,13 +112,24 @@ class ReservationController extends Controller
         if (!$isUpdate) {
             return response()->json('failed');
         }
+
+        // $oldRooms = ReservationRoom::where('reservation_id', $reservation->id)->get();
+
+        $roomOnDates = RoomOnDates::where('reservation_id', $reservation->id)->get();
+
+        foreach ($roomOnDates as $roomOnDate ) {
+            $roomOnDate->update([
+                'is_cancelled' => 1,
+            ]);
+        }
+
         return response()->json('success');
     }
 
     public function changeRoom ($id) {
         $reservation = Reservation::find($id);
 
-        $oldRooms = ReservationRoom::where('reservation_id', $reservation->reservation_no)
+        $oldRooms = ReservationRoom::where('reservation_id', $reservation->id)
             ->with('roomDetails')
             ->get();
 
@@ -131,16 +147,11 @@ class ReservationController extends Controller
     }
 
     public function updateRoom (Request $request) {
-        // $request->validate([
-        //     'new_room' => 'required',
-        // ]);
-
-        // return $request->new_room_101;
 
         $reservation = Reservation::find($request->reservation_id);
 
         $num_rooms = $request->num_rooms;
-        $reservations = ReservationRoom::where('reservation_id', $reservation->reservation_no)
+        $reservations = ReservationRoom::where('reservation_id', $reservation->id)
                                         ->with('roomDetails')
                                         ->get();
 
@@ -172,6 +183,7 @@ class ReservationController extends Controller
 
         $bookedRooms = RoomOnDates::where('date', '>=', $reservation->check_in_date)
             ->where('date', '<=', $reservation->check_out_date)
+            ->where('is_cancelled', 0)
             ->pluck('room_id');
 
         // Step 2: Filter out available rooms
@@ -180,5 +192,11 @@ class ReservationController extends Controller
             ->get();
 
         return $rooms;
+    }
+
+    public function viewFullDoc($id) {
+        $image = Reservation::select('docs')->find($id);
+
+        return view('guestHouse.Reservation.viewDoc', compact('image'));
     }
 }

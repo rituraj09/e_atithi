@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\GuestHouseHasEmployee;
+use App\Http\Controllers\LogController;
 
 class OfficialAuthController extends Controller
 {
@@ -61,17 +62,18 @@ class OfficialAuthController extends Controller
             $this->getGuestHouseName();
         }
 
-        // dd(auth()->user()->email);         ->with('roles', $admin->role) session(['variableName' => $value]);
-
         // Redirect to dashboard 
         return redirect()->route('dashboard');
     }
 
     public function logout(Request $request)
     {
-        Auth::gueard('web')->user()->tokens()->delete();
+        // Auth::gueard('web')->user()->tokens()->delete();
 
-        Auth::logout();
+        $log = new LogController();
+        $logged = $log->adminLog($request->ip(), "Logged out");
+
+        Auth::guard('web')->logout();
 
         return redirect()->route('guest-house-admin-login');
     }

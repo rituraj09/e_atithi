@@ -41,7 +41,7 @@ class TransactionController extends Controller
                                 ->where('reservation_no', $id)
                                 ->first();
 
-            $rooms = ReservationRoom::where('reservation_id', $reservation->reservation_no)
+            $rooms = ReservationRoom::where('reservation_id', $reservation->id)
                                 ->with('roomDetails')
                                 ->get();
 

@@ -95,7 +95,17 @@
                                     <input type="hidden" id="total" readonly disabled>
                                 </div>
                                 <div class="d-flex justify-content-end mb-3">
-                                    <button class="btn btn-success" id="checkout-button">Check Out</button>
+                                    @php
+                                        $today = \Carbon\Carbon::today();
+                                        $checkInDate = \Carbon\Carbon::parse($reservation->check_in_date);
+                                    @endphp
+
+                                    @if (!$checkInDate->isFuture())
+                                        <button class="btn btn-success" id="checkout-button">Check Out</button>
+                                    @else
+                                        <span></span>
+                                    @endif
+                                    
                                 </div>
                                 <div class="mb-3">
                                     <div class="mb-2">

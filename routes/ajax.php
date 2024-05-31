@@ -72,6 +72,7 @@ Route::prefix('/ajax')->group( function () {
         Route::post('/approve-reservation', 'approveReservation')->name('approve-reservation');
         Route::post('/reject-reservation', 'rejectReservation')->name('reject-reservation');
         Route::post('/available-rooms', 'changeableRooms')->name('changeable-rooms');
+        Route::get('/view-doc/{id}', 'viewFullDoc')->name('view-full-doc');
     });
 
     Route::controller(RoomCategoryFeatureController::class)->group( function () {

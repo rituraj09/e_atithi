@@ -16,18 +16,25 @@
                             <div class="d-flex col-md-10 mx-auto my-2 flex-wrap">
                                 
                                 <div class="image-wrapper">
-                                    <div>
-                                        <img class="image-filler" src="https://www.contemporist.com/wp-content/uploads/2017/02/minimalist-modern-house-exteriors-030217-424-06a-800x856.jpg" style="grid-area: A;" alt="">
-                                    </div>
-                                    <div>
-                                        <img class="image-filler" src="https://www.contemporist.com/wp-content/uploads/2017/02/minimalist-modern-house-exteriors-030217-424-06a-800x856.jpg" style="grid-area: B;" alt="">
-                                    </div>
-                                    <div>
-                                        <img class="image-filler" src="https://www.contemporist.com/wp-content/uploads/2017/02/minimalist-modern-house-exteriors-030217-424-06a-800x856.jpg" style="grid-area: C;" alt="">
-                                    </div>
-                                    <div>
-                                        <img class="image-filler" src="https://www.contemporist.com/wp-content/uploads/2017/02/minimalist-modern-house-exteriors-030217-424-06a-800x856.jpg" style="grid-area: D;" alt="">
-                                    </div>
+                                    @foreach ($guestHouse->images as $image)
+                                        @if ($image->is_thumb === 1)
+                                        <div>
+                                            <img class="image-filler" src="{{ asset('storage/images/'.$image->image) }}" style="grid-area: A;" alt="">
+                                        </div>   
+                                        @endif
+                                    @endforeach
+                                    @foreach ($guestHouse->images as $image)
+                                        @if ($image->is_thumb !== 1)
+                                        <div>
+                                            <img class="image-filler" src="{{ asset('storage/images/'.$image->image) }}" style="grid-area: A;" alt="">
+                                        </div>   
+                                        @endif
+                                    @endforeach
+                                    @if (count($guestHouse->images) === 0)
+                                        <div>
+                                            <img class="image-filler" src="{{ asset('assets/images/guest_house_thumb.png') }}" style="grid-area: A;" alt="">
+                                        </div>
+                                    @endif
                                 </div>
                                 <div class="row mx-0 my-3 w-100">
                                     <div class="col-md px-0">
@@ -48,8 +55,9 @@
                                     Features
                                 </h5>
                                 <ul>
-                                    <li>attached bathroom</li>
-                                    <li>wifi</li>
+                                    @foreach ($guestHouse->features as $feature)
+                                        <li>{{ $feature->name }}</li>
+                                    @endforeach
                                 </ul>
                             </div>
                         
@@ -58,30 +66,33 @@
                                 <table class="table text-center border border-primary">
                                     <thead class="table-primary">
                                         <tr>
-                                            <th>Room Number</th>
                                             <th>Room Type</th>
                                             <th>Capacity</th>
+                                            <th>Number of Rooms</th>
                                             <th>Price per night</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @if ($rooms)
-                                            @foreach ( $rooms as $room )
-                                            <tr>
-                                                <td>{{ $room->room_number }}</td>
-                                                <td>
-                                                    <div class="text-capitalize">
-                                                        {{ $room->roomCategory->category->name }},
-                                                        {{ $room->bedType[0]->name }}
-                                                    </div>
-                                                </td>
-                                                <td>{{ $room->capacity }}</td>
-                                                <td class="price text-end pe-3">{{ $room->total_price }}</td>
-                                            </tr>
+                                            @php
+                                                $groupedRooms = $rooms->groupBy(function ($room) {
+                                                    return $room->roomCategory->category->name . ' - ' . $room->bedType[0]->name;
+                                                });
+                                            @endphp
+                                
+                                            @foreach ($groupedRooms as $roomType => $roomsByType)
+                                                <tr>
+                                                    <td>{{ $roomType }}</td>
+                                                    <td>{{ $roomsByType->first()->capacity }}</td>
+                                                    <td>{{ $roomsByType->count() }}</td>
+                                                    <td class="price text-end pe-3">{{ $roomsByType->first()->total_price }}</td>
+                                                    
+                                                </tr>
                                             @endforeach
                                         @endif
                                     </tbody>
                                 </table>
+                                
                             </div>
                             
                             {{-- <div class="mb-2 col-md-10 mx-auto">

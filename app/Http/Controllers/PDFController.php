@@ -41,7 +41,7 @@ class PDFController extends Controller
 
         $guestHouse = Guesthouse::find($bill->guest_house_id);
 
-        $pdf = PDF::loadView('pdf.testPdf', compact(['bill', 'guest', 'reservation', 'hasTransactions', 'guestHouse']));
+        $pdf = PDF::loadView('pdf.billPDF', compact(['bill', 'guest', 'reservation', 'hasTransactions', 'guestHouse']));
 
         $bill_no = $bill->bill_no;
         $fileName = 'demoBill-' . $bill_no . '.pdf';

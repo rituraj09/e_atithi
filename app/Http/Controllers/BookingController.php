@@ -14,6 +14,7 @@ use App\Models\RoomCategory;
 use Illuminate\Http\Request;
 use App\Models\GuestCategories;
 use App\Models\ReservationRoom;
+use App\Models\ReservationReason;
 
 class BookingController extends Controller
 {
@@ -36,7 +37,7 @@ class BookingController extends Controller
         $guestDetails = GuestDetails::with('guestCategory')->find(auth()->guard('guest')->user()->id);
 
         $roomCategories = RoomCategory::where('guest_house_id', $guestHouse->id)->get();
-        // dd($guestHouse, $rooms);
+        // dd($guestHouse->images);
         return view('guest.booking.index', compact(['guestHouse', 'rooms', 'roomCategories', 'checkInDate', 'checkOutDate', 'guestDetails']));
     }
 
@@ -59,8 +60,10 @@ class BookingController extends Controller
 
         $guestDetails = GuestDetails::with('guestCategory')->find(auth()->guard('guest')->user()->id);
 
+        $reservationReasons = ReservationReason::all();
+
         $roomCategories = RoomCategory::where('guest_house_id', $guestHouse->id)->get();
-        return view('guest.booking.book', compact(['guestHouse', 'rooms', 'roomCategories', 'checkInDate', 'checkOutDate', 'guestDetails', 'guestCategories']));
+        return view('guest.booking.book', compact(['guestHouse', 'rooms', 'roomCategories', 'checkInDate', 'checkOutDate', 'guestDetails', 'guestCategories', 'reservationReasons']));
     }
 
     public function newBooking(Request $request) {
@@ -115,9 +118,9 @@ class BookingController extends Controller
                 'check_in_date' => $request->checkIn,
                 'check_out_date' => $request->checkOut,
                 'reservation_no' => $reservationNo,
-                'reservationType' => $request->visitingReason,
+                'reservation_type' => $request->visitingReason,
                 'charges_of_accomodation' => $request->totalCharge,
-                'docs' => $idCardPath,
+                'docs' => $idCardImageName,
                 'status' => 1,
                 'remarks' => $request->remarks,
                 'request_date' => Carbon::now('Asia/Kolkata'),
@@ -130,7 +133,7 @@ class BookingController extends Controller
         foreach ( $rooms as $room ) {
             $roomId = (int)trim($room, '[]');
             $roomReservation = ReservationRoom::create([
-                'reservation_id' => $request->guestHouse,
+                'reservation_id' => $reservation->id,
                 'room_id' => $roomId,
             ]);
             
@@ -150,7 +153,7 @@ class BookingController extends Controller
                 RoomOnDates::create([
                     'room_id' => $roomId,
                     'date' => $date->format('Y-m-d'),
-                    'reservation_id' => $request->guestHouse,
+                    'reservation_id' => $reservation->id,
                 ]);
             }
         }

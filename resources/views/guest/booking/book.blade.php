@@ -55,12 +55,12 @@
         <div class="mt-3">
             <span class="fs-5 fw-bold text-darkgray">Total</span>
             <div class="d-flex align-items-center justify-content-between mt-2">
-            <span>Total per night :</span>
-            <span><span id="total-per-night">0</span></span>
+                <span>Total per night :</span>
+                <span><span id="total-per-night">0</span></span>
             </div>
             <div class="d-flex align-items-center justify-content-between">
-            <span>Total :</span>
-            <span><span id="total">0</span></span>
+                <span>Total :</span>
+                <span><span id="total">0</span></span>
             </div>
         </div>
     </div>
@@ -91,8 +91,9 @@
             <div class="col-md-8 mb-2">
                 <select name="visitingReason" id="visitingReason" class="form-control">
                     <option value="" selected disabled>--select--</option>
-                    <option value="personal">Personal</option>
-                    <option value="official">Official</option>
+                    @foreach ($reservationReasons as $reservationReason)
+                        <option value="{{ $reservationReason->id }}">{{ $reservationReason->reason_name }}</option>
+                    @endforeach
                 </select>
             </div>
         </div>

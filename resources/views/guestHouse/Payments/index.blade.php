@@ -16,11 +16,6 @@
                                 view
                             </a>
                         </div>
-                        <div>
-                            <a href="{{ route('create-reservation') }}" class="text-capitalize nav-link">
-                                add
-                            </a>
-                        </div>
                     </div>
                     <div class="">
                         <div class="table-responsive">

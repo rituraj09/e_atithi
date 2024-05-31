@@ -17,6 +17,7 @@ use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReceiptController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GuestHouseController;
 use App\Http\Controllers\BedCategoryController;
 use App\Http\Controllers\ReservationController;
@@ -29,14 +30,14 @@ use App\Http\Controllers\GuestHouseConfigController;
 use App\Http\Controllers\RoomCategoryPriceController;
 use App\Http\Controllers\RoomCategoryFeatureController;
 
-// ajax routes
-// require __DIR__.'/ajax.php';
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('dashboard')->middleware(['auth']);
+// Route::get('/', function () {
+//     return view('welcome');
+// })->name('dashboard')->middleware(['auth']);
 Route::redirect('/dashboard', '/');
 Route::redirect('/guest-house', '/');
+
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middleware(['auth']);
 
 Route::controller(GuestHouseAdminController::class)->group( function () {
     Route::get('/registration', 'registration')->name('guest-house-admin-registration');
@@ -44,14 +45,11 @@ Route::controller(GuestHouseAdminController::class)->group( function () {
     Route::get('/profile', 'profile')->name('guest-house-admin-profile')->middleware(['auth']);
 });
 
-
 Route::prefix('guest-house')->group( function () {
-
     Route::controller(OfficialAuthController::class)->group( function () {
         Route::post('/login', 'login')->name('admin-login');
         Route::post('/registration', 'registration')->name('admin-registration');
-        Route::post('/logout', 'logout')->name('logout');
-
+        Route::post('/logout', 'logout')->name('admin-logout')->middleware(['auth']);
     });
 
     Route::group(['middleware' => ['auth','role:super admin']], function () {
