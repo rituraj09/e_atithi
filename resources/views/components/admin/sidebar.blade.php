@@ -53,8 +53,9 @@
           </ul>
         </div>
       </li>
+      @endif
       {{-- reservations --}}
-      @if (Auth::guard('web')->user()->hasPermissionTo('add.reservation'))
+      @if (Auth::guard('web')->user()->hasPermissionTo('add.reservation') )
       <li class="nav-item">
         <a href="{{ route('all-reservations') }}" class="nav-link">
           <i class="link-icon" data-feather="briefcase"></i>
@@ -62,6 +63,7 @@
         </a>
       </li>
       @endif
+      @if( auth()->guard('web')->user()->hasRole('admin') )
       {{-- transaction --}}
       <li class="nav-item">
         <a href="{{ route('transaction') }}" class="nav-link">

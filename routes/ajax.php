@@ -49,6 +49,7 @@ Route::prefix('/ajax')->group( function () {
     Route::controller(GuestHouseController::class)->group( function() {
         Route::post('/search-guest-house', 'search')->name('search-guest-house');
         Route::post('/get-guest-houses', 'getGuestHouses')->name('get-guest-houses');
+        Route::get('/password-generator', 'passwordGenerator')->name('admin-password-generator');
 
         // Route::post('/search-locations', 'searchLocations')->name('search-locations');
     });

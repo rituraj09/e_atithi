@@ -41,18 +41,20 @@
                           <div class="row mb-3">
                             <label for="fullname" class="form-label col-md-4 m-auto">Full name</label>
                             <div class="col-md-8">
-                              <input type="text" class="form-control" id="fullname" autocomplete="Username" name="fullname" placeholder="full name" required>
+                              <input type="text" class="form-control" id="fullname" autocomplete="Username" name="name" placeholder="full name" required>
                             </div>
                             
                           </div>
                           <div class="row mb-2">
-                            <label for="phone" class="form-label col-md-4 m-auto">Phone no.</label>
-                            <div class="col-md-8">
-                              <input type="text" class="form-control" id="phone" name="phone" placeholder="+91" onkeypress="return event.charCode >= 48 && event.charCode <= 57" required>
-                            </div>
-                            
+                              <label for="phone" class="form-label col-md-4 m-auto">Phone no.</label>
+                              <div class="col-md-8">
+                                <input type="text" class="form-control" id="phone" name="phone" placeholder="+91" onkeypress="return event.charCode >= 48 && event.charCode <= 57" required>
+                              </div>
+                              @error('phone')
+                                  <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                              @enderror 
                           </div>
-                          <div class="row mb-3">
+                          {{-- <div class="row mb-3">
                             <label for="phone-otp" class="form-label col-md-4 m-auto">OTP for phone</label>
                             <div class="col-md-8">
                               <div class="input-group">
@@ -60,7 +62,7 @@
                                 <button class="btn btn-success">verify</button>
                               </div>
                             </div>
-                          </div>
+                          </div> --}}
                           <div class="row mb-2">
                             <label for="email" class="form-label col-md-4 m-auto">Email address</label>
                             <div class="col-md-8">
@@ -68,7 +70,7 @@
                             </div>
                           </div>
                           {{-- email-otp --}}
-                          <div class="row mb-3">
+                          {{-- <div class="row mb-3">
                             <label for="email-otp" class="form-label col-md-4 m-auto">OTP for email</label>
                             <div class="col-md-8">
                               <div class="input-group">
@@ -76,7 +78,7 @@
                                 <button type="button" class="btn btn-success">verify</button>
                               </div>
                             </div>
-                          </div>
+                          </div> --}}
                           <div class="row mb-2">
                             <label for="captcha" class="form-label col-md-4 m-auto">Captcha</label>
                             <div class="col-md-8">
@@ -90,8 +92,8 @@
                             <div class="col-md-4"></div>
                             <div class="col-md-8">
                               <div class="input-group">
-                                <input type="text" name="captcha" id="" class="form-control" placeholder="Type captcha here" required>
-                                <button class="btn btn-success">verify</button>
+                                <input type="text" name="captcha" id="captcha-input" class="form-control" placeholder="Type captcha here" required>
+                                <button class="btn btn-success" type="button" id="verifyCaptcha">verify</button>
                               </div>
                             </div>
                           </div>
@@ -127,7 +129,7 @@
                               <div class="col-md-8">
                                   <div class="input-group">
                                       <input type="password" class="form-control" id="userPassword" name="password" autocomplete="current-password" placeholder="Password" required>
-                                      <button class="btn btn-success">generate</button>
+                                      <button class="btn btn-success" id="generatePassword">generate</button>
                                   </div>
                                 </div>
                             </div>
@@ -190,6 +192,19 @@
                 }
             })
         });    
+    });
+
+    // password generate
+    $(document).on('click', '#generatePassword', function (e) {
+        e.preventDefault();
+        $.ajax({
+          url: "{{ route('admin-password-generator') }}",
+          type: "GET",
+          success: function (res) {
+            console.log(res);
+            $('#userPassword').val(res);
+          }
+        })
     });
 
     $(document).ready(function () {

@@ -15,11 +15,11 @@ class TransactionController extends Controller
 {
     //
     public function index() {
-        $employeeId = auth()->user()->id;
+        $employeeId = auth()->guard('web')->user()->id;
         $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
 
         $roomTransactions = RoomTransaction::with(['reservedRooms','reservationDetails'])
-                                            // ->where('reservationDetails.guest_house_id',$guest_house_id)
+                                            ->where('guest_house_id',$guest_house_id)
                                             ->get();
 
 

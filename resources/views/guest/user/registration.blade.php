@@ -43,11 +43,11 @@
                                                 @error('phone')
                                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                                 @enderror 
-                                                </div>
                                             </div>
-                                            <div class="row mb-3">
-                                                <label for="email" class="form-label col-md-4 m-auto">Email address</label>
-                                                <div class="col-md-8">
+                                        </div>
+                                        <div class="row mb-3">
+                                            <label for="email" class="form-label col-md-4 m-auto">Email address</label>
+                                            <div class="col-md-8">
                                                 <div class="input-group">
                                                     <input type="email" class="form-control" id="email" name="email" placeholder="Email address">
                                                     <button id="emailVerification" type="button" class="btn btn-sm btn-success">verify</button>
@@ -56,19 +56,19 @@
                                                 @error('email')
                                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                                 @enderror
-                                                </div>
                                             </div>
-                                            <div class="row mb-2">
-                                                <label for="captcha" class="form-label col-md-4 m-auto">Captcha</label>
-                                                <div class="col-md-8">
-                                                    <img id="captcha-image" class="rounded-3" src="{{ route('captcha') }}" alt="Captcha Image">
-                                                    <button type="button" id="reload" class="ms-3 btn btn-sm btn-outline-primary"><i class="me-2 icon-md" data-feather="repea"></i>reload</button>
-                                                </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <label for="captcha" class="form-label col-md-4 m-auto">Captcha</label>
+                                            <div class="col-md-8">
+                                                <img id="captcha-image" class="rounded-3" src="{{ route('captcha') }}" alt="Captcha Image">
+                                                <button type="button" id="reload" class="ms-3 btn btn-sm btn-outline-primary"><i class="me-2 icon-md" data-feather="repea"></i>reload</button>
+                                            </div>
                                                 {{-- <input type="email" class="form-control" id="userEmail" placeholder="Email"> --}}
-                                            </div>
-                                            <div class="row mb-3">
-                                                <div class="col-md-4"></div>
-                                                <div class="col-md-8">
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-4"></div>
+                                            <div class="col-md-8">
                                                 <div class="input-group">
                                                     <input type="text" name="" id="captcha-input" class="form-control" placeholder="Type captcha here">
                                                     <button class="btn btn-success" type="button" id="verifyCaptcha">verify</button>
@@ -76,9 +76,9 @@
                                                 @error('captcha')
                                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                                 @enderror
-                                                </div>
                                             </div>
-                                            <div class="row mb-3">
+                                        </div>
+                                        <div class="row mb-3">
                                                 <label for="userPassword" class="form-label col-md-4 m-auto">Password</label>
                                                 <div class="col-md-8">
                                                 <input type="password" class="form-control" id="userPassword" name="password" autocomplete="current-password" placeholder="Password">

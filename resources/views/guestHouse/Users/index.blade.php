@@ -81,6 +81,7 @@
                         </tr>    
                     `).join('');
                     $("#userList").html(html);
+                    // console.log(html);
                 }
             })
         }

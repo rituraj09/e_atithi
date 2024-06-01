@@ -13,7 +13,7 @@ class UsersController extends Controller
     // it is for the user created by super admin, or admin
 
     public function getAllSubUsers() {
-        if (auth()->user()->roles[0]->name === 'super admin') {
+        if (auth()->guard('web')->user()->roles[0]->name === 'super admin') {
             $allUsers = Admin::with('roles')
                             ->where('role', '!=', '1')->get();
         } else {
@@ -25,7 +25,7 @@ class UsersController extends Controller
     }
 
     public function allSubUsers () {
-        if (auth()->user()->roles[0]->name === 'super admin') {
+        if (auth()->guard('web')->user()->roles[0]->name === 'super admin') {
             $allUsers = Admin::with('roles')
                             ->where('role', '!=', '1')->get();
         } else {
@@ -37,7 +37,7 @@ class UsersController extends Controller
     }
 
     public function addSubUsers() {
-        if (auth()->user()->roles[0]->name  === 'admin') {
+        if (auth()->guard('web')->user()->roles[0]->name  === 'admin') {
             $roles = Role::where('name', '!=', 'super admin' )
                         ->where('name', '!=', 'admin')
                         ->get();
@@ -47,7 +47,7 @@ class UsersController extends Controller
         }
 
         // for super admin
-        if (auth()->user()->roles[0]->name === 'super admin') {
+        if (auth()->guard('web')->user()->roles[0]->name === 'super admin') {
             $guestHouses = Guesthouse::with(['country_name', 'state_name', 'district_name'])->get();
             return view('guestHouse.Users.add', compact(['roles','guestHouses']));
         }
@@ -61,15 +61,15 @@ class UsersController extends Controller
         
         // common validation
         $fields = $request->validate([
-            'fullname' => 'required',
-            'phone' => 'required|digits:10',
+            'name' => 'required',
+            'phone' => 'required',
             'email' => 'required|email',
             'role' => 'required',
             'password' => 'required',
         ],[
             'fullname.required' => 'Name is required',
             'phone.required' => 'Phone number is required',
-            'phone.digits' => 'Phone number should contain 10 digits',
+            // 'phone.digits' => 'Phone number should contain 10 digits',
             'email.required' => 'Email address is required',
             'role.required' => 'Please select a role for the user/employee',
             'password.required' => 'Password is required',
@@ -77,7 +77,7 @@ class UsersController extends Controller
 
 
         $subUser = Admin::create([
-            'admin_name' => $fields['fullname'],
+            'admin_name' => $fields['name'],
             'phone' => $fields['phone'],
             'email' => $fields['email'],
             'role' => $fields['role'],
@@ -95,25 +95,24 @@ class UsersController extends Controller
             ]);
         } else {
             // select all guestHouse id of the admin
-            $guestHouse = GuestHouseHasEmployee::where('employee_id',auth()->user()->id)->pluck('guest_house_id');
+            $guestHouse = GuestHouseHasEmployee::where('employee_id',auth()->guard('web')->user()->id)->pluck('guest_house_id')->first();
             // dd($guestHouse);
             $guestHouseEmployee = GuestHouseHasEmployee::create([
-                'guest_house_id' => $guestHouse[0],
+                'guest_house_id' => $guestHouse,
                 'employee_id' => $subUser->id,
             ]);
         }
 
         $role = Role::findById($subUser->role, 'web');
         
-        $subUser->assignRole($subUser->name);
+        $subUser->assignRole($role);
         $permissions = $role->permissions;
         // assigning permissions to the sub users
         $subUser->givePermissionTo($permissions);
-        
 
         // return $request;
 
-        return redirect()->route('all-sub-users')->with('message', 'a');
+        return redirect()->route('all-sub-users')->with(['icon'=>'success', 'message'=>'New employee added successfully.']);
     }
 
     public function editSubUser($id) {

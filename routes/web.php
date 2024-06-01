@@ -65,7 +65,7 @@ Route::prefix('guest-house')->group( function () {
     });
 
 
-    Route::group(['middleware' => ['auth','role:admin|super admin']], function () {       
+    Route::group(['middleware' => ['auth','role:admin|super admin|approver']], function () {       
     // Route::middleware(['auth','roles:super admin'])->prefix('/admin')->group( function () { 
         Route::controller(UsersController::class)->group( function () {
             Route::get('/users/all-users', 'allSubUsers')->name('all-sub-users');
