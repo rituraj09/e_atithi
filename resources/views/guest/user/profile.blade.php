@@ -56,8 +56,8 @@
                             <input id="reservationNo" class="text-darkgray border-0" value="Male" readonly disabled>
                         </div>
                         <div class="col-md-4 mb-3">
-                            <div class="fw-bolder mb-1 ">User Typr</div>
-                            <input id="reservationNo" class="text-darkgray border-0" value="Govt employee" readonly disabled>
+                            <div class="fw-bolder mb-1 ">User Type</div>
+                            <input id="reservationNo" class="text-darkgray border-0 text-capitalize" value="{{ $guestDetail->guestCategory->name }}" readonly disabled>
                         </div>
                     </div>
                     <div class="row col-md-8 mx-auto mb-3 border-top">

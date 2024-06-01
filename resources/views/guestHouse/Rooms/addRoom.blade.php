@@ -1,6 +1,6 @@
 <!-- resources/views/profile.blade.php -->
 
-{{-- {{ dd($roomCategories ); }} --}}
+{{-- {{ dd($guestHouse ); }} --}}
 
 <x-header/>
 <body>
@@ -31,6 +31,9 @@
                                     <div class="mb-3">
                                         <label for="roomNumber" class="form-label">Room Number <x-required/> </label>
                                         <input id="roomNumber" class="form-control" name="roomNumber" type="text" placeholder="Room number">
+                                        @error('roomNumber')
+                                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -42,6 +45,9 @@
                                                 <option value="{{ $roomCategory->id }}" data-price="{{ $roomCategory->price_modifier }}">{{ $roomCategory->Category->name }}</option>
                                             @endforeach
                                         </select>
+                                        @error('roomCategory')
+                                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -53,6 +59,9 @@
                                                 <option value="{{ $bedCategory->id }}" data-price="{{ $bedCategory->price_modifier }}">{{ $bedCategory->Bed->name }}</option>
                                             @endforeach
                                         </select>
+                                        @error('bedCategory')
+                                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                                 {{-- <div class="col-md-6">
@@ -74,24 +83,10 @@
                                         <select name="numberOfBeds" id="numberOfBeds" class="form-control">
                                             <option value="" selected disabled>--select--</option>
                                             <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
                                         </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="capacity" class="form-label">Capacity</label>
-                                        <input id="capacity" class="form-control" name="capacity" type="text" placeholder="Capacity (optional)" 
-                                        onkeypress="return event.charCode >= 48 && event.charCode <= 57">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="price" class="form-label">Base Price</label>
-                                        <input id="price" type="text" class="form-control" name="basePrice" value="{{ $guestHouse->base_price }}" placeholder="Base price" readonly disabled>
+                                        @error('numberOfBeds')
+                                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -112,14 +107,43 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
+                                        <label for="capacity" class="form-label">Capacity</label>
+                                        <input id="capacity" class="form-control" name="capacity" type="text" placeholder="Capacity (optional)" 
+                                        onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                                        @error('capacity')
+                                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
                                         <label for="roomDetails" class="form-label">Room Details</label>
                                         <textarea class="form-control" name="roomDetails" id="roomDetails" cols="30" rows="1"></textarea>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="price" class="form-label">Base Price</label>
+                                        <input id="price" type="text" class="form-control" name="basePrice" value="{{ $guestHouse->base_price }}" placeholder="Base price" readonly disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="price" class="form-label">Govt Base Price</label>
+                                        <input id="govtPrice" type="text" class="price form-control" name="basePriceGovt" value="{{ $guestHouse->govt_base_price }}" placeholder="Base govt price" readonly disabled>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="" class="form-label">Total Rate</label>
                                         <span class="d-block w-100 p-1 text-darkgray" id="total">0.00</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Total Govt Rate</label>
+                                        <span class="d-block w-100 p-1 text-darkgray" id="totalGovt">0.00</span>
                                     </div>
                                 </div>
                             </div>
@@ -156,9 +180,12 @@
 
     const calculatePrice = () => {
         var total = 0;
+        var totalGovt = 0;
         total = total + parseFloat($('#bedCategory').find(':selected').data('price')) + parseFloat($('#roomCategory').find(':selected').data('price')) + (parseFloat($('#price').val()) || 0);
-        console.log(total);
+        totalGovt = totalGovt + parseFloat($('#bedCategory').find(':selected').data('price')) + parseFloat($('#roomCategory').find(':selected').data('price')) + (parseFloat($('#govtPrice').val()) || 0);
+        // console.log(total);
         $('#total').html(total);
+        $('#totalGovt').html(totalGovt);
     }
 
 

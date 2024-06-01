@@ -26,7 +26,7 @@
           <span class="link-title">Manage Users</span>
         </a>
       </li>
-      @endif
+      @endif  
 
       @if( auth()->guard('web')->user()->hasRole('admin') )
       {{-- rooms --}}
@@ -98,6 +98,15 @@
         <a href="{{ route('guest-house-config') }}" class="nav-link">
           <i class="link-icon" data-feather="settings"></i>
           <span class="link-title">Guest House Setting</span>
+        </a>
+      </li>
+      @endif
+
+      @if( auth()->guard('web')->user()->hasRole('admin') )
+      <li class="nav-item">
+        <a href="{{ route('all-sub-users') }}" class="nav-link">
+          <i class="link-icon" data-feather="user"></i>
+          <span class="link-title">Manage Users</span>
         </a>
       </li>
       @endif

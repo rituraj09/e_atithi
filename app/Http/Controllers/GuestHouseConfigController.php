@@ -91,6 +91,10 @@ class GuestHouseConfigController extends Controller
             return back()->with(['icon' => 'error', 'message' => 'Something is wrong']);
         }
         // return $isUpdate;
+
+        $priceController = new PriceCalculatorController();
+        $priceController->recalculateAll();
+
         return back()->with(['icon' => 'success', 'message' => 'Guest house config is updated successfully.']);
         
     }

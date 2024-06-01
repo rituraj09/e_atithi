@@ -44,7 +44,11 @@
                                         <td>
                                             {{-- <a href="{{ route('print-bill', ['id' => $bill->id]) }}">download</a> --}}
                                             <a href="{{ route('print-bill', ['id' => $bill->id]) }}" class="btn btn-sm btn-info py-1">Download</a>
-                                            <button class="open-popup btn btn-sm btn-success py-1" data-href="{{ route('payment-view', ['id' => $bill->id]) }}">Pay</button>
+                                            @if (!in_array($bill->id, $payments))
+                                                <button class="open-popup btn btn-sm btn-success py-1" data-href="{{ route('payment-view', ['id' => $bill->id]) }}">Pay</button>
+                                            @else 
+                                                <span class="py-1 px-2 bg-secondary rounded text-light">paid</span>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

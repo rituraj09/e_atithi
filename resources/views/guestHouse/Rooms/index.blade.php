@@ -29,7 +29,8 @@
                                 <tr>
                                 <th>Room Number</th>
                                 <th>Room Type</th>
-                                <th>Rate</th>
+                                <th>General Rate</th>
+                                <th>Govt Rate</th>
                                 <th>Occupency</th>
                                 <th>Status</th>
                                 <th>Action</th>
@@ -44,6 +45,7 @@
                                             {{ $room['bedType'][0]->name }}
                                         </td>
                                         <td>{{ $room->total_price }}</td>
+                                        <td>{{ $room->total_govt_price }}</td>
                                         <td>{{ $room->capacity }}</td>
                                         <td>
                                             <select class="form-control" name="" id="">

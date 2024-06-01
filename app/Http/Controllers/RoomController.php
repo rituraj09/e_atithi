@@ -47,7 +47,7 @@ class RoomController extends Controller
             return view('guestHouse.Rooms.addRoom');
         }
 
-        $guestHouse = Guesthouse::select('base_price')->find($guest_house_id);
+        $guestHouse = Guesthouse::select('base_price','govt_base_price')->find($guest_house_id);
 
         // dd($guestHouse);
         // echo $roomCategories;
@@ -74,13 +74,17 @@ class RoomController extends Controller
         $employeeId = auth()->guard('web')->user()->id;
         $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
 
-        $guestHouse = Guesthouse::select('base_price')->find($guest_house_id);
+        $guestHouse = Guesthouse::select('base_price','govt_base_price','sgst','cgst')->find($guest_house_id);
         $bedCategory = BedHasPriceModifier::find($request->bedCategory);
         $roomCategory = RoomCategoryHasPrice::find($request->roomCategory);
 
+        // for general
         $subTotal = $guestHouse->base_price + $bedCategory->price_modifier + $roomCategory->price_modifier;
-
         $totalPrice = $subTotal + (($subTotal * $guestHouse->sgst)/100 ) + (($subTotal * $guestHouse->sgst)/100 );
+
+        // for govt
+        $subTotal = $guestHouse->govt_base_price + $bedCategory->price_modifier + $roomCategory->price_modifier;
+        $totalGovtPrice = $subTotal + (($subTotal * $guestHouse->sgst)/100 ) + (($subTotal * $guestHouse->sgst)/100 );
 
         $capacity = $bedCategory->capacity * $request->numberOfBeds;
 
@@ -92,6 +96,7 @@ class RoomController extends Controller
             'no_of_beds' => $request->numberOfBeds,
             'capacity' => $request->capacity || $capacity,
             'total_price' => $totalPrice,
+            'total_govt_price' => $totalGovtPrice,
             'width' => $request->width || null,
             'length' => $request->length || null,
         ]);
@@ -134,13 +139,17 @@ class RoomController extends Controller
         $this->validateForm($request);
 
         $guest_house_id = GuestHouseHasEmployee::where('employee_id', auth()->guard('web')->user()->id)->pluck('guest_house_id')->first();
-        $guestHouse = Guesthouse::select('base_price')->find($guest_house_id);
+        $guestHouse = Guesthouse::select('base_price','govt_base_price','sgst','cgst')->find($guest_house_id);
         $bedCategory = BedCategory::find($request->bedCategory);
         $roomCategory = RoomCategory::find($request->roomCategory);
 
-        $subTotal = $request->basePrice + $bedCategory->price_modifier + $roomCategory->price_modifier;
-
+        // for general
+        $subTotal = $guestHouse->govt_base_price + $bedCategory->price_modifier + $roomCategory->price_modifier;
         $totalPrice = $subTotal + (($subTotal * $guestHouse->sgst)/100 ) + (($subTotal * $guestHouse->sgst)/100 );
+
+        // for govt
+        $subTotal = $guestHouse->govt_base_price + $bedCategory->price_modifier + $roomCategory->price_modifier;
+        $totalGovtPrice = $subTotal + (($subTotal * $guestHouse->sgst)/100 ) + (($subTotal * $guestHouse->sgst)/100 );
 
         $fields = [
             'room_number' => $request->roomNumber,
@@ -149,6 +158,7 @@ class RoomController extends Controller
             'room_category' => $request->roomCategory,
             // 'base_price' => $request->basePrice,
             'total_price' => $totalPrice,
+            'total_govt_price' => $totalGovtPrice,
             'no_of_beds' => $request->numberOfBeds,
             'capacity' => $request->capacity,
             'width' => $request->width || null,
@@ -201,6 +211,12 @@ class RoomController extends Controller
             'numberOfBeds' => 'required',
             'roomCategory' => 'required',
             'bedCategory' => 'required',
+        ],[
+            'roomNumber.required' => 'Please enter a room number',
+            'roomNumber.unique' => 'Please enter a unique room number.',
+            'numberOfBeds.required' => 'Please enter number of beds.',
+            'roomCategory.required' => 'Please select a room category',
+            'bedCategory.required' => 'Please select a bed category.',
         ]);
     }
 }

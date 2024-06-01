@@ -29,11 +29,15 @@ class PriceCalculatorController extends Controller
             foreach ( $rooms as $room ) {
                 $newRoom = Rooms::find($room->room_id);
 
+                // general rate
                 $subTotal = $guestHouse->base_price + $bedCategory->price_modifier + $newRoom->roomCategory->price_modifier;
-
                 $newPrice = $subTotal + (($subTotal * $guestHouse->sgst)/100 ) + (($subTotal * $guestHouse->sgst)/100 );
-
                 $newRoom->update(['total_price' => $newPrice]);
+
+                // govt rate
+                $subTotal = $guestHouse->govt_base_price + $bedCategory->price_modifier + $newRoom->roomCategory->price_modifier;
+                $newPrice = $subTotal + (($subTotal * $guestHouse->sgst)/100 ) + (($subTotal * $guestHouse->sgst)/100 );
+                $newRoom->update(['total_govt_price' => $newPrice]);
             }
         // for room category
         } else if ( $type === 'room' ) {
@@ -43,16 +47,48 @@ class PriceCalculatorController extends Controller
                             ->get();
 
             foreach ( $rooms as $room ) {
-                $beds = RoomHasBed::where('room_id', $room->id)->first();
-                $bedHasPrice = BedHasPriceModifier::find($beds->bed_type); //$bedHasPrice->price_modifier
+                $bed = RoomHasBed::where('room_id', $room->id)->first();
+                $bedHasPrice = BedHasPriceModifier::find($bed->bed_type); //$bedHasPrice->price_modifier
 
+                // general rate
                 $subTotal = $guestHouse->base_price + $bedHasPrice->price_modifier + $roomCategory->price_modifier;
-
                 $newPrice = $subTotal + (($subTotal * $guestHouse->sgst)/100 ) + (($subTotal * $guestHouse->sgst)/100 );
-
                 $newRoom->update(['total_price' => $newPrice]);
+
+                // govt rate
+                $subTotal = $guestHouse->govt_base_price + $bedHasPrice->price_modifier + $roomCategory->price_modifier;
+                $newPrice = $subTotal + (($subTotal * $guestHouse->sgst)/100 ) + (($subTotal * $guestHouse->sgst)/100 );
+                $newRoom->update(['total_govt_price' => $newPrice]);
             }
         }
         return true;
+    }
+
+    public function recalculateAll() {
+        $guest_house_id = GuestHouseHasEmployee::where('employee_id', auth()->guard('web')->user()->id)
+                                                ->pluck('guest_house_id')->first();
+        $guestHouse = Guesthouse::find($guest_house_id);
+
+        $rooms = Rooms::where('guest_house_id', $guest_house_id)->get();
+
+        foreach ($rooms as $room) {
+            // room category
+            // $category = $room->room_category;
+            $roomCategory = RoomCategoryHasPrice::find($room->room_category);
+
+            // bed category
+            $bed = RoomHasBed::where('room_id', $room->id)->first();
+            $bedHasPrice = BedHasPriceModifier::find($bed->bed_type);
+
+            // general rate
+            $subTotal = $guestHouse->base_price + $bedHasPrice->price_modifier + $roomCategory->price_modifier;
+            $newPrice = $subTotal + (($subTotal * $guestHouse->sgst)/100 ) + (($subTotal * $guestHouse->sgst)/100 );
+            $room->update(['total_price' => $newPrice]);
+
+            // govt rate
+            $subTotal = $guestHouse->govt_base_price + $bedHasPrice->price_modifier + $roomCategory->price_modifier;
+            $newPrice = $subTotal + (($subTotal * $guestHouse->sgst)/100 ) + (($subTotal * $guestHouse->sgst)/100 );
+            $room->update(['total_govt_price' => $newPrice]);
+        }
     }
 }

@@ -92,12 +92,7 @@
                                         onkeypress="return event.charCode >= 48 && event.charCode <= 57"> --}}
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="price" class="form-label">Base Price</label>
-                                        <input id="price" type="text" class="form-control" name="basePrice" value="{{ $guestHouse->base_price }}" placeholder="Base price" readonly disabled>
-                                    </div>
-                                </div>
+                                
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="width" class="form-label">Width</label>
@@ -120,10 +115,29 @@
                                         <textarea class="form-control" name="roomDetails" id="roomDetails" cols="30" rows="1"></textarea>
                                     </div>
                                 </div>
+                                <hr>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="price" class="form-label">Base Price</label>
+                                        <input id="price" type="text" class="form-control" name="basePrice" value="{{ $guestHouse->base_price }}" placeholder="Base price" readonly disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="price" class="form-label">Govt Base Price</label>
+                                        <input id="govtPrice" type="text" class="price form-control" name="basePrice" value="{{ $guestHouse->govt_base_price }}" placeholder="Base price" readonly disabled>
+                                    </div>
+                                </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="" class="form-label">Total Rate</label>
                                         <span class="d-block w-100 p-1 text-darkgray" id="total">{{ $room->total_price }}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Total Govt Rate</label>
+                                        <span class="d-block w-100 p-1 text-darkgray" id="totalGovt">{{ $room->total_govt_price }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -147,12 +161,15 @@
         calculatePrice();
     });
 
-    // const calculatePrice = () => {
-    //     var total = 0;
-    //     total = total + parseFloat($('#bedCategory').find(':selected').data('price')) + parseFloat($('#roomCategory').find(':selected').data('price')) + (parseFloat($('#price').val()) || 0);
-    //     console.log(total);
-    //     $('#total').html(total);
-    // }
+    const calculatePrice = () => {
+        var total = 0;
+        var totalGovt = 0;
+        total = total + parseFloat($('#bedCategory').find(':selected').data('price')) + parseFloat($('#roomCategory').find(':selected').data('price')) + (parseFloat($('#price').val()) || 0);
+        totalGovt = totalGovt + parseFloat($('#bedCategory').find(':selected').data('price')) + parseFloat($('#roomCategory').find(':selected').data('price')) + (parseFloat($('#govtPrice').val()) || 0);
+        console.log(total);
+        $('#total').html(total);
+        $('#totalGovt').html(totalGovt);
+    }
     </script>
 
 

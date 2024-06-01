@@ -15,6 +15,8 @@ class ProfileController extends Controller
     //
     public function updateProfile(Request $request) {
 
+        // return $request;
+
         $idCardImage = $request->file('id_card_file');
         $idCardImageName = null;
         if ($idCardImage) {

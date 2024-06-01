@@ -80,8 +80,10 @@
                           <div class="row mb-2">
                             <label for="captcha" class="form-label col-md-4 m-auto">Captcha</label>
                             <div class="col-md-8">
-                                <img class="rounded-3" src="{{ route('captcha') }}" alt="Captcha Image">
-                                <button class="ms-3 btn btn-sm btn-outline-primary"><i class="me-2 icon-md" data-feather="repeat"></i>reload</button>
+                                {{-- <img class="rounded-3" src="{{ route('captcha') }}" alt="Captcha Image">
+                                <button class="ms-3 btn btn-sm btn-outline-primary"><i class="me-2 icon-md" data-feather="repeat"></i>reload</button> --}}
+                                <img id="captcha-image" class="rounded-3" src="{{ route('captcha') }}" alt="Captcha Image">
+                                <button type="button" id="reload" class="ms-3 btn btn-sm btn-outline-primary"><i class="me-2 icon-md" data-feather="repea"></i>reload</button>
                             </div>
                           </div>
                           <div class="row mb-3">
@@ -143,6 +145,53 @@
     </div>
 
     <script>
+      $(document).ready( function () {
+        const loadCaptcha = () => {
+            $.ajax({
+                url : "{{ route('captcha') }}",
+                type: "GET",
+                success: function (data) {
+                var file = `data:image/png;base64,${data.image}`;
+                console.log(file);
+                $("#captcha-image").attr('src', file);
+                }
+            });
+        }
+
+        loadCaptcha();
+
+        $('#reload').on('click', function (e) {
+            e.preventDefault();
+            $('#verifyCaptcha').html("verify");
+            $('#verifyCaptcha').removeClass('btn-outline-primary').addClass('btn-success');
+            $('#verifyCaptcha').prop('disabled', false);
+            $("#captcha-input").attr('disabled', false);
+            loadCaptcha();
+        });
+
+        $("#verifyCaptcha").on('click', function (e) {
+            e.preventDefault();
+            const captcha = $("#captcha-input").val();
+            $.ajax({
+                url: "{{ route('verify-captcha') }}",
+                type: "POST",
+                data: {captcha:captcha},
+                success: function (res) {
+                    if (res.message === 'success') {
+                        // done
+                        $('#verifyCaptcha').html(`<i class="mdi mdi-check"></i>`);
+                        $('#verifyCaptcha').addClass('btn-outline-primary').removeClass('btn-success');
+                        $('#verifyCaptcha').prop('disabled');
+                        $("#captcha-input").attr('disabled', true);
+                        console.log("done");
+                    } else {
+                        console.log("failed");
+                    }
+                }
+            })
+        });    
+    });
+
     $(document).ready(function () {
       $('.dropify-message p').css('font-size', '16px'); 
       $(".dropify-wrapper").css({'max-width':'100px !important'});

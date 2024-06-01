@@ -70,6 +70,7 @@
                                             <th>Capacity</th>
                                             <th>Number of Rooms</th>
                                             <th>Price per night</th>
+                                            <th>Price per nigth (govt)</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -85,8 +86,8 @@
                                                     <td>{{ $roomType }}</td>
                                                     <td>{{ $roomsByType->first()->capacity }}</td>
                                                     <td>{{ $roomsByType->count() }}</td>
-                                                    <td class="price text-end pe-3">{{ $roomsByType->first()->total_price }}</td>
-                                                    
+                                                        <td class="price text-end pe-3">{{ $roomsByType->first()->total_price }}</td>
+                                                        <td class="price text-end pe-3">{{ $roomsByType->first()->total_govt_price }}</td>
                                                 </tr>
                                             @endforeach
                                         @endif

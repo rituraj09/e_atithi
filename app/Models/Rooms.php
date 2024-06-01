@@ -25,6 +25,7 @@ class Rooms extends Model
         'capacity',
         'room_category',
         'total_price',
+        'total_govt_price',
         'width',
         'length',
         'is_active',

@@ -88,7 +88,7 @@
         // pin
         $("#pin").on('input', function () {
             // Regular expression to allow only numbers, optional decimal point, and up to 2 decimal places
-            const regex = /^\d{10}$/;
+            const regex = /^\d{6}$/;
 
             // Check if the entered value matches the regular expression
             const isValid = regex.test($(this).val());
@@ -215,7 +215,7 @@
 
         $("#phone").on("input", function() {
             // Regular expression for phone number validation (adjust for your country's format if needed)
-            const regex = /^\d{10}$/;
+            const regex = /^\d{10,13}$/;
 
             // Check if the entered value matches the regular expression
             const isValid = regex.test($(this).val());

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Bill;
 use Illuminate\Http\Request;
+use App\Models\PaymentTransaction;
 use App\Models\GuestHouseHasEmployee;
 use App\Http\Controllers\PDFController;
 
@@ -18,8 +19,10 @@ class BillController extends Controller
         $bills = Bill::with(['guest','reservation'])
                     ->where('guest_house_id', $guest_house_id)
                     ->get();
+        
+        $payments = PaymentTransaction::where('guest_house_id', $guest_house_id)->pluck('bill_id')->toArray();
 
-        return view('guestHouse.Bills.index', compact(['bills']));
+        return view('guestHouse.Bills.index', compact(['bills','payments']));
     }
 
     public function billGenerate ($request) {

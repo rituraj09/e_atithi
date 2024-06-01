@@ -37,7 +37,7 @@
                                             <td>{{ $payment->total_amount }}</td>
                                             <td>{{ $payment->transaction_time }}</td>
                                             <td>
-                                                <button data-href="{{ route('reservation-details', ['id' => $payment->id ]) }}" class="open-popup btn btn-info btn-sm">print</button>
+                                                <a href="{{ route('print-bill', ['id' => $payment->bill_id]) }}" class="btn btn-sm btn-info py-1">Dwonload Bill</a>
                                             </td>
                                         </tr>
                                     @endforeach

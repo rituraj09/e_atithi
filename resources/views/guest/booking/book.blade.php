@@ -21,7 +21,8 @@
                     <th>Room Number</th>
                     <th>Room Type</th>
                     <th>Capacity</th>
-                    <th>Price per night</th>
+                    <th>Rate</th>
+                    <th>Govt Rate</th>
                     <th class="text-center">Select</th>
                 </tr>
             </thead>
@@ -38,6 +39,7 @@
                         </td>
                         <td>{{ $room->capacity }}</td>
                         <td class="price text-end pe-3">{{ $room->total_price }}</td>
+                        <td class="price-govt text-end pe-3">{{ $room->total_govt_price }}</td>
                         <td>
                             <div class="form-check form-switch me-0 px-auto">
                                 <input class="form-check-input m-auto" role="switch" type="checkbox" name="roomSelect" id="roomSelect" data-id="{{ $room->id }}">
@@ -141,12 +143,16 @@
 
 <!-- Custom js for this page -->
 <script>
+    var guest;
     $(document).ready(function () {
         $("#self_reservation").on('click', function () {
             $("#optional").html('');
+            guest = "{{ $guestDetails->guestcategory_id }}";
+            console.log(guest)
         });
 
         $("#other_reservation").on('click', function () {
+            guest = null;
             $("#optional").html(`
             <div class="row">
                 <label for="" class="col-md-4 mb-2">Guest Name <x-required/> </label>
@@ -188,11 +194,15 @@
         // console.log(days);
         $('#days').html(days);
 
-
-
-
         $('input[name="roomSelect"]').each(function() {
             $(this).prop('checked', false);
+        });
+
+        $('#guest_category').on('change', function () {
+            $('input[name="roomSelect"]').each(function() {
+                $(this).prop('checked', false);
+            })
+            console.log('change')
         });
 
 
@@ -269,7 +279,25 @@
             }
             var total = 0;
             $('input[name="roomSelect"]:checked').each(function() {
-                var price = parseFloat($(this).closest('tr').find('.price').text());
+                if (guest === null) {
+                    if ($('#guest_category').val() === '1') {
+                        var price = parseFloat($(this).closest('tr').find('.price').text());
+                        console.log('gen1')
+                    } else {
+                        var price = parseFloat($(this).closest('tr').find('.price-govt').text());
+                        console.log('govt1')
+                    }
+                } else {
+                    if (guest === '1') {
+                        var price = parseFloat($(this).closest('tr').find('.price').text());
+                        console.log('gen2')
+                    } else {
+                        var price = parseFloat($(this).closest('tr').find('.price-govt').text());
+                        console.log('govt2')
+                    }
+                }
+                console.log(guest);
+                console.log($('#guest_category').val())
                 total += price;
             });
             $('#total-per-night').html(total.toFixed(2)); // Assuming you want to display the total with 2 decimal places
