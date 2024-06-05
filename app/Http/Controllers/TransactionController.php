@@ -184,9 +184,21 @@ class TransactionController extends Controller
 
         $reservation = Reservation::find($request->reservation_id);
 
-        $reservation->update([
-            'status' => 7,
-        ]);
+        $reservedRooms = ReservationRoom::where('reservation', $request->reservation_id)->get();
+
+        foreach ( $reservedRooms as $room ) {
+            $isChecked = RoomTransaction::find($room->id)->whereNotNUll('checked_out_date')->get();
+            if ($isChecked) {   // if checked out
+                $reservation->update([
+                    'status' => 9,
+                ]);
+            } else {            // if any room is left, then checkout in process
+                $reservation->update([
+                    'status' => 7,
+                ]);
+                exit;
+            }
+        }
 
         // bill generation
         $billController = new BillController();

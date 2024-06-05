@@ -102,6 +102,7 @@
                             <div class="col-md-4 mb-3">
                                 <div class="fw-bolder mb-1 ">Country</div>
                                 <select class="form-control" name="country" id="country">
+                                    <option value="" disabled>--select--</option>
                                     @foreach ( $countries as $country )
                                         <option value="{{ $country->id }}"
                                         @if ($country->id === $guestHouse->country)

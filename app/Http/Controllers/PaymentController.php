@@ -60,10 +60,15 @@ class PaymentController extends Controller
         $generateReceipt = $receiptController->generateReceipt($isPaid);
 
         // dd($generateReceipt);
+        $reservation = Reservation::find($request->reservation_id);
 
         if (!$generateReceipt) {
             return back()->with(['icon' => 'error', 'message' => 'Receipt generation failed.']);
         }
+
+        $reservation->update([
+            'status' => 10,
+        ]);
 
         return back()->with(['icon' => 'success', 'message' => 'Payment successfull with a receipt.']);
     }

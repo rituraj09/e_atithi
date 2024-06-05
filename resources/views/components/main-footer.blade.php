@@ -52,6 +52,21 @@
             }
         });
         // country
+        if ($("#country").val !== '') {
+            const c_id = $("#country").val();
+            console.log(c_id);
+
+            const stateurl = "{{ route('get-states', ['cid' => ':cid']) }}".replace(':cid', c_id);
+            $.ajax({
+                url: stateurl,
+                type: 'GET',
+                success: function (res) {
+                    let html = '<option value="" selected disabled>--select--</option>'; // Default option
+                    html += res.map(state => `<option value="${state.id}" >${state.name}</option>`).join('');
+                    $("#state").html(html);
+                }
+            })
+        }
         $("#country").on('change', function () {
             const c_id = $("#country").val();
             console.log(c_id);

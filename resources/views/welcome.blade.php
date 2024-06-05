@@ -30,25 +30,7 @@
                 <div class="card">
                   <div class="card-body">
                     <div class="d-flex justify-content-between align-items-baseline">
-                      <h6 class="card-title mb-0">Total Guests</h6>
-                    </div>
-                    <div class="row">
-                      <div class="col-5 col-md-12 col-xl-5">
-                        <h3 class="my-2">{{ $guestCount }}</h3>
-                      </div>
-                      <div class="col-7 col-md-12 col-xl-7">
-                        <img src="{{ asset('assets/images/user.png') }}" alt="" width="70">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-4 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-baseline">
-                      <h6 class="card-title mb-0">New Reservations</h6>
+                      <h6 class="card-title mb-0">Reservations</h6>
                     </div>
                     <div class="row">
                       <div class="col-6 col-md-12 col-xl-5">
@@ -61,13 +43,36 @@
                         </div>
                       </div>
                       <div class="col-6 col-md-12 col-xl-7">
-                        <div id="customersChart" class="mt-md-3 mt-xl-0"></div>
+                        <div id="reservationsChart" class="mt-md-3 mt-xl-0"></div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-baseline">
+                      <h6 class="card-title mb-0">Approved Reservations</h6>
+                    </div>
+                    <div class="row">
+                      <div class="col-6 col-md-12 col-xl-5">
+                        <h3 class="mb-2">3,897</h3>
+                        <div class="d-flex align-items-baseline">
+                          <p class="text-success">
+                            <span>+3.3%</span>
+                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="col-6 col-md-12 col-xl-7">
+                        <div id="approvalChart" class="mt-md-3 mt-xl-0"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+			  <div class="col-md-4 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <div class="d-flex justify-content-between align-items-baseline">
@@ -94,7 +99,53 @@
                 <div class="card">
                   <div class="card-body">
                     <div class="d-flex justify-content-between align-items-baseline">
-                      <h6 class="card-title mb-0">Growth</h6>
+                      <h6 class="card-title mb-0">Checked Ins</h6>
+                    </div>
+                    <div class="row">
+                      <div class="col-6 col-md-12 col-xl-5">
+                        <h3 class="mb-2">3,897</h3>
+                        <div class="d-flex align-items-baseline">
+                          <p class="text-success">
+                            <span>+3.3%</span>
+                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="col-6 col-md-12 col-xl-7">
+                        <div id="checkInChart" class="mt-md-3 mt-xl-0"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-baseline">
+                      <h6 class="card-title mb-0">Checked Outs</h6>
+                    </div>
+                    <div class="row">
+                      <div class="col-6 col-md-12 col-xl-5">
+                        <h3 class="mb-2">3,897</h3>
+                        <div class="d-flex align-items-baseline">
+                          <p class="text-success">
+                            <span>+3.3%</span>
+                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="col-6 col-md-12 col-xl-7">
+                        <div id="checkOutChart" class="mt-md-3 mt-xl-0"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-baseline">
+                      <h6 class="card-title mb-0">Payments</h6>
                     </div>
                     <div class="row">
                       <div class="col-6 col-md-12 col-xl-5">
@@ -123,18 +174,6 @@
               <div class="card-body">
                 <div class="d-flex justify-content-between align-items-baseline mb-4 mb-md-3">
                   <h6 class="card-title mb-0">Revenue</h6>
-                  <div class="dropdown">
-                    <a type="button" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
-                      <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="eye" class="icon-sm me-2"></i> <span class="">View</span></a>
-                      <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="edit-2" class="icon-sm me-2"></i> <span class="">Edit</span></a>
-                      <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="trash" class="icon-sm me-2"></i> <span class="">Delete</span></a>
-                      <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="printer" class="icon-sm me-2"></i> <span class="">Print</span></a>
-                      <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="download" class="icon-sm me-2"></i> <span class="">Download</span></a>
-                    </div>
-                  </div>
                 </div>
                 <div class="row align-items-start">
                   <div class="col-md-7">
@@ -155,251 +194,6 @@
           </div>
         </div> <!-- row -->
 
-        <div class="row">
-          <div class="col-lg-7 col-xl-8 grid-margin stretch-card">
-            <div class="card">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-baseline mb-2">
-                  <h6 class="card-title mb-0">Monthly sales</h6>
-                  <div class="dropdown mb-2">
-                    <a type="button" id="dropdownMenuButton4" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton4">
-                      <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="eye" class="icon-sm me-2"></i> <span class="">View</span></a>
-                      <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="edit-2" class="icon-sm me-2"></i> <span class="">Edit</span></a>
-                      <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="trash" class="icon-sm me-2"></i> <span class="">Delete</span></a>
-                      <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="printer" class="icon-sm me-2"></i> <span class="">Print</span></a>
-                      <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="download" class="icon-sm me-2"></i> <span class="">Download</span></a>
-                    </div>
-                  </div>
-                </div>
-                <p class="text-muted">Sales are activities related to selling or the number of goods or services sold in a given time period.</p>
-                <div id="monthlySalesChart"></div>
-              </div> 
-            </div>
-          </div>
-          <div class="col-lg-5 col-xl-4 grid-margin stretch-card">
-            <div class="card">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-baseline">
-                  <h6 class="card-title mb-0">Cloud storage</h6>
-                  <div class="dropdown mb-2">
-                    <a type="button" id="dropdownMenuButton5" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton5">
-                      <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="eye" class="icon-sm me-2"></i> <span class="">View</span></a>
-                      <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="edit-2" class="icon-sm me-2"></i> <span class="">Edit</span></a>
-                      <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="trash" class="icon-sm me-2"></i> <span class="">Delete</span></a>
-                      <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="printer" class="icon-sm me-2"></i> <span class="">Print</span></a>
-                      <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="download" class="icon-sm me-2"></i> <span class="">Download</span></a>
-                    </div>
-                  </div>
-                </div>
-                <div id="storageChart"></div>
-                <div class="row mb-3">
-                  <div class="col-6 d-flex justify-content-end">
-                    <div>
-                      <label class="d-flex align-items-center justify-content-end tx-10 text-uppercase fw-bolder">Total storage <span class="p-1 ms-1 rounded-circle bg-secondary"></span></label>
-                      <h5 class="fw-bolder mb-0 text-end">8TB</h5>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div>
-                      <label class="d-flex align-items-center tx-10 text-uppercase fw-bolder"><span class="p-1 me-1 rounded-circle bg-primary"></span> Used storage</label>
-                      <h5 class="fw-bolder mb-0">~5TB</h5>
-                    </div>
-                  </div>
-                </div>
-                <div class="d-grid">
-                  <button class="btn btn-primary">Upgrade storage</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> <!-- row -->
-
-        <div class="row">
-          <div class="col-lg-5 col-xl-4 grid-margin grid-margin-xl-0 stretch-card">
-            <div class="card">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-baseline mb-2">
-                  <h6 class="card-title mb-0">Inbox</h6>
-                  <div class="dropdown mb-2">
-                    <a type="button" id="dropdownMenuButton6" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton6">
-                      <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="eye" class="icon-sm me-2"></i> <span class="">View</span></a>
-                      <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="edit-2" class="icon-sm me-2"></i> <span class="">Edit</span></a>
-                      <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="trash" class="icon-sm me-2"></i> <span class="">Delete</span></a>
-                      <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="printer" class="icon-sm me-2"></i> <span class="">Print</span></a>
-                      <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="download" class="icon-sm me-2"></i> <span class="">Download</span></a>
-                    </div>
-                  </div>
-                </div>
-                <div class="d-flex flex-column">
-                  <a href="javascript:;" class="d-flex align-items-center border-bottom pb-3">
-                    <div class="me-3">
-                      <img src="https://via.placeholder.com/35x35" class="rounded-circle wd-35" alt="user">
-                    </div>
-                    <div class="w-100">
-                      <div class="d-flex justify-content-between">
-                        <h6 class="text-body mb-2">Leonardo Payne</h6>
-                        <p class="text-muted tx-12">12.30 PM</p>
-                      </div>
-                      <p class="text-muted tx-13">Hey! there I'm available...</p>
-                    </div>
-                  </a>
-                  <a href="javascript:;" class="d-flex align-items-center border-bottom py-3">
-                    <div class="me-3">
-                      <img src="https://via.placeholder.com/35x35" class="rounded-circle wd-35" alt="user">
-                    </div>
-                    <div class="w-100">
-                      <div class="d-flex justify-content-between">
-                        <h6 class="text-body mb-2">Carl Henson</h6>
-                        <p class="text-muted tx-12">02.14 AM</p>
-                      </div>
-                      <p class="text-muted tx-13">I've finished it! See you so..</p>
-                    </div>
-                  </a>
-                  <a href="javascript:;" class="d-flex align-items-center border-bottom py-3">
-                    <div class="me-3">
-                      <img src="https://via.placeholder.com/35x35" class="rounded-circle wd-35" alt="user">
-                    </div>
-                    <div class="w-100">
-                      <div class="d-flex justify-content-between">
-                        <h6 class="text-body mb-2">Jensen Combs</h6>
-                        <p class="text-muted tx-12">08.22 PM</p>
-                      </div>
-                      <p class="text-muted tx-13">This template is awesome!</p>
-                    </div>
-                  </a>
-                  <a href="javascript:;" class="d-flex align-items-center border-bottom py-3">
-                    <div class="me-3">
-                      <img src="https://via.placeholder.com/35x35" class="rounded-circle wd-35" alt="user">
-                    </div>
-                    <div class="w-100">
-                      <div class="d-flex justify-content-between">
-                        <h6 class="text-body mb-2">Amiah Burton</h6>
-                        <p class="text-muted tx-12">05.49 AM</p>
-                      </div>
-                      <p class="text-muted tx-13">Nice to meet you</p>
-                    </div>
-                  </a>
-                  <a href="javascript:;" class="d-flex align-items-center border-bottom py-3">
-                    <div class="me-3">
-                      <img src="https://via.placeholder.com/35x35" class="rounded-circle wd-35" alt="user">
-                    </div>
-                    <div class="w-100">
-                      <div class="d-flex justify-content-between">
-                        <h6 class="text-body mb-2">Yaretzi Mayo</h6>
-                        <p class="text-muted tx-12">01.19 AM</p>
-                      </div>
-                      <p class="text-muted tx-13">Hey! there I'm available...</p>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-7 col-xl-8 stretch-card">
-            <div class="card">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-baseline mb-2">
-                  <h6 class="card-title mb-0">Projects</h6>
-                  <div class="dropdown mb-2">
-                    <a type="button" id="dropdownMenuButton7" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
-                      <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="eye" class="icon-sm me-2"></i> <span class="">View</span></a>
-                      <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="edit-2" class="icon-sm me-2"></i> <span class="">Edit</span></a>
-                      <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="trash" class="icon-sm me-2"></i> <span class="">Delete</span></a>
-                      <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="printer" class="icon-sm me-2"></i> <span class="">Print</span></a>
-                      <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="download" class="icon-sm me-2"></i> <span class="">Download</span></a>
-                    </div>
-                  </div>
-                </div>
-                <div class="table-responsive">
-                  <table class="table table-hover mb-0">
-                    <thead>
-                      <tr>
-                        <th class="pt-0">#</th>
-                        <th class="pt-0">Project Name</th>
-                        <th class="pt-0">Start Date</th>
-                        <th class="pt-0">Due Date</th>
-                        <th class="pt-0">Status</th>
-                        <th class="pt-0">Assign</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>NobleUI jQuery</td>
-                        <td>01/01/2022</td>
-                        <td>26/04/2022</td>
-                        <td><span class="badge bg-danger">Released</span></td>
-                        <td>Leonardo Payne</td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>NobleUI Angular</td>
-                        <td>01/01/2022</td>
-                        <td>26/04/2022</td>
-                        <td><span class="badge bg-success">Review</span></td>
-                        <td>Carl Henson</td>
-                      </tr>
-                      <tr>
-                        <td>3</td>
-                        <td>NobleUI ReactJs</td>
-                        <td>01/05/2022</td>
-                        <td>10/09/2022</td>
-                        <td><span class="badge bg-info">Pending</span></td>
-                        <td>Jensen Combs</td>
-                      </tr>
-                      <tr>
-                        <td>4</td>
-                        <td>NobleUI VueJs</td>
-                        <td>01/01/2022</td>
-                        <td>31/11/2022</td>
-                        <td><span class="badge bg-warning">Work in Progress</span>
-                        </td>
-                        <td>Amiah Burton</td>
-                      </tr>
-                      <tr>
-                        <td>5</td>
-                        <td>NobleUI Laravel</td>
-                        <td>01/01/2022</td>
-                        <td>31/12/2022</td>
-                        <td><span class="badge bg-danger">Coming soon</span></td>
-                        <td>Yaretzi Mayo</td>
-                      </tr>
-                      <tr>
-                        <td>6</td>
-                        <td>NobleUI NodeJs</td>
-                        <td>01/01/2022</td>
-                        <td>31/12/2022</td>
-                        <td><span class="badge bg-primary">Coming soon</span></td>
-                        <td>Carl Henson</td>
-                      </tr>
-                      <tr>
-                        <td class="border-bottom">3</td>
-                        <td class="border-bottom">NobleUI EmberJs</td>
-                        <td class="border-bottom">01/05/2022</td>
-                        <td class="border-bottom">10/11/2022</td>
-                        <td class="border-bottom"><span class="badge bg-info">Pending</span></td>
-                        <td class="border-bottom">Jensen Combs</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div> 
-            </div>
-          </div>
-        </div> <!-- row -->
-
 			</div>
 
 			<!-- partial:partials/_footer.html -->
@@ -408,5 +202,217 @@
 		
 		</div>
 	</div>
+
+<script>
+    $(document).ready(function() {
+
+    	function reservations () {
+			var reservations = {!! json_encode($reservationCounts) !!};
+            
+			// Extract dates and counts from the reservations object
+			var dates = Object.keys(reservations);
+    		var counts = Object.values(reservations);
+
+            if ($('#ordersChart').length) {
+                var options2 = {
+                    chart: {
+                        type: "bar",
+                        height: 60,
+                        sparkline: {
+                            enabled: true
+                        }
+                    },
+                    plotOptions: {
+                        bar: {
+                            borderRadius: 2,
+                            columnWidth: "60%"
+                        }
+                    },
+                    colors: ['#7367F0'], // Change to your desired color
+                    series: [{
+                        name: 'Reservations',
+                        data: counts
+                    }],
+                    xaxis: {
+                        type: 'datetime',
+                        categories: dates
+                    },
+                };
+
+			// Render the chart using ApexCharts
+			const chart = new ApexCharts(document.querySelector('#reservationsChart'), options2);
+			chart.render();
+		
+			}
+		}
+
+		function approvals () {
+			var approvals = {!! json_encode($approvalCounts) !!};
+            
+			// Extract dates and counts from the reservations object
+			var dates = Object.keys(approvals);
+    		var counts = Object.values(approvals);
+
+            if ($('#approvalChart').length) {
+                var options3 = {
+                    chart: {
+                        type: "bar",
+                        height: 60,
+                        sparkline: {
+                            enabled: true
+                        }
+                    },
+                    plotOptions: {
+                        bar: {
+                            borderRadius: 2,
+                            columnWidth: "60%"
+                        }
+                    },
+                    colors: ['#7367F0'], // Change to your desired color
+                    series: [{
+                        name: 'Reservations',
+                        data: counts
+                    }],
+                    xaxis: {
+                        type: 'datetime',
+                        categories: dates
+                    },
+                };
+
+			// Render the chart using ApexCharts
+			const chart = new ApexCharts(document.querySelector('#approvalChart'), options3);
+			chart.render();
+			}
+		}
+
+		function checkIns () {
+			var reservations = {!! json_encode($checkInCounts) !!};
+            
+			// Extract dates and counts from the reservations object
+			var dates = Object.keys(reservations);
+    		var counts = Object.values(reservations);
+
+            if ($('#ordersChart').length) {
+                var options4 = {
+                    chart: {
+                        type: "bar",
+                        height: 60,
+                        sparkline: {
+                            enabled: true
+                        }
+                    },
+                    plotOptions: {
+                        bar: {
+                            borderRadius: 2,
+                            columnWidth: "60%"
+                        }
+                    },
+                    colors: ['#7367F0'], // Change to your desired color
+                    series: [{
+                        name: 'Reservations',
+                        data: counts
+                    }],
+                    xaxis: {
+                        type: 'datetime',
+                        categories: dates
+                    },
+                };
+
+			// Render the chart using ApexCharts
+			const chart = new ApexCharts(document.querySelector('#checkInChart'), options4);
+			chart.render();
+		
+			}
+		}
+
+		function checkOuts () {
+			var reservations = {!! json_encode($checkOutCounts) !!};
+            
+			// Extract dates and counts from the reservations object
+			var dates = Object.keys(reservations);
+    		var counts = Object.values(reservations);
+
+            if ($('#ordersChart').length) {
+                var options5 = {
+                    chart: {
+                        type: "bar",
+                        height: 60,
+                        sparkline: {
+                            enabled: true
+                        }
+                    },
+                    plotOptions: {
+                        bar: {
+                            borderRadius: 2,
+                            columnWidth: "60%"
+                        }
+                    },
+                    colors: ['#7367F0'], // Change to your desired color
+                    series: [{
+                        name: 'Reservations',
+                        data: counts
+                    }],
+                    xaxis: {
+                        type: 'datetime',
+                        categories: dates
+                    },
+                };
+
+			// Render the chart using ApexCharts
+			const chart = new ApexCharts(document.querySelector('#checkOutChart'), options5);
+			chart.render();
+		
+			}
+		}
+		
+		reservations();
+		approvals();
+		checkIns();
+		checkOuts();
+    })
+</script>
+
+{{-- <script> --}}
+	{{-- $(document).ready(function() {
+		const reservationsPerDay = {};
+		for (const reservation of $reservations) {
+			const reservationDate = new Date(reservation.request_date).toLocaleDateString();
+			reservationsPerDay[reservationDate] = (reservationsPerDay[reservationDate] || 0) + 1;
+		}
+
+		// Prepare chart data
+		const chartData = [];
+		for (const day in reservationsPerDay) {
+			chartData.push({
+			x: day,
+			y: reservationsPerDay[day]
+			});
+		}
+  
+	  	// Configure the chart options
+		const options = {
+			chart: {
+			type: 'bar',
+			height: 350 // Adjust height as needed
+			},
+			xaxis: {
+			title: 'Date'
+			},
+			yaxis: {
+			title: 'Number of Reservations'
+			},
+			series: [{
+			name: 'Reservations',
+			data: chartData
+			}]
+		};
+
+		// Render the chart
+		const chart = new ApexCharts(document.querySelector('#reservationsChart'), options);
+		chart.render();
+	});
+  </script> --}}
+  
+
 
 <x-main-footer/>

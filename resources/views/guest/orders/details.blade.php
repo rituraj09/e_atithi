@@ -94,6 +94,27 @@
                                         <p>Room number {{ $orderTransaction->reservedRooms->roomDetails->room_number }} has been checked out by you.</p>
                                     </li>
                                 @endif
+                                @if ($order->status === 10)
+                                    <li class="event"
+                                        data-date="
+                                            {{ \Carbon\Carbon::parse($orderTransaction->checked_out_time)->format('h:m A,') }} 
+                                            {{ \Carbon\Carbon::parse($orderTransaction->checked_out_date)->format('d M, Y') }}
+                                        ">
+                                        
+                                        <div class="row">
+                                            <h3 class="title col-8">Bills generated</h3>
+                                            @foreach ($receipts as $receipt)
+                                                @if($receipt->transaction_id === $order->transaction_id)
+                                                    <div class="col-4 mb-1 text-end">
+                                                        <a href="{{ route('print-receipt', ['id' => $receipt->id]) }}" class="btn btn-sm py-1 btn-light">Receipt</a>
+                                                    </div>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                        <p>Bill has been generated for the room {{ $orderTransaction->reservedRooms->roomDetails->room_number }}.</p>
+                                        
+                                    </li>
+                                @endif
                             @endforeach
                         </ul>
                     </div>
@@ -105,10 +126,19 @@
                             <button class="btn btn-primary open-popup" data-href="{{ route('modify-order', ['id' => $order->id]) }}">Modify Reservation</button>
                         </div>
                         @endif
-                        @if (($order->cancellation_by_guest_date === NULL && $order->cancellation_by_admin_date === NULL) || $order->hasTransactions === NULL)
+                        @if (($order->cancellation_by_guest_date === NULL && $order->cancellation_by_admin_date === NULL) && $order->hasTransactions === NULL)
                             <div class="mb-2 text-end col">
                                 <button class="btn btn-warning open-popup" data-href="{{ route('order-cancellation', ['id' => $order->id]) }}">Cancel reservation</button>
                             </div>
+                        @endif
+                        @if ($order->status === 10)
+                            @foreach ($receipts as $receipt)
+                                @if($receipt->transaction_id === $order->transaction_id)
+                                <div class="mb-2 text-end">
+                                    <a href="{{ route('print-receipt', ['id' => $receipt->id]) }}" class="btn btn-info">download receipt</a>
+                                </div>
+                                @endif
+                            @endforeach
                         @endif
                     </div>
                 </div>

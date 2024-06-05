@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Receipt;
 use App\Models\Reservation;
 use App\Models\RoomOnDates;
 use App\Models\GuestDetails;
@@ -31,7 +32,9 @@ class OrderController extends Controller
         $order = Reservation::with(['guestHouse','getStatus', 'hasTransactions'])
                             ->where('reservation_no', $id)
                             ->first();
-        return view('guest.orders.details', compact('order'));
+        
+        $receipts = Receipt::where('reservation_id', $order->id)->select('id')->get();
+        return view('guest.orders.details', compact(['order','receipts']));
     }
 
     public function orderCancelView($id) {

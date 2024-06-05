@@ -12,7 +12,7 @@ class LogController extends Controller
     public function guestLog($ip = null, $activity = null){
         // auto ip, auto time
         // custom activity, variable user id
-        $guestId = auth()->guard('web')->user()->id;
+        $guestId = auth()->guard('guest')->user()->id;
         $data = [
             'ip_address' => $ip,
             'activity' => $activity,
