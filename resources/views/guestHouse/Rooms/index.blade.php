@@ -48,7 +48,7 @@
                                         <td>{{ $room->total_govt_price }}</td>
                                         <td>{{ $room->capacity }}</td>
                                         <td>
-                                            <select class="form-control" name="" id="">
+                                            <select class="room-status form-control" name="" data-id="{{ $room->id }}">
                                                 <option value="1"
                                                 @if ( $room->is_active )
                                                     selected
@@ -59,6 +59,10 @@
                                                     selected
                                                 @endif
                                                 >Blocked</option>
+                                                {{-- <option value="" disabled>--select--</option>
+                                                @foreach ($roomStatus as $status)
+                                                    <option value="{{ $status->id }}">{{ $status->name }}</option>
+                                                @endforeach --}}
                                             </select>
                                         </td>
                                         <td>
@@ -105,6 +109,41 @@
         console.log(total);
         $('#total').html(total + '.00');
     }
+
+    $(document).on('click','.room-status', function (e) {
+        const status = $(this).val();
+        const room_id = $(this).data("id");
+
+        console.log(status);
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            url: "{{ route('update-room-status') }}",
+            type: "POST",
+            data: {
+                status:status,
+                room_id:room_id,
+            },
+            success: function(res) {
+                if (res === "done") {
+                    Swal.fire({
+                        title: "Room status updated successfully.",
+                        icon: "success",
+                    });
+                } else {
+                    Swal.fire({
+                        title: "Something went wrong!",
+                        text: "Please try again later.",
+                        icon: "error",
+                    });
+                }
+            }
+        })
+    })
 </script>
 
 <x-main-footer/>

@@ -43,6 +43,7 @@ Route::controller(GuestHouseAdminController::class)->group( function () {
     Route::get('/registration', 'registration')->name('guest-house-admin-registration');
     Route::get('/login', 'login')->name('guest-house-admin-login');
     Route::get('/profile', 'profile')->name('guest-house-admin-profile')->middleware(['auth']);
+    Route::post('/profile/update', 'updateProfile')->name('update-admin-profile')->middleware(['auth','role:admin|super admin']);
 });
 
 Route::prefix('guest-house')->group( function () {

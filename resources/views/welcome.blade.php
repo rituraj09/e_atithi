@@ -34,11 +34,11 @@
                     </div>
                     <div class="row">
                       <div class="col-6 col-md-12 col-xl-5">
-                        <h3 class="mb-2">3,897</h3>
+                        <h3 class="mb-2">{{ count($reservationCounts) }}</h3>
                         <div class="d-flex align-items-baseline">
                           <p class="text-success">
-                            <span>+3.3%</span>
-                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                            {{-- <span>+3.3%</span>
+                            <i data-feather="arrow-up" class="icon-sm mb-1"></i> --}}
                           </p>
                         </div>
                       </div>
@@ -57,11 +57,11 @@
                     </div>
                     <div class="row">
                       <div class="col-6 col-md-12 col-xl-5">
-                        <h3 class="mb-2">3,897</h3>
+                        <h3 class="mb-2">{{ count($approvalCounts) }}</h3>
                         <div class="d-flex align-items-baseline">
                           <p class="text-success">
-                            <span>+3.3%</span>
-                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                            {{-- <span>+3.3%</span>
+                            <i data-feather="arrow-up" class="icon-sm mb-1"></i> --}}
                           </p>
                         </div>
                       </div>
@@ -71,30 +71,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
-			  <div class="col-md-4 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-baseline">
-                      <h6 class="card-title mb-0">Room Reserved</h6>
-                    </div>
-                    <div class="row">
-                      <div class="col-6 col-md-12 col-xl-5">
-                        <h3 class="mb-2">35,084</h3>
-                        <div class="d-flex align-items-baseline">
-                          <p class="text-danger">
-                            <span>-2.8%</span>
-                            <i data-feather="arrow-down" class="icon-sm mb-1"></i>
-                          </p>
-                        </div>
-                      </div>
-                      <div class="col-6 col-md-12 col-xl-7">
-                        <div id="ordersChart" class="mt-md-3 mt-xl-0"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              </div>  
               <div class="col-md-4 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
@@ -103,11 +80,11 @@
                     </div>
                     <div class="row">
                       <div class="col-6 col-md-12 col-xl-5">
-                        <h3 class="mb-2">3,897</h3>
+                        <h3 class="mb-2">{{ count($checkInCounts) }}</h3>
                         <div class="d-flex align-items-baseline">
                           <p class="text-success">
-                            <span>+3.3%</span>
-                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                            {{-- <span>+3.3%</span>
+                            <i data-feather="arrow-up" class="icon-sm mb-1"></i> --}}
                           </p>
                         </div>
                       </div>
@@ -126,11 +103,11 @@
                     </div>
                     <div class="row">
                       <div class="col-6 col-md-12 col-xl-5">
-                        <h3 class="mb-2">3,897</h3>
+                        <h3 class="mb-2">{{ count($checkOutCounts) }}</h3>
                         <div class="d-flex align-items-baseline">
                           <p class="text-success">
-                            <span>+3.3%</span>
-                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                            {{-- <span>+3.3%</span>
+                            <i data-feather="arrow-up" class="icon-sm mb-1"></i> --}}
                           </p>
                         </div>
                       </div>
@@ -141,34 +118,11 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-4 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-baseline">
-                      <h6 class="card-title mb-0">Payments</h6>
-                    </div>
-                    <div class="row">
-                      <div class="col-6 col-md-12 col-xl-5">
-                        <h3 class="mb-2">89.87%</h3>
-                        <div class="d-flex align-items-baseline">
-                          <p class="text-success">
-                            <span>+2.8%</span>
-                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
-                          </p>
-                        </div>
-                      </div>
-                      <div class="col-6 col-md-12 col-xl-7">
-                        <div id="growthChart" class="mt-md-3 mt-xl-0"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div> <!-- row -->
 
-        <div class="row">
+        <div class="d-none row">
           <div class="col-12 col-xl-12 grid-margin stretch-card">
             <div class="card overflow-hidden">
               <div class="card-body">
@@ -207,13 +161,13 @@
     $(document).ready(function() {
 
     	function reservations () {
-			var reservations = {!! json_encode($reservationCounts) !!};
-            
-			// Extract dates and counts from the reservations object
-			var dates = Object.keys(reservations);
+        var reservations = {!! json_encode($reservationCounts) !!};
+              
+        // Extract dates and counts from the reservations object
+        var dates = Object.keys(reservations);
     		var counts = Object.values(reservations);
 
-            if ($('#ordersChart').length) {
+        if ($('#ordersChart').length) {
                 var options2 = {
                     chart: {
                         type: "bar",
@@ -238,137 +192,140 @@
                         categories: dates
                     },
                 };
+            // Render the chart using ApexCharts
+            const chart = new ApexCharts(document.querySelector('#reservationsChart'), options2);
+            chart.render();
+              }
+      }
 
-			// Render the chart using ApexCharts
-			const chart = new ApexCharts(document.querySelector('#reservationsChart'), options2);
-			chart.render();
-		
-			}
-		}
+      function approvals () {
+        var approvals = {!! json_encode($approvalCounts) !!};
+              
+        // Extract dates and counts from the reservations object
+        var dates = Object.keys(approvals);
+          var counts = Object.values(approvals);
 
-		function approvals () {
-			var approvals = {!! json_encode($approvalCounts) !!};
-            
-			// Extract dates and counts from the reservations object
-			var dates = Object.keys(approvals);
-    		var counts = Object.values(approvals);
+              if ($('#approvalChart').length) {
+                  var options3 = {
+                      chart: {
+                          type: "bar",
+                          height: 60,
+                          sparkline: {
+                              enabled: true
+                          }
+                      },
+                      plotOptions: {
+                          bar: {
+                              borderRadius: 2,
+                              columnWidth: "60%"
+                          }
+                      },
+                      colors: ['#7367F0'], // Change to your desired color
+                      series: [{
+                          name: 'Reservations',
+                          data: counts
+                      }],
+                      xaxis: {
+                          type: 'datetime',
+                          categories: dates
+                      },
+                  };
 
-            if ($('#approvalChart').length) {
-                var options3 = {
-                    chart: {
-                        type: "bar",
-                        height: 60,
-                        sparkline: {
-                            enabled: true
-                        }
-                    },
-                    plotOptions: {
-                        bar: {
-                            borderRadius: 2,
-                            columnWidth: "60%"
-                        }
-                    },
-                    colors: ['#7367F0'], // Change to your desired color
-                    series: [{
-                        name: 'Reservations',
-                        data: counts
-                    }],
-                    xaxis: {
-                        type: 'datetime',
-                        categories: dates
-                    },
-                };
+        // Render the chart using ApexCharts
+        const chart = new ApexCharts(document.querySelector('#approvalChart'), options3);
+        chart.render();
+        }
+      }
 
-			// Render the chart using ApexCharts
-			const chart = new ApexCharts(document.querySelector('#approvalChart'), options3);
-			chart.render();
-			}
-		}
+      function checkIns () {
+        var reservations = {!! json_encode($checkInCounts) !!};
+              
+        // Extract dates and counts from the reservations object
+        var dates = Object.keys(reservations);
+          var counts = Object.values(reservations);
 
-		function checkIns () {
-			var reservations = {!! json_encode($checkInCounts) !!};
-            
-			// Extract dates and counts from the reservations object
-			var dates = Object.keys(reservations);
-    		var counts = Object.values(reservations);
+              if ($('#ordersChart').length) {
+                  var options4 = {
+                      chart: {
+                          type: "bar",
+                          height: 60,
+                          sparkline: {
+                              enabled: true
+                          }
+                      },
+                      plotOptions: {
+                          bar: {
+                              borderRadius: 2,
+                              columnWidth: "60%"
+                          }
+                      },
+                      colors: ['#7367F0'], // Change to your desired color
+                      series: [{
+                          name: 'Reservations',
+                          data: counts
+                      }],
+                      xaxis: {
+                          type: 'datetime',
+                          categories: dates
+                      },
+                  };
 
-            if ($('#ordersChart').length) {
-                var options4 = {
-                    chart: {
-                        type: "bar",
-                        height: 60,
-                        sparkline: {
-                            enabled: true
-                        }
-                    },
-                    plotOptions: {
-                        bar: {
-                            borderRadius: 2,
-                            columnWidth: "60%"
-                        }
-                    },
-                    colors: ['#7367F0'], // Change to your desired color
-                    series: [{
-                        name: 'Reservations',
-                        data: counts
-                    }],
-                    xaxis: {
-                        type: 'datetime',
-                        categories: dates
-                    },
-                };
+        // Render the chart using ApexCharts
+        const chart = new ApexCharts(document.querySelector('#checkInChart'), options4);
+        chart.render();
+      
+        }
+      }
 
-			// Render the chart using ApexCharts
-			const chart = new ApexCharts(document.querySelector('#checkInChart'), options4);
-			chart.render();
-		
-			}
-		}
+      function checkOuts () {
+        var reservations = {!! json_encode($checkOutCounts) !!};
+              
+        // Extract dates and counts from the reservations object
+        var dates = Object.keys(reservations);
+          var counts = Object.values(reservations);
 
-		function checkOuts () {
-			var reservations = {!! json_encode($checkOutCounts) !!};
-            
-			// Extract dates and counts from the reservations object
-			var dates = Object.keys(reservations);
-    		var counts = Object.values(reservations);
+              if ($('#ordersChart').length) {
+                  var options5 = {
+                      chart: {
+                          type: "bar",
+                          height: 60,
+                          sparkline: {
+                              enabled: true
+                          }
+                      },
+                      plotOptions: {
+                          bar: {
+                              borderRadius: 2,
+                              columnWidth: "60%"
+                          }
+                      },
+                      colors: ['#7367F0'], // Change to your desired color
+                      series: [{
+                          name: 'Reservations',
+                          data: counts
+                      }],
+                      xaxis: {
+                          type: 'datetime',
+                          categories: dates
+                      },
+                  };
 
-            if ($('#ordersChart').length) {
-                var options5 = {
-                    chart: {
-                        type: "bar",
-                        height: 60,
-                        sparkline: {
-                            enabled: true
-                        }
-                    },
-                    plotOptions: {
-                        bar: {
-                            borderRadius: 2,
-                            columnWidth: "60%"
-                        }
-                    },
-                    colors: ['#7367F0'], // Change to your desired color
-                    series: [{
-                        name: 'Reservations',
-                        data: counts
-                    }],
-                    xaxis: {
-                        type: 'datetime',
-                        categories: dates
-                    },
-                };
+        // Render the chart using ApexCharts
+        const chart = new ApexCharts(document.querySelector('#checkOutChart'), options5);
+        chart.render();
+      
+        }
+      }
 
-			// Render the chart using ApexCharts
-			const chart = new ApexCharts(document.querySelector('#checkOutChart'), options5);
-			chart.render();
-		
-			}
-		}
-		
-		reservations();
-		approvals();
-		checkIns();
-		checkOuts();
+
+      
+      
+      reservations();
+      approvals();
+      checkIns();
+      checkOuts();
+      // payments();
+      // reservedRoom();
     })
 </script>
 

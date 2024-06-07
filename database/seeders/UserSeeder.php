@@ -33,7 +33,7 @@ class UserSeeder extends Seeder
         // default admin
         $adminUser2 = new Admin;
         $adminUser2->admin_name = 'Admin User';
-        $adminUser2->email = 'new@admin';
+        $adminUser2->email = 'new@admin.com';
         $adminUser2->phone = '7002274943';
         $adminUser2->password = bcrypt('admin123');
         $adminUser2->role = 2;

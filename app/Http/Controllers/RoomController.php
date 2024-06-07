@@ -8,6 +8,7 @@ use App\Models\Feature;
 use App\Models\RateList;
 use App\Models\Guesthouse;
 use App\Models\RoomHasBed;
+use App\Models\RoomStatus;
 use App\Models\BedCategory;
 use App\Models\RoomOnDates;
 use App\Models\RoomCategory;
@@ -26,7 +27,6 @@ class RoomController extends Controller
         $guest_house_id = GuestHouseHasEmployee::where('employee_id', $employeeId)->pluck('guest_house_id')->first();
         
         $rooms = Rooms::with(['roomCategory','bedType'])
-                        // ->pluck('')
                         ->where('guest_house_id', $guest_house_id)
                         ->get();
 
@@ -203,6 +203,19 @@ class RoomController extends Controller
             return view('guestHouse.Rooms.viewRoom');
         }   
         return view('guestHouse.Rooms.viewRoom', compact(['room','roomRates', 'roomCategories', 'features', 'bookedDates']));
+    }
+
+    public function updateStatus(Request $request) {
+        $room_id = $request->room_id;
+        $status = $request->status;
+
+        $room = Rooms::find($room_id);
+
+        $room->update([
+            'is_active' => $status,
+        ]);
+
+        return "done";
     }
 
     public function validateForm ($request) {

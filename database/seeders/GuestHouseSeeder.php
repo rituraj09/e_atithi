@@ -15,8 +15,8 @@ class GuestHouseSeeder extends Seeder
     {
         //
         DB::table('guest_house_types')->insert(array(
-            array('name' => 'circuit house', 'created_at' => '2024-02-02'),
-            array('name' => 'others', 'created_at' => '2024-02-03'),
+            array('name' => 'circuit house'),
+            array('name' => 'others'),
         ));
 
         // DB::table('guesthouses')

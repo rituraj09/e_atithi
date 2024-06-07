@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Guesthouse;
+use App\Models\AdminDetails;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;

@@ -96,4 +96,8 @@ Route::prefix('/ajax')->group( function () {
         Route::post('/captcha/verify', 'verifyCaptcha')->name('verify-captcha');
     });
 
+    Route::controller(RoomController::class)->group( function () {
+        Route::post('/room/update-status', 'updateStatus')->name('update-room-status');
+    });
+
 });

@@ -6,7 +6,9 @@ use Carbon\Carbon;
 use App\Models\Rooms;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
+use App\Models\ReservationRoom;
 use App\Models\RoomTransaction;
+use App\Models\PaymentTransaction;
 use Illuminate\Support\Facades\DB;
 use App\Models\GuestHouseHasEmployee;
 
@@ -29,8 +31,8 @@ class DashboardController extends Controller
         // dd($requestDateCounts);
 
         $requests = Reservation::where('guest_house_id', $guest_house_id)->whereNotNull('request_date')->select('id','request_date')->get();
-        $checkIns = RoomTransaction::where('guest_house_id', $guest_house_id)->whereNotNull('checked_in_date')->select('id','checked_in_date')->get();
-        $checkOuts = RoomTransaction::where('guest_house_id', $guest_house_id)->whereNotNull('checked_out_date')->select('id','checked_out_date')->get();
+        // $checkIns = RoomTransaction::where('guest_house_id', $guest_house_id)->whereNotNull('checked_in_date')->select('id','checked_in_date')->get();
+        // $checkOuts = RoomTransaction::where('guest_house_id', $guest_house_id)->whereNotNull('checked_out_date')->select('id','checked_out_date')->get();
 
 
         // reservation card
@@ -49,13 +51,19 @@ class DashboardController extends Controller
         $checkOuts = RoomTransaction::where('guest_house_id', $guest_house_id)->whereNotNull('checked_out_date')->select('id','checked_out_date')->get();
         $checkOutCounts = $this->checkOutCard($checkOuts);
 
+        // $roomReserved = ReservationRoom::where('guest_house_id', $guest_house_id)->get();
+        // $roomReservedCounts = $this->reservedRoomCard($roomReserved);
 
+        $payments = PaymentTransaction::where('guest_house_id', $guest_house_id)->get();
+        $paymentCounts = $this->paymentCard($payments);
 
         return view('welcome', compact([
             'reservationCounts',
             'approvalCounts',
             'checkInCounts',
             'checkOutCounts',
+            // 'roomReservedCounts',
+            'paymentCounts',
             'rooms',
             'guestCount',
             'requestDateCounts',
@@ -135,11 +143,40 @@ class DashboardController extends Controller
         return $checkOutCounts;
     }
 
-    public function reservedRoomCard() {
+    public function reservedRoomCard($roomReserveds) {
+        $roomReservedCounts = [];
 
+        // Iterate through reservations
+        foreach ($roomReserveds as $roomReserved) {
+            // Get the formatted date using Carbon
+            $formattedDate = Carbon::parse($roomReserved->created_at)->format('Y-m-d');
+            
+            // Increment the count for the formatted date
+            if (isset($roomReservedCounts[$formattedDate])) {
+                $roomReservedCounts[$formattedDate]++;
+            } else {
+                $roomReservedCounts[$formattedDate] = 1;
+            }
+        }
+        return $roomReservedCounts;
     }
 
-    public function paymentCard() {
+    public function paymentCard($payments) {
+        $paymentCounts = [];
 
+        // Iterate through reservations
+        foreach ($payments as $payment) {
+            // Get the formatted date using Carbon
+            $formattedDate = Carbon::parse($payment->transaction_time)->format('Y-m-d');
+            
+            $paymentCounts[$formattedDate] = $payment->total_amount;
+            // Increment the count for the formatted date
+            // if (isset($paymentCounts[$formattedDate])) {
+            //     $paymentCounts[$formattedDate]++;
+            // } else {
+            //     $paymentCounts[$formattedDate] = 1;
+            // }
+        }
+        return $paymentCounts;
     }
 }
